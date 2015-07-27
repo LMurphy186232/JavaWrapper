@@ -56,6 +56,10 @@ public class DensDepInfestation extends Behavior {
   /** Year to start infestation */
   protected ModelInt m_iFirstYear = new ModelInt(1, 
       "First Year of Infestation Relative to Start", "di_densDepInfStartYear");
+  
+  /** Year to emd infestation */
+  protected ModelInt m_iLastYear = new ModelInt(-1, 
+      "Last Year of Infestation (-1 if no end)", "di_densDepInfEndYear");
 
 
   /**
@@ -92,6 +96,7 @@ public class DensDepInfestation extends Behavior {
     addRequiredData(m_fBx);
     addRequiredData(m_fBy);
     addRequiredData(m_iFirstYear); 
+    addRequiredData(m_iLastYear);
   }
 
 

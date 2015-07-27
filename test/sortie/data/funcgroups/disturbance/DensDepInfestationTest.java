@@ -47,6 +47,7 @@ public class DensDepInfestationTest extends ModelTestCase {
       assertEquals(1, oDist.m_fBx.getValue(), 0.00001);
       assertEquals(0.8, oDist.m_fBy.getValue(), 0.00001);
       assertEquals(3, oDist.m_iFirstYear.getValue());
+      assertEquals(7, oDist.m_iLastYear.getValue());
       
     }
     catch (ModelException oErr) {
@@ -86,7 +87,8 @@ public class DensDepInfestationTest extends ModelTestCase {
           "Infestation \"a\"",
           "Infestation \"bx\"",
           "Infestation \"by\"",
-          "First Year of Infestation Relative to Start"
+          "First Year of Infestation Relative to Start",
+          "Last Year of Infestation (-1 if no end)"
       };
       TestTable(oBeh.formatDataForDisplay(oPop), p_sExpected);      
 
@@ -300,6 +302,7 @@ public class DensDepInfestationTest extends ModelTestCase {
     oOut.write("<di_ddipcsVal species=\"Species_3\">0.3</di_ddipcsVal>");
     oOut.write("</di_densDepInfPropCondSusceptible>");
     oOut.write("<di_densDepInfStartYear>3</di_densDepInfStartYear>");
+    oOut.write("<di_densDepInfEndYear>7</di_densDepInfEndYear>");
     oOut.write("</DensDepInfestation1>");
 
     oOut.write("<ConstRadialGrowth2>");

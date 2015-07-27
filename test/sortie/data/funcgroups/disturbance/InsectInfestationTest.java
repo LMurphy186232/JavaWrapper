@@ -58,6 +58,7 @@ public class InsectInfestationTest extends ModelTestCase {
       assertEquals(2.4, ((Float)oDist.mp_fInsectMinDBH.getValue().get(4)).floatValue(), 0.0001);
       
       assertEquals(12, oDist.m_iInsectFirstTimestep.getValue());      
+      assertEquals(-1, oDist.m_iInsectLastTimestep.getValue());      
     }
     catch (ModelException oErr) {
       fail("Parameter file read failed with message " + oErr.getMessage());
@@ -111,6 +112,7 @@ public class InsectInfestationTest extends ModelTestCase {
       assertEquals(12.4, ((Float)oDist.mp_fInsectMinDBH.getValue().get(4)).floatValue(), 0.0001);
       
       assertEquals(10, oDist.m_iInsectFirstTimestep.getValue());
+      assertEquals(15, oDist.m_iInsectLastTimestep.getValue());
       
     }
     catch (ModelException oErr) {
@@ -148,6 +150,7 @@ public class InsectInfestationTest extends ModelTestCase {
           "Insect Infestation Xb",
           "Insect Infestation Min DBH",
           "Insect Infestation First Timestep",
+          "Insect Infestation Last Timestep (-1 if no end)"
           };
       TestTable(oBeh.formatDataForDisplay(oPop), p_sExpected);      
 
@@ -484,6 +487,7 @@ public class InsectInfestationTest extends ModelTestCase {
     oOut.write("<di_imdVal species=\"Species_5\">12.4</di_imdVal>");
     oOut.write("</di_insectMinDBH>");
     oOut.write("<di_insectStartTimestep>10</di_insectStartTimestep>");
+    oOut.write("<di_insectEndTimestep>15</di_insectEndTimestep>");
     oOut.write("</InsectInfestation6>");
     oOut.write("<ConstRadialGrowth1>");
     oOut.write("<gr_adultConstRadialInc>");

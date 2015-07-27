@@ -44,6 +44,10 @@ public class InsectInfestation extends Behavior {
   /** Insect infestation - Timestep to start infestation */
   protected ModelInt m_iInsectFirstTimestep = new ModelInt(1, 
       "Insect Infestation First Timestep", "di_insectStartTimestep");
+  
+  /** Insect infestation - Timestep to end infestation */
+  protected ModelInt m_iInsectLastTimestep = new ModelInt(-1, 
+      "Insect Infestation Last Timestep (-1 if no end)", "di_insectEndTimestep");
 
 
   /**
@@ -66,6 +70,7 @@ public class InsectInfestation extends Behavior {
     addRequiredData(mp_fInsectXb);
     addRequiredData(mp_fInsectMinDBH);
     addRequiredData(m_iInsectFirstTimestep);
+    addRequiredData(m_iInsectLastTimestep);
     mp_oNewTreeDataMembers.add(new DataMember( "Years Infested", "YearsInfested", DataMember.INTEGER));
     
   }
