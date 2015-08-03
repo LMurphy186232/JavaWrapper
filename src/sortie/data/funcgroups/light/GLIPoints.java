@@ -22,6 +22,8 @@ import sortie.gui.GUIManager;
 /**
  * Corresponds to the clGLIPoints class.
  * @author lora
+ * 
+ * 8/3/15: Bug fix - input filename was being written to XML but shouldn't have been
  *
  */
 public class GLIPoints extends GLIBase {
@@ -237,7 +239,8 @@ public class GLIPoints extends GLIBase {
             !oDataPiece.getDescriptor().equals(m_iJulianDayGrowthStarts.getDescriptor()) &&
             !oDataPiece.getDescriptor().equals(m_iJulianDayGrowthEnds.getDescriptor()) &&
             !oDataPiece.getDescriptor().equals(m_iSnagAgeClass1.getDescriptor()) &&
-            !oDataPiece.getDescriptor().equals(m_iSnagAgeClass2.getDescriptor())) {
+            !oDataPiece.getDescriptor().equals(m_iSnagAgeClass2.getDescriptor()) &&
+            oDataPiece.getXMLTag().length() > 0) {
           if (oDataPiece instanceof ModelVector) {
             p_oDataVector = (ModelVector) oDataPiece;
             writeSpeciesSpecificValue(jOut, p_oDataVector, oPop);
