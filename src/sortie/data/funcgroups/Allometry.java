@@ -54,6 +54,11 @@ public class Allometry extends Behavior {
   protected ModelVector mp_fSlopeOfAsympCrownRad = new ModelVector(
       "Slope of Asymptotic Crown Radius", "tr_stdAsympCrownRad", "tr_sacrVal",
       0, ModelVector.FLOAT, true);
+  
+  /**Species-specific - maximum crown radius in standard equation*/
+  protected ModelVector mp_fMaxCrownRad = new ModelVector(
+      "Maximum Crown Radius (Standard) (m)", "tr_stdMaxCrownRad", "tr_smcrVal",
+      0, ModelVector.FLOAT, true);
 
   /**Species-specific - slope of the asymptotic crown height*/
   protected ModelVector mp_fSlopeOfAsympCrownDpth = new ModelVector(
@@ -535,6 +540,7 @@ public class Allometry extends Behavior {
     mp_oAllData.add(mp_fMaxCanopyHeight);
     mp_oAllData.add(mp_fSlopeOfAsympCrownRad);
     mp_oAllData.add(mp_fCrownRadExp);
+    mp_oAllData.add(mp_fMaxCrownRad);
     mp_oAllData.add(mp_fSlopeOfAsympCrownDpth);
     mp_oAllData.add(mp_fCrownDepthExp);
     mp_oAllData.add(mp_fDiam10ToDbhSlope);
@@ -674,6 +680,11 @@ public class Allometry extends Behavior {
     for (i = 0; i < iNumSpecies; i++) {
       mp_fDiam10ToDbhIntercept.getValue().add(new Float(0.0));
     }
+    
+    //Default max standad crown radius to 10
+    for (i = 0; i < iNumSpecies; i++) {
+      mp_fMaxCrownRad.getValue().add(new Float(10.0));
+    }
 
     //Add lambdas for crown radius 
 
@@ -743,6 +754,7 @@ public class Allometry extends Behavior {
    * <li>mp_fSlopeOfAsympCrownRad</li>
    * <li>mp_fDiam10ToDbhConversion</li>
    * <li>mp_fSlopeOfAsympCrownDpth</li>
+   * <li>Max crown radius</li>
    * <li>mp_fMaxCanopyHeight</li>
    * <li>mp_fSlopeOfAsymptoticHeight</li>
    * </ul></li>
@@ -792,6 +804,7 @@ public class Allometry extends Behavior {
       }
     }
     ValidationHelpers.makeSureAllPositive(mp_fSlopeOfAsympCrownRad, p_bApplies);
+    ValidationHelpers.makeSureAllPositive(mp_fMaxCrownRad, p_bApplies);
 
     ValidationHelpers.makeSureAllPositive(mp_fDiam10ToDbhSlope);
     ValidationHelpers.makeSureAllPositive(mp_fMaxCanopyHeight);
@@ -1439,6 +1452,7 @@ public class Allometry extends Behavior {
     if (bAny) {
       addDataObjectToDisplayArrays(mp_fSlopeOfAsympCrownRad, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
       addDataObjectToDisplayArrays(mp_fCrownRadExp, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
+      addDataObjectToDisplayArrays(mp_fMaxCrownRad, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
     }
 
     //------------------------------------------
@@ -1550,6 +1564,7 @@ public class Allometry extends Behavior {
     if (bAny) {
       addDataObjectToDisplayArrays(mp_fSlopeOfAsympCrownRad, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
       addDataObjectToDisplayArrays(mp_fCrownRadExp, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
+      addDataObjectToDisplayArrays(mp_fMaxCrownRad, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
     }
 
     //------------------------------------------

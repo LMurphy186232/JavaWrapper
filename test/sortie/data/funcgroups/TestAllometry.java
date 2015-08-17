@@ -60,6 +60,13 @@ extends ModelTestCase {
       assertEquals(1.0, ((Float)oAllom.mp_fCrownRadExp.getValue().get(4)).floatValue(), 0.001);
       assertEquals(1.1, ((Float)oAllom.mp_fCrownRadExp.getValue().get(5)).floatValue(), 0.001);
       
+      assertEquals(10.0, ((Float)oAllom.mp_fMaxCrownRad.getValue().get(0)).floatValue(), 0.001);
+      assertEquals(10.0, ((Float)oAllom.mp_fMaxCrownRad.getValue().get(1)).floatValue(), 0.001);
+      assertEquals(10.0, ((Float)oAllom.mp_fMaxCrownRad.getValue().get(2)).floatValue(), 0.001);
+      assertEquals(10.0, ((Float)oAllom.mp_fMaxCrownRad.getValue().get(3)).floatValue(), 0.001);
+      assertEquals(10.0, ((Float)oAllom.mp_fMaxCrownRad.getValue().get(4)).floatValue(), 0.001);
+      assertEquals(10.0, ((Float)oAllom.mp_fMaxCrownRad.getValue().get(5)).floatValue(), 0.001);
+      
       assertEquals(0.8008, ((Float)oAllom.mp_fDiam10ToDbhSlope.getValue().get(0)).floatValue(), 0.001);
       assertEquals(0.5944, ((Float)oAllom.mp_fDiam10ToDbhSlope.getValue().get(1)).floatValue(), 0.001);
       assertEquals(0.7059, ((Float)oAllom.mp_fDiam10ToDbhSlope.getValue().get(2)).floatValue(), 0.001);
@@ -251,63 +258,44 @@ extends ModelTestCase {
       oManager.inputXMLParameterFile(sFileName);
       Allometry oAllom = oManager.getTreePopulation().getAllometry();
 
-      assertEquals( ( (Float) oAllom.mp_fMaxCanopyHeight.getValue().get(0)).
-          floatValue(), 45, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fMaxCanopyHeight.getValue().get(1)).
-          floatValue(), 39.48, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCanopyHeight.getValue().get(0)).floatValue(), 45, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCanopyHeight.getValue().get(1)).floatValue(), 39.48, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().
-          get(0)).floatValue(), 0.02418, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().
-          get(1)).floatValue(), 0.0549, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().get(0)).floatValue(), 0.02418, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().get(1)).floatValue(), 0.0549, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCrownRadExp.getValue().get(0)).
-          floatValue(), 1.1, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCrownRadExp.getValue().get(1)).
-          floatValue(), 0.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownRadExp.getValue().get(0)).floatValue(), 1.1, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownRadExp.getValue().get(1)).floatValue(), 0.9, 0.001);
+      
+      assertEquals(((Float) oAllom.mp_fMaxCrownRad.getValue().get(0)).floatValue(), 22, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCrownRad.getValue().get(1)).floatValue(), 33, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhSlope.getValue().
-          get(0)).floatValue(), 0.7059, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhSlope.getValue().
-          get(1)).floatValue(), 0.8008, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(0)).floatValue(), 0.7059, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(1)).floatValue(), 0.8008, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().
-          get(0)).floatValue(), 0.0, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().
-          get(1)).floatValue(), 1.3, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(0)).floatValue(), 0.0, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(1)).floatValue(), 1.3, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().
-          get(0)).floatValue(), 0.34, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().
-          get(1)).floatValue(), 0.389, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().get(0)).floatValue(), 0.34, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().get(1)).floatValue(), 0.389, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCrownDepthExp.getValue().get(0)).
-          floatValue(), 0.9, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCrownDepthExp.getValue().get(1)).
-          floatValue(), 1.0, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownDepthExp.getValue().get(0)).floatValue(), 0.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownDepthExp.getValue().get(1)).floatValue(), 1.0, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().
-          get(0)).floatValue(), 0.03418, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().
-          get(1)).floatValue(), 0.2871, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(0)).floatValue(), 0.03418, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(1)).floatValue(), 0.2871, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().
-          get(0)).floatValue(), 0.0263, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().
-          get(1)).floatValue(), 0.0163, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(0)).floatValue(), 0.0263, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(1)).floatValue(), 0.0163, 0.001);
 
-      ModelEnum oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().
-          get(0);
+      ModelEnum oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 2);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().
-          get(1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(
-          0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(0);
@@ -315,133 +303,85 @@ extends ModelTestCase {
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 2);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(
-          0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 0);
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().
-          get(0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().
-          get(1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 0);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(
-          0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 0);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().
-          get(0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().
-          get(1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
-      assertEquals( ( (Float) oAllom.mp_fAdultLinearSlope.getValue().
-          get(0)).floatValue(), 0.96, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fAdultLinearSlope.getValue().
-          get(1)).floatValue(), 1.3, 0.001);
+      assertEquals(((Float) oAllom.mp_fAdultLinearSlope.getValue().get(0)).floatValue(), 0.96, 0.001);
+      assertEquals(((Float) oAllom.mp_fAdultLinearSlope.getValue().get(1)).floatValue(), 1.3, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fAdultLinearIntercept.getValue().
-          get(0)).floatValue(), 0, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fAdultLinearIntercept.getValue().
-          get(1)).floatValue(), -0.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fAdultLinearIntercept.getValue().get(0)).floatValue(), 0, 0.001);
+      assertEquals(((Float) oAllom.mp_fAdultLinearIntercept.getValue().get(1)).floatValue(), -0.9, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSaplingLinearSlope.getValue().
-          get(0)).floatValue(), 0.492, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSaplingLinearSlope.getValue().
-          get(1)).floatValue(), 0.0549, 0.001);
+      assertEquals(((Float) oAllom.mp_fSaplingLinearSlope.getValue().get(0)).floatValue(), 0.492, 0.001);
+      assertEquals(((Float) oAllom.mp_fSaplingLinearSlope.getValue().get(1)).floatValue(), 0.0549, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSaplingLinearIntercept.getValue().
-          get(0)).floatValue(), 1.2, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSaplingLinearIntercept.getValue().
-          get(1)).floatValue(), 0, 0.001);
+      assertEquals(((Float) oAllom.mp_fSaplingLinearIntercept.getValue().get(0)).floatValue(), 1.2, 0.001);
+      assertEquals(((Float) oAllom.mp_fSaplingLinearIntercept.getValue().get(1)).floatValue(), 0, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearSlope.getValue().
-          get(0)).floatValue(), 0.9629, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearSlope.getValue().
-          get(1)).floatValue(), 1.228, 0.001);
+      assertEquals(((Float) oAllom.mp_fSeedlingLinearSlope.getValue().get(0)).floatValue(), 0.9629, 0.001);
+      assertEquals(((Float) oAllom.mp_fSeedlingLinearSlope.getValue().get(1)).floatValue(), 1.228, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearIntercept.getValue().
-          get(0)).floatValue(), 0, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearIntercept.getValue().
-          get(1)).floatValue(), -0.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fSeedlingLinearIntercept.getValue().get(0)).floatValue(), 0, 0.001);
+      assertEquals(((Float) oAllom.mp_fSeedlingLinearIntercept.getValue().get(1)).floatValue(), -0.9, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearSlope.getValue().
-          get(0)).floatValue(), 2.1, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearSlope.getValue().
-          get(1)).floatValue(), 1.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fAdultReverseLinearSlope.getValue().get(0)).floatValue(), 2.1, 0.001);
+      assertEquals(((Float) oAllom.mp_fAdultReverseLinearSlope.getValue().get(1)).floatValue(), 1.9, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearIntercept.getValue().
-          get(0)).floatValue(), 0.02418, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearIntercept.getValue().
-          get(1)).floatValue(), 0.034, 0.001);
+      assertEquals(((Float) oAllom.mp_fAdultReverseLinearIntercept.getValue().get(0)).floatValue(), 0.02418, 0.001);
+      assertEquals(((Float) oAllom.mp_fAdultReverseLinearIntercept.getValue().get(1)).floatValue(), 0.034, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearSlope.getValue().
-          get(0)).floatValue(), 1.5, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearSlope.getValue().
-          get(1)).floatValue(), 1.1, 0.001);
+      assertEquals(((Float) oAllom.mp_fSaplingReverseLinearSlope.getValue().get(0)).floatValue(), 1.5, 0.001);
+      assertEquals(((Float) oAllom.mp_fSaplingReverseLinearSlope.getValue().get(1)).floatValue(), 1.1, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearIntercept.getValue().
-          get(0)).floatValue(), 0.761, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearIntercept.getValue().
-          get(1)).floatValue(), -0.847, 0.001);
+      assertEquals(((Float) oAllom.mp_fSaplingReverseLinearIntercept.getValue().get(0)).floatValue(), 0.761, 0.001);
+      assertEquals(((Float) oAllom.mp_fSaplingReverseLinearIntercept.getValue().get(1)).floatValue(), -0.847, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearSlope.getValue().
-          get(0)).floatValue(), 1.5, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearSlope.getValue().
-          get(1)).floatValue(), 0.02, 0.001);
+      assertEquals(((Float) oAllom.mp_fSeedlingReverseLinearSlope.getValue().get(0)).floatValue(), 1.5, 0.001);
+      assertEquals(((Float) oAllom.mp_fSeedlingReverseLinearSlope.getValue().get(1)).floatValue(), 0.02, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearIntercept.
-          getValue().get(0)).floatValue(), 0.761, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearIntercept.
-          getValue().get(1)).floatValue(), 0.758, 0.001);
+      assertEquals(((Float) oAllom.mp_fSeedlingReverseLinearIntercept.getValue().get(0)).floatValue(), 0.761, 0.001);
+      assertEquals(((Float) oAllom.mp_fSeedlingReverseLinearIntercept.getValue().get(1)).floatValue(), 0.758, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCRCrownRadIntercept.getValue().
-          get(0)).floatValue(), 0.3, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCRCrownRadIntercept.getValue().
-          get(1)).floatValue(), 0.4, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownRadIntercept.getValue().get(0)).floatValue(), 0.3, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownRadIntercept.getValue().get(1)).floatValue(), 0.4, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCRAsympCrownRad.getValue().
-          get(0)).floatValue(), 8, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCRAsympCrownRad.getValue().
-          get(1)).floatValue(), 7, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRAsympCrownRad.getValue().get(0)).floatValue(), 8, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRAsympCrownRad.getValue().get(1)).floatValue(), 7, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCRCrownRadShape1.getValue().
-          get(0)).floatValue(), 0.09, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCRCrownRadShape1.getValue().
-          get(1)).floatValue(), 0.1, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownRadShape1.getValue().get(0)).floatValue(), 0.09, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownRadShape1.getValue().get(1)).floatValue(), 0.1, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCRCrownRadShape2.getValue().
-          get(0)).floatValue(), 1.5, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCRCrownRadShape2.getValue().
-          get(1)).floatValue(), 2.4, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownRadShape2.getValue().get(0)).floatValue(), 1.5, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownRadShape2.getValue().get(1)).floatValue(), 2.4, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCRCrownHtIntercept.getValue().
-          get(0)).floatValue(), 0.6, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCRCrownHtIntercept.getValue().
-          get(1)).floatValue(), 0.5, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownHtIntercept.getValue().get(0)).floatValue(), 0.6, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownHtIntercept.getValue().get(1)).floatValue(), 0.5, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCRAsympCrownHt.getValue().
-          get(0)).floatValue(), 60, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCRAsympCrownHt.getValue().
-          get(1)).floatValue(), 12, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRAsympCrownHt.getValue().get(0)).floatValue(), 60, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRAsympCrownHt.getValue().get(1)).floatValue(), 12, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCRCrownHtShape1.getValue().
-          get(0)).floatValue(), 0.3, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCRCrownHtShape1.getValue().
-          get(1)).floatValue(), 0.1, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownHtShape1.getValue().get(0)).floatValue(), 0.3, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownHtShape1.getValue().get(1)).floatValue(), 0.1, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCRCrownHtShape2.getValue().
-          get(0)).floatValue(), 3.2, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCRCrownHtShape2.getValue().
-          get(1)).floatValue(), 4.1, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownHtShape2.getValue().get(0)).floatValue(), 3.2, 0.001);
+      assertEquals(((Float) oAllom.mp_fCRCrownHtShape2.getValue().get(1)).floatValue(), 4.1, 0.001);
 
       for (i = 0; i < oAllom.mp_oAllData.size(); i++) {
         oData =  oAllom.mp_oAllData.get(i);
@@ -451,48 +391,28 @@ extends ModelTestCase {
         }
       }
       oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex);
-      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(),
-          (float) 0.6640108, 0.01);
-      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(),
-          (float) 0.71, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.6640108, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.71, 0.01);
       oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex + 1);
-      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(),
-          (float) 0.00442797, 0.01);
-      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(),
-          (float) 0.12, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.00442797, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.12, 0.01);
 
-      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownRadius.getValue().
-          get(0)).floatValue(), 3.052587488, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownRadius.getValue().
-          get(1)).floatValue(), 5.2, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRMaxCrowdingRadius.getValue().
-          get(0)).floatValue(), 10, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRMaxCrowdingRadius.getValue().
-          get(1)).floatValue(), 15, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRAlpha.getValue().
-          get(0)).floatValue(), 2.17031683, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRAlpha.getValue().
-          get(1)).floatValue(), 2.81, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRBeta.getValue().
-          get(0)).floatValue(), 0.69994199, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRBeta.getValue().
-          get(1)).floatValue(), 0.5, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRGamma.getValue().
-          get(0)).floatValue(), 0, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRGamma.getValue().
-          get(1)).floatValue(), -0.13, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRN.getValue().
-          get(0)).floatValue(), 0.00163, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRN.getValue().
-          get(1)).floatValue(), 0.000126, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRMinNeighborDBH.getValue().
-          get(0)).floatValue(), 10, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRMinNeighborDBH.getValue().
-          get(1)).floatValue(), 12, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRD.getValue().
-          get(0)).floatValue(), 0.163, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICRD.getValue().
-          get(1)).floatValue(), 0.126, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownRadius.getValue().get(0)).floatValue(), 3.052587488, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownRadius.getValue().get(1)).floatValue(), 5.2, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMaxCrowdingRadius.getValue().get(0)).floatValue(), 10, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMaxCrowdingRadius.getValue().get(1)).floatValue(), 15, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRAlpha.getValue().get(0)).floatValue(), 2.17031683, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRAlpha.getValue().get(1)).floatValue(), 2.81, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRBeta.getValue().get(0)).floatValue(), 0.69994199, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRBeta.getValue().get(1)).floatValue(), 0.5, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRGamma.getValue().get(0)).floatValue(), 0, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRGamma.getValue().get(1)).floatValue(), -0.13, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRN.getValue().get(0)).floatValue(), 0.00163, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRN.getValue().get(1)).floatValue(), 0.000126, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMinNeighborDBH.getValue().get(0)).floatValue(), 10, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMinNeighborDBH.getValue().get(1)).floatValue(), 12, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRD.getValue().get(0)).floatValue(), 0.163, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRD.getValue().get(1)).floatValue(), 0.126, 0.001);
 
       for (i = 0; i < oAllom.mp_oAllData.size(); i++) {
         oData =  oAllom.mp_oAllData.get(i);
@@ -502,48 +422,28 @@ extends ModelTestCase {
         }
       }
       oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex);
-      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(),
-          (float) 0.83, 0.01);
-      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(),
-          (float) 0.33, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.83, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.33, 0.01);
       oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex + 1);
-      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(),
-          (float) 0.54, 0.01);
-      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(),
-          (float) 0.27, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.54, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.27, 0.01);
 
-      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownDepth.getValue().
-          get(0)).floatValue(), 65.67, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownDepth.getValue().
-          get(1)).floatValue(), 9.52, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDMaxCrowdingRadius.getValue().
-          get(0)).floatValue(), 10, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDMaxCrowdingRadius.getValue().
-          get(1)).floatValue(), 15, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDAlpha.getValue().
-          get(0)).floatValue(), 1.052587488, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDAlpha.getValue().
-          get(1)).floatValue(), 1.531, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDBeta.getValue().
-          get(0)).floatValue(), 0.698, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDBeta.getValue().
-          get(1)).floatValue(), 0.457, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDGamma.getValue().
-          get(0)).floatValue(), -0.0163, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDGamma.getValue().
-          get(1)).floatValue(), -0.0126, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDN.getValue().
-          get(0)).floatValue(), 0.0034, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDN.getValue().
-          get(1)).floatValue(), 0.00526, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDMinNeighborDBH.getValue().
-          get(0)).floatValue(), 11, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDMinNeighborDBH.getValue().
-          get(1)).floatValue(), 13, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDD.getValue().
-          get(0)).floatValue(), 0.042, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fNCICDD.getValue().
-          get(1)).floatValue(), 0.034, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownDepth.getValue().get(0)).floatValue(), 65.67, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownDepth.getValue().get(1)).floatValue(), 9.52, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDMaxCrowdingRadius.getValue().get(0)).floatValue(), 10, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDMaxCrowdingRadius.getValue().get(1)).floatValue(), 15, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDAlpha.getValue().get(0)).floatValue(), 1.052587488, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDAlpha.getValue().get(1)).floatValue(), 1.531, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDBeta.getValue().get(0)).floatValue(), 0.698, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDBeta.getValue().get(1)).floatValue(), 0.457, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDGamma.getValue().get(0)).floatValue(), -0.0163, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDGamma.getValue().get(1)).floatValue(), -0.0126, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDN.getValue().get(0)).floatValue(), 0.0034, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDN.getValue().get(1)).floatValue(), 0.00526, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDMinNeighborDBH.getValue().get(0)).floatValue(), 11, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDMinNeighborDBH.getValue().get(1)).floatValue(), 13, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDD.getValue().get(0)).floatValue(), 0.042, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDD.getValue().get(1)).floatValue(), 0.034, 0.001);
     }
     catch (ModelException oErr) {
       fail("Allometry parameter file reading failed with message " +
@@ -598,63 +498,44 @@ extends ModelTestCase {
       }
 
       //Verify that the first two species values are still good
-      assertEquals( ( (Float) oAllom.mp_fMaxCanopyHeight.getValue().get(0)).
-          floatValue(), 45, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fMaxCanopyHeight.getValue().get(1)).
-          floatValue(), 39.48, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCanopyHeight.getValue().get(0)).floatValue(), 45, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCanopyHeight.getValue().get(1)).floatValue(), 39.48, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().
-          get(0)).floatValue(), 0.02418, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().
-          get(1)).floatValue(), 0.0549, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().get(0)).floatValue(), 0.02418, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().get(1)).floatValue(), 0.0549, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCrownRadExp.getValue().get(0)).
-          floatValue(), 1.1, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCrownRadExp.getValue().get(1)).
-          floatValue(), 0.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownRadExp.getValue().get(0)).floatValue(), 1.1, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownRadExp.getValue().get(1)).floatValue(), 0.9, 0.001);
+      
+      assertEquals(((Float) oAllom.mp_fMaxCrownRad.getValue().get(0)).floatValue(), 22, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCrownRad.getValue().get(1)).floatValue(), 33, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhSlope.getValue().
-          get(0)).floatValue(), 0.7059, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhSlope.getValue().
-          get(1)).floatValue(), 0.8008, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(0)).floatValue(), 0.7059, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(1)).floatValue(), 0.8008, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().
-          get(0)).floatValue(), 0.0, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().
-          get(1)).floatValue(), 1.3, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(0)).floatValue(), 0.0, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(1)).floatValue(), 1.3, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().
-          get(0)).floatValue(), 0.34, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().
-          get(1)).floatValue(), 0.389, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().get(0)).floatValue(), 0.34, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().get(1)).floatValue(), 0.389, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCrownDepthExp.getValue().get(0)).
-          floatValue(), 0.9, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCrownDepthExp.getValue().get(1)).
-          floatValue(), 1.0, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownDepthExp.getValue().get(0)).floatValue(), 0.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownDepthExp.getValue().get(1)).floatValue(), 1.0, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().
-          get(0)).floatValue(), 0.03418, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().
-          get(1)).floatValue(), 0.2871, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(0)).floatValue(), 0.03418, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(1)).floatValue(), 0.2871, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().
-          get(0)).floatValue(), 0.0263, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().
-          get(1)).floatValue(), 0.0163, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(0)).floatValue(), 0.0263, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(1)).floatValue(), 0.0163, 0.001);
 
-      ModelEnum oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().
-          get(0);
+      ModelEnum oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 2);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().
-          get(1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(
-          0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(0);
@@ -662,88 +543,58 @@ extends ModelTestCase {
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 2);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(
-          0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 0);
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().
-          get(0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().
-          get(1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 0);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(
-          0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 0);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().
-          get(0);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().
-          get(1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
-      assertEquals( ( (Float) oAllom.mp_fAdultLinearSlope.getValue().
-          get(0)).floatValue(), 0.96, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fAdultLinearSlope.getValue().
-          get(1)).floatValue(), 1.3, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fAdultLinearSlope.getValue().get(0)).floatValue(), 0.96, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fAdultLinearSlope.getValue().get(1)).floatValue(), 1.3, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fAdultLinearIntercept.getValue().
-          get(0)).floatValue(), 0, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fAdultLinearIntercept.getValue().
-          get(1)).floatValue(), -0.9, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fAdultLinearIntercept.getValue().get(0)).floatValue(), 0, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fAdultLinearIntercept.getValue().get(1)).floatValue(), -0.9, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSaplingLinearSlope.getValue().
-          get(0)).floatValue(), 0.492, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSaplingLinearSlope.getValue().
-          get(1)).floatValue(), 0.0549, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSaplingLinearSlope.getValue().get(0)).floatValue(), 0.492, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSaplingLinearSlope.getValue().get(1)).floatValue(), 0.0549, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSaplingLinearIntercept.getValue().
-          get(0)).floatValue(), 1.2, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSaplingLinearIntercept.getValue().
-          get(1)).floatValue(), 0, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSaplingLinearIntercept.getValue().get(0)).floatValue(), 1.2, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSaplingLinearIntercept.getValue().get(1)).floatValue(), 0, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearSlope.getValue().
-          get(0)).floatValue(), 0.9629, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearSlope.getValue().
-          get(1)).floatValue(), 1.228, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearSlope.getValue().get(0)).floatValue(), 0.9629, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearSlope.getValue().get(1)).floatValue(), 1.228, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearIntercept.getValue().
-          get(0)).floatValue(), 0, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearIntercept.getValue().
-          get(1)).floatValue(), -0.9, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearIntercept.getValue().get(0)).floatValue(), 0, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSeedlingLinearIntercept.getValue().get(1)).floatValue(), -0.9, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearSlope.getValue().
-          get(0)).floatValue(), 2.1, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearSlope.getValue().
-          get(1)).floatValue(), 1.9, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearSlope.getValue().get(0)).floatValue(), 2.1, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearSlope.getValue().get(1)).floatValue(), 1.9, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearIntercept.getValue().
-          get(0)).floatValue(), 0.02418, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearIntercept.getValue().
-          get(1)).floatValue(), 0.034, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearIntercept.getValue().get(0)).floatValue(), 0.02418, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fAdultReverseLinearIntercept.getValue().get(1)).floatValue(), 0.034, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearSlope.getValue().
-          get(0)).floatValue(), 1.5, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearSlope.getValue().
-          get(1)).floatValue(), 1.1, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearSlope.getValue().get(0)).floatValue(), 1.5, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearSlope.getValue().get(1)).floatValue(), 1.1, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearIntercept.getValue().
-          get(0)).floatValue(), 0.761, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearIntercept.getValue().
-          get(1)).floatValue(), -0.847, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearIntercept.getValue().get(0)).floatValue(), 0.761, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSaplingReverseLinearIntercept.getValue().get(1)).floatValue(), -0.847, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearSlope.getValue().
-          get(0)).floatValue(), 1.5, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearSlope.getValue().
-          get(1)).floatValue(), 0.02, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearSlope.getValue().get(0)).floatValue(), 1.5, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearSlope.getValue().get(1)).floatValue(), 0.02, 0.001);
 
       assertEquals( ( (Float) oAllom.mp_fSeedlingReverseLinearIntercept.
           getValue().get(0)).floatValue(), 0.761, 0.001);
@@ -916,7 +767,7 @@ extends ModelTestCase {
       fail("Allometry setup testing failed with message " +
           oErr.getMessage());
     }
-    catch (java.io.IOException oE) {
+    catch (IOException oE) {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
     finally {
@@ -968,62 +819,44 @@ extends ModelTestCase {
       }
 
       //Verify that the first two species values are still good
-      assertEquals( ( (Float) oAllom.mp_fMaxCanopyHeight.getValue().get(2)).
-          floatValue(), 45, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fMaxCanopyHeight.getValue().get(1)).
-          floatValue(), 39.48, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCanopyHeight.getValue().get(2)).floatValue(), 45, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCanopyHeight.getValue().get(1)).floatValue(), 39.48, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().
-          get(2)).floatValue(), 0.02418, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().
-          get(1)).floatValue(), 0.0549, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().get(2)).floatValue(), 0.02418, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownRad.getValue().get(1)).floatValue(), 0.0549, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCrownRadExp.getValue().get(2)).
-          floatValue(), 1.1, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCrownRadExp.getValue().get(1)).
-          floatValue(), 0.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownRadExp.getValue().get(2)).floatValue(), 1.1, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownRadExp.getValue().get(1)).floatValue(), 0.9, 0.001);
+      
+      assertEquals(((Float) oAllom.mp_fMaxCrownRad.getValue().get(2)).floatValue(), 22, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCrownRad.getValue().get(1)).floatValue(), 33, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhSlope.getValue().
-          get(2)).floatValue(), 0.7059, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhSlope.getValue().
-          get(1)).floatValue(), 0.8008, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(2)).floatValue(), 0.7059, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(1)).floatValue(), 0.8008, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().
-          get(2)).floatValue(), 0.0, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().
-          get(1)).floatValue(), 1.3, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(2)).floatValue(), 0.0, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(1)).floatValue(), 1.3, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().
-          get(2)).floatValue(), 0.34, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().
-          get(1)).floatValue(), 0.389, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().get(2)).floatValue(), 0.34, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsympCrownDpth.getValue().get(1)).floatValue(), 0.389, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fCrownDepthExp.getValue().get(2)).
-          floatValue(), 0.9, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fCrownDepthExp.getValue().get(1)).
-          floatValue(), 1.0, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownDepthExp.getValue().get(2)).floatValue(), 0.9, 0.001);
+      assertEquals(((Float) oAllom.mp_fCrownDepthExp.getValue().get(1)).floatValue(), 1.0, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().
-          get(2)).floatValue(), 0.03418, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().
-          get(1)).floatValue(), 0.2871, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(2)).floatValue(), 0.03418, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(1)).floatValue(), 0.2871, 0.001);
 
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().
-          get(2)).floatValue(), 0.0263, 0.001);
-      assertEquals( ( (Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().
-          get(1)).floatValue(), 0.0163, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(2)).floatValue(), 0.0263, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(1)).floatValue(), 0.0163, 0.001);
 
-      ModelEnum oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().
-          get(2);
+      ModelEnum oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(2);
       assertEquals(oEnum.getValue(), 2);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().
-          get(1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
       oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(2);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(2);
@@ -1033,21 +866,17 @@ extends ModelTestCase {
 
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(2);
       assertEquals(oEnum.getValue(), 0);
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 1);
 
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().
-          get(2);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(2);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().
-          get(1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 0);
 
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(2);
       assertEquals(oEnum.getValue(), 1);
-      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(
-          1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(1);
       assertEquals(oEnum.getValue(), 0);
 
       oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().
@@ -1283,7 +1112,7 @@ extends ModelTestCase {
       fail("Allometry setup testing failed with message " +
           oErr.getMessage());
     }
-    catch (java.io.IOException oE) {
+    catch (IOException oE) {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
     finally {
@@ -1548,6 +1377,18 @@ extends ModelTestCase {
       Behavior.setVectorValues(oAllom.mp_fSlopeOfAsympCrownRad,
           new Float[] {new Float(10), new Float(10)});
       oAllom.validateData(oPop);
+      
+      //Case:  Max canrad less than 0
+      Behavior.setVectorValues(oAllom.mp_fMaxCrownRad, new Float[] {new Float( -10), new Float(1.3)});
+      try {
+        oAllom.validateData(oPop);
+        fail("ValidateData didn't negative max canrad");
+      }
+      catch (ModelException oErr) {
+        ;
+      }
+      Behavior.setVectorValues(oAllom.mp_fMaxCrownRad, new Float[] {new Float(10), new Float(10)});
+      oAllom.validateData(oPop);
 
       //Case:  diam 10 to dbh ratio less than 0
       Behavior.setVectorValues(oAllom.mp_fDiam10ToDbhSlope,
@@ -1632,8 +1473,9 @@ extends ModelTestCase {
           "Slope of Asymptotic Height",
           "Slope of Asymptotic Crown Radius",
           "Crown Radius Exponent",
-          "Slope of Asymptotic Crown Depth",
-          "Crown Depth Exponent",
+          "Maximum Crown Radius (Standard) (m)",
+          "Slope of Asymptotic Crown Height",
+          "Crown Height Exponent",
           "Slope of DBH to Diameter at 10 cm Relationship",
           "Slope of Height-Diameter at 10 cm Relationship",
           "Intercept of DBH to Diameter at 10 cm Relationship",
@@ -1676,8 +1518,9 @@ extends ModelTestCase {
           "Intercept of DBH to Diameter at 10 cm Relationship",
           "Slope of Asymptotic Crown Radius",
           "Crown Radius Exponent",
-          "Slope of Asymptotic Crown Depth",
-          "Crown Depth Exponent",
+          "Maximum Crown Radius (Standard) (m)",
+          "Slope of Asymptotic Crown Height",
+          "Crown Height Exponent",
           "Chapman-Richards Crown Radius Intercept",
           "Chapman-Richards Asymptotic Crown Radius",
           "Chapman-Richards Crown Radius Shape 1 (b)",
@@ -1718,8 +1561,9 @@ extends ModelTestCase {
           "Intercept of DBH to Diameter at 10 cm Relationship",
           "Slope of Asymptotic Crown Radius",
           "Crown Radius Exponent",
-          "Slope of Asymptotic Crown Depth",
-          "Crown Depth Exponent",
+          "Maximum Crown Radius (Standard) (m)",
+          "Slope of Asymptotic Crown Height",
+          "Crown Height Exponent",
           "Non-Spatial Density Dep. Inst. Crown Depth \"a\"",
           "Non-Spatial Density Dep. Inst. Crown Depth \"b\"",
           "Non-Spatial Density Dep. Inst. Crown Depth \"c\"",
@@ -1765,8 +1609,9 @@ extends ModelTestCase {
           "Slope of Asymptotic Height",
           "Slope of Asymptotic Crown Radius",
           "Crown Radius Exponent",
-          "Slope of Asymptotic Crown Depth",
-          "Crown Depth Exponent",
+          "Maximum Crown Radius (Standard) (m)",
+          "Slope of Asymptotic Crown Height",
+          "Crown Height Exponent",
           "Slope of DBH to Diameter at 10 cm Relationship",
           "Slope of Height-Diameter at 10 cm Relationship",
           "Intercept of DBH to Diameter at 10 cm Relationship",
@@ -1819,8 +1664,9 @@ extends ModelTestCase {
           "Slope of Asymptotic Height",
           "Slope of Asymptotic Crown Radius",
           "Crown Radius Exponent",
-          "Slope of Asymptotic Crown Depth",
-          "Crown Depth Exponent",
+          "Maximum Crown Radius (Standard) (m)",
+          "Slope of Asymptotic Crown Height",
+          "Crown Height Exponent",
           "Slope of DBH to Diameter at 10 cm Relationship",
           "Slope of Height-Diameter at 10 cm Relationship",
           "Intercept of DBH to Diameter at 10 cm Relationship",
@@ -1866,8 +1712,9 @@ extends ModelTestCase {
           "Slope of Asymptotic Height",
           "Slope of Asymptotic Crown Radius",
           "Crown Radius Exponent",
-          "Slope of Asymptotic Crown Depth",
-          "Crown Depth Exponent",
+          "Maximum Crown Radius (Standard) (m)",
+          "Slope of Asymptotic Crown Height",
+          "Crown Height Exponent",
           "Slope of DBH to Diameter at 10 cm Relationship",
           "Slope of Height-Diameter at 10 cm Relationship",
           "Intercept of DBH to Diameter at 10 cm Relationship",
@@ -1888,7 +1735,7 @@ extends ModelTestCase {
 
       //-----------------------------------------------
       //Case: all standard height-diameter relationships, standard crown shape
-      //relationships for adults, NCI crown depth relationship for saplings 
+      //relationships for adults, NCI crown Height relationship for saplings 
       oManager.inputXMLParameterFile(WriteXMLFile2());
       oPop = oManager.getTreePopulation();
       oAllom = oManager.getTreePopulation().getAllometry();
@@ -1913,8 +1760,9 @@ extends ModelTestCase {
           "Slope of Asymptotic Height",
           "Slope of Asymptotic Crown Radius",
           "Crown Radius Exponent",
-          "Slope of Asymptotic Crown Depth",
-          "Crown Depth Exponent",
+          "Maximum Crown Radius (Standard) (m)",
+          "Slope of Asymptotic Crown Height",
+          "Crown Height Exponent",
           "Slope of DBH to Diameter at 10 cm Relationship",
           "Slope of Height-Diameter at 10 cm Relationship",
           "Intercept of DBH to Diameter at 10 cm Relationship",
@@ -1935,7 +1783,7 @@ extends ModelTestCase {
 
       //-----------------------------------------------
       //Case: all standard height-diameter relationships, standard crown shape
-      //relationships for saplings, NCI crown depth relationship for adults  
+      //relationships for saplings, NCI crown Height relationship for adults  
       oManager.inputXMLParameterFile(WriteXMLFile2());
       oPop = oManager.getTreePopulation();
       oAllom = oManager.getTreePopulation().getAllometry();
@@ -1960,8 +1808,9 @@ extends ModelTestCase {
           "Slope of Asymptotic Height",
           "Slope of Asymptotic Crown Radius",
           "Crown Radius Exponent",
-          "Slope of Asymptotic Crown Depth",
-          "Crown Depth Exponent",
+          "Maximum Crown Radius (Standard) (m)",
+          "Slope of Asymptotic Crown Height",
+          "Crown Height Exponent",
           "Slope of DBH to Diameter at 10 cm Relationship",
           "Slope of Height-Diameter at 10 cm Relationship",
           "Intercept of DBH to Diameter at 10 cm Relationship",
@@ -2003,9 +1852,10 @@ extends ModelTestCase {
           "Maximum Tree Height, in meters",
           "Slope of Asymptotic Height",
           "Crown Radius Exponent",
-          "Crown Depth Exponent",
+          "Crown Height Exponent",
+          "Maximum Crown Radius (Standard) (m)",
           "Slope of Asymptotic Crown Radius",
-          "Slope of Asymptotic Crown Depth",
+          "Slope of Asymptotic Crown Height",
           "Slope of Height-Diameter at 10 cm Relationship",
           "Slope of DBH to Diameter at 10 cm Relationship",
           "Intercept of DBH to Diameter at 10 cm Relationship",
@@ -2675,6 +2525,10 @@ extends ModelTestCase {
     oOut.write("<tr_screVal species=\"Species_1\">1.1</tr_screVal>");
     oOut.write("<tr_screVal species=\"Species_2\">0.9</tr_screVal>");
     oOut.write("</tr_stdCrownRadExp>");
+    oOut.write("<tr_stdMaxCrownRad>");
+    oOut.write("<tr_smcrVal species=\"Species_1\">22</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Species_2\">33</tr_smcrVal>");
+    oOut.write("</tr_stdMaxCrownRad>");
     oOut.write("<tr_conversionDiam10ToDBH>");
     oOut.write("<tr_cdtdVal species=\"Species_1\">0.7059</tr_cdtdVal>");
     oOut.write("<tr_cdtdVal species=\"Species_2\">0.8008</tr_cdtdVal>");
