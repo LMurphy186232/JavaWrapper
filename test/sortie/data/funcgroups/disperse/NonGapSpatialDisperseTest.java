@@ -248,8 +248,8 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByDisplayName("Non-Gap Spatial Disperse");
         assertEquals(1, p_oDisps.size());
         NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(new Float(70));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(1);
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(1, new Float(70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad theta canopy values " +
             "when only non gap disperse was enabled.");
@@ -361,55 +361,76 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
       int CAN = SpatialDisperseBase.CANOPY;
 
       //Now copy a species
-      oManager.getTreePopulation().doCopySpecies("Species_3", "Species_1");
+    //Now change the species by adding another
+      String[] sNewSpecies = new String[] {
+          "Species 1",
+          "Species 2",
+          "Species 3",
+          "Species 4"};
+      oManager.getTreePopulation().setSpeciesNames(sNewSpecies);
+      oManager.getTreePopulation().doCopySpecies("Species_1", "Species_4");
+    
       DisperseBehaviors oDispBeh = oManager.getDisperseBehaviors();
+      oDispBeh.validateData(oManager.getTreePopulation());
+      
       ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByDisplayName("Non-Gap Spatial Disperse");
       assertEquals(1, p_oDisps.size());
       NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
 
-      assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(0)).floatValue(), 17.0, 0.001);
+      assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(0)).floatValue(), 15.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(1)).floatValue(), 16.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(2)).floatValue(), 17.0, 0.001);
+      assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(3)).floatValue(), 15.0, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(0)).floatValue(), 12.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(0)).floatValue(), 19.325, 0.001);
       assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(1)).floatValue(), 29.325, 0.001);
       assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(2)).floatValue(), 12.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(3)).floatValue(), 19.325, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(0)).floatValue(), 17.206, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(0)).floatValue(), 6.628, 0.001);
       assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(1)).floatValue(), 19.325, 0.001);
       assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(2)).floatValue(), 17.206, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(3)).floatValue(), 6.628, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(0)).floatValue(), 2.2, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(0)).floatValue(), 2.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(1)).floatValue(), 2.1, 0.001);
       assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(2)).floatValue(), 2.2, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(3)).floatValue(), 2.0, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(0)).floatValue(), 2.9, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(0)).floatValue(), 2.7, 0.001);
       assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(1)).floatValue(), 2.8, 0.001);
       assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(2)).floatValue(), 2.9, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(3)).floatValue(), 2.7, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(0)).floatValue(), 3.2, 0.001);
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(0)).floatValue(), 3.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(1)).floatValue(), 3.1, 0.001);
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(2)).floatValue(), 3.2, 0.001);
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(3)).floatValue(), 3.0, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fThetaOrXb[LOGN][CAN].getValue().get(0)).floatValue(), 3.9, 0.001);
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[LOGN][CAN].getValue().get(0)).floatValue(), 3.7, 0.001);
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[LOGN][CAN].getValue().get(1)).floatValue(), 3.8, 0.001);
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[LOGN][CAN].getValue().get(2)).floatValue(), 3.9, 0.001);
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[LOGN][CAN].getValue().get(3)).floatValue(), 3.7, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fDispOrX0[WEIB][CAN].getValue().get(0)).floatValue(), 9.61, 0.001);
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[WEIB][CAN].getValue().get(0)).floatValue(), 1.7, 0.001);
       assertEquals(((Float)oDisperse.mp_fDispOrX0[WEIB][CAN].getValue().get(1)).floatValue(), -5.7, 0.001);
       assertEquals(((Float)oDisperse.mp_fDispOrX0[WEIB][CAN].getValue().get(2)).floatValue(), 9.61, 0.001);
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[WEIB][CAN].getValue().get(3)).floatValue(), 1.7, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fDispOrX0[LOGN][CAN].getValue().get(0)).floatValue(), 4.93, 0.001);
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[LOGN][CAN].getValue().get(0)).floatValue(), 2.82, 0.001);
       assertEquals(((Float)oDisperse.mp_fDispOrX0[LOGN][CAN].getValue().get(1)).floatValue(), 3.32, 0.001);
       assertEquals(((Float)oDisperse.mp_fDispOrX0[LOGN][CAN].getValue().get(2)).floatValue(), 4.93, 0.001);
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[LOGN][CAN].getValue().get(3)).floatValue(), 2.82, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fStumpSTR.getValue().get(0)).floatValue(), 32.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fStumpSTR.getValue().get(0)).floatValue(), 12.257, 0.001);
       assertEquals(((Float)oDisperse.mp_fStumpSTR.getValue().get(1)).floatValue(), 22.257, 0.001);
       assertEquals(((Float)oDisperse.mp_fStumpSTR.getValue().get(2)).floatValue(), 32.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fStumpSTR.getValue().get(3)).floatValue(), 12.257, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fStumpBeta.getValue().get(0)).floatValue(), 4.4, 0.001);
+      assertEquals(((Float)oDisperse.mp_fStumpBeta.getValue().get(0)).floatValue(), 4.2, 0.001);
       assertEquals(((Float)oDisperse.mp_fStumpBeta.getValue().get(1)).floatValue(), 4.3, 0.001);
       assertEquals(((Float)oDisperse.mp_fStumpBeta.getValue().get(2)).floatValue(), 4.4, 0.001);
+      assertEquals(((Float)oDisperse.mp_fStumpBeta.getValue().get(3)).floatValue(), 4.2, 0.001);
 
       oEnum = (ModelEnum) oDisperse.mp_iWhichFunctionUsed[CAN].getValue().get(0);
       assertEquals(oEnum.getValue(), 1);
@@ -417,14 +438,18 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
       assertEquals(oEnum.getValue(), 0);
       oEnum = (ModelEnum) oDisperse.mp_iWhichFunctionUsed[CAN].getValue().get(2);
       assertEquals(oEnum.getValue(), 1);
-     
-      assertEquals(((Float)DisperseBase.mp_fStandardDeviation.getValue().get(0)).floatValue(), -4.3, 0.001);
+      oEnum = (ModelEnum) oDisperse.mp_iWhichFunctionUsed[CAN].getValue().get(3);
+      assertEquals(oEnum.getValue(), 1);
+
+      assertEquals(((Float)DisperseBase.mp_fStandardDeviation.getValue().get(0)).floatValue(), -4.1, 0.001);
       assertEquals(((Float)DisperseBase.mp_fStandardDeviation.getValue().get(1)).floatValue(), -4.2, 0.001);
       assertEquals(((Float)DisperseBase.mp_fStandardDeviation.getValue().get(2)).floatValue(), -4.3, 0.001);
+      assertEquals(((Float)DisperseBase.mp_fStandardDeviation.getValue().get(3)).floatValue(), -4.1, 0.001);
 
-      assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(0)).floatValue(), -0.6, 0.001);
+      assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(0)).floatValue(), -0.2, 0.001);
       assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(1)).floatValue(), -0.3, 0.001);
       assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(2)).floatValue(), -0.6, 0.001);
+      assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(3)).floatValue(), -0.2, 0.001);
 
       System.out.println("Copy species test succeeded.");
     }

@@ -67,7 +67,7 @@ public class NonGapSpatialDisperse extends SpatialDisperseBase {
 
     //Make sure all values for weibull theta are less than 50
     for (i = 0; i < mp_fThetaOrXb[WEIBULL][CANOPY].getValue().size(); i++) {
-      ModelEnum oEnum = (ModelEnum) mp_iWhichFunctionUsed[GAP].getValue().get(i);
+      ModelEnum oEnum = (ModelEnum) mp_iWhichFunctionUsed[CANOPY].getValue().get(i);
       if (oEnum.getValue() == WEIBULL && p_bApplies[i]) {
         float fNumber = ( (Float) mp_fThetaOrXb[WEIBULL][CANOPY].getValue().
             get(i)).floatValue();
