@@ -49,6 +49,10 @@ public class GLIPoints extends GLIBase {
   /**Minimum sun angle in radians for GLI points, if different from others*/
   protected ModelFloat m_fPointsMinSunAngle = new ModelFloat(0,
       "Minimum Solar Angle for GLI Points Creator, in rad", "li_minSunAngle");
+  
+  /**Azimuth of north*/
+  protected ModelFloat m_fAzimuthOfNorth = new ModelFloat(0,
+      "Azimuth of North, in rad", "li_AziOfNorth");
 
   /**Points objects, for GLI points*/
   protected ArrayList<Points> mp_oPoints = new ArrayList<Points>(0);
@@ -82,6 +86,7 @@ public class GLIPoints extends GLIBase {
     addRequiredData(m_fPointsMinSunAngle);
     addRequiredData(m_sGLIPointsInFile);
     addRequiredData(m_sGLIPointsOutFile);    
+    addRequiredData(m_fAzimuthOfNorth);
   }
 
   /**
@@ -183,6 +188,7 @@ public class GLIPoints extends GLIBase {
     ValidationHelpers.makeSureGreaterThan(m_iNumPointsAltDiv, 0);
     ValidationHelpers.makeSureGreaterThan(m_iNumPointsAziDiv, 0);
     ValidationHelpers.makeSureGreaterThan(m_fPointsMinSunAngle, 0);
+    ValidationHelpers.makeSureIsBounded(m_fAzimuthOfNorth, ((float)0.0), ((float)(2*Math.PI)));
 
     //If we have no input filename and no existing points, squawk
     if (m_sGLIPointsInFile.getValue().length() == 0 && mp_oPoints.size() == 0) {
