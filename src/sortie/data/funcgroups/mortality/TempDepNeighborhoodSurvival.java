@@ -112,7 +112,7 @@ public class TempDepNeighborhoodSurvival extends Behavior {
     // Assign the grid to the Temperature dependent neighborhood survival 
     // behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
   
   /**

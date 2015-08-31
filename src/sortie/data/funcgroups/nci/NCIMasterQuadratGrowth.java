@@ -113,7 +113,7 @@ public class NCIMasterQuadratGrowth extends NCIMasterBase {
 
     // Assign the grid to the Weibull climate quadrat growth behaviors
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
   
   /**

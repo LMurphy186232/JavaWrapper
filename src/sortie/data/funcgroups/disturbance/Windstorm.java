@@ -237,7 +237,7 @@ public class Windstorm extends Behavior {
 
     // Assign the grid to the windstorm behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
 
   /**

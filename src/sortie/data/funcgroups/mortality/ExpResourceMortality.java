@@ -73,7 +73,7 @@ public class ExpResourceMortality extends Behavior {
 
     //Assign to resource mortality behaviors
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid); 
+    addGrid(oNewGrid, false);
   }
 
   public void validateData(TreePopulation oPop) throws ModelException {;}

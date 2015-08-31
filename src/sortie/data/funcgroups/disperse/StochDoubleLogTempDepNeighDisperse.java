@@ -118,7 +118,7 @@ public class StochDoubleLogTempDepNeighDisperse extends Behavior {
     addRequiredData(m_fAnalysisPlotSize);
     addRequiredData(m_iFecTempDep);
     
-    addGrid(((DisperseBehaviors) oParent).getDisperseGrid());
+    addGrid(((DisperseBehaviors) oParent).getDisperseGrid(), false);
 
   }
 

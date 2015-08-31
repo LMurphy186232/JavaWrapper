@@ -265,7 +265,7 @@ public class MicrotopographicSubstrateSeedSurvival extends Behavior {
     //Create our grid
     oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
   
   /**

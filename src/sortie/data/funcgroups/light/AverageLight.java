@@ -45,7 +45,7 @@ public class AverageLight extends Behavior {
 
     //Assign to Average Light
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);    
+    addGrid(oNewGrid, false);
   }
 
   /**

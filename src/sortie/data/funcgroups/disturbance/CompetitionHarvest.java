@@ -224,7 +224,7 @@ public class CompetitionHarvest extends Behavior {
 
     // Add it to the episodic mortality behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
 
   }
 

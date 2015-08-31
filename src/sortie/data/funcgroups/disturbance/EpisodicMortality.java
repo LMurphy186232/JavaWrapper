@@ -104,7 +104,7 @@ public class EpisodicMortality extends Behavior {
 
     // Add it to the harvest behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
     
     
     // Episodic Mortality grid
@@ -152,7 +152,7 @@ public class EpisodicMortality extends Behavior {
 
     // Add it to the episodic mortality behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
 
     checkForGridCellResolutionChange();
   }

@@ -97,7 +97,7 @@ public class MerchValueCalculator extends Behavior {
 
     // Assign the grid to the merchantable value behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
   
   /**

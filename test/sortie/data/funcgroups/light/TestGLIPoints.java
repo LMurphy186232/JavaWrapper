@@ -35,6 +35,7 @@ public class TestGLIPoints extends ModelTestCase {
       assertEquals(12, oLight.m_iNumPointsAltDiv.getValue());
       assertEquals(18, oLight.m_iNumPointsAziDiv.getValue());
       assertTrue(oLight.m_sGLIPointsOutFile.getValue().equals("Test.points"));
+      assertEquals(0, oLight.m_fAzimuthOfNorth.getValue(), 0.0001);
       
       assertEquals(0.5, GLIBase.m_fBeamFractionOfGlobalRadiation.getValue(), 0.0001);
       assertEquals(0.65, GLIBase.m_fClearSkyTransmissionCoefficient.getValue(), 0.0001);
@@ -209,6 +210,7 @@ public class TestGLIPoints extends ModelTestCase {
       assertEquals(oPoints.m_fPointsMinSunAngle.getValue(), (float) 1.985, 0.001);
       assertEquals(oPoints.m_iNumPointsAltDiv.getValue(), 15);
       assertEquals(oPoints.m_iNumPointsAziDiv.getValue(), 21);
+      assertEquals(0.5, oPoints.m_fAzimuthOfNorth.getValue(), 0.001);
 
     }
     catch (ModelException oErr) {
@@ -392,6 +394,7 @@ public class TestGLIPoints extends ModelTestCase {
     oOut.write("<li_minSunAngle>1.985</li_minSunAngle>");
     oOut.write("<li_numAltGrids>15</li_numAltGrids>");
     oOut.write("<li_numAziGrids>21</li_numAziGrids>");
+    oOut.write("<li_AziOfNorth>0.5</li_AziOfNorth>");
     oOut.write("<li_GLIPointsFilename>test.txt</li_GLIPointsFilename>");
     oOut.write("<li_GLIPoint x=\"75\" y=\"80\" h=\"15\"/>");
     oOut.write("<li_GLIPoint x=\"50\" y=\"50\" h=\"12\"/>");

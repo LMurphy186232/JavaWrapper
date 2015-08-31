@@ -455,23 +455,55 @@ abstract public class Behavior {
   }
 
   /**
-   * Adds a new Grid to the list to which this behavior applies.  If this
-   * particular grid is already on the list, it's replaced. Calling
+   * Adds a new Grid to the list to which this behavior applies. If this 
+   * exact grid object is already added, nothing is done. Calling
    * this method does NOT automatically cause the behavior to become enabled,
    * because grids are more of an inherent property of behaviors.  For this
    * reason, a Behavior should always be notified of its Grids whether or
    * not it is enabled.
+   * 
    * @param oGrid Grid to add.
+   * @param bReplace If true, this grid replaces any existing grids with this
+   * name. If false, if it has the same name as
+   * another grid object, the first grid is returned and this grid is dropped.
    */
-  public void addGrid(Grid oGrid) {
+  public void addGrid(Grid oGrid, boolean bReplace) {
 
     //Check to see if this grid has already been added
+    Grid oGrid2;
     int i;
+    
     for (i = 0; i < mp_iGridsAppliesTo.size(); i++) {
+      
+      //Check to see if the grid is the exact same object as an existing grid
       if (oGrid.hashCode() == mp_iGridsAppliesTo.get(i).intValue()) {
         return;
+        
+      } else {
+        
+        //Find this grid object by hash code
+        oGrid2 = m_oManager.getGridByHash(mp_iGridsAppliesTo.get(i).intValue());
+        
+        if (oGrid2 == null) {
+          //If it's null this object is no longer valid. It was replaced at
+          //the grid manager level. Get rid of this hash
+          mp_iGridsAppliesTo.remove(i);
+          i--;
+         
+        } else if (oGrid.getName().equals(oGrid2.getName())) {
+          
+          //The grid object exists and has the same name as the new grid.
+          //Figure out what to do based on bReplace
+          if (bReplace) {
+            mp_iGridsAppliesTo.remove(i);
+            i--;
+          } else {
+            return;
+          }
+        }
       }
     }
+
 
     mp_iGridsAppliesTo.add(oGrid.hashCode());
   }

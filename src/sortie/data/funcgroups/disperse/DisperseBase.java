@@ -48,7 +48,7 @@ public abstract class DisperseBase extends Behavior  {
     addRequiredData(mp_fStandardDeviation);
     addRequiredData(mp_fClumpingParameter);
     
-    addGrid(((DisperseBehaviors) oParent).getDisperseGrid());
+    addGrid(((DisperseBehaviors) oParent).getDisperseGrid(), true);
   }
   
   /**

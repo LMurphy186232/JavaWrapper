@@ -93,7 +93,7 @@ public class StormLight extends Behavior {
     
     //Assign to Storm Light
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
     
   }
   

@@ -159,7 +159,7 @@ public class FuncResponseSeedPredation extends Behavior {
     oNewGrid = new Grid("Seed Predators", p_oDataMembers, null, 8, 8);
     //Add to the functional response behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
   }
 
   /**

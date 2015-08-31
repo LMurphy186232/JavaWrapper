@@ -95,7 +95,7 @@ public class RipleysKCalculator extends Behavior {
       Grid oNewGrid = new Grid(sGridName, p_oDataMembers, null, oPlot
           .getPlotXLength(), oPlot.getPlotYLength());
       oNewGrid = m_oManager.addGrid(oNewGrid, true);
-      addGrid(oNewGrid);
+      addGrid(oNewGrid, true);
     } else {
       Grid oGrid = getGrid(0);
       oGrid.setDataMembers(p_oDataMembers, null);

@@ -1553,7 +1553,7 @@ public class DetailedSubstrate extends Behavior {
 
     //Add to the detailed substrate behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
 
     //************************
     // Detailed substrate calculations grid
@@ -1593,7 +1593,7 @@ public class DetailedSubstrate extends Behavior {
     oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
     //Add to the substrate behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
   }
 
   /**

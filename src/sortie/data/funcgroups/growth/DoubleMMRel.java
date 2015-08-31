@@ -65,7 +65,7 @@ public class DoubleMMRel extends Behavior {
 
     //Assign to double-resource relative growth
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
   }
   
   /**

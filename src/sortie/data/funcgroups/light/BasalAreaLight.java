@@ -111,7 +111,7 @@ public class BasalAreaLight extends Behavior {
 
     //Assign to Basal Area Light
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
 
     ModelEnum oEnum;
     TreePopulation oPop = m_oManager.getTreePopulation();

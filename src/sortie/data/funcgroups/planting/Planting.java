@@ -285,7 +285,7 @@ public class Planting extends Behavior {
     if (getNumberOfGrids() == 0) {
       Grid oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
       oNewGrid = m_oManager.addGrid(oNewGrid, true);
-      addGrid(oNewGrid);
+      addGrid(oNewGrid, true);
     } else {
       Grid oGrid = getGrid(0);
       oGrid.setDataMembers(p_oDataMembers, null);

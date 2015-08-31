@@ -131,7 +131,7 @@ public class PostHarvestSkiddingMort extends Behavior {
     p_oDataMembers[1] = new DataMember("LastUpdated", "LastUpdated", DataMember.INTEGER);
     oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
   }
 
   public void validateData(TreePopulation oPop) throws ModelException {;}

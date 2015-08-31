@@ -284,7 +284,7 @@ public class SnagDecayClassDynamics extends Behavior {
     //Create our grid
     oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
 
   }
 

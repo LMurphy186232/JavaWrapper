@@ -144,7 +144,7 @@ public class Harvest extends Behavior {
 
     // Add it to the harvest behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
 
     // Harvest master cuts
     sGridName = "harvestmastercuts";
@@ -158,7 +158,7 @@ public class Harvest extends Behavior {
 
     // Add it to the harvest behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
 
     checkForGridCellResolutionChange();
   }

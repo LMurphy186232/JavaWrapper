@@ -189,7 +189,7 @@ public class FoliarChemistry extends Behavior {
     }
     oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
 
 

@@ -92,7 +92,7 @@ public class GLIMap extends GLIBase {
 
       //Assign to GLI Map Creator
       oNewGrid = m_oManager.addGrid(oNewGrid, false);
-      addGrid(oNewGrid);
+      addGrid(oNewGrid, false);
             
     } else {
       

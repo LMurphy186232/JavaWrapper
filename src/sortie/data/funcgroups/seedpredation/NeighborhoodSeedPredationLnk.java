@@ -191,13 +191,14 @@ public class NeighborhoodSeedPredationLnk extends Behavior {
         //Grid does not yet exist
         oGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
         oGrid = m_oManager.addGrid(oGrid, true);
-        addGrid(oGrid);
+        addGrid(oGrid, true);
       } else {
         
         //Grid came through in parameter file - clear any maps
         oGrid.clearMapValues();
         //Make sure the data members are right
-        oGrid.setDataMembers(p_oDataMembers, null);        
+        oGrid.setDataMembers(p_oDataMembers, null);       
+        addGrid(oGrid, true);
       }            
     } else {
       oGrid = getGrid(0);

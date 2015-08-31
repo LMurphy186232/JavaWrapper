@@ -123,7 +123,7 @@ public class ClimateCompDepNeighborhoodSurvival extends Behavior {
 
     // Assign the grid to the behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
   
   /**

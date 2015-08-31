@@ -84,7 +84,7 @@ public class QuadratGLILight extends GLIBase {
 
     //Assign to quadrat light
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
   }
 
   /**

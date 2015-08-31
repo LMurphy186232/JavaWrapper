@@ -75,7 +75,7 @@ public class LaggedPostHarvestGrowth extends Behavior {
     p_oDataMembers[1] = new DataMember("LastUpdated", "LastUpdated", DataMember.INTEGER);
     oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
     //Assign to post lagged harvest growth
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
 
   public void validateData(TreePopulation oPop) throws ModelException {;}

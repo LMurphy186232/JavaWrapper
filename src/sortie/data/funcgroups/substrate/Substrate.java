@@ -280,7 +280,7 @@ public class Substrate extends Behavior {
     oNewGrid = new Grid(sGridName, p_oDataMembers, p_oPackageDataMembers, 8, 8);
 
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
 
     //************************
     // Regular substrate calculations grid
@@ -312,7 +312,7 @@ public class Substrate extends Behavior {
     oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
     //Add to the substrate behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
   }
 
   /**

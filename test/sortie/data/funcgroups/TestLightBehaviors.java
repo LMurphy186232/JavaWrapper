@@ -159,6 +159,7 @@ extends ModelTestCase {
           "Minimum Solar Angle for GLI Points Creator, in rad",
           "GLI Points Input File",
           "GLI Points Output File",
+          "Azimuth of North, in rad",
           "Number of Azimuth Sky Divisions for GLI Points Creator",
           "Number of Altitude Sky Divisions for GLI Points Creator",
           "Snag Age Class 1 Amount Canopy Light Transmission (0-1)",

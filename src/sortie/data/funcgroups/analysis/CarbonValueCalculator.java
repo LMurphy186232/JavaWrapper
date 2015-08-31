@@ -112,7 +112,7 @@ public class CarbonValueCalculator extends Behavior {
 
     // Assign the grid to the carbon value behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
 
   /**

@@ -183,7 +183,7 @@ public class Storm extends Behavior {
     oNewGrid = new Grid(sGridName, p_oDataMembers, p_oPackageDataMembers, 8, 8);
 
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
 
     // Storm Susceptibility grid
     sGridName = "Storm Susceptibility";
@@ -197,7 +197,7 @@ public class Storm extends Behavior {
 
     // Add to the Storms behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
   }
 
   /**

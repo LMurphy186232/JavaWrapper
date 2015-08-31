@@ -42,7 +42,7 @@ public class GapLight extends Behavior {
     
     //Assign to Gap Light
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, false);
   }
   public void validateData(TreePopulation oPop) {;}
 }

@@ -45,7 +45,7 @@ public class StateReporter extends Behavior {
     Grid oNewGrid = new Grid(sGridName, p_oDataMembers, null, 
         oPlot.getPlotXLength(), oPlot.getPlotYLength());
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid);
+    addGrid(oNewGrid, true);
   }
 
   public void validateData(TreePopulation oPop) throws ModelException {;}
