@@ -23,14 +23,14 @@ import sortie.data.simpletypes.ModelException;
 import sortie.data.simpletypes.ModelVector;
 import sortie.gui.GUIManager;
 import sortie.gui.MainWindow;
-import sortie.gui.ModelFlowSetup;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorComboEdit;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorEdit;
 import sortie.gui.behaviorsetup.BehaviorParameterDisplay;
 import sortie.gui.behaviorsetup.EnhancedTable;
 import sortie.gui.behaviorsetup.NCIEffectsEditor;
 import sortie.gui.behaviorsetup.NCIParameterEdit;
 import sortie.gui.behaviorsetup.TableData;
+import sortie.gui.modelflowsetup.ModelFlowSetup;
+import sortie.gui.modelflowsetup.DisplayBehaviorEdit;
+import sortie.gui.modelflowsetup.DisplayBehaviorComboEdit;
 
 public class NCIParameterEditTest extends ModelTestCase {
   
@@ -203,12 +203,12 @@ public class NCIParameterEditTest extends ModelTestCase {
       
       //Add the NCI behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(5); //Growth behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(12);  //NCI
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
       //Simulate OK button click
-      DisplayBehaviorComboEdit oEdit2 = oSetup.new DisplayBehaviorComboEdit(oBehEdit, 
+      DisplayBehaviorComboEdit oEdit2 = new DisplayBehaviorComboEdit(oBehEdit, oSetup, 
           oBehEdit.m_jEnabledBehaviorListModel.get(2), oManager.getHelpBroker());
       //Add combos
       oEdit2.m_jSpecies.setSelectedIndices(new int[] {0, 2});
@@ -858,12 +858,12 @@ public class NCIParameterEditTest extends ModelTestCase {
       
       //Add the NCI behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(5); //Growth behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(13);  //NCI quadrat growth
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
       //Simulate OK button click
-      DisplayBehaviorComboEdit oEdit2 = oSetup.new DisplayBehaviorComboEdit(oBehEdit, 
+      DisplayBehaviorComboEdit oEdit2 = new DisplayBehaviorComboEdit(oBehEdit, oSetup,
           oBehEdit.m_jEnabledBehaviorListModel.get(2), oManager.getHelpBroker());
       //Add combos
       oEdit2.m_jSpecies.setSelectedIndices(new int[] {0, 2});

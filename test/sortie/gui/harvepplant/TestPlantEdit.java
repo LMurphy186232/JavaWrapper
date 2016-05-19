@@ -16,8 +16,8 @@ import sortie.data.simpletypes.ModelException;
 import sortie.gui.ErrorGUI;
 import sortie.gui.GUIManager;
 import sortie.gui.MainWindow;
-import sortie.gui.ModelFlowSetup;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorEdit;
+import sortie.gui.modelflowsetup.ModelFlowSetup;
+import sortie.gui.modelflowsetup.DisplayBehaviorEdit;
 
 /**
  * This tests the planting entering system. For ease I'm just going to enter
@@ -42,7 +42,7 @@ public class TestPlantEdit extends ModelTestCase {
 
       //Add Planting
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(14); //Planting behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(0);  //Plant
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
@@ -118,7 +118,7 @@ public class TestPlantEdit extends ModelTestCase {
       oManager.inputXMLParameterFile(sFileName);
 
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(14); //Planting behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(0);  //Plant
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
@@ -196,7 +196,7 @@ public class TestPlantEdit extends ModelTestCase {
 
       //Add the Planting behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(14); //Planting behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(0);  //Plant
@@ -347,7 +347,7 @@ public class TestPlantEdit extends ModelTestCase {
 
       //Add the planting behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(14); //Planting behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(0);  //Plant
@@ -567,7 +567,7 @@ public class TestPlantEdit extends ModelTestCase {
 
       //Add the Planting behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(14); //Planting behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(0);  //Plant

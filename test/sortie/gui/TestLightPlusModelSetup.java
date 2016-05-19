@@ -4,13 +4,15 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 
+
 import sortie.ModelTestCase;
 import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.LightBehaviors;
 import sortie.data.funcgroups.TreePopulation;
 import sortie.data.simpletypes.ModelException;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorComboEdit;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorEdit;
+import sortie.gui.modelflowsetup.ModelFlowSetup;
+import sortie.gui.modelflowsetup.DisplayBehaviorComboEdit;
+import sortie.gui.modelflowsetup.DisplayBehaviorEdit;
 
 public class TestLightPlusModelSetup extends ModelTestCase {
   /**
@@ -24,7 +26,7 @@ public class TestLightPlusModelSetup extends ModelTestCase {
       
       //Use the model flow dialogs to add a behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oEdit.m_jBehaviorGroups.setSelectedIndex(4); //Light behaviors
       oEdit.m_jBehaviorList.setSelectedIndex(5);  //GLI light
       oEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
@@ -32,9 +34,9 @@ public class TestLightPlusModelSetup extends ModelTestCase {
       oEdit.actionPerformed(new ActionEvent(this, 0, "OK"));
       
       //Re-open behavior list window
-      oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Open the combo edit window for new GLI light
-      DisplayBehaviorComboEdit oEdit2 = oSetup.new DisplayBehaviorComboEdit(oEdit, 
+      DisplayBehaviorComboEdit oEdit2 = new DisplayBehaviorComboEdit(oEdit, oSetup,
           oEdit.m_jEnabledBehaviorListModel.get(0), oManager.getHelpBroker());
       //Add combos
       oEdit2.m_jSpecies.setSelectedIndices(new int[] {0, 2});

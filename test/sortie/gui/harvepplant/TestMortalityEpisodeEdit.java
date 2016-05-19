@@ -16,8 +16,8 @@ import sortie.data.simpletypes.ModelException;
 import sortie.gui.ErrorGUI;
 import sortie.gui.GUIManager;
 import sortie.gui.MainWindow;
-import sortie.gui.ModelFlowSetup;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorEdit;
+import sortie.gui.modelflowsetup.ModelFlowSetup;
+import sortie.gui.modelflowsetup.DisplayBehaviorEdit;
 
 /**
  * This tests the mortality entering system. For ease I'm just going to enter
@@ -42,7 +42,7 @@ public class TestMortalityEpisodeEdit extends ModelTestCase {
 
       //Add Episodic Mortality
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(2);  //Ep. Mort
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
@@ -133,7 +133,7 @@ public class TestMortalityEpisodeEdit extends ModelTestCase {
       oManager.inputXMLParameterFile(sFileName);
 
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(2);  //Ep. Mort
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
@@ -211,7 +211,7 @@ public class TestMortalityEpisodeEdit extends ModelTestCase {
 
       //Add the Episodic Mortality behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(2);  //Ep. Mort
@@ -362,7 +362,7 @@ public class TestMortalityEpisodeEdit extends ModelTestCase {
 
       //Add the event behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(2);  //Ep. Mort
@@ -569,7 +569,7 @@ public class TestMortalityEpisodeEdit extends ModelTestCase {
 
       //Add the Episodic Mortality behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(2);  //Ep. Mort

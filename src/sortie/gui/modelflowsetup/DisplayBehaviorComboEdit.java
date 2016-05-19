@@ -1,21 +1,32 @@
-package sortie.gui;
+package sortie.gui.modelflowsetup;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.help.HelpBroker;
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import sortie.data.funcgroups.TreePopulation;
 import sortie.data.simpletypes.ComboDisplay;
 import sortie.data.simpletypes.ModelException;
 import sortie.data.simpletypes.SpeciesTypeCombo;
+import sortie.gui.ErrorGUI;
 import sortie.gui.components.ModelIcon;
 import sortie.gui.components.OKCancelButtonPanel;
 import sortie.gui.components.SortieFont;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 /**
  * Displays an edit window for editing the tree species/type combos to
@@ -24,34 +35,28 @@ import java.util.List;
  * <p>Company: Cary Institute of Ecosystem Studies</p>
  * @author Lora E. Murphy
  * @version 1.0
- *
- * <br>Edit history:
- * <br>------------------
- * <br>December 8, 2011: Wiped the slate clean for version 7 (LEM)
  */
 public class DisplayBehaviorComboEdit
 extends JDialog
-implements java.awt.event.ActionListener {
+implements ActionListener {
+
+  ModelFlowSetup parent;
 
   /**The list displaying the assigned species/type combos for this
    * behavior*/
   protected JList<ComboDisplay> m_jAssignedCombosList;
 
-  /** Tree population object */
-  protected TreePopulation m_oPop;
-
-  /** Species type combos to edit */
-  protected ArrayList<SpeciesTypeCombo> mp_oCombos;
-  //protected Behavior m_oBehavior;
-
   /**The list of species*/
-  protected JList<String> m_jSpecies;
+  public JList<String> m_jSpecies;
 
   /**The list of types*/
-  protected JList<String> m_jTypes;
+  public JList<String> m_jTypes;
 
   /**The assigned species/type combos for this behavior*/
   protected DefaultListModel<ComboDisplay> m_jAssignedCombosListModel;
+
+  /**The behavior info*/
+  protected BehaviorPackager m_oBehavior;
 
   /**The help topic ID for this window*/
   private String m_sHelpID = "windows.behavior_assignments";
@@ -59,24 +64,42 @@ implements java.awt.event.ActionListener {
   /**
    * Constructor.
    * @param jParent Parent dialog in which to display this dialog.
-   * @param oCombos Starting combos of behavior.
-   * @param sDescriptor Behavior descriptor.
-   * @param oPop Tree population.
+   * @param oBehavior Behavior to edit.
    * @param oHelpBroker The application's help broker.
    * @throws ModelException if there is a problem constructing the window.
    */
-  public DisplayBehaviorComboEdit(JDialog jParent, 
-      ArrayList<SpeciesTypeCombo> oCombos,
-      String sDescriptor,
-      TreePopulation oPop,
+  public DisplayBehaviorComboEdit(JDialog display, ModelFlowSetup parent, BehaviorPackager oBehavior,
       HelpBroker oHelpBroker) throws
       ModelException {
-    super(jParent, "Tree assignments for " + sDescriptor, true);
-    m_oPop = oPop;
-    mp_oCombos = oCombos;
+    super(display, "Tree assignments for " + oBehavior.m_sDescriptor, true);
+    
+    this.parent = parent;
 
     //Help ID
     oHelpBroker.enableHelpKey(this.getRootPane(), m_sHelpID, null);
+
+    //If this behavior doesn't need trees, set up a messagebox saying so
+    if (parent.mp_oBehaviorGroups.get(oBehavior.m_iGroupNumber).
+        doesBehaviorNeedTrees(oBehavior.m_sParameterFileTag) == false) {
+      JLabel jLabel = new JLabel("This behavior does not require tree assignments.");
+      jLabel.setFont(new SortieFont());
+      jLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+
+      JButton jOKButton = new JButton("OK");
+      jOKButton.setFont(new SortieFont());
+      jOKButton.setActionCommand("Cancel"); //the "Cancel" is on purpose
+      jOKButton.addActionListener(this);
+      jOKButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+
+      getContentPane().setLayout(new BoxLayout(getContentPane(),
+          BoxLayout.PAGE_AXIS));
+      getContentPane().add(jLabel);
+      getContentPane().add(jOKButton);
+
+      return;
+    }
+
+    m_oBehavior = oBehavior;
 
     /********************************************************************
      * Leftmost panel - two lists with species and type for choosing
@@ -84,9 +107,10 @@ implements java.awt.event.ActionListener {
     JPanel jNewComboPicker = new JPanel();
     int i;
     //Species choices
-    String[] p_sSpeciesOptions = new String[m_oPop.getNumberOfSpecies()];
+    String[] p_sSpeciesOptions = new String[parent.m_oPop.getNumberOfSpecies()];
     for (i = 0; i < p_sSpeciesOptions.length; i++) {
-      p_sSpeciesOptions[i] = m_oPop.getSpeciesNameFromCode(i).replace('_', ' ');
+      p_sSpeciesOptions[i] = parent.m_oPop.getSpeciesNameFromCode(i).replace('_',
+          ' ');
     }
 
     //Type choices
@@ -124,28 +148,29 @@ implements java.awt.event.ActionListener {
     jLabel.setFont(new SortieFont());
     jNewComboPicker.add(jLabel);
     jNewComboPicker.add(jTypeScroller);
+    //jNewComboPicker.add(jAddButton);
 
     /********************************************************************
      * List showing existing species/type combos
      ********************************************************************/
-    JPanel jExisting = new JPanel(new java.awt.BorderLayout());
+    JPanel jExisting = new JPanel(new BorderLayout());
     m_jAssignedCombosListModel = new DefaultListModel<ComboDisplay>();
     m_jAssignedCombosList = new JList<ComboDisplay>(m_jAssignedCombosListModel);
     m_jAssignedCombosList.setFont(new SortieFont());
     JScrollPane jScroller = new JScrollPane(m_jAssignedCombosList);
-    jScroller.setPreferredSize(new java.awt.Dimension(200,
+    jScroller.setPreferredSize(new Dimension(200,
         (int) jScroller.getPreferredSize().
         getHeight()));
 
     //Load the combos
-    for (SpeciesTypeCombo oCombo : mp_oCombos) {
+    for (SpeciesTypeCombo oCombo : oBehavior.mp_oSpeciesTypes) {
       m_jAssignedCombosListModel.addElement(
-          new ComboDisplay(m_oPop, oCombo.getSpecies(), oCombo.getType()));
+          new ComboDisplay(parent.m_oPop, oCombo.getSpecies(), oCombo.getType()));
     }
     jLabel = new JLabel("Behavior currently assigned to:");
     jLabel.setFont(new SortieFont());
-    jExisting.add(jLabel, java.awt.BorderLayout.NORTH);
-    jExisting.add(jScroller, java.awt.BorderLayout.CENTER);
+    jExisting.add(jLabel, BorderLayout.NORTH);
+    jExisting.add(jScroller, BorderLayout.CENTER);
 
     /********************************************************************
      * Remove button for combos
@@ -160,21 +185,17 @@ implements java.awt.event.ActionListener {
     //Assemble the entire window
     //Package everything but the buttons in a center panel
     JPanel jCenterPanel = new JPanel();
-    jCenterPanel.setLayout(new java.awt.FlowLayout());
+    jCenterPanel.setLayout(new FlowLayout());
     jCenterPanel.add(jNewComboPicker);
     jCenterPanel.add(jAddButton);
     jCenterPanel.add(jExisting);
     jCenterPanel.add(jRemoveButton);
 
-    getContentPane().setLayout(new java.awt.BorderLayout());
-    getContentPane().add(jCenterPanel, java.awt.BorderLayout.CENTER);
+    getContentPane().setLayout(new BorderLayout());
+    getContentPane().add(jCenterPanel, BorderLayout.CENTER);
     //Buttons at the button
     getContentPane().add(new OKCancelButtonPanel(this, oHelpBroker, m_sHelpID),
-        java.awt.BorderLayout.PAGE_END);
-
-    this.pack();
-    this.setLocationRelativeTo(null);
-    this.setVisible(true);
+        BorderLayout.PAGE_END);
   }
 
   /**
@@ -189,15 +210,16 @@ implements java.awt.event.ActionListener {
     else if (e.getActionCommand().equals("OK")) {
       try {
         //Sets the combos listed
-        //Find the behavior to which this applies
+        //Find the behavior to which this applies in the master list -
+        //we only have a copy
         ComboDisplay oCombo;
         int i;
 
-        mp_oCombos.clear();
+        m_oBehavior.mp_oSpeciesTypes.clear();
         for (i = 0; i < m_jAssignedCombosListModel.size(); i++) {
           oCombo = m_jAssignedCombosListModel.elementAt(i);
-          mp_oCombos.add(new SpeciesTypeCombo(oCombo.
-              getSpecies(), oCombo.getType(), m_oPop));
+          m_oBehavior.mp_oSpeciesTypes.add(new SpeciesTypeCombo(oCombo.
+              getSpecies(), oCombo.getType(), parent.m_oPop));
         }
 
         this.setVisible(false);
@@ -233,7 +255,7 @@ implements java.awt.event.ActionListener {
 
       for (i = 0; i < p_oSelectedSpecies.size(); i++) {
         sSpecies = p_oSelectedSpecies.get(i);
-        iSpecies = m_oPop.getSpeciesCodeFromName(sSpecies.replace(' ', '_'));
+        iSpecies = parent.m_oPop.getSpeciesCodeFromName(sSpecies.replace(' ', '_'));
         for (j = 0; j < p_oSelectedTypes.size(); j++) {
           bDuplicate = false;
 
@@ -242,7 +264,7 @@ implements java.awt.event.ActionListener {
           iType = TreePopulation.getTypeCodeFromName(sType);
 
           for (k = 0; k < m_jAssignedCombosListModel.size(); k++) {
-            oCombo = (ComboDisplay) m_jAssignedCombosListModel.elementAt(k);
+            oCombo = m_jAssignedCombosListModel.elementAt(k);
             if (iSpecies == oCombo.getSpecies() && iType == oCombo.getType()) {
               bDuplicate = true;
             }
@@ -250,7 +272,7 @@ implements java.awt.event.ActionListener {
 
           //Add the new combo
           if (bDuplicate == false) {
-            oCombo = new ComboDisplay(m_oPop, iSpecies, iType);
+            oCombo = new ComboDisplay(parent.m_oPop, iSpecies, iType);
             m_jAssignedCombosListModel.addElement(oCombo);
           }
         }

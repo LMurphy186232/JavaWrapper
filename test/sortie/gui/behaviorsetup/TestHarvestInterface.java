@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
+
 import sortie.ModelTestCase;
 import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.DisturbanceBehaviors;
@@ -16,10 +17,10 @@ import sortie.data.funcgroups.disturbance.HarvestInterface;
 import sortie.data.simpletypes.ModelException;
 import sortie.gui.GUIManager;
 import sortie.gui.MainWindow;
-import sortie.gui.ModelFlowSetup;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorComboEdit;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorEdit;
 import sortie.gui.behaviorsetup.HarvestInterfaceSetup;
+import sortie.gui.modelflowsetup.ModelFlowSetup;
+import sortie.gui.modelflowsetup.DisplayBehaviorComboEdit;
+import sortie.gui.modelflowsetup.DisplayBehaviorEdit;
 
 /**
  * Tests the HarvestInterface interface and file writing.
@@ -46,12 +47,12 @@ public class TestHarvestInterface extends ModelTestCase {
       
       //Add Harvest Interface
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(oBehEdit.m_jBehaviorListModel.size()-1);  //Harvest
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
       //Add species and types
-      DisplayBehaviorComboEdit oEdit2 = oSetup.new DisplayBehaviorComboEdit(oBehEdit, 
+      DisplayBehaviorComboEdit oEdit2 = new DisplayBehaviorComboEdit(oBehEdit, oSetup,
           oBehEdit.m_jEnabledBehaviorListModel.get(0), oManager.getHelpBroker());
       //Add combos
       oEdit2.m_jSpecies.setSelectedIndices(new int[] {1, 3});

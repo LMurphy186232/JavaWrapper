@@ -1,4 +1,4 @@
-package sortie.gui;
+package sortie.gui.modelflowsetup;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -11,10 +11,13 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.TreePopulation;
 import sortie.data.simpletypes.ModelException;
-import sortie.gui.ModelFlowSetup.BehaviorPackager;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorEdit;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorComboEdit;
-import sortie.gui.ModelFlowSetup.DisplayComboEdit;
+import sortie.gui.GUIManager;
+import sortie.gui.MainWindow;
+import sortie.gui.modelflowsetup.ModelFlowSetup;
+import sortie.gui.modelflowsetup.BehaviorPackager;
+import sortie.gui.modelflowsetup.DisplayBehaviorComboEdit;
+import sortie.gui.modelflowsetup.DisplayBehaviorEdit;
+import sortie.gui.modelflowsetup.DisplayComboEdit;
 import junit.framework.TestCase;
 
 public class ModelFlowSetupTest extends TestCase {
@@ -31,7 +34,7 @@ public class ModelFlowSetupTest extends TestCase {
       oManager.inputXMLParameterFile(sFileName);
 
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Verify behaviors
       assertEquals(4, oEdit.m_jEnabledBehaviorListModel.size());
       assertTrue(oEdit.m_jEnabledBehaviorListModel.get(0).toString().equals("GLI Map Creator"));
@@ -79,7 +82,7 @@ public class ModelFlowSetupTest extends TestCase {
       oManager.inputXMLParameterFile(sFileName);
 
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oEdit.m_jBehaviorGroups.setSelectedIndex(4); //Light behaviors
       oEdit.m_jBehaviorList.setSelectedIndex(5);  //GLI light
@@ -88,9 +91,9 @@ public class ModelFlowSetupTest extends TestCase {
       oEdit.actionPerformed(new ActionEvent(this, 0, "OK"));
       
       //Re-open behavior list window
-      oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Open the combo edit window for new GLI light
-      DisplayBehaviorComboEdit oEdit2 = oSetup.new DisplayBehaviorComboEdit(oEdit, 
+      DisplayBehaviorComboEdit oEdit2 = new DisplayBehaviorComboEdit(oEdit, oSetup,
           oEdit.m_jEnabledBehaviorListModel.get(2), oManager.getHelpBroker());
       //Add combos
       oEdit2.m_jSpecies.setSelectedIndices(new int[] {0, 2});
@@ -105,8 +108,8 @@ public class ModelFlowSetupTest extends TestCase {
       oEdit.actionPerformed(new ActionEvent(this, 0, "OK"));
       
       //GLI light should have combos assigned
-      oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
-      oEdit2 = oSetup.new DisplayBehaviorComboEdit(oEdit, 
+      oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      oEdit2 = new DisplayBehaviorComboEdit(oEdit, oSetup, 
           oEdit.m_jEnabledBehaviorListModel.get(2), oManager.getHelpBroker());
       assertEquals(6, oEdit2.m_jAssignedCombosListModel.getSize());
     }
@@ -131,7 +134,7 @@ public class ModelFlowSetupTest extends TestCase {
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
 
       //Test behavior listings for a species/type - Species 1 seedling
-      DisplayComboEdit oEdit = oSetup.new DisplayComboEdit(oSetup, 
+      DisplayComboEdit oEdit = new DisplayComboEdit(oSetup, 
           TreePopulation.SEEDLING, 0);
       assertEquals(3, oEdit.m_jComboBehaviorListModel.size());
       assertTrue(oEdit.m_jComboBehaviorListModel.get(0).toString().equals("Random Browse"));
@@ -444,7 +447,7 @@ public class ModelFlowSetupTest extends TestCase {
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
 
       //Test behavior listings for a species/type - Species 1 seedling
-      DisplayComboEdit oEdit = oSetup.new DisplayComboEdit(oSetup, 
+      DisplayComboEdit oEdit = new DisplayComboEdit(oSetup, 
           TreePopulation.SEEDLING, 0);
       assertEquals(3, oEdit.m_jComboBehaviorListModel.size());
       assertTrue(oEdit.m_jComboBehaviorListModel.get(0).toString().equals("Random Browse"));
@@ -1048,10 +1051,10 @@ public class ModelFlowSetupTest extends TestCase {
       oManager.inputXMLParameterFile(sFileName);
 
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oEd1 = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oEd1 = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
 
       //Test species/type listings for a behavior - dead tree remover
-      DisplayBehaviorComboEdit oEdit = oSetup.new DisplayBehaviorComboEdit(oEd1, 
+      DisplayBehaviorComboEdit oEdit = new DisplayBehaviorComboEdit(oEd1, oSetup, 
           oEd1.m_jEnabledBehaviorListModel.get(15), oManager.getHelpBroker());
       assertEquals(3, oEdit.m_jSpecies.getModel().getSize());
       assertEquals("Species 1", oEdit.m_jSpecies.getModel().getElementAt(0));
@@ -1137,7 +1140,7 @@ public class ModelFlowSetupTest extends TestCase {
       assertEquals(TreePopulation.SNAG, oPkg.mp_oSpeciesTypes.get(7).getType());
 
       //Test species/type listings for a behavior not assigned to trees - condit's omega
-      oEdit = oSetup.new DisplayBehaviorComboEdit(oEd1, 
+      oEdit = new DisplayBehaviorComboEdit(oEd1, oSetup, 
           oEd1.m_jEnabledBehaviorListModel.get(29), oManager.getHelpBroker());
       assertNull(oEdit.m_jSpecies);
       assertNull(oEdit.m_jTypes);
@@ -1162,7 +1165,7 @@ public class ModelFlowSetupTest extends TestCase {
       oManager.inputXMLParameterFile(sFileName);
 
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
 
       //Moving the first behavior up - nothing happens
       oEdit.m_jEnabledBehaviorList.setSelectedIndex(0);
@@ -1547,35 +1550,35 @@ public class ModelFlowSetupTest extends TestCase {
       //Now bring this back to the main behaviors. In order to do this, we'll
       //assign some species/type combos where required
       //Competition Harvest
-      DisplayBehaviorComboEdit oEd1 = oSetup.new DisplayBehaviorComboEdit(oEdit, 
+      DisplayBehaviorComboEdit oEd1 = new DisplayBehaviorComboEdit(oEdit, oSetup, 
           oEdit.m_jEnabledBehaviorListModel.get(0), oManager.getHelpBroker());
       oEd1.m_jSpecies.setSelectedIndices(new int[] {0, 2});
       oEd1.m_jTypes.setSelectedIndices(new int[] {TreePopulation.ADULT});
       oEd1.actionPerformed(new ActionEvent(this, 0, "Add"));
       oEd1.actionPerformed(new ActionEvent(this, 0, "OK"));
       //Average light
-      oEd1 = oSetup.new DisplayBehaviorComboEdit(oEdit, 
+      oEd1 = new DisplayBehaviorComboEdit(oEdit, oSetup, 
           oEdit.m_jEnabledBehaviorListModel.get(2), oManager.getHelpBroker());
       oEd1.m_jSpecies.setSelectedIndices(new int[] {0, 1, 2});
       oEd1.m_jTypes.setSelectedIndices(new int[] {TreePopulation.SEEDLING});
       oEd1.actionPerformed(new ActionEvent(this, 0, "Add"));
       oEd1.actionPerformed(new ActionEvent(this, 0, "OK"));
       //Constant GLI light
-      oEd1 = oSetup.new DisplayBehaviorComboEdit(oEdit, 
+      oEd1 = new DisplayBehaviorComboEdit(oEdit, oSetup, 
           oEdit.m_jEnabledBehaviorListModel.get(3), oManager.getHelpBroker());
       oEd1.m_jSpecies.setSelectedIndices(new int[] {0, 1, 2});
       oEd1.m_jTypes.setSelectedIndices(new int[] {TreePopulation.SAPLING});
       oEd1.actionPerformed(new ActionEvent(this, 0, "Add"));
       oEd1.actionPerformed(new ActionEvent(this, 0, "OK"));
       //GLI light
-      oEd1 = oSetup.new DisplayBehaviorComboEdit(oEdit, 
+      oEd1 = new DisplayBehaviorComboEdit(oEdit, oSetup, 
           oEdit.m_jEnabledBehaviorListModel.get(4), oManager.getHelpBroker());
       oEd1.m_jSpecies.setSelectedIndices(new int[] {0, 1, 2});
       oEd1.m_jTypes.setSelectedIndices(new int[] {TreePopulation.ADULT});
       oEd1.actionPerformed(new ActionEvent(this, 0, "Add"));
       oEd1.actionPerformed(new ActionEvent(this, 0, "OK"));
       //Dead tree remover
-      oEd1 = oSetup.new DisplayBehaviorComboEdit(oEdit, 
+      oEd1 = new DisplayBehaviorComboEdit(oEdit, oSetup, 
           oEdit.m_jEnabledBehaviorListModel.get(6), oManager.getHelpBroker());
       oEd1.m_jSpecies.setSelectedIndices(new int[] {0, 1});
       oEd1.m_jTypes.setSelectedIndices(new int[] {TreePopulation.SNAG});
@@ -1701,7 +1704,7 @@ public class ModelFlowSetupTest extends TestCase {
       oManager.inputXMLParameterFile(sFileName);
 
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
 
       assertEquals(0, oEdit.m_jBehaviorListModel.size());
 
@@ -1742,7 +1745,7 @@ public class ModelFlowSetupTest extends TestCase {
       oManager.inputXMLParameterFile(sFileName);
 
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
 
       //Verify the instantiated behavior order displayed to user
       assertEquals(32, oEdit.m_jEnabledBehaviorListModel.size());

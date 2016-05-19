@@ -17,9 +17,9 @@ import sortie.data.simpletypes.ModelException;
 import sortie.gui.ErrorGUI;
 import sortie.gui.GUIManager;
 import sortie.gui.MainWindow;
-import sortie.gui.ModelFlowSetup;
-import sortie.gui.ModelFlowSetup.DisplayBehaviorEdit;
 import sortie.gui.harvepplant.HarvestEdit.SelectPriorities;
+import sortie.gui.modelflowsetup.ModelFlowSetup;
+import sortie.gui.modelflowsetup.DisplayBehaviorEdit;
 
 /**
  * This tests the harvest entering system. For ease I'm just going to enter
@@ -44,7 +44,7 @@ public class TestHarvestEdit extends ModelTestCase {
 
       //Add Harvest
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(4);  //Harvest
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
@@ -242,7 +242,7 @@ public class TestHarvestEdit extends ModelTestCase {
 
       //Add Harvest
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(4);  //Harvest
       oBehEdit.actionPerformed(new ActionEvent(this, 0, "Add"));      
@@ -319,7 +319,7 @@ public class TestHarvestEdit extends ModelTestCase {
 
       //Add the Harvest behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(4);  //Harvest
@@ -525,7 +525,7 @@ public class TestHarvestEdit extends ModelTestCase {
 
       //Add the Harvest behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(4);  //Harvest
@@ -860,7 +860,7 @@ public class TestHarvestEdit extends ModelTestCase {
 
       //Add the Harvest behavior
       ModelFlowSetup oSetup = new ModelFlowSetup(oManager.getMainWindow(), oManager);
-      DisplayBehaviorEdit oBehEdit = oSetup.new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
+      DisplayBehaviorEdit oBehEdit = new DisplayBehaviorEdit(oSetup, oManager.getHelpBroker());
       //Add behaviors
       oBehEdit.m_jBehaviorGroups.setSelectedIndex(1); //Disturbance behaviors
       oBehEdit.m_jBehaviorList.setSelectedIndex(4);  //Harvest
