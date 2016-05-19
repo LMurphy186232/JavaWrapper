@@ -1,10 +1,14 @@
 package sortie.datavisualizer;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Component;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.jfree.data.xy.DefaultXYZDataset;
@@ -107,11 +111,10 @@ public class GridDataRequest
 
   /**
    * Writes the grid map's data to tab-delimited text.
-   * @param jOut java.io.FileWriter The file to write to.
-   * @throws java.io.IOException if there's a problem writing the file.
+   * @param jOut FileWriter The file to write to.
+   * @throws IOException if there's a problem writing the file.
    */
-  protected void writeChartDataToFile(java.io.FileWriter jOut) throws java.io.
-      IOException {
+  protected void writeChartDataToFile(FileWriter jOut) throws IOException {
 
     if (m_oSeries == null) {
       jOut.write("This grid has no data.");
@@ -316,7 +319,7 @@ public class GridDataRequest
    * @param oLegend Legend.  Ignored.
    * @throws sortie.data.simpletypes.ModelException If there's a problem.
    */
-  void updateChart(Legend oLegend) throws sortie.data.simpletypes.ModelException {
+  void updateChart(Legend oLegend) throws ModelException {
     DefaultXYZDataset oDataset = new DefaultXYZDataset();
     XYZDataItem oItem;
     double[][] p_oSeries = new double[3][m_oSeries.size()];
@@ -341,8 +344,7 @@ public class GridDataRequest
    * @return The chart in a JInternalFrame.
    * @throws sortie.data.simpletypes.ModelException
    */
-  ModelInternalFrame drawChart(Legend oLegend, String sChartTitle) throws
-      sortie.data.simpletypes.ModelException {
+  ModelInternalFrame drawChart(Legend oLegend, String sChartTitle) throws ModelException {
 
     //Add the series to the dataset
     DefaultXYZDataset oDataset = new DefaultXYZDataset();
@@ -379,7 +381,7 @@ public class GridDataRequest
    * @return The set up XYCellRenderer.
    * @throws sortie.data.simpletypes.ModelException if the color values are rejected.
    */
-  private XYCellRenderer getRenderer() throws sortie.data.simpletypes.ModelException {
+  private XYCellRenderer getRenderer() throws ModelException {
 
     XYCellRenderer oRenderer = new XYCellRenderer();
 
@@ -508,8 +510,7 @@ public class GridDataRequest
  * <br>------------------
  * <br>April 28, 2004: Submitted in beta version (LEM)
  */
-class GrayscaleListener
-    implements java.awt.event.ActionListener {
+class GrayscaleListener implements ActionListener {
   GridDataRequest oAdaptee; /**<Window for which to listen for the checkbox click*/
 
   /**
@@ -555,8 +556,8 @@ class GrayscaleListener
           try {
             oAdaptee.setMinimumDisplayValue(new Float(jField.getText()).
                                             floatValue());
-          } catch (java.lang.NumberFormatException oErr) {
-            javax.swing.JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
+          } catch (NumberFormatException oErr) {
+            JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The minimum value is not a recognized number.");
             return;
           }
@@ -566,8 +567,8 @@ class GrayscaleListener
           try {
             oAdaptee.setMinimumDisplayColor(new Integer(jField.getText()).
                                             intValue());
-          } catch (java.lang.NumberFormatException oErr) {
-            javax.swing.JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
+          } catch (NumberFormatException oErr) {
+            JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The minimum grayscale value is not a recognized number.");
             return;
           }
@@ -577,8 +578,8 @@ class GrayscaleListener
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           try {
             oAdaptee.setKneeDisplayValue(new Float(jField.getText()).floatValue());
-          } catch (java.lang.NumberFormatException oErr) {
-            javax.swing.JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
+          } catch (NumberFormatException oErr) {
+            JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The knee value is not a recognized number.");
             return;
           }
@@ -587,8 +588,8 @@ class GrayscaleListener
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           try {
             oAdaptee.setKneeDisplayColor(new Integer(jField.getText()).intValue());
-          } catch (java.lang.NumberFormatException oErr) {
-            javax.swing.JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
+          } catch (NumberFormatException oErr) {
+            JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The knee grayscale value is not a recognized number.");
             return;
           }
@@ -598,8 +599,8 @@ class GrayscaleListener
           try {
             oAdaptee.setMaximumDisplayValue(new Float(jField.getText()).
                                             floatValue());
-          } catch (java.lang.NumberFormatException oErr) {
-            javax.swing.JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
+          } catch (NumberFormatException oErr) {
+            JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The maximum value is not a recognized number.");
             return;
           }
@@ -609,8 +610,8 @@ class GrayscaleListener
           try {
             oAdaptee.setMaximumDisplayColor(new Integer(jField.getText()).
                                             intValue());
-          } catch (java.lang.NumberFormatException oErr) {
-            javax.swing.JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
+          } catch (NumberFormatException oErr) {
+            JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The maximum grayscale value is not a recognized number.");
             return;
           }
@@ -622,7 +623,7 @@ class GrayscaleListener
     try {
       oAdaptee.updateChart(null);
     }
-    catch (sortie.data.simpletypes.ModelException oErr) {
+    catch (ModelException oErr) {
     }
   }
 }

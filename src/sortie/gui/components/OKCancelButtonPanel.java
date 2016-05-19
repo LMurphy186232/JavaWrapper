@@ -2,9 +2,15 @@ package sortie.gui.components;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
+
+import java.awt.Color;
 import java.awt.FlowLayout;
+
 import javax.swing.BorderFactory;
+
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
 import javax.help.HelpBroker;
 import javax.help.CSH;
 
@@ -66,7 +72,7 @@ public class OKCancelButtonPanel
     jOKButton.setFont(new SortieFont());
     jOKButton.setActionCommand("OK");
     jOKButton.addActionListener(oListener);
-    jOKButton.setMnemonic(java.awt.event.KeyEvent.VK_O);
+    jOKButton.setMnemonic(KeyEvent.VK_O);
     add(jOKButton);
 
     //Cancel button
@@ -75,7 +81,7 @@ public class OKCancelButtonPanel
       jCancelButton.setFont(new SortieFont());
       jCancelButton.setActionCommand("Cancel");
       jCancelButton.addActionListener(oListener);
-      jCancelButton.setMnemonic(java.awt.event.KeyEvent.VK_C);
+      jCancelButton.setMnemonic(KeyEvent.VK_C);
       add(jCancelButton);
     }
 
@@ -83,13 +89,13 @@ public class OKCancelButtonPanel
     if (oHelpBroker != null) {
       JButton jHelpButton = new JButton("Help");
       jHelpButton.setFont(new SortieFont());
-      jHelpButton.addActionListener(new CSH.DisplayHelpFromSource(oHelpBroker));
+      jHelpButton.addActionListener(new CSH.DisplayHelpFromSource(oHelpBroker.getHelpSet(), "javax.help.SecondaryWindow",
+          "mainSW"));
       CSH.setHelpIDString(jHelpButton, sHelpID);
-      jHelpButton.setMnemonic(java.awt.event.KeyEvent.VK_H);
+      jHelpButton.setMnemonic(KeyEvent.VK_H);
       add(jHelpButton);
     }
 
-    setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-                                              java.awt.Color.BLACK));
+    setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.BLACK));
   }
 }

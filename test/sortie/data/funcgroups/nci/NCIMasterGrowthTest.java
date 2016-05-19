@@ -1603,14 +1603,14 @@ public class NCIMasterGrowthTest extends ModelTestCase {
     oOut.write("<nnxbVal species=\"Species_1\">1.07</nnxbVal>");
     oOut.write("<nnxbVal species=\"Species_2\">3.6</nnxbVal>");
     oOut.write("</nciNitrogenXb>");
-    oOut.write("<nciBBDInfectionEffectA>");
-    oOut.write("<nbieaVal species=\"Species_1\">0.1</nbieaVal>");
-    oOut.write("<nbieaVal species=\"Species_2\">0.2</nbieaVal>");
-    oOut.write("</nciBBDInfectionEffectA>");
-    oOut.write("<nciBBDInfectionEffectB>");
-    oOut.write("<nbiebVal species=\"Species_1\">0.4</nbiebVal>");
-    oOut.write("<nbiebVal species=\"Species_2\">0.7</nbiebVal>");
-    oOut.write("</nciBBDInfectionEffectB>");
+    oOut.write("<nciInfectionEffectA>");
+    oOut.write("<nieaVal species=\"Species_1\">0.1</nieaVal>");
+    oOut.write("<nieaVal species=\"Species_2\">0.2</nieaVal>");
+    oOut.write("</nciInfectionEffectA>");
+    oOut.write("<nciInfectionEffectB>");
+    oOut.write("<niebVal species=\"Species_1\">0.4</niebVal>");
+    oOut.write("<niebVal species=\"Species_2\">0.7</niebVal>");
+    oOut.write("</nciInfectionEffectB>");
     oOut.write("</NCIMasterGrowth1>"); 
     oOut.write("</paramFile>");
 

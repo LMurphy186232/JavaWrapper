@@ -1,8 +1,10 @@
 package sortie.datavisualizer;
 
 import org.jfree.chart.renderer.xy.*;
+
 import java.awt.*;
 import java.awt.geom.*;
+
 import org.jfree.chart.plot.*;
 import org.jfree.chart.axis.*;
 import org.jfree.data.xy.*;
@@ -10,6 +12,7 @@ import org.jfree.ui.RectangleEdge;
 import org.jfree.chart.entity.EntityCollection;
 import org.jfree.chart.labels.XYZToolTipGenerator;
 
+import sortie.data.simpletypes.ModelException;
 import sortie.gui.ErrorGUI;
 
 /**
@@ -101,7 +104,7 @@ public class XYCellRenderer
       setKneeColor(128, 128, 128, 0);
       //I know I'm doing it right, so I'm not going to throw the exception
       //from here.  This gets JBuilder off my back.
-    } catch (sortie.data.simpletypes.ModelException oErr) {;}
+    } catch (ModelException oErr) {;}
   }
 
   /**
@@ -147,7 +150,7 @@ public class XYCellRenderer
 
     //Find the coordinates of the rectangle that defines this grid cell -
     //because of the way Java grid display coordinates work, this should be the
-    //upper left corner (NE)
+    //upper left corner (NW)
     float fOriginX = (float) iX * m_fXCellSize;
     float fOriginY = (float) (iY + 1) * m_fYCellSize;
 
@@ -166,8 +169,8 @@ public class XYCellRenderer
         m_fYCellSize, dataArea, oYEdge);
 
     //Find width and height of the rectangle to render
-    double fWidth = java.lang.Math.abs(fTranslatedXEnd - fTranslatedX);
-    double fHeight = java.lang.Math.abs(fTranslatedYEnd - fTranslatedY);
+    double fWidth = Math.abs(fTranslatedXEnd - fTranslatedX);
+    double fHeight = Math.abs(fTranslatedYEnd - fTranslatedY);
 
     //Define the rectangle that is the cell
     Rectangle2D jPlotCell = new Rectangle2D.Double(fTranslatedX, fTranslatedY,

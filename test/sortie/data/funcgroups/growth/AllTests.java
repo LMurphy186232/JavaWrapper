@@ -25,7 +25,6 @@ public class AllTests {
     suite.addTestSuite(LognormalTest.class);
     suite.addTestSuite(MichMenNegTest.class);
     suite.addTestSuite(MichMenPhotoinhibitionTest.class);
-    suite.addTestSuite(NCIMasterQuadratTest.class);
     suite.addTestSuite(PowerHeightTest.class);
     suite.addTestSuite(PRSemiStochDiamOnlyTest.class);
     suite.addTestSuite(PRStormBiLevelTest.class);

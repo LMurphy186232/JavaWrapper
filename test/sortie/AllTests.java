@@ -18,6 +18,7 @@ public class AllTests {
     suite.addTest(sortie.data.funcgroups.light.AllTests.suite());
     suite.addTest(sortie.data.funcgroups.management.AllTests.suite());
     suite.addTest(sortie.data.funcgroups.mortality.AllTests.suite());
+    suite.addTest(sortie.data.funcgroups.nci.AllTests.suite());
     suite.addTest(sortie.data.funcgroups.output.AllTests.suite());
     suite.addTest(sortie.data.funcgroups.planting.AllTests.suite());
     suite.addTest(sortie.data.funcgroups.seedpredation.AllTests.suite());
@@ -26,7 +27,9 @@ public class AllTests {
     suite.addTest(sortie.data.funcgroups.substrate.AllTests.suite());
     suite.addTest(sortie.data.simpletypes.AllTests.suite());
     suite.addTest(sortie.gui.AllTests.suite());
+    suite.addTest(sortie.gui.behaviorsetup.AllTests.suite());
     suite.addTest(sortie.gui.harvepplant.AllTests.suite());
+    suite.addTest(sortie.gui.modelflowsetup.AllTests.suite());
     suite.addTestSuite(sortie.SynthesisTest.class);
     //$JUnit-END$
     return suite;

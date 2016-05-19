@@ -662,6 +662,8 @@ public class NCIMasterBase extends Behavior {
    * this does not use individuals, only those effects that do not require
    * target diameters will be listed.
    * @param p_effects Effects list from which to extract choices. 
+   * @param all If true, all effects are added; if false, only those effects 
+   * that do not require target diameters will be listed.
    * @return List of effects choices, or null if there are none.
    */
   private String[] getEffectChoices(ArrayList<NCIEffect> p_effects, boolean all) {
@@ -759,6 +761,8 @@ public class NCIMasterBase extends Behavior {
   /**
    * Sets the choice of some generic effect option, and updates the effects list
    * accordingly.
+   * @param p_choices Array of choices from which choice is being made. 
+   * @param setChoice Number of choice.
    * @param sChoice Descriptor of choice.
    * @throws ModelException if the choice is not valid.
    */
@@ -801,7 +805,9 @@ public class NCIMasterBase extends Behavior {
   /**
    * Sets the choice of some generic effect option, and updates the effects list
    * accordingly.
-   * @param iChoice Effect number of choice.
+   * @param p_choices Array of choices from which choice is being made. 
+   * @param setChoice Number of choice.
+   * @param iChoice Number of choice, again?.
    * @throws ModelException if the choice is not valid.
    */
   private void setEffect(ArrayList<NCIEffect> p_choices, ModelInt setChoice, int iChoice) throws ModelException {

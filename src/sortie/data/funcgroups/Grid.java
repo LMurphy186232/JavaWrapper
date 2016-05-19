@@ -1151,7 +1151,8 @@ public class Grid {
 
   /**
    * Sets the list of data members. This ensures that maps are updated appropriately.
-   * @param p_oNewDataMembers The list of data members.
+   * @param p_oMembers The list of data members to set. Can be null.
+   * @param p_oPackageMembers The list of package members to set. Can be null.
    */
   public void setDataMembers(DataMember[] p_oMembers, DataMember[] p_oPackageMembers) throws ModelException {
        

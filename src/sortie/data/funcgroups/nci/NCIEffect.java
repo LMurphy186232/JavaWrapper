@@ -153,6 +153,8 @@ public class NCIEffect {
    * Constructor.
    * @param oClass Behavior class.
    * @param sDescriptor The name of the behavior for the user.
+   * @param iEffectNum The number of the effect being assigned.
+   * @param bRequiresDiameter Whether this effect requires a target diameter to function.
    */
   public NCIEffect(Class<? extends Behavior> oClass, String sDescriptor, int iEffectNum, boolean bRequiresDiameter) {
         

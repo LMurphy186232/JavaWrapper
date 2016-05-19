@@ -8,8 +8,8 @@ public class AllTests {
   public static Test suite() {
     TestSuite suite = new TestSuite(AllTests.class.getName());
     //$JUnit-BEGIN$
-    suite.addTestSuite(DensDepInfestationTest.class);
     suite.addTestSuite(CompetitionHarvestTest.class);
+    suite.addTestSuite(DensDepInfestationTest.class);
     suite.addTestSuite(EpisodicMortalityTest.class);
     suite.addTestSuite(GeneralizedHarvestRegimeTest.class);
     suite.addTestSuite(HarvestInterfaceTest.class);

@@ -132,6 +132,7 @@ public class DisplayWindowBase
    * @param oDisturbanceBehaviors DisturbanceBehaviors object to exchange data with.
    * @param oPlantBehaviors PlantingBehaviors object to exchange data with.
    * @param sWindowTitle Title for the window.
+   * @param iWinType A value from the enum windowType saying what kind of window this is.
    * @throws ModelException passing through from called methods.
    */
   public DisplayWindowBase(JFrame oOwner,
@@ -301,6 +302,7 @@ public class DisplayWindowBase
 
   /**
    * Gets information on the plot and the grids.
+   * @param iWinType A value from the enum windowType saying what kind of window this is.
    * @throws ModelException passing through from called methods.
    */
   protected void getPlotAndGridInfo(windowType iWinType) throws ModelException {

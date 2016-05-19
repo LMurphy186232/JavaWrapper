@@ -49,6 +49,7 @@ import sortie.data.simpletypes.ModelException;
 import sortie.gui.behaviorsetup.ParameterEdit;
 import sortie.gui.components.ModelFileChooser;
 import sortie.gui.components.XMLFileFilter;
+import sortie.gui.modelflowsetup.ModelFlowSetup;
 import sortie.sax.ParameterFileParser;
 import sortie.tools.parfileupdater.OldParFileParser;
 
@@ -662,7 +663,7 @@ public class GUIManager {
       //Write the opening tag
       jOut.write(
           "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
-      jOut.write("<paramFile fileCode=\"07020101\">");
+      jOut.write("<paramFile fileCode=\"07030101\">");
 
       //Write the plot info
       oPlot.writeXML(jOut, oPop);

@@ -31,7 +31,7 @@ import sortie.gui.GUIManager;
  * <li><i>X0</i> is a parameter</li>
  * <li><i>Xb</i> is a parameter</li>
  * <li><i>T</i> is temperature in K</li>
- * </ul
+ * </ul>
  * 
  * This is not meant to be part of the growth behaviors collection, but to be 
  * accessed by NCI.
