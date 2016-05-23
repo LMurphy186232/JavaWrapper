@@ -323,16 +323,20 @@ public class GridDataRequest
     DefaultXYZDataset oDataset = new DefaultXYZDataset();
     XYZDataItem oItem;
     double[][] p_oSeries = new double[3][m_oSeries.size()];
+    double fMin = Double.POSITIVE_INFINITY, fMax = Double.NEGATIVE_INFINITY;
     int i;
     for (i = 0; i < m_oSeries.size(); i++) {
       oItem = m_oSeries.get(i);
       p_oSeries[0][i] = oItem.fX;
       p_oSeries[1][i] = oItem.fY;
       p_oSeries[2][i] = oItem.fZ;
+      
+      fMin = Math.min(fMin, oItem.fZ);
+      fMax = Math.max(fMax, oItem.fZ);
     }
     oDataset.addSeries("1", p_oSeries);
 
-    DataGrapher.updateGridMap(oDataset, m_oChartFrame, oLegend,
+    DataGrapher.updateGridMap(oDataset, fMin, fMax, m_oChartFrame, oLegend,
                               getRenderer());
 
   }
@@ -350,13 +354,18 @@ public class GridDataRequest
     DefaultXYZDataset oDataset = new DefaultXYZDataset();
     XYZDataItem oItem;
     double[][] p_oSeries = new double[3][m_oSeries.size()];
+    double fMin = Double.POSITIVE_INFINITY, fMax = Double.NEGATIVE_INFINITY;
     int i;
     for (i = 0; i < m_oSeries.size(); i++) {
       oItem = m_oSeries.get(i);
       p_oSeries[0][i] = oItem.fX;
       p_oSeries[1][i] = oItem.fY;
       p_oSeries[2][i] = oItem.fZ;
-    }
+      
+      fMin = Math.min(fMin, oItem.fZ);
+      fMax = Math.max(fMax, oItem.fZ);
+    }    
+    
     oDataset.addSeries("1", p_oSeries);
 
     m_oChartFrame = DataGrapher.drawGridMap(oDataset, "East ->", "",
@@ -365,6 +374,7 @@ public class GridDataRequest
                                             getXPlotLength(),
                                             (int) m_oManager.
                                             getYPlotLength(),
+                                            fMin, fMax,
                                             oLegend, getRenderer(), this);
     return m_oChartFrame;
 

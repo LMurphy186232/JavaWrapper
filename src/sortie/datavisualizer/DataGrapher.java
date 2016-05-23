@@ -3,13 +3,17 @@ package sortie.datavisualizer;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Shape;
 import java.awt.SystemColor;
 import java.awt.geom.Ellipse2D;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
+
 import javax.swing.*;
 
 import org.jfree.chart.*;
@@ -25,6 +29,7 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.axis.NumberTickUnit;
 
 import sortie.data.simpletypes.ModelException;
+import sortie.gui.components.SortieFont;
 
 /**
  * Objects of this class can create graphs of various kinds, given data.  The
@@ -340,6 +345,8 @@ public class DataGrapher {
   /**
    * Updates a grid map with a fresh dataset.
    * @param oDataset The new dataset.
+   * @param fMin Minimum dataset value, to be displayed.
+   * @param fMax Maximum dataset value, to be displayed.
    * @param jFrame The window in which to update the chart.
    * @param oLegend The legend for this map.
    * @param oRenderer The XYCellRenderer, or null if the defaults are OK.
@@ -347,12 +354,13 @@ public class DataGrapher {
    * to keep the grayscale values the same.
    * @throws ModelException Passing through underlying exceptions.
    */
-  public static void updateGridMap(XYZDataset oDataset, JInternalFrame jFrame,
+  public static void updateGridMap(XYZDataset oDataset, double fMin, double fMax, 
+                                   JInternalFrame jFrame,
                                    Legend oLegend, XYCellRenderer oRenderer) throws
       ModelException {
 
     Dimension jPreferredSize = new Dimension(0, 0);
-    java.text.NumberFormat oFormat = java.text.NumberFormat.getInstance();
+    NumberFormat oFormat = NumberFormat.getInstance();
     oFormat.setMaximumFractionDigits(3);
     oFormat.setGroupingUsed(false);
     String sName;
@@ -396,7 +404,10 @@ public class DataGrapher {
     //Update the grayscale values
     JPanel jGrayscalePanel = (JPanel) findNamedComponent(jContentPane,
         "jGrayscalePanel");
+    JPanel jNorthPanel = (JPanel) findNamedComponent(jContentPane,
+        "jNorthPanel");
     JTextField jField = null;
+    JLabel jLabel = null;
     for (i = 0; i < jGrayscalePanel.getComponentCount(); i++) {
       sName = jGrayscalePanel.getComponent(i).getName();
       if (sName != null) {
@@ -423,9 +434,15 @@ public class DataGrapher {
         else if (sName.equals("jMaxPix")) {
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           jField.setText(String.valueOf(oRenderer.getMaximumColor(0).getBlue()));
-        }
-      }
+        }        
+      }    
     }
+    jLabel = (JLabel) findNamedComponent(jNorthPanel, "DatasetMin");
+    jLabel.setText(oFormat.format(fMin));
+    jLabel = (JLabel) findNamedComponent(jNorthPanel, "DatasetMax");
+    jLabel.setText(oFormat.format(fMax));
+    
+    
     jFrame.setContentPane(jContentPane);
   }
 
@@ -539,7 +556,7 @@ public class DataGrapher {
     jMenuBar.setBackground(java.awt.SystemColor.control);
     JMenu jMenuFile = new JMenu();
     jMenuFile.setText("File");
-    jMenuFile.setFont(new sortie.gui.components.SortieFont());
+    jMenuFile.setFont(new SortieFont());
     jMenuFile.setMnemonic(java.awt.event.KeyEvent.VK_F);
     jMenuFile.setBackground(java.awt.SystemColor.control);
     JMenuItem jSave = new JMenuItem("Save chart data to file",
@@ -547,7 +564,7 @@ public class DataGrapher {
     jSave.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S,
                                                 java.awt.event.ActionEvent.
                                                 CTRL_MASK));
-    jSave.setFont(new sortie.gui.components.SortieFont());
+    jSave.setFont(new SortieFont());
     jSave.setActionCommand("WriteChartData");
     jSave.addActionListener(oListener);
     jSave.setBackground(java.awt.SystemColor.control);
@@ -561,7 +578,7 @@ public class DataGrapher {
           KeyEvent.VK_T,
           java.awt.event.ActionEvent.
           CTRL_MASK));
-      jSave.setFont(new sortie.gui.components.SortieFont());
+      jSave.setFont(new SortieFont());
       jSave.setActionCommand("WriteWholeRunChartData");
       jSave.addActionListener(oListener);
       jSave.setBackground(java.awt.SystemColor.control);
@@ -737,6 +754,8 @@ public class DataGrapher {
    * @param sTitle The window title for the chart.
    * @param iXLength Length of the plot in the X direction, in meters
    * @param iYLength Length of the plot in the Y direction, in meters
+   * @param fMin Minimum dataset value, to be displayed.
+   * @param fMax Maximum dataset value, to be displayed.
    * @param oLegend The legend for this chart.
    * @param oRenderer The XYCellRenderer, or null if the defaults are OK.
    * @param oRequest The GridDataRequest object that owns the frame.
@@ -747,6 +766,7 @@ public class DataGrapher {
                                            String sXAxisLabel,
                                            String sYAxisLabel, String sTitle,
                                            int iXLength, int iYLength,
+                                           double fMin, double fMax,
                                            Legend oLegend,
                                            XYCellRenderer oRenderer,
                                            GridDataRequest oRequest) throws
@@ -756,65 +776,91 @@ public class DataGrapher {
 
     //Create the panel that contains the grayscale control values - we'll put
     //it down the left side
-    java.text.NumberFormat oFormat = java.text.NumberFormat.getInstance();
+    NumberFormat oFormat = NumberFormat.getInstance();
     oFormat.setMaximumFractionDigits(3);
     oFormat.setGroupingUsed(false);
+    
+    // Top panel - max/min display plus grayscale controls
+    JPanel jNorthPanel = new JPanel();
+    jNorthPanel.setName("jNorthPanel");
+    jNorthPanel.setLayout(new BoxLayout(jNorthPanel, BoxLayout.PAGE_AXIS));
+    JPanel jTempPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    JLabel jLabel = new JLabel("Dataset min:");
+    jLabel.setFont(new SortieFont());
+    jTempPanel.add(jLabel);
+    jLabel = new JLabel(oFormat.format(fMin));
+    jLabel.setName("DatasetMin");
+    jLabel.setFont(new SortieFont());
+    jTempPanel.add(jLabel);
+    jNorthPanel.add(jTempPanel);
+    jTempPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    jLabel = new JLabel("Dataset max:");
+    jLabel.setFont(new SortieFont());
+    jTempPanel.add(jLabel);
+    jLabel = new JLabel(oFormat.format(fMax));
+    jLabel.setName("DatasetMax");
+    jLabel.setFont(new SortieFont());
+    jTempPanel.add(jLabel);
+    jNorthPanel.add(jTempPanel);
+    
+    
     JPanel jGrayscalePanel = new JPanel();
     jGrayscalePanel.setName("jGrayscalePanel");
     jGrayscalePanel.setLayout(new GridLayout(4, 3));
-    JLabel jLabel = new JLabel("");
-    jLabel.setFont(new sortie.gui.components.SortieFont());
+    jLabel = new JLabel("");
+    jLabel.setFont(new SortieFont());
     jGrayscalePanel.add(jLabel);
     jLabel = new JLabel("Value");
-    jLabel.setFont(new sortie.gui.components.SortieFont());
+    jLabel.setFont(new SortieFont());
     jGrayscalePanel.add(jLabel);
     jLabel = new JLabel("Brightness");
-    jLabel.setFont(new sortie.gui.components.SortieFont());
+    jLabel.setFont(new SortieFont());
     jGrayscalePanel.add(jLabel);
     jLabel = new JLabel("Min");
-    jLabel.setFont(new sortie.gui.components.SortieFont());
+    jLabel.setFont(new SortieFont());
     jGrayscalePanel.add(jLabel);
     JTextField jMinValue = new JTextField(oFormat.format(oRenderer.getMinimumValue()));
     jMinValue.setName("jMinValue");
-    jMinValue.setFont(new sortie.gui.components.SortieFont());
+    jMinValue.setFont(new SortieFont());
     jGrayscalePanel.add(jMinValue);
     JTextField jMinPix = new JTextField(String.valueOf(oRenderer.
         getMinimumColor(0).getBlue()));
-    jMinPix.setFont(new sortie.gui.components.SortieFont());
+    jMinPix.setFont(new SortieFont());
     jMinPix.setName("jMinPix");
     jGrayscalePanel.add(jMinPix);
     jLabel = new JLabel("Knee");
-    jLabel.setFont(new sortie.gui.components.SortieFont());
+    jLabel.setFont(new SortieFont());
     jGrayscalePanel.add(jLabel);
     JTextField jKneeValue = new JTextField(oFormat.format(oRenderer.
         getKneeValue()));
-    jKneeValue.setFont(new sortie.gui.components.SortieFont());
+    jKneeValue.setFont(new SortieFont());
     jKneeValue.setName("jKneeValue");
     jGrayscalePanel.add(jKneeValue);
     JTextField jKneePix = new JTextField(String.valueOf(oRenderer.getKneeColor(
         0).getBlue()));
-    jKneePix.setFont(new sortie.gui.components.SortieFont());
+    jKneePix.setFont(new SortieFont());
     jKneePix.setName("jKneePix");
     jGrayscalePanel.add(jKneePix);
     jLabel = new JLabel("Max");
-    jLabel.setFont(new sortie.gui.components.SortieFont());
+    jLabel.setFont(new SortieFont());
     jGrayscalePanel.add(jLabel);
     JTextField jMaxValue = new JTextField(oFormat.format(oRenderer.
         getMaximumValue()));
     jMaxValue.setName("jMaxValue");
-    jMaxValue.setFont(new sortie.gui.components.SortieFont());
+    jMaxValue.setFont(new SortieFont());
     jGrayscalePanel.add(jMaxValue);
     JTextField jMaxPix = new JTextField(String.valueOf(oRenderer.
         getMaximumColor(0).getBlue()));
     jMaxPix.setName("jMaxPix");
-    jMaxPix.setFont(new sortie.gui.components.SortieFont());
+    jMaxPix.setFont(new SortieFont());
     jGrayscalePanel.add(jMaxPix);
     jGrayscalePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    jNorthPanel.add(jGrayscalePanel);
 
     //Create a panel for an update button and instructions - put the button at
     //NORTH so it stays right under the brightness values
     JButton jUpdateButton = new JButton("Update");
-    jUpdateButton.setFont(new sortie.gui.components.SortieFont());
+    jUpdateButton.setFont(new SortieFont());
     jUpdateButton.addActionListener(new GrayscaleListener(oRequest));
     JTextArea jInstructions = new JTextArea("Color lightens linearly with "+
                                             "map value from min to knee, and "+
@@ -824,7 +870,7 @@ public class DataGrapher {
     jInstructions.setEditable(false);
     jInstructions.setLineWrap(true);
     jInstructions.setWrapStyleWord(true);
-    jInstructions.setFont(new sortie.gui.components.SortieFont());
+    jInstructions.setFont(new SortieFont());
     jInstructions.setBackground(SystemColor.control);
 
     JPanel jButtonPanel = new JPanel(new BorderLayout());
@@ -837,7 +883,7 @@ public class DataGrapher {
     //stay the right size
     JPanel jControlPanel = new JPanel(new BorderLayout());
     jControlPanel.setName("jControlPanel");
-    jControlPanel.add(jGrayscalePanel, BorderLayout.NORTH);
+    jControlPanel.add(jNorthPanel, BorderLayout.NORTH);
     jControlPanel.add(jButtonPanel, BorderLayout.CENTER);
 
     //Create the chart panel
@@ -1215,7 +1261,7 @@ public class DataGrapher {
     //Figure out how big to make our species column
     iSpeciesColumnWidth = 0;
     JLabel jTempLabel = new JLabel();
-    jTempLabel.setFont(new sortie.gui.components.SortieFont());
+    jTempLabel.setFont(new SortieFont());
     for (i = 0; i < iNumSpecies; i++) {
       jTempLabel.setText(oLegend.getSpeciesDisplayName(i));
       if (iSpeciesColumnWidth < jTempLabel.getPreferredSize().getWidth()) {
@@ -1277,11 +1323,11 @@ public class DataGrapher {
       JTable jTable = new JTable(p_oAllData[i], p_sColumnNames[i]);
       jTable.setGridColor(Color.WHITE);
       jTable.setBackground(Color.WHITE);
-      jTable.setFont(new sortie.gui.components.SortieFont());
+      jTable.setFont(new SortieFont());
       jTable.getColumnModel().getColumn(0).setPreferredWidth(
           iSpeciesColumnWidth);
       jTable.setName(p_sNames[i]);
-      jTable.getTableHeader().setFont(new sortie.gui.components.SortieFont());
+      jTable.getTableHeader().setFont(new SortieFont());
       //Set the cell renderer to right-justify
       javax.swing.table.DefaultTableCellRenderer jRenderer = new javax.swing.table.DefaultTableCellRenderer();
       jRenderer.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -1291,7 +1337,7 @@ public class DataGrapher {
 
       //Put the table into the larger panel
       jTempLabel = new JLabel(p_sLabels[i]);
-      jTempLabel.setFont(new sortie.gui.components.SortieFont());
+      jTempLabel.setFont(new SortieFont());
       p_jTablePanels[i] = new JPanel(new java.awt.BorderLayout());
       p_jTablePanels[i].setName("table_panel_" + i);
       p_jTablePanels[i].add(jTempLabel, java.awt.BorderLayout.NORTH);
@@ -1325,7 +1371,7 @@ public class DataGrapher {
     //Wrap with a legend
     JPanel jTempPanel = new JPanel(new java.awt.BorderLayout());
     jTempLabel = new JLabel("Density is in #/ha, basal area in sq. m./ha");
-    jTempLabel.setFont(new sortie.gui.components.SortieFont());
+    jTempLabel.setFont(new SortieFont());
     jTempPanel.add(jTempLabel, java.awt.BorderLayout.NORTH);
     jTempPanel.add(jScroller);
 
@@ -1446,9 +1492,9 @@ public class DataGrapher {
     }
 
     //Only search if the parent component is a container of some kind
-    if (jParent instanceof java.awt.Container) {
-      java.awt.Container jContainer = (java.awt.Container) jParent;
-      java.awt.Component jChild;
+    if (jParent instanceof Container) {
+      Container jContainer = (Container) jParent;
+      Component jChild;
       int i, iNumComponents = jContainer.getComponentCount();
 
       for (i = 0; i < iNumComponents; i++) {
