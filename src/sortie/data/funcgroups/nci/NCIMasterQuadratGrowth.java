@@ -42,7 +42,7 @@ public class NCIMasterQuadratGrowth extends NCIMasterBase {
       new String[] { "None", 
                      "Normal",
                      "Lognormal"},
-       "Growth Increment Adjustment PDF", "gr_stochGrowthMethod");
+       "Growth Increment Adjustment PDF", "gr_stochGrowthMethod");  
   
   /**
    * Constructor.
@@ -91,29 +91,61 @@ public class NCIMasterQuadratGrowth extends NCIMasterBase {
     DataMember[] p_oDataMembers = new DataMember[iNumSpecies];
     String sGridName = "NCI Quadrat Growth";
     
-    //If cell size changes have been made, preserve 'em
-    oNewGrid = m_oManager.getGridByName(sGridName);
-    if (oNewGrid == null) {
-      fXCellLength = 2;
-      fYCellLength = 2;
-    } else {
-      fXCellLength = oNewGrid.getXCellLength();
-      fYCellLength = oNewGrid.getYCellLength();
-    }    
-
     // The accessible data members are a value for each species
     for (i = 0; i < iNumSpecies; i++) {
       p_oDataMembers[i] = new DataMember("Growth for "
           + p_sSpeciesNames[i].replace('_', ' '), "growth_" + i,
           DataMember.FLOAT);
     }
-    
-    // Create our grid
-    oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
+        
+    oNewGrid = m_oManager.getGridByName(sGridName);
+    if (oNewGrid == null) {
+      
+      // Our grid didn't alreay exist. Add it
+      fXCellLength = 2;
+      fYCellLength = 2;
+      
+      // Create our grid
+      oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
 
-    // Assign the grid to the Weibull climate quadrat growth behaviors
-    oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid, true);
+      // Assign the grid to the quadrat growth behaviors
+      oNewGrid = m_oManager.addGrid(oNewGrid, true);
+      addGrid(oNewGrid, true);
+      
+    } else {
+      
+      // This grid already did exist. Check the data members to see if they're right.
+      // If they don't match what we expect, there might have been a change of species
+      // and we'll recreate the grid. If they match, don't make a new grid because
+      // there are pointers to this grid already possessed by other behaviors
+      
+      DataMember[] p_oExisting = oNewGrid.getDataMembers();
+      boolean same = p_oExisting.length == p_oDataMembers.length;
+      
+      if (same) {
+        for (i = 0; i < p_oExisting.length; i++) {
+          if (p_oExisting[i].equals(p_oDataMembers[i]) == false) {
+            same = false;
+            break;
+          }
+        }
+      }
+      
+      if (same) {
+        addGrid(oNewGrid, true);
+      } else {
+        //If cell size changes have been made, preserve 'em
+        fXCellLength = oNewGrid.getXCellLength();
+        fYCellLength = oNewGrid.getYCellLength();
+        
+        // Create our grid
+        oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
+
+        // Assign the grid to the quadrat growth behaviors
+        oNewGrid = m_oManager.addGrid(oNewGrid, true);
+        addGrid(oNewGrid, true);
+      }
+    }       
   }
   
   /**

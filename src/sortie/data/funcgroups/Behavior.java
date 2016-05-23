@@ -464,8 +464,8 @@ abstract public class Behavior {
    * 
    * @param oGrid Grid to add.
    * @param bReplace If true, this grid replaces any existing grids with this
-   * name. If false, if it has the same name as
-   * another grid object, the first grid is returned and this grid is dropped.
+   * name. If false, if it has the same name as another grid object, the 
+   * first grid is used and this grid is dropped.
    */
   public void addGrid(Grid oGrid, boolean bReplace) {
 

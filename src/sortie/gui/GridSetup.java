@@ -13,7 +13,13 @@ import sortie.gui.components.SortieFont;
 import sortie.gui.components.TextFileFilter;
 
 
+
+
+
 import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,7 +41,7 @@ import java.util.ArrayList;
 
 public class GridSetup
     extends JDialog
-    implements java.awt.event.ActionListener {
+    implements ActionListener {
   
   
 
@@ -72,7 +78,7 @@ public class GridSetup
    * @param jParent Frame in which to display this dialog.
    * @param oManager GUIManager object.
    */
-  public GridSetup(java.awt.Frame jParent, GUIManager oManager) {
+  public GridSetup(Frame jParent, GUIManager oManager) {
     super(jParent, "Grid Setup", true);
     buildGUI(oManager);
 
@@ -215,7 +221,7 @@ public class GridSetup
    * Called when the combo box is chosen or the buttons are pushed.
    * @param oEvent Event which triggered this function.
    */
-  public void actionPerformed(java.awt.event.ActionEvent oEvent) {
+  public void actionPerformed(ActionEvent oEvent) {
     if (oEvent.getSource().equals(m_jGridListCombo)) {
       int iSelectedIndex = m_jGridListCombo.getSelectedIndex();
       if (iSelectedIndex < 1) {

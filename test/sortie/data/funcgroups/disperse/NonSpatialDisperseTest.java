@@ -50,7 +50,7 @@ public class NonSpatialDisperseTest extends ModelTestCase {
     catch (ModelException oErr) {
       fail("Parameter file read failed with message " + oErr.getMessage());
     }
-    catch (java.io.IOException oE) {
+    catch (IOException oE) {
       fail("Caught IOException.  Message: " + oE.getMessage());
     } finally {
       new File(sNewFileName).delete();
@@ -86,7 +86,7 @@ public class NonSpatialDisperseTest extends ModelTestCase {
     catch (ModelException oErr) {
       fail("Caught error with message " + oErr.getMessage());
     }
-    catch (java.io.IOException oE) {
+    catch (IOException oE) {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
   }
@@ -138,7 +138,7 @@ public class NonSpatialDisperseTest extends ModelTestCase {
     catch (ModelException oErr) {
       fail("Disperse validation failed with message " + oErr.getMessage());
     }
-    catch (java.io.IOException oE) {
+    catch (IOException oE) {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
   }
@@ -189,7 +189,7 @@ public class NonSpatialDisperseTest extends ModelTestCase {
     catch (ModelException oErr) {
       fail("XML volume reading test failed with message " + oErr.getMessage());
     }
-    catch (java.io.IOException oE) {
+    catch (IOException oE) {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
     finally {
@@ -289,7 +289,65 @@ public class NonSpatialDisperseTest extends ModelTestCase {
     catch (ModelException oErr) {
       fail("XML volume reading test failed with message " + oErr.getMessage());
     }
-    catch (java.io.IOException oE) {
+    catch (IOException oE) {
+      fail("Caught IOException.  Message: " + oE.getMessage());
+    }
+    finally {
+      new File(sFileName).delete();
+    }
+  }
+  
+  /**
+   * Tests grid setup for DisperseBehaviors.
+   */
+  public void testGridSetup() {
+    GUIManager oManager = null;
+    String sFileName = null;
+    try {
+      oManager = new GUIManager(null);
+      sFileName = write2DisperseXMLFile();
+      oManager.inputXMLParameterFile(sFileName);
+     
+      //Verify initial file read
+      DisperseBehaviors oDispBeh = oManager.getDisperseBehaviors();
+      ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByParameterFileTag("NonSpatialDisperse");
+      assertEquals(1, p_oDisps.size());
+      NonSpatialDisperse oNSDisperse = (NonSpatialDisperse) p_oDisps.get(0);
+      
+      p_oDisps = oDispBeh.getBehaviorByDisplayName("Non-Gap Spatial Disperse");
+      assertEquals(1, p_oDisps.size());
+      NonGapSpatialDisperse oNGSDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
+            
+      assertEquals(1, oNSDisperse.getNumberOfGrids());      
+      Grid oGrid = oNSDisperse.getGrid(0);
+      assertEquals("Dispersed Seeds", oGrid.getName());
+      assertEquals(4.0, oGrid.getXCellLength(), 0.0001);
+      assertEquals(5.0, oGrid.getYCellLength(), 0.0001);
+      assertEquals(5, oGrid.getDataMembers().length);
+      assertEquals("Number of seeds for Species 1", oGrid.getDataMembers()[0].getDisplayName());
+      assertEquals("Number of seeds for Species 2", oGrid.getDataMembers()[1].getDisplayName());
+      assertEquals("Number of seeds for Species 3", oGrid.getDataMembers()[2].getDisplayName());
+      assertEquals("Gap status", oGrid.getDataMembers()[3].getDisplayName());
+      assertEquals("Adult tree count", oGrid.getDataMembers()[4].getDisplayName());
+      
+      
+      assertEquals(1, oNGSDisperse.getNumberOfGrids());      
+      oGrid = oNGSDisperse.getGrid(0);
+      assertEquals("Dispersed Seeds", oGrid.getName());
+      assertEquals(4.0, oGrid.getXCellLength(), 0.0001);
+      assertEquals(5.0, oGrid.getYCellLength(), 0.0001);
+      assertEquals(5, oGrid.getDataMembers().length);
+      assertEquals("Number of seeds for Species 1", oGrid.getDataMembers()[0].getDisplayName());
+      assertEquals("Number of seeds for Species 2", oGrid.getDataMembers()[1].getDisplayName());
+      assertEquals("Number of seeds for Species 3", oGrid.getDataMembers()[2].getDisplayName());
+      assertEquals("Gap status", oGrid.getDataMembers()[3].getDisplayName());
+      assertEquals("Adult tree count", oGrid.getDataMembers()[4].getDisplayName());      
+      
+    }
+    catch (ModelException oErr) {
+      fail("XML volume reading test failed with message " + oErr.getMessage());
+    }
+    catch (IOException oE) {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
     finally {
@@ -302,9 +360,9 @@ public class NonSpatialDisperseTest extends ModelTestCase {
    * @return The file name.
    * @throws IOException if there is a problem writing the file.
    */
-  private String writeDisperseXMLFile() throws java.io.IOException {
+  private String writeDisperseXMLFile() throws IOException {
     String sFileName = "\\testfile1.xml";
-    java.io.FileWriter oOut = new java.io.FileWriter(sFileName);
+    FileWriter oOut = new FileWriter(sFileName);
 
     oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
     oOut.write("<paramFile fileCode=\"07010101\">");
@@ -422,13 +480,171 @@ public class NonSpatialDisperseTest extends ModelTestCase {
   }
   
   /**
+   * Writes a file with two disperse behaviors.
+   * @return The file name.
+   * @throws IOException if there is a problem writing the file.
+   */
+  private String write2DisperseXMLFile() throws IOException {
+    String sFileName = "\\testfile1.xml";
+    FileWriter oOut = new FileWriter(sFileName);
+
+    oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+    oOut.write("<paramFile fileCode=\"07010101\">");
+    oOut.write("<plot>");
+    oOut.write("<timesteps>50</timesteps>");
+    oOut.write("<randomSeed>1</randomSeed>");
+    oOut.write("<yearsPerTimestep>1</yearsPerTimestep>");
+    oOut.write("<plot_lenX>200.0</plot_lenX>");
+    oOut.write("<plot_lenY>200.0</plot_lenY>");
+    oOut.write("<plot_latitude>0.0</plot_latitude>");
+    oOut.write("</plot>");
+    oOut.write("<trees>");
+    oOut.write("<tr_speciesList>");
+    oOut.write("<tr_species speciesName=\"Species_1\" />");
+    oOut.write("<tr_species speciesName=\"Species_2\" />");
+    oOut.write("<tr_species speciesName=\"Species_3\" />");
+    oOut.write("</tr_speciesList>");
+    oOut.write("<tr_seedDiam10Cm>0.1</tr_seedDiam10Cm>");
+    oOut.write("<tr_minAdultDBH>");
+    oOut.write("<tr_madVal species=\"Species_1\">10.0</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Species_2\">10.0</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Species_3\">10.0</tr_madVal>");
+    oOut.write("</tr_minAdultDBH>");
+    oOut.write("</trees>");
+    oOut.write("<allometry>");
+    oOut.write("<tr_canopyHeight>");
+    oOut.write("<tr_chVal species=\"Species_1\">40.0</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Species_2\">40.0</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Species_3\">40.0</tr_chVal>");
+    oOut.write("</tr_canopyHeight>");
+    oOut.write("<tr_stdAsympCrownRad>");
+    oOut.write("<tr_sacrVal species=\"Species_1\">0.7</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Species_2\">0.7</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Species_3\">0.7</tr_sacrVal>");
+    oOut.write("</tr_stdAsympCrownRad>");
+    oOut.write("<tr_stdCrownRadExp>");
+    oOut.write("<tr_screVal species=\"Species_1\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Species_2\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Species_3\">1.0</tr_screVal>");
+    oOut.write("</tr_stdCrownRadExp>");
+    oOut.write("<tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_cdtdVal species=\"Species_1\">0.7</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Species_2\">0.7</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Species_3\">0.7</tr_cdtdVal>");
+    oOut.write("</tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_stdAsympCrownHt>");
+    oOut.write("<tr_sachVal species=\"Species_1\">0.7</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Species_2\">0.7</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Species_3\">0.7</tr_sachVal>");
+    oOut.write("</tr_stdAsympCrownHt>");
+    oOut.write("<tr_stdCrownHtExp>");
+    oOut.write("<tr_scheVal species=\"Species_1\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Species_2\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Species_3\">1.0</tr_scheVal>");
+    oOut.write("</tr_stdCrownHtExp>");
+    oOut.write("<tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_sohdVal species=\"Species_1\">0.03</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Species_2\">0.03</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Species_3\">0.03</tr_sohdVal>");
+    oOut.write("</tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_slopeOfAsymHeight>");
+    oOut.write("<tr_soahVal species=\"Species_1\">0.7</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Species_2\">0.7</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Species_3\">0.7</tr_soahVal>");
+    oOut.write("</tr_slopeOfAsymHeight>");
+    oOut.write("</allometry>");
+    oOut.write("<behaviorList>");
+    oOut.write("<behavior>");
+    oOut.write("<behaviorName>NonSpatialDisperse</behaviorName>");
+    oOut.write("<version>1</version>");
+    oOut.write("<listPosition>1</listPosition>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_2\" type=\"Adult\"/>");
+    oOut.write("</behavior>");
+    oOut.write("<behavior>");
+    oOut.write("<behaviorName>NonGapDisperse</behaviorName>");
+    oOut.write("<version>1</version>");
+    oOut.write("<listPosition>2</listPosition>");
+    oOut.write("<applyTo species=\"Species_3\" type=\"Adult\"/>");
+    oOut.write("</behavior>");
+    oOut.write("</behaviorList>");
+    oOut.write("<grid gridName=\"Dispersed Seeds\">");
+    oOut.write("<ma_lengthXCells>4</ma_lengthXCells>");
+    oOut.write("<ma_lengthYCells>5</ma_lengthYCells>");
+    oOut.write("</grid>");
+    oOut.write("<NonSpatialDisperse1>");
+    oOut.write("<di_minDbhForReproduction>");
+    oOut.write("<di_mdfrVal species=\"Species_1\">15.0</di_mdfrVal>");
+    oOut.write("<di_mdfrVal species=\"Species_2\">16.0</di_mdfrVal>");
+    oOut.write("</di_minDbhForReproduction>");
+    oOut.write("<di_nonSpatialSlopeOfLambda>");
+    oOut.write("<di_nssolVal species=\"Species_1\">0</di_nssolVal>");
+    oOut.write("<di_nssolVal species=\"Species_2\">5</di_nssolVal>");
+    oOut.write("</di_nonSpatialSlopeOfLambda>");
+    oOut.write("<di_nonSpatialInterceptOfLambda>");
+    oOut.write("<di_nsiolVal species=\"Species_1\">0.3</di_nsiolVal>");
+    oOut.write("<di_nsiolVal species=\"Species_2\">50</di_nsiolVal>");
+    oOut.write("</di_nonSpatialInterceptOfLambda>");
+    oOut.write("</NonSpatialDisperse1>");
+    oOut.write("<NonGapDisperse2>");
+    oOut.write("<di_minDbhForReproduction>");
+    oOut.write("<di_mdfrVal species=\"Species_3\">17.0</di_mdfrVal>");
+    oOut.write("</di_minDbhForReproduction>");
+    oOut.write("<di_weibullCanopySTR>");
+    oOut.write("<di_wcsVal species=\"Species_3\">12.257</di_wcsVal>");
+    oOut.write("</di_weibullCanopySTR>");
+    oOut.write("<di_weibullCanopyBeta>");
+    oOut.write("<di_wcbVal species=\"Species_3\">2.2</di_wcbVal>");
+    oOut.write("</di_weibullCanopyBeta>");
+    oOut.write("<di_weibullCanopyDispersal>");
+    oOut.write("<di_wcdVal species=\"Species_3\">9.61</di_wcdVal>");
+    oOut.write("</di_weibullCanopyDispersal>");
+    oOut.write("<di_weibullCanopyTheta>");
+    oOut.write("<di_wctVal species=\"Species_3\">3.2</di_wctVal>");
+    oOut.write("</di_weibullCanopyTheta>");
+    oOut.write("<di_lognormalCanopySTR>");
+    oOut.write("<di_lcsVal species=\"Species_3\">17.206</di_lcsVal>");
+    oOut.write("</di_lognormalCanopySTR>");
+    oOut.write("<di_lognormalCanopyBeta>");
+    oOut.write("<di_lcbVal species=\"Species_3\">2.9</di_lcbVal>");
+    oOut.write("</di_lognormalCanopyBeta>");
+    oOut.write("<di_lognormalCanopyX0>");
+    oOut.write("<di_lcx0Val species=\"Species_3\">4.93</di_lcx0Val>");
+    oOut.write("</di_lognormalCanopyX0>");
+    oOut.write("<di_lognormalCanopyXb>");
+    oOut.write("<di_lcxbVal species=\"Species_3\">3.9</di_lcxbVal>");
+    oOut.write("</di_lognormalCanopyXb>");
+    oOut.write("<di_canopyFunction>");
+    oOut.write("<di_cfVal species=\"Species_3\">1</di_cfVal>");
+    oOut.write("</di_canopyFunction>");
+    oOut.write("</NonGapDisperse2>");
+    oOut.write("<GeneralDisperse>");
+    oOut.write("<di_standardDeviation>");
+    oOut.write("<di_sdVal species=\"Species_1\">-4.1</di_sdVal>");
+    oOut.write("<di_sdVal species=\"Species_2\">-4.2</di_sdVal>");
+    oOut.write("<di_sdVal species=\"Species_3\">-4.3</di_sdVal>");
+    oOut.write("</di_standardDeviation>");
+    oOut.write("<di_clumpingParameter>");
+    oOut.write("<di_cpVal species=\"Species_1\">-0.2</di_cpVal>");
+    oOut.write("<di_cpVal species=\"Species_2\">-0.3</di_cpVal>");
+    oOut.write("<di_cpVal species=\"Species_3\">-0.6</di_cpVal>");
+    oOut.write("</di_clumpingParameter>");
+    oOut.write("<di_seedDistributionMethod>0</di_seedDistributionMethod>");
+    oOut.write("</GeneralDisperse>");
+    oOut.write("</paramFile>");
+
+    oOut.close();
+    return sFileName;
+  }
+  
+  /**
    * Writes a file with no disperse settings.
    * @return The file name.
    * @throws IOException if there is a problem writing the file.
    */
-  private String writeNoDisperseXMLFile() throws java.io.IOException {
+  private String writeNoDisperseXMLFile() throws IOException {
     String sFileName = "\\testfile1.xml";
-    java.io.FileWriter oOut = new java.io.FileWriter(sFileName);
+    FileWriter oOut = new FileWriter(sFileName);
 
     oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
     oOut.write("<paramFile fileCode=\"07010101\">");

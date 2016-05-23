@@ -766,7 +766,7 @@ public class MainWindow
     setBounds(iInset, iInset,
               screenSize.width - iInset * 2,
               screenSize.height - iInset * 2);
-    this.setTitle("SORTIE-ND Version 7.02");
+    this.setTitle("SORTIE-ND Version 7.03");
 
     createMenu();
 
@@ -1701,6 +1701,41 @@ public class MainWindow
         //Update the recent files list
         Preferences jPrefs = Preferences.userNodeForPackage(getClass());          
         String sFileAbove, sFile;
+        
+        //If this is already the first file, don't do anything else
+        sFile = jPrefs.get("RecentFiles1", "");
+        if (!sFile.equals(sDisplayFile)) {
+
+          sFileAbove = jPrefs.get("RecentFiles1", "");
+          for (int i = 2; i < 5; i++) {
+            sFile = jPrefs.get("RecentFiles" + String.valueOf(i), "");
+            if (!sFileAbove.equals(sDisplayFile)) {
+              jPrefs.put("RecentFiles" + String.valueOf(i), sFileAbove);            
+            }
+            sFileAbove = sFile;
+          }
+          sFileAbove = jPrefs.get("RecentFilesPath1", "");
+          for (int i = 2; i < 5; i++) {
+            sFile = jPrefs.get("RecentFilesPath" + String.valueOf(i), "");
+            jPrefs.put("RecentFilesPath" + String.valueOf(i), sFileAbove);
+            sFileAbove = sFile;
+          }
+          //jPrefs.put("RecentFiles1", sDisplayFile);
+          //jPrefs.put("RecentFilesPath1", sFileName);
+          jPrefs.put("RecentFiles1", sPrefsString1);
+          jPrefs.put("RecentFilesPath1", sPrefsString2);
+          JMenuBar jBar = this.getJMenuBar();
+          jBar.remove(0);
+          jBar.add(makeFileMenu(), 0);
+          jBar.validate();            
+        }
+
+        
+        
+        
+        //Update the recent files list
+        /*Preferences jPrefs = Preferences.userNodeForPackage(getClass());          
+        String sFileAbove, sFile;
         boolean bExists = false;
         for (int i = 1; i < 5; i++) {
           sFile = jPrefs.get("RecentFiles" + String.valueOf(i), "");
@@ -1730,7 +1765,12 @@ public class MainWindow
           jBar.remove(0);
           jBar.add(makeFileMenu(), 0);
           jBar.validate();            
-        }          
+        } */         
+
+        
+        
+        
+        
 
         //Reset all real-time output visualization flags
         m_bKeepRunning = false;

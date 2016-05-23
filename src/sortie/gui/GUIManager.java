@@ -1,13 +1,6 @@
 package sortie.gui;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.util.ArrayList;
 
 import javax.help.HelpBroker;
@@ -353,7 +346,7 @@ public class GUIManager {
           oIn.close();
         }
       }
-      catch (java.io.IOException e) {
+      catch (IOException e) {
         ;
       }
     }
@@ -407,10 +400,10 @@ public class GUIManager {
     finally {
       try {
         if (oFileStream != null) {oFileStream.close();}
-      } catch (java.io.IOException oErr) {;}
+      } catch (IOException oErr) {;}
       try {
         if (jOut != null) {jOut.close();}
-      } catch (java.io.IOException oErr) {;}
+      } catch (IOException oErr) {;}
       try {
         if (jOutStreamWriter != null) {jOutStreamWriter.close();}
       } catch (IOException oErr) {;}
@@ -515,7 +508,7 @@ public class GUIManager {
     }
 
     //Build a parser and parse the file
-    java.io.FileInputStream oFileStream = null;
+    FileInputStream oFileStream = null;
     try {
       //Create our parser
       //Create the parser this way - don't go through the SAXParserFactory!
@@ -530,7 +523,7 @@ public class GUIManager {
       //Create a FileInputStream object to wrap in an InputSource object.
       //This method allows characters with diacritical marks in the filename,
       //whereas simply feeding the filename to InputSource directly does not
-      oFileStream = new java.io.FileInputStream(sFileName);
+      oFileStream = new FileInputStream(sFileName);
       InputSource oToParse = new InputSource(oFileStream);
       oParser.parse(oToParse);
 
@@ -539,7 +532,7 @@ public class GUIManager {
     catch (SAXException oE) {
       throw(new ModelException(ErrorGUI.BAD_XML_FILE, "JAVA", oE.getMessage()));
     }
-    catch (java.io.IOException oE) {
+    catch (IOException oE) {
       throw(new ModelException(ErrorGUI.BAD_XML_FILE,
                                "InputXMLParameterFile - JAVA", sFileName));
     }
@@ -549,7 +542,7 @@ public class GUIManager {
           oFileStream.close();
         }
       }
-      catch (java.io.IOException oErr) {
+      catch (IOException oErr) {
         ; //do nothing
       }
     }
@@ -716,7 +709,7 @@ public class GUIManager {
           jOut.close();
         }
       }
-      catch (java.io.IOException oErr) {
+      catch (IOException oErr) {
         ; //do nothing
       }
       try {
@@ -724,7 +717,7 @@ public class GUIManager {
           jOutStreamWriter.close();
         }
       }
-      catch (java.io.IOException oErr) {
+      catch (IOException oErr) {
         ; //do nothing
       }
       try {
@@ -732,7 +725,7 @@ public class GUIManager {
           jOutputStream.close();
         }
       }
-      catch (java.io.IOException oErr) {
+      catch (IOException oErr) {
         ; //do nothing
       }
     }
