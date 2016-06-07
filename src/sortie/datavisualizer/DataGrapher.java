@@ -11,10 +11,13 @@ import java.awt.GridLayout;
 import java.awt.Shape;
 import java.awt.SystemColor;
 import java.awt.geom.Ellipse2D;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.jfree.chart.*;
 import org.jfree.chart.axis.*;
@@ -29,6 +32,7 @@ import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.chart.axis.NumberTickUnit;
 
 import sortie.data.simpletypes.ModelException;
+import sortie.gui.ErrorGUI;
 import sortie.gui.components.SortieFont;
 
 /**
@@ -88,15 +92,63 @@ public class DataGrapher {
                            oLegend, iNumSpecies, jPanel.getSize());
 
     //Recreate the content pane with the controls and the chart
-    JPanel jControls = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.
+    JPanel jControls = new JPanel(new FlowLayout(FlowLayout.
           LEFT));
     if (null != jUseTotals) {
       jControls.add(jUseTotals);
     }
-    jContentPanel = new JPanel(new java.awt.BorderLayout());
-    jContentPanel.setLayout(new java.awt.BorderLayout());
-    jContentPanel.add(jControls, java.awt.BorderLayout.NORTH);
-    jContentPanel.add(jPanel, java.awt.BorderLayout.CENTER);
+    jContentPanel = new JPanel(new BorderLayout());
+    jContentPanel.setLayout(new BorderLayout());
+    jContentPanel.add(jControls, BorderLayout.NORTH);
+    jContentPanel.add(jPanel, BorderLayout.CENTER);
+    jFrame.setContentPane(jContentPanel);
+  }
+  
+  /**
+   * Updates a line chart in a window with a fresh dataset.  The old content
+   * pane is replaced with a new one, so do not count on existing content pane
+   * references to the window working.
+   * @param oDataset The new dataset.
+   * @param jFrame The window in which to update the chart.
+   * @param oLegend The legend for this chart.
+   * @param jUseTotals Checkbox for whether or not to use totals. Can be null.
+   * @param iNumSpecies The number of total species there are.
+   * @throws ModelException Passing through underlying exceptions.
+   */
+  public static void updateGenericLineChart(DefaultXYDataset oDataset,
+                                     JInternalFrame jFrame, NoSpeciesLegend oLegend) throws ModelException {
+
+    //Get the X and Y axis labels from the existing chart
+    ChartPanel jPanel = null;
+    JPanel jContentPanel = (JPanel) jFrame.getContentPane();
+    for (int i = 0; i < jContentPanel.getComponentCount(); i++) {
+      if (jContentPanel.getComponent(i) instanceof ChartPanel) {
+        jPanel = (ChartPanel) jContentPanel.getComponent(i);
+      }
+    }
+
+    if (null == jPanel) {
+      throw(new ModelException(ErrorGUI.CANT_FIND_OBJECT,
+           "JAVA", "DataGraper.UpdateLineChart can't find the chart panel for " +
+           jFrame.getTitle()));
+    }
+
+    JFreeChart oChart = jPanel.getChart();
+    XYPlot oPlot = oChart.getXYPlot();
+    ValueAxis sXAxis = oPlot.getDomainAxis();
+    ValueAxis sYAxis = oPlot.getRangeAxis();
+    String sXAxisLabel = sXAxis.getLabel();
+    String sYAxisLabel = sYAxis.getLabel();
+
+    //Make a new chart
+    jPanel = makeGenericLineChart(oDataset, sXAxisLabel, sYAxisLabel,
+                           oLegend, jPanel.getSize());
+
+    //Recreate the content pane with the controls and the chart
+    jContentPanel = new JPanel(new BorderLayout());
+    jContentPanel.setLayout(new BorderLayout());
+    jContentPanel.add(jPanel, BorderLayout.CENTER);
+    jContentPanel.add(oLegend, BorderLayout.EAST);
     jFrame.setContentPane(jContentPanel);
   }
 
@@ -553,35 +605,28 @@ public class DataGrapher {
       ActionListener oListener, boolean bAllTimesteps) {
     //Create our menu
     JMenuBar jMenuBar = new JMenuBar();
-    jMenuBar.setBackground(java.awt.SystemColor.control);
+    jMenuBar.setBackground(SystemColor.control);
     JMenu jMenuFile = new JMenu();
     jMenuFile.setText("File");
     jMenuFile.setFont(new SortieFont());
-    jMenuFile.setMnemonic(java.awt.event.KeyEvent.VK_F);
-    jMenuFile.setBackground(java.awt.SystemColor.control);
-    JMenuItem jSave = new JMenuItem("Save chart data to file",
-                                    java.awt.event.KeyEvent.VK_S);
-    jSave.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S,
-                                                java.awt.event.ActionEvent.
-                                                CTRL_MASK));
+    jMenuFile.setMnemonic(KeyEvent.VK_F);
+    jMenuFile.setBackground(SystemColor.control);
+    JMenuItem jSave = new JMenuItem("Save chart data to file", KeyEvent.VK_S);
+    jSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
     jSave.setFont(new SortieFont());
     jSave.setActionCommand("WriteChartData");
     jSave.addActionListener(oListener);
-    jSave.setBackground(java.awt.SystemColor.control);
+    jSave.setBackground(SystemColor.control);
     jMenuFile.add(jSave);
 
     if (true == bAllTimesteps) {
-      jSave = new javax.swing.JMenuItem(
-          "Save chart data to file for all timesteps",
-          java.awt.event.KeyEvent.VK_T);
-      jSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.
-          KeyEvent.VK_T,
-          java.awt.event.ActionEvent.
-          CTRL_MASK));
+      jSave = new JMenuItem(
+          "Save chart data to file for all timesteps", KeyEvent.VK_T);
+      jSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
       jSave.setFont(new SortieFont());
       jSave.setActionCommand("WriteWholeRunChartData");
       jSave.addActionListener(oListener);
-      jSave.setBackground(java.awt.SystemColor.control);
+      jSave.setBackground(SystemColor.control);
       jMenuFile.add(jSave);
     }
 
@@ -609,7 +654,7 @@ public class DataGrapher {
    * @throws ModelException if anything goes wrong with drawing the chart.
    */
   public static ModelInternalFrame drawLineChart(DefaultXYDataset oDataset,
-                                             java.awt.event.ActionListener oListener,
+                                             ActionListener oListener,
                                              String sXAxisLabel,
                                              String sYAxisLabel, String sTitle,
                                              Legend oLegend,
@@ -624,15 +669,56 @@ public class DataGrapher {
                                       oLegend, iNumSpecies,
                                       new Dimension(500, 270));
     //Recreate the content pane with the controls and the chart
-    JPanel jControls = new JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.
-          LEFT));
+    JPanel jControls = new JPanel(new FlowLayout(FlowLayout.LEFT));
     if (null != jUseTotals) {
       jControls.add(jUseTotals);
     }
-    JPanel jContentPanel = new JPanel(new java.awt.BorderLayout());
-    jContentPanel.setLayout(new java.awt.BorderLayout());
-    jContentPanel.add(jControls, java.awt.BorderLayout.NORTH);
-    jContentPanel.add(jPanel, java.awt.BorderLayout.CENTER);
+    JPanel jContentPanel = new JPanel(new BorderLayout());
+    jContentPanel.setLayout(new BorderLayout());
+    jContentPanel.add(jControls, BorderLayout.NORTH);
+    jContentPanel.add(jPanel, BorderLayout.CENTER);
+    jFrame.setContentPane(jContentPanel);
+    jFrame = addFileMenu(jFrame, oListener, false);
+    return jFrame;
+  }
+  
+  /**
+   * Draws a line graph using the given dataset and places it in a
+   * JInternalFrame as the content pane.  The JInternalFrame is not sized or
+   * made visible.
+   *
+   * The chart comes without a legend or title.
+   * @param oDataset The dataset to draw.
+   * @param oListener The ActionListener that will respond to the file save
+   * command string "WriteChartData"
+   * @param sXAxisLabel The X axis label
+   * @param sYAxisLabel The Y axis label
+   * @param sTitle The window title for the chart
+   * @param oLegend The legend for this chart
+   * @param jUseTotals Checkbox for whether or not to use totals. Can be null.
+   * @param iNumSpecies Number of species, total.
+   * @return The chart.
+   * @throws ModelException if anything goes wrong with drawing the chart.
+   */
+  public static ModelInternalFrame drawGenericLineChart(DefaultXYDataset oDataset,
+                                             ActionListener oListener,
+                                             String sXAxisLabel,
+                                             String sYAxisLabel, String sTitle,
+                                             Legend oSppLegend,
+                                             NoSpeciesLegend oLegend) throws
+      ModelException {
+
+    ModelInternalFrame jFrame = new ModelInternalFrame(sTitle, oSppLegend);
+
+    ChartPanel jPanel = makeGenericLineChart(oDataset, sXAxisLabel,
+                                      sYAxisLabel,
+                                      oLegend,
+                                      new Dimension(500, 270));
+    //Recreate the content pane with the controls and the chart
+    JPanel jContentPanel = new JPanel(new BorderLayout());
+    jContentPanel.setLayout(new BorderLayout());
+    jContentPanel.add(jPanel, BorderLayout.CENTER);
+    jContentPanel.add(oLegend, BorderLayout.EAST);
     jFrame.setContentPane(jContentPanel);
     jFrame = addFileMenu(jFrame, oListener, false);
     return jFrame;
@@ -951,6 +1037,66 @@ public class DataGrapher {
         		     sSpecies.compareTo("All Species") == 0) {
           oRenderer.setSeriesPaint(j, Color.BLACK);
         }
+      }
+    }
+
+    //Create the plot
+    XYPlot oPlot = new XYPlot(oDataset, oXAxis, oYAxis, oRenderer);
+    oPlot.setOrientation(PlotOrientation.VERTICAL);
+    JFreeChart oChart = new JFreeChart("", JFreeChart.DEFAULT_TITLE_FONT,
+                oPlot, false);
+    oChart.setBackgroundPaint(Color.WHITE);
+
+    ChartPanel oPanel = new ChartPanel(oChart);
+    oPanel.setPreferredSize(jPreferredSize);
+    return oPanel;
+  }
+  
+  /**
+   * Draws a line graph using the given dataset and returns a ChartPanel
+   * containing the desired chart. This is for a line graph not based on species.
+   *
+   * The chart comes without a legend or title.
+   * @param oDataset The dataset to draw.
+   * @param sXAxisLabel The X axis label
+   * @param sYAxisLabel The Y axis label
+   * @param oLegend The legend for this chart
+   * @param iNumSpecies Number of species, total.
+   * @param jPreferredSize Chart's size.
+   * @return The chart.
+   * @throws ModelException if anything goes wrong with drawing the chart.
+   */
+  private static ChartPanel makeGenericLineChart(DefaultXYDataset oDataset,
+                                         String sXAxisLabel,
+                                         String sYAxisLabel,
+                                         NoSpeciesLegend oLegend,
+                                         Dimension jPreferredSize) throws
+      ModelException {
+
+
+    //Create the axes
+    NumberAxis oXAxis = new NumberAxis(sXAxisLabel);
+    NumberAxis oYAxis = new NumberAxis(sYAxisLabel);
+    oYAxis.setAutoRangeIncludesZero(true);
+
+    //Create the renderer
+    XYLineAndShapeRenderer oRenderer = new XYLineAndShapeRenderer(true, true);
+    oRenderer.setBaseToolTipGenerator(new StandardXYToolTipGenerator());
+    //Set the renderer to use all circles
+    Shape jShape = oRenderer.getBaseShape();
+    int iSize = jShape.getBounds().width;
+    Ellipse2D.Float jCircle =
+        new Ellipse2D.Float(iSize/-2, iSize/-2, iSize-1, iSize-1);
+
+    int i, j, iNumThings = oLegend.getNumberOfThings();
+    //Set the appropriate renderer color and shape for each species
+    for (j = 0; j < oDataset.getSeriesCount(); j++) {
+      String sKey = (String) oDataset.getSeriesKey(j);
+      oRenderer.setSeriesShape(j, jCircle);
+      for (i = 0; i < iNumThings; i++) {
+        if (sKey.compareTo(oLegend.getDisplayName(i)) == 0) {
+          oRenderer.setSeriesPaint(j, oLegend.getColor(i));
+        }        
       }
     }
 
@@ -1324,13 +1470,12 @@ public class DataGrapher {
       jTable.setGridColor(Color.WHITE);
       jTable.setBackground(Color.WHITE);
       jTable.setFont(new SortieFont());
-      jTable.getColumnModel().getColumn(0).setPreferredWidth(
-          iSpeciesColumnWidth);
+      jTable.getColumnModel().getColumn(0).setPreferredWidth(iSpeciesColumnWidth);
       jTable.setName(p_sNames[i]);
       jTable.getTableHeader().setFont(new SortieFont());
       //Set the cell renderer to right-justify
-      javax.swing.table.DefaultTableCellRenderer jRenderer = new javax.swing.table.DefaultTableCellRenderer();
-      jRenderer.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+      DefaultTableCellRenderer jRenderer = new DefaultTableCellRenderer();
+      jRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
       for (k = 1; k < jTable.getColumnCount(); k++) {
         jTable.setDefaultRenderer(jTable.getColumnClass(k), jRenderer);
       }
@@ -1338,20 +1483,20 @@ public class DataGrapher {
       //Put the table into the larger panel
       jTempLabel = new JLabel(p_sLabels[i]);
       jTempLabel.setFont(new SortieFont());
-      p_jTablePanels[i] = new JPanel(new java.awt.BorderLayout());
+      p_jTablePanels[i] = new JPanel(new BorderLayout());
       p_jTablePanels[i].setName("table_panel_" + i);
-      p_jTablePanels[i].add(jTempLabel, java.awt.BorderLayout.NORTH);
-      JPanel jMiniPanel = new JPanel(new java.awt.BorderLayout());
-      jMiniPanel.add(jTable.getTableHeader(), java.awt.BorderLayout.NORTH);
-      jMiniPanel.add(jTable, java.awt.BorderLayout.CENTER);
+      p_jTablePanels[i].add(jTempLabel, BorderLayout.NORTH);
+      JPanel jMiniPanel = new JPanel(new BorderLayout());
+      jMiniPanel.add(jTable.getTableHeader(), BorderLayout.NORTH);
+      jMiniPanel.add(jTable, BorderLayout.CENTER);
       p_jTablePanels[i].add(jMiniPanel);
     }
 
     //Create the panels for the two rows
-    JPanel jTopRowPanel = new JPanel(new java.awt.FlowLayout(java.awt.
+    JPanel jTopRowPanel = new JPanel(new FlowLayout(
         FlowLayout.
         LEFT));
-    JPanel jBottomRowPanel = new JPanel(new java.awt.FlowLayout(java.awt.
+    JPanel jBottomRowPanel = new JPanel(new FlowLayout(
         FlowLayout.
         LEFT));
     jTopRowPanel.add(p_jTablePanels[2]);
@@ -1361,18 +1506,18 @@ public class DataGrapher {
 
     //Create a panel for all the tables together
     JPanel jAllTablePanel = new JPanel();
-    jAllTablePanel.setLayout(new javax.swing.BoxLayout(jAllTablePanel,
-        javax.swing.BoxLayout.PAGE_AXIS));
+    jAllTablePanel.setLayout(new BoxLayout(jAllTablePanel,
+        BoxLayout.PAGE_AXIS));
 
     jAllTablePanel.add(jTopRowPanel);
     jAllTablePanel.add(jBottomRowPanel);
     JScrollPane jScroller = new JScrollPane(jAllTablePanel);
 
     //Wrap with a legend
-    JPanel jTempPanel = new JPanel(new java.awt.BorderLayout());
+    JPanel jTempPanel = new JPanel(new BorderLayout());
     jTempLabel = new JLabel("Density is in #/ha, basal area in sq. m./ha");
     jTempLabel.setFont(new SortieFont());
-    jTempPanel.add(jTempLabel, java.awt.BorderLayout.NORTH);
+    jTempPanel.add(jTempLabel, BorderLayout.NORTH);
     jTempPanel.add(jScroller);
 
     return jTempPanel;
@@ -1409,7 +1554,7 @@ public class DataGrapher {
                                           Object[][] p_oAdultData,
                                           Object[][] p_oSnagData) {
     JTable jTable;
-    java.awt.Component jComponent;
+    Component jComponent;
     int i, j;
 
     //Seedling data
@@ -1531,9 +1676,9 @@ public class DataGrapher {
     boolean bReplaced = false;
 
     //Only search if the parent component is a container of some kind
-    if (jParent instanceof java.awt.Container) {
-      java.awt.Container jContainer = (java.awt.Container) jParent;
-      java.awt.Component jChild;
+    if (jParent instanceof Container) {
+      Container jContainer = (Container) jParent;
+      Component jChild;
       int i, iNumComponents = jContainer.getComponentCount();
 
       for (i = 0; i < iNumComponents; i++) {

@@ -154,8 +154,7 @@ public class DetailedOutputFileManager
       //Create the parser this way - don't go through the SAXParserFactory!
       //Parsers created that way throw MalformedURLExceptions when asked to
       //read local files.
-      m_oParser = XMLReaderFactory.createXMLReader(
-          "org.apache.xerces.parsers.SAXParser");
+      m_oParser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
 
       parseParamFile();
       countTimesteps();
@@ -445,7 +444,8 @@ public class DetailedOutputFileManager
         oRequest instanceof RipleysKDataRequest ||
         oRequest instanceof RelativeNeighborhoodDensityDataRequest ||
         oRequest instanceof FoliarChemistryLineGraphDataRequest ||
-        oRequest instanceof PartitionedBiomassLineGraphDataRequest) {
+        oRequest instanceof PartitionedBiomassLineGraphDataRequest ||
+        oRequest instanceof SubstrateLineGraphDataRequest) {
       bNeedShortFileDisplayName = true;
     }
 
@@ -1430,6 +1430,9 @@ public class DetailedOutputFileManager
         jGrids.add(new SortieMenuItem("Foliar Chemistry - Tannins", "Foliar Chemistry - Tannins", sActionListener));
         jGrids.add(new SortieMenuItem("Foliar Chemistry - Phenolics", "Foliar Chemistry - Phenolics", sActionListener));
       }
+    	else if (oGridSetting.getName().equals("Substrate")) {
+    	  jGrids.add(new SortieMenuItem("Substrate", "Substrate", sActionListener));
+    	}
     }
 
     if (jLiveTrees.getSubElements().length > 0) jTrees.add(jLiveTrees);
@@ -3310,6 +3313,9 @@ public class DetailedOutputFileManager
     }
     else if (sGraphName.startsWith("Biomass")) {
       return(new PartitionedBiomassLineGraphDataRequest(sGraphName, this));
+    }
+    else if (sGraphName.equals("Substrate")) {
+      return(new SubstrateLineGraphDataRequest(sGraphName, this));
     }
     return null;    
   }
