@@ -37,7 +37,7 @@ protected ModelFloat m_fLatitude = new ModelFloat(0,
 
 /**Mean annual precipitation, mm*/
 protected ModelFloat m_fMeanAnnualPrecipMm = new ModelFloat(0,
-  "Mean Annual Precipitation, mm", "plot_precip_mm_yr");
+  "Annual Precipitation, mm", "plot_precip_mm_yr");
 
 /**Seasonal precipitation*/
 protected ModelFloat m_fSeasonalPrecip = new ModelFloat(0,

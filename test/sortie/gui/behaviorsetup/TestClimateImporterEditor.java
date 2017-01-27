@@ -11,19 +11,12 @@ import java.util.ArrayList;
 
 import sortie.ModelTestCase;
 import sortie.data.funcgroups.Behavior;
-import sortie.data.funcgroups.DisturbanceBehaviors;
 import sortie.data.funcgroups.StateChangeBehaviors;
-import sortie.data.funcgroups.TreePopulation;
-import sortie.data.funcgroups.disturbance.HarvestInterface;
 import sortie.data.funcgroups.statechange.ClimateImporter;
 import sortie.data.funcgroups.statechange.ClimateImporterTest;
 import sortie.data.simpletypes.ModelException;
 import sortie.gui.GUIManager;
 import sortie.gui.MainWindow;
-import sortie.gui.behaviorsetup.HarvestInterfaceSetup;
-import sortie.gui.modelflowsetup.ModelFlowSetup;
-import sortie.gui.modelflowsetup.DisplayBehaviorComboEdit;
-import sortie.gui.modelflowsetup.DisplayBehaviorEdit;
 
 /**
  * Tests the ClimateImportEditor interface.

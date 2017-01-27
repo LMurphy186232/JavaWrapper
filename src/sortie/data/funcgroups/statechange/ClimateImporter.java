@@ -19,7 +19,6 @@ import sortie.data.simpletypes.ModelVector;
 import sortie.gui.ErrorGUI;
 import sortie.gui.GUIManager;
 import sortie.gui.MainWindow;
-import sortie.gui.behaviorsetup.AllometryParameterEdit;
 import sortie.gui.behaviorsetup.BehaviorParameterDisplay;
 import sortie.gui.behaviorsetup.ClimateImporterEditor;
 import sortie.gui.behaviorsetup.EnhancedTable;
@@ -570,17 +569,16 @@ public class ClimateImporter extends Behavior {
   
   /**
    * Writes the parameters for the behavior to file, using the same system 
-   * as the basic parameter display and entry system. Override this if the
-   * behavior has specialized parameters.
+   * as the basic parameter display and entry system. Overriden to add the monthly data.
    * 
    * The file passed has been opened and should be appended to and then 
    * left unclosed.
    * @param jOut File to write to.
    * @param oPop TreePopulation object.
    */
- /* public void writeParametersToTextFile(FileWriter jOut, TreePopulation oPop) throws IOException {
+  public void writeParametersToTextFile(FileWriter jOut, TreePopulation oPop) throws IOException {
     
-   zxfsf ArrayList<BehaviorParameterDisplay> p_oAllObjects = formatDataForDisplay(oPop);
+   ArrayList<BehaviorParameterDisplay> p_oAllObjects = formatDataForDisplay(oPop);
     if (null == p_oAllObjects || p_oAllObjects.size() == 0) {
       jOut.write("\n" + m_sDescriptor + "\nNo parameters.\n");
       return;
@@ -620,5 +618,25 @@ public class ClimateImporter extends Behavior {
         }
       }
     }
-  }*/
+  
+    //Now write monthly data
+    jOut.write("Monthly Temperature Data\n");
+    jOut.write("January\tFebruary\tMarch\tApril\tMay\tJune\tJuly\tAugust\tSeptember\tOctober\tNovember\tDecember\n");
+    for (iRow = 0; iRow < mp_fTemp[0].length; iRow++) {
+      jOut.write("Timestep " + (iRow + 1));
+      for (iCol = 0; iCol < mp_fTemp.length; iCol++) {
+        jOut.write("\t" + mp_fTemp[iCol][iRow]);  
+      }
+      jOut.write("\n");
+    }
+    jOut.write("\nMonthly Precipitation Data\n");
+    jOut.write("January\tFebruary\tMarch\tApril\tMay\tJune\tJuly\tAugust\tSeptember\tOctober\tNovember\tDecember\n");
+    for (iRow = 0; iRow < mp_fPpt[0].length; iRow++) {
+      jOut.write("Timestep " + (iRow + 1));
+      for (iCol = 0; iCol < mp_fPpt.length; iCol++) {
+        jOut.write("\t" + mp_fPpt[iCol][iRow]);  
+      }
+      jOut.write("\n");
+    }
+  }
 }
