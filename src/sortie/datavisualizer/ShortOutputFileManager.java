@@ -1376,20 +1376,20 @@ public class ShortOutputFileManager
       }
 
       //Throw away the next line
-      p_oLine = ModelFileFunctions.ReadLine(in);
+      p_oLine = ModelFileFunctions.readLine(in);
 
       //And the next one after that
-      p_oLine = ModelFileFunctions.ReadLine(in);
+      p_oLine = ModelFileFunctions.readLine(in);
 
       //Now read in the next line
-      p_oLine = ModelFileFunctions.ReadLine(in);
+      p_oLine = ModelFileFunctions.readLine(in);
 
       //Read until the line says "subplots:" or "step"
       sData = p_oLine.get(0);
       sData = sData.toLowerCase();
       while (sData.indexOf("step") == -1 &&
              sData.indexOf("subplots") == -1) {
-        p_oLine = ModelFileFunctions.ReadLine(in);
+        p_oLine = ModelFileFunctions.readLine(in);
         sData = p_oLine.get(0);
         sData = sData.toLowerCase();
       }
@@ -1406,7 +1406,7 @@ public class ShortOutputFileManager
         //Figure out how many subplots we have and capture their names -
         //we're done when we get to the line that starts "Step"
         while (true) {
-          p_oLine = ModelFileFunctions.ReadLine(in);
+          p_oLine = ModelFileFunctions.readLine(in);
           if (p_oLine.size() == 0) {
             ModelException oExp = new ModelException();
             oExp.iErrorCode = ErrorGUI.BAD_FILE;
@@ -1656,7 +1656,7 @@ public class ShortOutputFileManager
       }
 
       //Read to the end of the file
-      p_oLine = ModelFileFunctions.ReadLine(in);
+      p_oLine = ModelFileFunctions.readLine(in);
       while (p_oLine.size() > 0) {
 
         if (iLineSize != p_oLine.size()) {
@@ -1827,7 +1827,7 @@ public class ShortOutputFileManager
             }
           }
         }
-        p_oLine = ModelFileFunctions.ReadLine(in);
+        p_oLine = ModelFileFunctions.readLine(in);
       }
 
       //Transfer the data over to our fixed arrays

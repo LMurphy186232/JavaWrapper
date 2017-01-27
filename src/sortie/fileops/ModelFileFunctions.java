@@ -1,5 +1,8 @@
 package sortie.fileops;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -30,7 +33,7 @@ public class ModelFileFunctions {
    * input stream is currently at end of file.  Reaching the end of file after
    * that point will not cause this exception to be thrown.
    */
-  static public void SkipLine(FileReader in) throws ModelException {
+  static public void skipLine(FileReader in) throws ModelException {
     int iTestCh;
 
     try {
@@ -63,7 +66,7 @@ public class ModelFileFunctions {
    * @throws java.io.IOException - passthru from FileReader
    */
 
-  static public ArrayList<String> ReadLine(FileReader in) throws IOException {
+  static public ArrayList<String> readLine(FileReader in) throws IOException {
     ArrayList<String> p_oLine = new ArrayList<String>(0);
     String sData;
     int iTestCh;
@@ -92,6 +95,40 @@ public class ModelFileFunctions {
     }
 
     return p_oLine;
+  }
+  
+  /**
+   * Counts the number of text lines in a file.
+   * @param filename File to count.
+   * @return Number of lines in the file.
+   */
+  public static int countLines(String filename) throws ModelException {
+    FileReader in_reader = null;
+    BufferedReader in = null;
+    int num_lines = 0;
+    try {
+      in_reader = new FileReader(new File(filename));
+      in = new BufferedReader(in_reader);
+      //String line = "";
+      //while ((line = in.readLine()) != null) {
+      while (in.readLine() != null) {
+        num_lines++;
+      }
+      return num_lines;
+    } catch (FileNotFoundException e) {
+      throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
+          "File not found: " + e.getMessage()));
+    } catch (IOException e) {
+      throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
+          "Problem reading file: " + e.getMessage()));
+    } finally {
+      try {
+        if (in_reader != null)
+          in_reader.close();
+        if (in != null)
+          in.close();      
+      } catch (IOException e2) {;}
+    }
   }
 
 }

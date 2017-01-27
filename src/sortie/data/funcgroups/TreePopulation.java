@@ -341,7 +341,7 @@ public class TreePopulation extends BehaviorTypeBase {
       }
 
       //Get the column headers
-      oLine = ModelFileFunctions.ReadLine(oIn);
+      oLine = ModelFileFunctions.readLine(oIn);
       iNumCols = oLine.size();
       // Verify that all data is present
       if (iNumCols < 6) {
@@ -410,7 +410,7 @@ public class TreePopulation extends BehaviorTypeBase {
         }
       }
 
-      oLine = ModelFileFunctions.ReadLine(oIn);
+      oLine = ModelFileFunctions.readLine(oIn);
       while (oLine.size() > 0) {
         i = 0;
         bUseTree = true;
@@ -543,7 +543,7 @@ public class TreePopulation extends BehaviorTypeBase {
 
           oNewTrees.add(oTree);
         }
-        oLine = ModelFileFunctions.ReadLine(oIn);
+        oLine = ModelFileFunctions.readLine(oIn);
       } 
       oIn.close();
 

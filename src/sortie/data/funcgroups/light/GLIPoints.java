@@ -110,9 +110,9 @@ public class GLIPoints extends GLIBase {
       int i;
 
       //Skip the first line - just column headers
-      ModelFileFunctions.SkipLine(oIn);
+      ModelFileFunctions.skipLine(oIn);
 
-      oLine = ModelFileFunctions.ReadLine(oIn);
+      oLine = ModelFileFunctions.readLine(oIn);
       while (oLine.size() > 0) {
 
         //Verify that all data is present
@@ -129,7 +129,7 @@ public class GLIPoints extends GLIBase {
 
         Points oPoint = new Points(fX, fY, fHeight, oPlot);
         oNewPoints.add(oPoint);
-        oLine = ModelFileFunctions.ReadLine(oIn);
+        oLine = ModelFileFunctions.readLine(oIn);
       }
       oIn.close();
 
