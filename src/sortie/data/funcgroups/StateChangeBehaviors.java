@@ -1,5 +1,6 @@
 package sortie.data.funcgroups;
 
+import sortie.data.funcgroups.statechange.ClimateImporter;
 import sortie.data.funcgroups.statechange.PrecipitationClimateChange;
 import sortie.data.funcgroups.statechange.SeasonalWaterDeficit;
 import sortie.data.funcgroups.statechange.TemperatureClimateChange;
@@ -28,6 +29,12 @@ public class StateChangeBehaviors
     super(oManager, "State Change");
     
     String sXMLRootString, sParFileTag, sDescriptor;
+    
+    //Set up our child behavior vector
+    sXMLRootString = "ClimateImporter";
+    sParFileTag = "ClimateImporter";
+    sDescriptor = "Monthly Climate Data Importer";
+    mp_oAvailableBehaviors.add(new BehaviorInstantiator(ClimateImporter.class, sDescriptor, sParFileTag, sXMLRootString));
 
     //Set up our child behavior vector
     sXMLRootString = "ClimateChange";
