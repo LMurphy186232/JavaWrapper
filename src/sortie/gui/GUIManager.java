@@ -656,7 +656,7 @@ public class GUIManager {
       //Write the opening tag
       jOut.write(
           "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
-      jOut.write("<paramFile fileCode=\"07030101\">");
+      jOut.write("<paramFile fileCode=\"07040101\">");
 
       //Write the plot info
       oPlot.writeXML(jOut, oPop);
