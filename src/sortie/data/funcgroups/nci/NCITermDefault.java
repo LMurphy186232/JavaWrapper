@@ -320,8 +320,12 @@ public class NCITermDefault extends Behavior {
     }
     
     //Lambda
-    else if ((sXMLTag.startsWith("gr_nci") && p_sChildXMLTags[0].equals("gr_nlVal")) ||
-             (sXMLTag.startsWith("mo_nci") && p_sChildXMLTags[0].equals("mo_nlVal"))) {
+    else if ((sXMLTag.startsWith("gr_nci") && 
+              p_sChildXMLTags[0] != null &&
+              p_sChildXMLTags[0].equals("gr_nlVal")) ||
+             (sXMLTag.startsWith("mo_nci") &&
+              p_sChildXMLTags[0] != null &&
+              p_sChildXMLTags[0].equals("mo_nlVal"))) {
       sXMLTag = sXMLTag.substring(3);
     }
     
