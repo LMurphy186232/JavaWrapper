@@ -15,7 +15,7 @@ public class TestAverageLight extends ModelTestCase {
   public void testBackwardsCompatibility() {
     GUIManager oManager = null;
     String sFileName = null;
-    String sNewFileName = "c:\\test7.xml";
+    String sNewFileName = "test7.xml";
     LightBehaviors oLightBeh = null;
     TreePopulation oPop = null;
 
@@ -38,7 +38,7 @@ public class TestAverageLight extends ModelTestCase {
       fail("Caught IOException.  Message: " + oE.getMessage());
     } finally {
       new File(sNewFileName).delete();
-      new File(sFileName).delete();
+      if (sFileName != null) new File(sFileName).delete();
     }
   }
 
@@ -303,7 +303,7 @@ public class TestAverageLight extends ModelTestCase {
    * @throws IOException if there is a problem writing the file.
    */
   private String writeV6XMLFile() throws IOException {
-    String sFileName = "c:\\testfile1.xml";
+    String sFileName = "testfile1.xml";
     FileWriter oOut = new FileWriter(sFileName);
     
     oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");

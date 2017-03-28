@@ -28,7 +28,7 @@ extends ModelTestCase {
   public void testReadV6ParFile() {
     GUIManager oManager = null;
     String sFileName = null;
-    String sNewFileName = "c:\\test7.xml";
+    String sNewFileName = "test7.xml";
     try {
 
       oManager = new GUIManager(null);
@@ -3134,7 +3134,7 @@ extends ModelTestCase {
    * @throws IOException if there is a problem writing the file.
    */
   private String write6XMLValidFile() throws IOException {
-    String sFileName = "\\testFile1.xml";
+    String sFileName = "testFile1.xml";
     FileWriter oOut = new FileWriter(sFileName);
     
     oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");

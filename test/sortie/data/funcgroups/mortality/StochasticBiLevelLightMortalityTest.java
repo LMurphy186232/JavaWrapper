@@ -18,7 +18,7 @@ public class StochasticBiLevelLightMortalityTest extends ModelTestCase {
   public void testReadV6ParFileStorm() {
     GUIManager oManager = null;
     String sFileName = null;
-    String sNewFileName = "c:\\test7.xml";
+    String sNewFileName = "test7.xml";
     try {
 
       oManager = new GUIManager(null);
@@ -58,7 +58,7 @@ public class StochasticBiLevelLightMortalityTest extends ModelTestCase {
   public void testReadV6ParFileGLI() {
     GUIManager oManager = null;
     String sFileName = null;
-    String sNewFileName = "c:\\test7.xml";
+    String sNewFileName = "test7.xml";
     try {
 
       oManager = new GUIManager(null);

@@ -283,7 +283,7 @@ public class AbsoluteUnlimitedTest extends TestCase {
   public void testReadV6ParFile() {
     GUIManager oManager = null;
     String sFileName = null;
-    String sNewFileName = "c:\\test7.xml";
+    String sNewFileName = "test7.xml";
     try {
 
       oManager = new GUIManager(null);
@@ -324,7 +324,7 @@ public class AbsoluteUnlimitedTest extends TestCase {
   public void testReadV6ParFileDiamOnly() {
     GUIManager oManager = null;
     String sFileName = null;
-    String sNewFileName = "c:\\test7.xml";
+    String sNewFileName = "test7.xml";
     try {
 
       oManager = new GUIManager(null);

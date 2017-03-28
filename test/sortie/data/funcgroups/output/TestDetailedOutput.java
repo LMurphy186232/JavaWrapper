@@ -21,7 +21,7 @@ public class TestDetailedOutput extends ModelTestCase {
   public void testReadV6ParFile() {
     GUIManager oManager = null;
     String sFileName = null;
-    String sNewFileName = "c:\\test7.xml";
+    String sNewFileName = "test7.xml";
     try {
 
       oManager = new GUIManager(null);

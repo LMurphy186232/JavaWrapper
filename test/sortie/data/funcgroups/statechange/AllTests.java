@@ -11,6 +11,7 @@ public class AllTests {
     suite.addTestSuite(PrecipitationClimateChangeTest.class);
     suite.addTestSuite(SeasonalWaterDeficitTest.class);
     suite.addTestSuite(TemperatureClimateChangeTest.class);
+    suite.addTestSuite(ClimateImporterTest.class);
     //$JUnit-END$
     return suite;
   }

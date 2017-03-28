@@ -17,7 +17,7 @@ public class AllometricDiamTest extends TestCase {
   public void testBackwardsCompatibility() {
     GUIManager oManager = null;
     String sFileName = null;
-    String sNewFileName = "c:\\testFile1.xml";
+    String sNewFileName = "testFile1.xml";
     GrowthBehaviors oGrowthBeh = null;
     
     try {
