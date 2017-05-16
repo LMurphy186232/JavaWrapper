@@ -5,10 +5,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.awt.FlowLayout;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.Dimension;
+import java.awt.*;
 
 
 import sortie.data.funcgroups.*;
@@ -45,8 +42,10 @@ public class HarvestDisplayWindow
   protected JLabel m_jTimestepLabel = new JLabel("N/A");
 
   /**Label that displays the cut amount type for the currently displayed harvest*/
-  protected JLabel m_jCutAmountTypeLabel = new JLabel(
-      "N/A");
+  protected JLabel m_jCutAmountTypeLabel = new JLabel("N/A");
+  
+  /**Label that displays cut order flag for the currently displayed harvest*/
+  protected JLabel m_jCutOrderFlagLabel = new JLabel("N/A");
 
   /**Label that displays number of harvest events currently defined*/
   protected JLabel m_jNumHarvestEvents = new JLabel("0");
@@ -150,6 +149,8 @@ public class HarvestDisplayWindow
     m_jHarvestNumber.setFont(new SortieFont());
     m_jTimestepLabel.setFont(new SortieFont());
     m_jNumHarvestEvents.setFont(new SortieFont());
+    m_jHarvestPriorities.setFont(new SortieFont());
+    m_jCutOrderFlagLabel.setFont(new SortieFont());
         
     //Create a panel down the left side that holds information about the
     //harvest being displayed.  Each of the pieces of data gets its own
@@ -179,16 +180,16 @@ public class HarvestDisplayWindow
     jHarvestLabel.setFont(new SortieFont());
 
     JPanel jNumberPanel = new JPanel();
-    FlowLayout jLayout1 = new FlowLayout();
-    jLayout1.setAlignment(FlowLayout.CENTER);
-    jNumberPanel.setLayout(jLayout1);
+    FlowLayout jLayout = new FlowLayout();
+    jLayout.setAlignment(FlowLayout.CENTER);
+    jNumberPanel.setLayout(jLayout);
     jNumberPanel.add(jHarvestBack);
     jNumberPanel.add(jHarvestIntro);
     jNumberPanel.add(m_jHarvestNumber);
     jNumberPanel.add(jHarvestLabel);
     jNumberPanel.add(m_jNumHarvestEvents);
     jNumberPanel.add(jHarvestForward);
-    jNumberPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jNumberPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
     jHarvestPanel.add(jNumberPanel);
 
     //New, delete, and edit buttons
@@ -214,131 +215,142 @@ public class HarvestDisplayWindow
     jHarvestEditPanel.add(jNewHarvestButton);
     jHarvestEditPanel.add(jHarvestRemove);
     jHarvestEditPanel.add(jHarvestEdit);
-    jHarvestEditPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jHarvestEditPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
     jHarvestPanel.add(jHarvestEditPanel);
     
-    JPanel jTempPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-    jTempPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
     JButton jButton = new JButton("Change grid cell size");
     jButton.setFont(new SortieFont());
-    jButton.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jButton.setAlignmentX(Component.LEFT_ALIGNMENT);
     jButton.setActionCommand("HarvestCellSizeChange");
     jButton.addActionListener(this);
-    jTempPanel.add(jButton);
-    jHarvestPanel.add(jTempPanel);
+    jPanel.add(jButton);
+    jHarvestPanel.add(jPanel);
 
     //Timestep
-    JLabel jTimestepLabel = new JLabel("Timestep:");
-    jTimestepLabel.setHorizontalAlignment(SwingConstants.LEFT);
-    jTimestepLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    FlowLayout jLayout2 = new FlowLayout();
-    jLayout2.setAlignment(FlowLayout.LEFT);
-    JPanel jTimestepPanel = new JPanel(jLayout2);
-    jTimestepPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jTimestepPanel.add(jTimestepLabel);
-    jTimestepPanel.add(m_jTimestepLabel);
-    jHarvestPanel.add(jTimestepPanel);
+    JLabel jLabel = new JLabel("Timestep:");
+    jLabel.setHorizontalAlignment(SwingConstants.LEFT);
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jLayout = new FlowLayout();
+    jLayout.setAlignment(FlowLayout.LEFT);
+    jPanel = new JPanel(jLayout);
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jLabel);
+    jPanel.add(m_jTimestepLabel);
+    jHarvestPanel.add(jPanel);
 
     //Species
-    JLabel jSpeciesLabel = new JLabel("Species applied to:");
-    jSpeciesLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jSpeciesLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    JPanel jSpeciesPanel = new JPanel();
-    jSpeciesPanel.setLayout(new BoxLayout(jSpeciesPanel, BoxLayout.PAGE_AXIS));
-    jSpeciesPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jSpeciesPanel.add(jSpeciesLabel);
+    jLabel = new JLabel("Species applied to:");
+    jLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jPanel = new JPanel();
+    jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.PAGE_AXIS));
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jLabel);
     JList<String> jSpeciesList = new JList<String>(m_jSpeciesList);
     jSpeciesList.setFont(new SortieFont());
     jSpeciesList.setVisibleRowCount(4);
-    jSpeciesList.setBackground(java.awt.SystemColor.control);
+    jSpeciesList.setBackground(SystemColor.control);
     m_jSpeciesList.addElement("N/A");
     JScrollPane jPane = new JScrollPane(jSpeciesList);
-    jPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jSpeciesPanel.add(jPane);
-    jHarvestPanel.add(jSpeciesPanel);
+    jPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jPane);
+    jHarvestPanel.add(jPanel);
 
     //Cut type
-    JLabel jCutLabel = new JLabel("Cut type:");
-    jCutLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    FlowLayout jLayout3 = new FlowLayout();
-    jLayout3.setAlignment(FlowLayout.LEFT);
-    JPanel jCutTypePanel = new JPanel(jLayout3);
-    jCutTypePanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jCutTypePanel.add(jCutLabel);
-    jCutTypePanel.add(m_jCutTypeLabel);
-    jHarvestPanel.add(jCutTypePanel);
+    jLabel = new JLabel("Cut type:");
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jLayout = new FlowLayout();
+    jLayout.setAlignment(FlowLayout.LEFT);
+    jPanel = new JPanel(jLayout);
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jLabel);
+    jPanel.add(m_jCutTypeLabel);
+    jHarvestPanel.add(jPanel);
 
     //Cut amount type
-    JLabel jCutAmtLabel = new JLabel("Cut amount type:");
-    jCutAmtLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    FlowLayout jLayout4 = new FlowLayout();
-    jLayout4.setAlignment(FlowLayout.LEFT);
-    JPanel jCutAmountTypePanel = new JPanel(jLayout4);
-    jCutAmountTypePanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jCutAmountTypePanel.add(jCutAmtLabel);
-    jCutAmountTypePanel.add(m_jCutAmountTypeLabel);
-    jHarvestPanel.add(jCutAmountTypePanel);
+    jLabel = new JLabel("Cut amount type:");
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jLayout = new FlowLayout();
+    jLayout.setAlignment(FlowLayout.LEFT);
+    jPanel = new JPanel(jLayout);
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jLabel);
+    jPanel.add(m_jCutAmountTypeLabel);
+    jHarvestPanel.add(jPanel);
+    
+    //Cut order flag
+    jLabel = new JLabel("Tree cut order:");
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jLayout = new FlowLayout();
+    jLayout.setAlignment(FlowLayout.LEFT);
+    jPanel = new JPanel(jLayout);
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jLabel);
+    jPanel.add(m_jCutOrderFlagLabel);
+    jHarvestPanel.add(jPanel);
 
     //Cut ranges
-    JPanel jCutRangePanel = new JPanel(new GridLayout(3, 5));
-    jCutRangePanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    JLabel jTempLabel = new JLabel("Min");
-    jTempLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    jCutRangePanel.add(jTempLabel);
-    jCutRangePanel.add(m_jCutRange1Min);
-    jCutRangePanel.add(m_jCutRange2Min);
-    jCutRangePanel.add(m_jCutRange3Min);
-    jCutRangePanel.add(m_jCutRange4Min);
-    jTempLabel = new JLabel("Max");
-    jTempLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    jCutRangePanel.add(jTempLabel);
-    jCutRangePanel.add(m_jCutRange1Max);
-    jCutRangePanel.add(m_jCutRange2Max);
-    jCutRangePanel.add(m_jCutRange3Max);
-    jCutRangePanel.add(m_jCutRange4Max);
-    jTempLabel = new JLabel("Amt");
-    jTempLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    jCutRangePanel.add(jTempLabel);
-    jCutRangePanel.add(m_jCutRange1Amt);
-    jCutRangePanel.add(m_jCutRange2Amt);
-    jCutRangePanel.add(m_jCutRange3Amt);
-    jCutRangePanel.add(m_jCutRange4Amt);
-    jTempLabel = new JLabel("Diameter Range(s) to cut:");
-    jTempLabel.setFont(new SortieFont(java.awt.Font.BOLD));
+    jPanel = new JPanel(new GridLayout(3, 5));
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jLabel = new JLabel("Min");
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jPanel.add(jLabel);
+    jPanel.add(m_jCutRange1Min);
+    jPanel.add(m_jCutRange2Min);
+    jPanel.add(m_jCutRange3Min);
+    jPanel.add(m_jCutRange4Min);
+    jLabel = new JLabel("Max");
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jPanel.add(jLabel);
+    jPanel.add(m_jCutRange1Max);
+    jPanel.add(m_jCutRange2Max);
+    jPanel.add(m_jCutRange3Max);
+    jPanel.add(m_jCutRange4Max);
+    jLabel = new JLabel("Amt");
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jPanel.add(jLabel);
+    jPanel.add(m_jCutRange1Amt);
+    jPanel.add(m_jCutRange2Amt);
+    jPanel.add(m_jCutRange3Amt);
+    jPanel.add(m_jCutRange4Amt);
+    jLabel = new JLabel("Diameter Range(s) to cut:");
+    jLabel.setFont(new SortieFont(Font.BOLD));
     JPanel jTempPanel2 = new JPanel();
     jTempPanel2.setLayout(new BoxLayout(jTempPanel2, BoxLayout.PAGE_AXIS));
-    jTempPanel2.add(jTempLabel);
-    jTempPanel2.add(jCutRangePanel);
+    jTempPanel2.add(jLabel);
+    jTempPanel2.add(jPanel);
     jTempPanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
     jHarvestPanel.add(jTempPanel2);
     
-    jTempLabel = new JLabel("Prioritized by:");
-    jTempLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jTempPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    jTempPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jTempPanel.add(jTempLabel);
-    m_jHarvestPriorities.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jTempPanel.add(m_jHarvestPriorities);
-    jHarvestPanel.add(jTempPanel);
+    jLabel = new JLabel("Prioritized by:");
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jLabel);
+    m_jHarvestPriorities.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(m_jHarvestPriorities);
+    jHarvestPanel.add(jPanel);
     
     //Seedling mortality rate
-    jSpeciesLabel = new JLabel("Seedling mortality rate:");
-    jSpeciesLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jSpeciesLabel.setFont(new SortieFont(java.awt.Font.BOLD));
-    jSpeciesPanel = new JPanel();
-    jSpeciesPanel.setLayout(new BoxLayout(jSpeciesPanel, BoxLayout.PAGE_AXIS));
-    jSpeciesPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jSpeciesPanel.add(jSpeciesLabel);
+    jLabel = new JLabel("Seedling mortality rate:");
+    jLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jPanel = new JPanel();
+    jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.PAGE_AXIS));
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jLabel);
     jSpeciesList = new JList<String>(m_jSeedlingMortRate);
     jSpeciesList.setFont(new SortieFont());
     jSpeciesList.setVisibleRowCount(4);
-    jSpeciesList.setBackground(java.awt.SystemColor.control);
+    jSpeciesList.setBackground(SystemColor.control);
     m_jSeedlingMortRate.addElement("N/A");
     jPane = new JScrollPane(jSpeciesList);
-    jPane.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jSpeciesPanel.add(jPane);
-    jHarvestPanel.add(jSpeciesPanel);
+    jPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jPane);
+    jHarvestPanel.add(jPanel);
     
     //**********************************
     // Put it all together
@@ -615,6 +627,7 @@ public class HarvestDisplayWindow
       //Set all the data values to their null settings
       m_jCutAmountTypeLabel.setText("N/A");
       m_jCutTypeLabel.setText("N/A");
+      m_jCutOrderFlagLabel.setText("N/A");
       m_jSpeciesList.clear();
       m_jSpeciesList.addElement("N/A");
       m_jSeedlingMortRate.clear();
@@ -672,6 +685,13 @@ public class HarvestDisplayWindow
       else {
         throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA",
         "The harvest being loaded has an unrecognized cut type."));
+      }
+      
+      //Cut order flag
+      if (oHarvest.getTallestFirstFlag()) {
+        m_jCutOrderFlagLabel.setText("Tallest to shortest");
+      } else {
+        m_jCutOrderFlagLabel.setText("Shortest to tallest");
       }
 
       //Timestep

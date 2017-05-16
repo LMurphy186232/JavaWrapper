@@ -84,6 +84,11 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
       "Amt. basal area (m2/ha)" 
   });
   
+  /** Where you set the cut from tallest to smallest 
+   * or smallest to tallest */
+  protected JRadioButton m_jTallestFirst = new JRadioButton("Tallest to shortest");
+  protected JRadioButton m_jSmallestFirst = new JRadioButton("Shortest to tallest");
+  
   /** Label for displaying what species are selected */
   protected MultilineLabel m_jSpeciesSelected = 
     new MultilineLabel("No species selected");
@@ -193,6 +198,13 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
       m_jCutAmountType.setSelectedItem("% of basal area");
     } else if (HarvestData.PERCENTAGE_DENSITY == iTemp) {
       m_jCutAmountType.setSelectedItem("% of density");
+    }
+    
+    // Set the cut order flag
+    if (oToDisplay.getTallestFirstFlag()) {
+      m_jTallestFirst.setSelected(true);
+    } else {
+      m_jSmallestFirst.setSelected(true);
     }
 
     // Set the cut range data
@@ -314,6 +326,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
    * appropriately.
    */
   protected void makeGUI() throws ModelException {
+    JLabel jTempLabel;
     int i, j;
     TreePopulation oPop = m_oParentDisplayWindow.getTreePopulation();
 
@@ -384,6 +397,8 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     m_jTimestepEdit.setFont(new SortieFont());
     m_jCutType.setFont(new SortieFont());
     m_jCutAmountType.setFont(new SortieFont());
+    m_jTallestFirst.setFont(new SortieFont());
+    m_jSmallestFirst.setFont(new SortieFont());
     m_jCutRange1Amt.setFont(new SortieFont());
     m_jCutRange2Amt.setFont(new SortieFont());
     m_jCutRange3Amt.setFont(new SortieFont());
@@ -414,13 +429,13 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     jDataPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
     // Timestep
-    JLabel jTimestepLabel = new JLabel("Timestep:");
-    jTimestepLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jTimestepLabel.setFont(new SortieFont(java.awt.Font.BOLD));
+    jTempLabel = new JLabel("Timestep:");
+    jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jTempLabel.setFont(new SortieFont(java.awt.Font.BOLD));
     JPanel jTimestepPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     jTimestepPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
     m_jTimestepEdit.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jTimestepPanel.add(jTimestepLabel);
+    jTimestepPanel.add(jTempLabel);
     jTimestepPanel.add(m_jTimestepEdit);
     jDataPanel.add(jTimestepPanel);
 
@@ -436,10 +451,10 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     jDataPanel.add(m_jSpeciesSelected);
 
     // Cut type
-    JLabel jCutLabel = new JLabel("Cut type:");
-    jCutLabel.setFont(new SortieFont(Font.BOLD));
-    jCutLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jDataPanel.add(jCutLabel);
+    jTempLabel = new JLabel("Cut type:");
+    jTempLabel.setFont(new SortieFont(Font.BOLD));
+    jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jDataPanel.add(jTempLabel);
     
     m_jCutType.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
     m_jCutType.setActionCommand("Chose new cut");
@@ -448,10 +463,10 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     
 
     // Cut amount type
-    JLabel jCutAmtLabel = new JLabel("Cut amount type:");
-    jCutAmtLabel.setFont(new SortieFont(Font.BOLD));
-    jCutAmtLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    jDataPanel.add(jCutAmtLabel);
+    jTempLabel = new JLabel("Cut amount type:");
+    jTempLabel.setFont(new SortieFont(Font.BOLD));
+    jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jDataPanel.add(jTempLabel);
     m_jCutAmountType.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
     jDataPanel.add(m_jCutAmountType);
     
@@ -459,7 +474,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     // Cut ranges
     JPanel jCutRangePanel = new JPanel(new GridLayout(0, 5));
     jCutRangePanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
-    JLabel jTempLabel = new JLabel("Min");
+    jTempLabel = new JLabel("Min");
     jTempLabel.setFont(new SortieFont(Font.BOLD));
     jCutRangePanel.add(jTempLabel);
     jCutRangePanel.add(m_jCutRange1MinDBH);
@@ -488,6 +503,20 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     jTempPanel2.add(jCutRangePanel);
     jTempPanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));    
     jDataPanel.add(jTempPanel2);
+    
+    // Cut order
+    jTempLabel = new JLabel("Tree cut order:");
+    jTempLabel.setFont(new SortieFont(Font.BOLD));
+    jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jDataPanel.add(jTempLabel);
+    ButtonGroup jButtonGroup = new ButtonGroup();
+    jButtonGroup.add(m_jTallestFirst);
+    jButtonGroup.add(m_jSmallestFirst);
+    m_jTallestFirst.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    m_jSmallestFirst.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jDataPanel.add(m_jTallestFirst);
+    jDataPanel.add(m_jSmallestFirst);
+    m_jTallestFirst.setSelected(true);
     
     jButton = new JButton("Prioritize trees...");
     jButton.setFont(new SortieFont(Font.BOLD));
@@ -519,13 +548,13 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     // **********************************
     // Chart panel
     // **********************************
-    JLabel jInstructionLabel = new JLabel(
+    jTempLabel = new JLabel(
         " Click on a map cell to select it for this harvest.  Click on a selected cell to de-select it.");
-    jInstructionLabel.setFont(new SortieFont());
-    jInstructionLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jTempLabel.setFont(new SortieFont());
+    jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
 
     m_jChartPanel.setLayout(new BorderLayout());
-    m_jChartPanel.add(jInstructionLabel, BorderLayout.NORTH);
+    m_jChartPanel.add(jTempLabel, BorderLayout.NORTH);
     m_jChartPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
         java.awt.Color.black));
 
@@ -661,6 +690,15 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
       oNewHarvest.setCutAmountType(HarvestData.PERCENTAGE_BASAL_AREA);
     } else if (sChoice.equals("% of density")) {
       oNewHarvest.setCutAmountType(HarvestData.PERCENTAGE_DENSITY);
+    }
+    
+    // Set the tallest first flag
+    if (m_jTallestFirst.isSelected()) {
+      oNewHarvest.setTallestFirstFlag(true);
+    } else if (m_jSmallestFirst.isSelected()) {
+      oNewHarvest.setTallestFirstFlag(false);
+    } else {
+      throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "You must select tree cut order."));
     }
 
     // Now each cut range

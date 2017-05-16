@@ -20,6 +20,7 @@ import sortie.gui.ErrorGUI;
  * <br>Edit history:
  * <br>------------------
  * <br>December 8, 2011: Wiped the slate clean for version 7 (LEM)
+ * <br>May 12, 2017: Added flag for cut smallest-to-tallest
  */
 
 public class HarvestData {
@@ -76,6 +77,10 @@ public class HarvestData {
   private int m_iCutAmountType = -1;
   /**Maximum number of allowed cut ranges*/
   public static int NUMBER_ALLOWED_CUT_RANGES = 4;
+  
+  /**Flag for whether to cut tallest-to-smallest (true) or smallest-to-tallest
+   * (false */
+  private boolean m_bTallestFirst = true;
 
   /** First cut priority */
   private CutPriority m_oPriority1 = new CutPriority();
@@ -505,6 +510,24 @@ public class HarvestData {
 
     CutRange oCutRange = mp_oCutRanges.get(iCutRangeIndex);
     return oCutRange.getLowBound();
+  }
+  
+  /**
+   * Gets the flag for whether to cut tallest-to-smallest (true) or smallest-
+   * to-tallest (false).
+   * @return Tallest-to-smallest flag.
+   */
+  public boolean getTallestFirstFlag() {
+    return m_bTallestFirst;
+  }
+  
+  /**
+   * Sets the flag for whether to cut tallest-to-smallest (true) or smallest-
+   * to-tallest (false).
+   * @param Tallest-to-smallest flag.
+   */
+  public void setTallestFirstFlag(boolean bFlag) {
+    m_bTallestFirst = bFlag;
   }
 
   /**

@@ -62,6 +62,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(0.0, oCut.getLowerBound(0), 0.001);
       assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
       assertEquals(100.0, oCut.getCutAmount(0), 0.001);
+      assertTrue(oCut.getTallestFirstFlag());
       
       assertEquals(625, oCut.getNumberOfCells());
       int iCount = 0, i, j;
@@ -90,6 +91,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(40.0, oCut.getLowerBound(1), 0.001);
       assertEquals(80.0, oCut.getUpperBound(1), 0.001);
       assertEquals(0.2, oCut.getCutAmount(1), 0.001);
+      assertTrue(oCut.getTallestFirstFlag());
       
       assertEquals(60, oCut.getNumberOfCells());
       iCount = 0;
@@ -115,6 +117,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(0.0, oCut.getLowerBound(0), 0.001);
       assertEquals(300.0, oCut.getUpperBound(0), 0.001);
       assertEquals(35, oCut.getCutAmount(0), 0.001);
+      assertTrue(oCut.getTallestFirstFlag());
       
       assertEquals(625, oCut.getNumberOfCells());
       iCount = 0;
@@ -153,6 +156,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(50.0, oCut.getLowerBound(1), 0.001);
       assertEquals(80.0, oCut.getUpperBound(1), 0.001);
       assertEquals(40.0, oCut.getCutAmount(1), 0.001);
+      assertTrue(oCut.getTallestFirstFlag());
       
       assertEquals(625, oCut.getNumberOfCells());
       iCount = 0;
@@ -1500,6 +1504,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(1, oCut.getTimestep());
       assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
       assertEquals(HarvestData.PERCENTAGE_BASAL_AREA, oCut.getCutAmountType());
+      assertTrue(oCut.getTallestFirstFlag());
       assertEquals(4, oCut.getNumberOfCutRanges());
 
       assertEquals(1, oCut.getNumberOfSpecies());
@@ -1540,6 +1545,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(2, oCut.getTimestep());
       assertEquals(HarvestData.GAP_CUT, oCut.getCutType());
       assertEquals(HarvestData.PERCENTAGE_DENSITY, oCut.getCutAmountType());
+      assertFalse(oCut.getTallestFirstFlag());
       assertEquals(1, oCut.getNumberOfCutRanges());
 
       assertEquals(9, oCut.getNumberOfSpecies());
@@ -1577,6 +1583,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(HarvestData.CLEAR_CUT, oCut.getCutType());
       assertEquals(HarvestData.ABSOLUTE_BASAL_AREA, oCut.getCutAmountType());
       assertEquals(1, oCut.getNumberOfCutRanges());
+      assertTrue(oCut.getTallestFirstFlag());
 
       assertEquals(4, oCut.getNumberOfSpecies());
       assertEquals(oPop.getSpeciesCodeFromName("Subalpine_Fir"), oCut.getSpecies(0));
@@ -1653,6 +1660,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(4, oCut.getTimestep());
       assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
       assertEquals(HarvestData.ABSOLUTE_DENSITY, oCut.getCutAmountType());
+      assertFalse(oCut.getTallestFirstFlag());
       assertEquals(1, oCut.getNumberOfCutRanges());
 
       assertEquals(1, oCut.getNumberOfSpecies());
@@ -1947,6 +1955,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(1, oCut.getTimestep());
       assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
       assertEquals(HarvestData.ABSOLUTE_DENSITY, oCut.getCutAmountType());
+      assertFalse(oCut.getTallestFirstFlag());
       assertEquals(1, oCut.getNumberOfCutRanges());
 
       assertEquals(1, oCut.getNumberOfSpecies());
@@ -1983,6 +1992,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(1, oCut.getTimestep());
       assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
       assertEquals(HarvestData.ABSOLUTE_DENSITY, oCut.getCutAmountType());
+      assertTrue(oCut.getTallestFirstFlag());
       assertEquals(1, oCut.getNumberOfCutRanges());
       assertEquals(10.0, oCut.getLowerBound(0), 0.001);
       assertEquals(50.0, oCut.getUpperBound(0), 0.001);
@@ -2013,6 +2023,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(1, oCut.getTimestep());
       assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
       assertEquals(HarvestData.PERCENTAGE_BASAL_AREA, oCut.getCutAmountType());
+      assertFalse(oCut.getTallestFirstFlag());
       
       assertEquals(0.0, oCut.getLowerBound(0), 0.001);
       assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
@@ -2043,6 +2054,8 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(1, oCut.getTimestep());
       assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
       assertEquals(HarvestData.ABSOLUTE_BASAL_AREA, oCut.getCutAmountType());
+      assertTrue(oCut.getTallestFirstFlag());
+      
       assertEquals(0.0, oCut.getLowerBound(0), 0.001);
       assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
       assertEquals(2.0, oCut.getCutAmount(0), 0.001);
@@ -3085,6 +3098,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ha_timestep>1</ha_timestep>");
       oOut.write("<ha_cutType>partial</ha_cutType>");
       oOut.write("<ha_cutAmountType>percent of basal area</ha_cutAmountType>");
+      oOut.write("<ha_tallestFirst>" + true + "</ha_tallestFirst>");
       oOut.write("<ha_dbhRange>");
       oOut.write("<ha_low>0.0</ha_low>");
       oOut.write("<ha_high>30.0</ha_high>");
@@ -3134,6 +3148,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ha_timestep>2</ha_timestep>");
       oOut.write("<ha_cutType>gap</ha_cutType>");
       oOut.write("<ha_cutAmountType>percent of density</ha_cutAmountType>");
+      oOut.write("<ha_tallestFirst>0</ha_tallestFirst>");
       oOut.write("<ha_dbhRange>");
       oOut.write("<ha_low>0.0</ha_low>");
       oOut.write("<ha_high>3000.0</ha_high>");
@@ -3196,6 +3211,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ha_timestep>4</ha_timestep>");
       oOut.write("<ha_cutType>partial</ha_cutType>");
       oOut.write("<ha_cutAmountType>absolute density</ha_cutAmountType>");
+      oOut.write("<ha_tallestFirst>0</ha_tallestFirst>");
       oOut.write("<ha_dbhRange>");
       oOut.write("<ha_low>0.0</ha_low>");
       oOut.write("<ha_high>3000.0</ha_high>");
@@ -3371,6 +3387,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ha_timestep>1</ha_timestep>");
       oOut.write("<ha_cutType>gap</ha_cutType>");
       oOut.write("<ha_cutAmountType>percent of density</ha_cutAmountType>");
+      oOut.write("<ha_tallestFirst>0</ha_tallestFirst>");
       oOut.write("<ha_dbhRange>");
       oOut.write("<ha_low>0.0</ha_low>");
       oOut.write("<ha_high>3000.0</ha_high>");
@@ -3393,6 +3410,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ha_timestep>2</ha_timestep>");
       oOut.write("<ha_cutType>clear</ha_cutType>");
       oOut.write("<ha_cutAmountType>absolute basal area</ha_cutAmountType>");
+      oOut.write("<ha_tallestFirst>1</ha_tallestFirst>");
       oOut.write("<ha_dbhRange>");
       oOut.write("<ha_low>20.0</ha_low>");
       oOut.write("<ha_high>3000.0</ha_high>");
@@ -3983,6 +4001,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
     oOut.write("<ha_timestep>1</ha_timestep>");
     oOut.write("<ha_cutType>partial</ha_cutType>");
     oOut.write("<ha_cutAmountType>absolute density</ha_cutAmountType>");
+    oOut.write("<ha_tallestFirst>0</ha_tallestFirst>");
     oOut.write("<ha_dbhRange>");
     oOut.write("<ha_low>0.0</ha_low>");
     oOut.write("<ha_high>87.0</ha_high>");
@@ -4002,6 +4021,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
     oOut.write("<ha_timestep>1</ha_timestep>");
     oOut.write("<ha_cutType>partial</ha_cutType>");
     oOut.write("<ha_cutAmountType>absolute density</ha_cutAmountType>");
+    oOut.write("<ha_tallestFirst>1</ha_tallestFirst>");
     oOut.write("<ha_dbhRange>");
     oOut.write("<ha_low>10.0</ha_low>");
     oOut.write("<ha_high>50.0</ha_high>");
@@ -4026,6 +4046,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
     oOut.write("<ha_timestep>1</ha_timestep>");
     oOut.write("<ha_cutType>partial</ha_cutType>");
     oOut.write("<ha_cutAmountType>percent of basal area</ha_cutAmountType>");
+    oOut.write("<ha_tallestFirst>0</ha_tallestFirst>");
     oOut.write("<ha_dbhRange>");
     oOut.write("<ha_low>0.0</ha_low>");
     oOut.write("<ha_high>3000.0</ha_high>");
@@ -4056,6 +4077,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
     oOut.write("<ha_timestep>1</ha_timestep>");
     oOut.write("<ha_cutType>partial</ha_cutType>");
     oOut.write("<ha_cutAmountType>absolute basal area</ha_cutAmountType>");
+    oOut.write("<ha_tallestFirst>1</ha_tallestFirst>");
     oOut.write("<ha_dbhRange>");
     oOut.write("<ha_low>0.0</ha_low>");
     oOut.write("<ha_high>3000.0</ha_high>");

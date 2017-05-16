@@ -468,6 +468,9 @@ public class Harvest extends Behavior {
                   + "harvest cut type \"" + String.valueOf(iTemp) + "\"."));
         }
         jOut.write("</ha_cutAmountType>");
+        
+        // Write out the flag for cutting tallest first
+        jOut.write("<ha_tallestFirst>" + oData.getTallestFirstFlag() + "</ha_tallestFirst>");
 
         // Write the cut ranges
         iTemp = oData.getNumberOfCutRanges();
@@ -733,6 +736,18 @@ public class Harvest extends Behavior {
 
         // Not time to assign - stash this value
         m_iCutRangeAmount = fVal;
+
+        return true;
+      } else if (sXMLTag.equals("ha_tallestFirst")) {
+
+        // Get the last harvest event
+        HarvestData oHarvest =  mp_oHarvestCuts
+            .get(mp_oHarvestCuts.size() - 1);
+        if (String.valueOf(oData).equals("0")) {
+          oHarvest.setTallestFirstFlag(false);
+        } else if (String.valueOf(oData).equals("1")) {
+          oHarvest.setTallestFirstFlag(true);
+        }
 
         return true;
       } else if (sXMLTag.equals("ha_name")) {
