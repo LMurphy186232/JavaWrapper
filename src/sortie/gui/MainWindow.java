@@ -1704,12 +1704,12 @@ public class MainWindow
         
         //If this is already the first file, don't do anything else
         sFile = jPrefs.get("RecentFiles1", "");
-        if (!sFile.equals(sDisplayFile)) {
+        if (!sFile.equals(sPrefsString1)) {
 
           sFileAbove = jPrefs.get("RecentFiles1", "");
           for (int i = 2; i < 5; i++) {
             sFile = jPrefs.get("RecentFiles" + String.valueOf(i), "");
-            if (!sFileAbove.equals(sDisplayFile)) {
+            if (!sFileAbove.equals(sPrefsString1)) {
               jPrefs.put("RecentFiles" + String.valueOf(i), sFileAbove);            
             }
             sFileAbove = sFile;
@@ -1717,7 +1717,9 @@ public class MainWindow
           sFileAbove = jPrefs.get("RecentFilesPath1", "");
           for (int i = 2; i < 5; i++) {
             sFile = jPrefs.get("RecentFilesPath" + String.valueOf(i), "");
-            jPrefs.put("RecentFilesPath" + String.valueOf(i), sFileAbove);
+            if (!sFileAbove.equals(sPrefsString2)) {
+              jPrefs.put("RecentFilesPath" + String.valueOf(i), sFileAbove);
+            }
             sFileAbove = sFile;
           }
           //jPrefs.put("RecentFiles1", sDisplayFile);
