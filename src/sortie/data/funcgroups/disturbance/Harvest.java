@@ -470,7 +470,11 @@ public class Harvest extends Behavior {
         jOut.write("</ha_cutAmountType>");
         
         // Write out the flag for cutting tallest first
-        jOut.write("<ha_tallestFirst>" + oData.getTallestFirstFlag() + "</ha_tallestFirst>");
+        if (oData.getTallestFirstFlag()) {
+          jOut.write("<ha_tallestFirst>1</ha_tallestFirst>");
+        } else {
+          jOut.write("<ha_tallestFirst>0</ha_tallestFirst>");
+        }
 
         // Write the cut ranges
         iTemp = oData.getNumberOfCutRanges();
