@@ -524,7 +524,7 @@ public class HarvestData {
   /**
    * Sets the flag for whether to cut tallest-to-smallest (true) or smallest-
    * to-tallest (false).
-   * @param Tallest-to-smallest flag.
+   * @param bFlag Tallest-to-smallest flag.
    */
   public void setTallestFirstFlag(boolean bFlag) {
     m_bTallestFirst = bFlag;

@@ -87,15 +87,7 @@ public class SORTIEComboBox<T> extends JComboBox<T>{
  */
 /*public class SORTIEComboBox extends JComboBox {
 
-  
-
-  /**
-   * Constructor.
-   * 
-   * @param aModel
-   *          Combo box model for this combo box.
-   */
-/*  public SORTIEComboBox(ComboBoxModel aModel) {
+  public SORTIEComboBox(ComboBoxModel aModel) {
     super(aModel);
     setFont(new ModelFont());
   } */
@@ -155,7 +147,7 @@ public class SORTIEComboBox<T> extends JComboBox<T>{
     popup.add(comp, java.awt.BorderLayout.CENTER);
   }
 
-}
+}*/
 
 /**
  * Causes combo box drop-down pop-ups to expand to correctly display their
@@ -165,10 +157,8 @@ public class SORTIEComboBox<T> extends JComboBox<T>{
  * @author Lora Murphy
  */
 /*class BigPopupComboBoxUI extends BasicComboBoxUI {
-  /**
-   * Creates the arrow button
-   */
-/*  protected JButton createArrowButton() {
+  
+  protected JButton createArrowButton() {
     JButton button = new BasicArrowButton(BasicArrowButton.SOUTH);
     button.setUI((javax.swing.plaf.ButtonUI) javax.swing.UIManager
         .getUI(button));
@@ -192,15 +182,7 @@ public class SORTIEComboBox<T> extends JComboBox<T>{
    * @author Lora Murphy
    */
 /*  class Popup extends BasicComboPopup {
-    
-
-    /**
-     * Constructor.
-     * 
-     * @param comboBox
-     *          The combo box this is attached to.
-     */
-/*    public Popup(JComboBox comboBox) {
+    public Popup(JComboBox comboBox) {
       super(comboBox);
       this.setLayout(new GridLayout(comboBox.getModel().getSize(), 1, 5, 5));
     }*/

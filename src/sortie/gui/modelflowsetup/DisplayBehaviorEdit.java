@@ -62,7 +62,7 @@ implements ActionListener {
 
   /**
    * Constructor.  Creates the GUI.
-   * @param jParent Parent dialog in which to display this one.
+   * @param parent Parent dialog in which to display this one.
    * @param oHelpBroker System Help broker.
    */
   public DisplayBehaviorEdit(ModelFlowSetup parent, HelpBroker oHelpBroker) {

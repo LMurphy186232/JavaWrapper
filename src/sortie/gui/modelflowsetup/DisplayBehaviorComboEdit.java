@@ -63,7 +63,8 @@ implements ActionListener {
 
   /**
    * Constructor.
-   * @param jParent Parent dialog in which to display this dialog.
+   * @param display Parent dialog in which to display this dialog.
+   * @param parent Window from which this behavior was called
    * @param oBehavior Behavior to edit.
    * @param oHelpBroker The application's help broker.
    * @throws ModelException if there is a problem constructing the window.

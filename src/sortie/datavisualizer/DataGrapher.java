@@ -111,8 +111,6 @@ public class DataGrapher {
    * @param oDataset The new dataset.
    * @param jFrame The window in which to update the chart.
    * @param oLegend The legend for this chart.
-   * @param jUseTotals Checkbox for whether or not to use totals. Can be null.
-   * @param iNumSpecies The number of total species there are.
    * @throws ModelException Passing through underlying exceptions.
    */
   public static void updateGenericLineChart(DefaultXYDataset oDataset,
@@ -695,8 +693,7 @@ public class DataGrapher {
    * @param sYAxisLabel The Y axis label
    * @param sTitle The window title for the chart
    * @param oLegend The legend for this chart
-   * @param jUseTotals Checkbox for whether or not to use totals. Can be null.
-   * @param iNumSpecies Number of species, total.
+   * @param oSppLegend Legend with species list
    * @return The chart.
    * @throws ModelException if anything goes wrong with drawing the chart.
    */
@@ -1061,7 +1058,6 @@ public class DataGrapher {
    * @param sXAxisLabel The X axis label
    * @param sYAxisLabel The Y axis label
    * @param oLegend The legend for this chart
-   * @param iNumSpecies Number of species, total.
    * @param jPreferredSize Chart's size.
    * @return The chart.
    * @throws ModelException if anything goes wrong with drawing the chart.

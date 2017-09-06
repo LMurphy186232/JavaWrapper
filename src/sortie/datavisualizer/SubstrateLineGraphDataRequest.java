@@ -349,8 +349,6 @@ public class SubstrateLineGraphDataRequest extends DataRequest {
   
   /**
    * This will take a dataset and make a copy with only values that are supposed to be visible.
-   * @param oDataset The dataset.
-   * @param oLegend The legend which controls which species are visible.
    * @return The dataset copy.
    * @throws ModelException wrapping another exception.
    */

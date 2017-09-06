@@ -1535,7 +1535,7 @@ public class MainWindow
     finally {
       this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }
-  }/*
+  }*/
   
   /**
    * File | Open Parameter File action performed.  Allows the user to input a

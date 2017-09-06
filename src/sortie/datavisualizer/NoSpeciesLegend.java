@@ -47,8 +47,7 @@ public class NoSpeciesLegend extends JPanel implements ActionListener {
    * Constructor. This will create the legend window and assign default
    * colors to all the things.
    * @param oRequest The parent DataRequest object.
-   * @param sTitle Window title
-   * @param p_sSpeciesNames The list of species to display in the legend.
+   * @param p_sDisplayNames The list of items to display in the legend.
    * @throws ModelException if the list of species has 0 items, or wrapping
    * another type of exception.
    */

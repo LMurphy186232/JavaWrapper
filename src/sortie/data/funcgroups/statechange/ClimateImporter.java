@@ -536,9 +536,9 @@ public class ClimateImporter extends Behavior {
   
   /**
    * Set precipitation data.
+   * @param fVal Temperature for the specified time.
    * @param iTimestep Timestep to get data for, as a value from 1-number of timesteps.
    * @param iMonth Month to get data for, as a value from 1-12. 
-   * @return Temperature for the specified time.
    * @throws ModelException if the month or timestep are not valid.
    */
   public void setPptData(double fVal, int iTimestep, int iMonth) throws ModelException {

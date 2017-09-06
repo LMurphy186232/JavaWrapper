@@ -8,8 +8,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +71,7 @@ implements ActionListener {
   /**
    * Constructor.  Creates the dialog which allows the user to modify
    * behavior choices and behavior order for a species/type combo.
-   * @param jParent Dialog window owning this dialog.
+   * @param parent Dialog window owning this dialog.
    * @param iType Tree type (life history stage).
    * @param iSpecies Tree species.
    * @throws ModelException passed through from called methods.
