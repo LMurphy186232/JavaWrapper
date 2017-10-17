@@ -32,10 +32,6 @@ import java.util.ArrayList;
  * Copyright: Copyright (c) Charles D. Canham 2003
  * Company: Cary Institute of Ecosystem Studies
  * @author Lora E. Murphy
- * @version 1.0
- * <br>Edit history:
- * <br>------------------
- * <br>December 8, 2011: Wiped the slate clean for version 7 (LEM)
  */
 
 public class HarvestEdit extends EditWindowBase implements ActionListener {
@@ -468,6 +464,8 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
     jDataPanel.add(jTempLabel);
     m_jCutAmountType.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    m_jCutAmountType.setActionCommand("ChangeCutAmountType");
+    m_jCutAmountType.addActionListener(this);
     jDataPanel.add(m_jCutAmountType);
     
 
@@ -1031,7 +1029,21 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
         m_jCutRange4MaxDBH.setEnabled(true);
         m_jCutRange4Amt.setEnabled(true);
       }
-    }     
+    } 
+    else if (oEvent.getActionCommand().equals("ChangeCutAmountType")) {
+      
+      //Get the cut amount type
+      String sChoice = m_jCutAmountType.getSelectedItem().toString();
+      
+      if (sChoice.equals("% of density")) {
+        // Disable size ordering buttons
+        m_jTallestFirst.setEnabled(false);
+        m_jSmallestFirst.setEnabled(false);
+      } else {
+        m_jTallestFirst.setEnabled(true);
+        m_jSmallestFirst.setEnabled(true);
+      }
+    }
     else if (oEvent.getActionCommand().equals("Seedling Mortality")) {
       DisplaySeedlingMortParameters oEditor = 
         new DisplaySeedlingMortParameters(m_oParentDisplayWindow.m_oDisturbanceBehaviors.getGUIManager(),
