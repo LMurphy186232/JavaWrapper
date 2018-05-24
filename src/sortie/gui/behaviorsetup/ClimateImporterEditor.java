@@ -51,12 +51,18 @@ EnhancedTableWindow {
 
   /**The regular EnhancedTable objects in this window*/
   ArrayList<ArrayList<EnhancedTable>> mp_oAllTables = new ArrayList<ArrayList<EnhancedTable>>();
+  
+  /** The display table holding monthly precipitation values */
+  EnhancedTable m_oPptTable;
+  
+  /** The display table holding monthly temperature values */
+  EnhancedTable m_oTempTable;
 
-  /**The table holding monthly precipitation values */
-  Object[][] m_oPptData;
+  /**The data table holding monthly precipitation values */
+  //Object[][] m_oPptData;
 
-  /**The table holding monthly temperature values */
-  Object[][] m_oTempData;
+  /**The data table holding monthly temperature values */
+  //Object[][] m_oTempData;
 
   /** Set of objects that were displayed*/
   ArrayList<BehaviorParameterDisplay> mp_oAllObjects;
@@ -100,8 +106,8 @@ EnhancedTableWindow {
       }
       
       // Create tables to hold monthly data
-      m_oTempData = new Object[m_oManager.getPlot().getNumberOfTimesteps()][13];
-      m_oPptData = new Object[m_oManager.getPlot().getNumberOfTimesteps()][13];
+      Object[][] oTempData = new Object[m_oManager.getPlot().getNumberOfTimesteps()][13];
+      Object[][] oPptData = new Object[m_oManager.getPlot().getNumberOfTimesteps()][13];
       int i, j, iTSToWrite = m_oManager.getPlot().getNumberOfTimesteps();
 
       // Compare the number of timesteps of data and the number of timesteps - if the 
@@ -112,17 +118,24 @@ EnhancedTableWindow {
       // Create tables of data
       for (i = 1; i < 13; i++) {
         for (j = 1; j <= iTSToWrite; j++) {
-          m_oTempData[(j-1)][i] = m_oClim.getTempData(j, i);
-          m_oPptData[(j-1)][i] = m_oClim.getPptData(j, i);
+          oTempData[(j-1)][i] = m_oClim.getTempData(j, i);
+          oPptData[(j-1)][i] = m_oClim.getPptData(j, i);
         }
       }
 
       // Add labels to first column
       iTSToWrite = m_oManager.getPlot().getNumberOfTimesteps();
       for (j = 0; j < iTSToWrite; j++) {
-        m_oTempData[j][0] = "Temperature for timestep " + (j+1);
-        m_oPptData[j][0] = "Precipitation for timestep " + (j+1);
+        oTempData[j][0] = "Temperature for timestep " + (j+1);
+        oPptData[j][0] = "Precipitation for timestep " + (j+1);
       }
+      
+      Object[] p_oHeaderRow = new Object[]{"", "January", "February", "March", "April", "May",
+          "June", "July", "August", "September", "October", "November", "December"};
+
+      //Create the tables from the data
+      m_oTempTable = new EnhancedTable(oTempData, p_oHeaderRow, this, "");
+      m_oPptTable = new EnhancedTable(oPptData, p_oHeaderRow, this, "");
 
       refreshParametersDisplay();
 
@@ -256,30 +269,24 @@ EnhancedTableWindow {
 
     jMainPanel.add(jButtonPanel);
 
-    Object[] p_oHeaderRow = new Object[]{"", "January", "February", "March", "April", "May",
-        "June", "July", "August", "September", "October", "November", "December"};
-
-    //Create the tables from the data
-    EnhancedTable oTable = new EnhancedTable(m_oTempData, p_oHeaderRow, this, "");
-
+    
     //Create a table panel with an empty panel in CENTER so that the
     //table won't automatically fill the space
     JPanel jTablePanel = new JPanel(new BorderLayout());
     jTablePanel.setName("Table Panel");
     jTablePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
     jTablePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    jTablePanel.add(oTable, BorderLayout.LINE_START);
+    jTablePanel.add(m_oTempTable, BorderLayout.LINE_START);
     jTablePanel.add(new JPanel(), BorderLayout.CENTER);
 
     //Put the table panel in the object's panel
     jMainPanel.add(jTablePanel);
 
-    oTable = new EnhancedTable(m_oPptData, p_oHeaderRow, this, "");
     jTablePanel = new JPanel(new BorderLayout());
     jTablePanel.setName("Table Panel");
     jTablePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
     jTablePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    jTablePanel.add(oTable, BorderLayout.LINE_START);
+    jTablePanel.add(m_oPptTable, BorderLayout.LINE_START);
     jTablePanel.add(new JPanel(), BorderLayout.CENTER);
 
     //Put the table panel in the object's panel
@@ -303,6 +310,16 @@ EnhancedTableWindow {
         }
       }
     }
+    
+    if (m_oPptTable.isEditing()) {
+      m_oPptTable.getCellEditor(m_oPptTable.getEditingRow(),
+          m_oPptTable.getEditingColumn()).stopCellEditing();
+    }
+    
+    if (m_oTempTable.isEditing()) {
+      m_oTempTable.getCellEditor(m_oTempTable.getEditingRow(),
+          m_oTempTable.getEditingColumn()).stopCellEditing();
+    }
 
     //Handle the data that can be passed the default way
     TreePopulation oPop = m_oManager.getTreePopulation();
@@ -317,16 +334,34 @@ EnhancedTableWindow {
     }
     m_oClim.readDataFromDisplay(mp_oAllObjects, oPop);
     
+    //Bring the monthly data from the tables to the object arrays
+    /*TableData oDat = m_oPptTable.getData();
+    //Start index at 1 - skip label row
+    for (i = 1; i < oDat.mp_oTableData.length; i++) {
+      for (j = 1; j < 13; j++) {
+        m_oPptData[(i-1)][j] = oDat.mp_oTableData[i][j];
+      }
+    }
+    
+    oDat = m_oTempTable.getData();
+    for (i = 1; i < oDat.mp_oTableData.length; i++) {
+      for (j = 0; j < oDat.mp_oTableData[i].length; j++) {
+        m_oTempData[(i-1)][j] = oDat.mp_oTableData[i][j];
+      }
+    }*/
+    
     String sTemp = "";
     try {
       // Pass the monthly data
-      for (i = 0; i < m_oTempData.length; i++) {
+      Object[][] oTempData = m_oTempTable.getData().mp_oTableData;
+      Object[][] oPptData = m_oPptTable.getData().mp_oTableData;
+      for (i = 1; i < oTempData.length; i++) {
         for (j = 1; j < 13; j++) {
-          sTemp = m_oTempData[i][j].toString();
-          m_oClim.setTempData(new Double(sTemp).doubleValue(), i+1, j);
+          sTemp = oTempData[i][j].toString();
+          m_oClim.setTempData(new Double(sTemp).doubleValue(), i, j);
           
-          sTemp = m_oPptData[i][j].toString();
-          m_oClim.setPptData(new Double(sTemp).doubleValue(), i+1, j);
+          sTemp = oPptData[i][j].toString();
+          m_oClim.setPptData(new Double(sTemp).doubleValue(), i, j);
         }
       }
     } catch (NumberFormatException e) {
@@ -427,8 +462,8 @@ EnhancedTableWindow {
       boolean bTemp = sCommandString.equals("ReadTempData");
 
       // Verify that we have the correct amount of data - need one line for each timestep
-      // (allowing for a header line)
-      if ((iNumLines-1) != m_oPptData.length) {
+      // (allowing for a header line for both file and table)
+      if (iNumLines != m_oPptTable.getData().mp_oTableData.length) {
         throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
             "The file does not have one line for every timestep."));
       }
@@ -437,7 +472,7 @@ EnhancedTableWindow {
       ModelFileFunctions.skipLine(oIn);
 
       oLine = ModelFileFunctions.readLine(oIn);
-      iNumLines = 0;
+      iNumLines = 1;
       while (oLine.size() > 0) {
 
         // Verify that we have 12 months of data (allow for first column to be rowname)
@@ -448,11 +483,12 @@ EnhancedTableWindow {
 
         if (bTemp) {
           for (i = 1; i < oLine.size(); i++) {
-            m_oTempData[iNumLines][i] = oLine.get(i);
+            m_oTempTable.setValueAt(oLine.get(i), iNumLines, i);
+            //m_oTempData[iNumLines][i] = oLine.get(i);
           }
         } else {
           for (i = 1; i < oLine.size(); i++) {
-            m_oPptData[iNumLines][i] = oLine.get(i);
+            m_oPptTable.setValueAt(oLine.get(i), iNumLines, i);
           }
         }
 

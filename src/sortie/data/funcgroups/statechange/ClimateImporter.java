@@ -639,4 +639,12 @@ public class ClimateImporter extends Behavior {
       jOut.write("\n");
     }
   }
+  
+  public float getFebruarySolar() {
+    return m_fRadFeb.getValue();
+  }
+  
+  public float getAWS() {
+    return m_fAWS.getValue();
+  }
 }

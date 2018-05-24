@@ -26,6 +26,119 @@ import sortie.gui.MainWindow;
  * @version 1.0
  */
 public class TestClimateImporterEditor extends ModelTestCase {
+  
+  /**
+   * Tests that values changed in the window are correctly passed back to the behavior.
+   * This is in response to a bug report.
+   */
+  public void testValueChange() {
+    GUIManager oManager = null;
+    String sFileName = null;
+    try {
+
+      MainWindow oMainWindow = new MainWindow();
+      oManager = oMainWindow.getDataManager();
+      sFileName = ClimateImporterTest.writeValidXMLFile();
+      oManager.inputXMLParameterFile(sFileName);
+      
+      //Call the interface
+      StateChangeBehaviors oStateBeh = oManager.getStateChangeBehaviors();
+      ArrayList<Behavior> p_oBehs = oStateBeh.getBehaviorByParameterFileTag("ClimateImporter");
+      assertEquals(1, p_oBehs.size());
+      ClimateImporter oClim = (ClimateImporter) p_oBehs.get(0);
+      ClimateImporterEditor oWindow = new ClimateImporterEditor(null, oManager, oMainWindow, oClim);
+      
+      oWindow.readDataFile(new File(writePrecipFile1()), "ReadPptData");
+      oWindow.readDataFile(new File(writeTempFile1()), "ReadTempData");
+      
+      // Change values in the radiation and water storage 
+      assertEquals(1, oWindow.mp_oAllTables.size());
+      assertEquals(1, oWindow.mp_oAllTables.get(0).size());
+      Object[][] oTable = oWindow.mp_oAllTables.get(0).get(0).getData().mp_oTableData;
+      assertEquals(14, oTable.length);
+      assertEquals(2, oTable[0].length);
+      
+      //Set February solar
+      oWindow.mp_oAllTables.get(0).get(0).setValueAt(1001.1, 2, 1);
+      
+      //Set AWS
+      oWindow.mp_oAllTables.get(0).get(0).setValueAt(70.1, 13, 1);
+      
+      //Set timestep 2 precip - remember indexes have to account for row and 
+      //column names at the zero index
+      oWindow.m_oPptTable.setValueAt(100.0, 2, 1);
+      oWindow.m_oPptTable.setValueAt(200.0, 2, 2);
+      oWindow.m_oPptTable.setValueAt(300.0, 2, 3);
+      oWindow.m_oPptTable.setValueAt(400.0, 2, 4);
+      oWindow.m_oPptTable.setValueAt(500.0, 2, 5);
+      oWindow.m_oPptTable.setValueAt(600.0, 2, 6);
+      oWindow.m_oPptTable.setValueAt(700.0, 2, 7);
+      oWindow.m_oPptTable.setValueAt(800.0, 2, 8);
+      oWindow.m_oPptTable.setValueAt(900.0, 2, 9);
+      oWindow.m_oPptTable.setValueAt(1000.0, 2, 10);
+      oWindow.m_oPptTable.setValueAt(1100.0, 2, 11);
+      oWindow.m_oPptTable.setValueAt(1200.0, 2, 12);
+      
+      //Set timestep 3 temp
+      oWindow.m_oTempTable.setValueAt(10, 3, 1);
+      oWindow.m_oTempTable.setValueAt(11, 3, 2);
+      oWindow.m_oTempTable.setValueAt(12, 3, 3);
+      oWindow.m_oTempTable.setValueAt(13, 3, 4);
+      oWindow.m_oTempTable.setValueAt(14, 3, 5);
+      oWindow.m_oTempTable.setValueAt(15, 3, 6);
+      oWindow.m_oTempTable.setValueAt(16, 3, 7);
+      oWindow.m_oTempTable.setValueAt(17, 3, 8);
+      oWindow.m_oTempTable.setValueAt(18, 3, 9);
+      oWindow.m_oTempTable.setValueAt(19, 3, 10);
+      oWindow.m_oTempTable.setValueAt(20, 3, 11);
+      oWindow.m_oTempTable.setValueAt(21, 3, 12);
+            
+      oWindow.actionPerformed(new ActionEvent(this, 0, "OK"));
+      
+      // Test read February solar and AWS
+      assertEquals(1001.1, oClim.getFebruarySolar(), 0.001);
+      assertEquals(70.1, oClim.getAWS(), 0.001);
+      
+      // Test that timestep 2 precip got set
+      assertEquals(100.0, oClim.getPptData(2, 1), 0.001);
+      assertEquals(200.0, oClim.getPptData(2, 2), 0.001);
+      assertEquals(300.0, oClim.getPptData(2, 3), 0.001);
+      assertEquals(400.0, oClim.getPptData(2, 4), 0.001);
+      assertEquals(500.0, oClim.getPptData(2, 5), 0.001);
+      assertEquals(600.0, oClim.getPptData(2, 6), 0.001);
+      assertEquals(700.0, oClim.getPptData(2, 7), 0.001);
+      assertEquals(800.0, oClim.getPptData(2, 8), 0.001);
+      assertEquals(900.0, oClim.getPptData(2, 9), 0.001);
+      assertEquals(1000.0, oClim.getPptData(2, 10), 0.001);
+      assertEquals(1100.0, oClim.getPptData(2, 11), 0.001);
+      assertEquals(1200.0, oClim.getPptData(2, 12), 0.001);
+      
+      // Test that timestep 3 temp got set
+      assertEquals(10.0, oClim.getTempData(3, 1), 0.001);
+      assertEquals(11.0, oClim.getTempData(3, 2), 0.001);
+      assertEquals(12.0, oClim.getTempData(3, 3), 0.001);
+      assertEquals(13.0, oClim.getTempData(3, 4), 0.001);
+      assertEquals(14.0, oClim.getTempData(3, 5), 0.001);
+      assertEquals(15.0, oClim.getTempData(3, 6), 0.001);
+      assertEquals(16.0, oClim.getTempData(3, 7), 0.001);
+      assertEquals(17.0, oClim.getTempData(3, 8), 0.001);
+      assertEquals(18.0, oClim.getTempData(3, 9), 0.001);
+      assertEquals(19.0, oClim.getTempData(3, 10), 0.001);
+      assertEquals(20.0, oClim.getTempData(3, 11), 0.001);
+      assertEquals(21.0, oClim.getTempData(3, 12), 0.001);
+      
+    }
+    catch (ModelException oErr) {
+      fail("Disturbance validation failed with message " + oErr.getMessage());
+    }
+    catch (IOException oE) {
+      fail("Caught IOException.  Message: " + oE.getMessage());
+    }
+    finally {
+      new File(sFileName).delete();
+    }
+  }
+  
 
   /**
    * Tests that the window correctly loads on setup
@@ -69,173 +182,176 @@ public class TestClimateImporterEditor extends ModelTestCase {
       assertEquals(60.9, new Double(oTable[13][1].toString()).doubleValue(), 0.00001);
       
       // Check the temperature and precipitation data
-      assertEquals(-2.57, new Double(oWindow.m_oTempData[0][1].toString()).doubleValue(), 0.001);
-      assertEquals(-3.46, new Double(oWindow.m_oTempData[1][1].toString()).doubleValue(), 0.001);
-      assertEquals(-6.93, new Double(oWindow.m_oTempData[2][1].toString()).doubleValue(), 0.001);
-      assertEquals(-7.76, new Double(oWindow.m_oTempData[3][1].toString()).doubleValue(), 0.001);
-      assertEquals(-0.72, new Double(oWindow.m_oTempData[4][1].toString()).doubleValue(), 0.001);
-      assertEquals(1.3, new Double(oWindow.m_oTempData[5][1].toString()).doubleValue(), 0.001);
+      oTable = oWindow.m_oTempTable.getData().mp_oTableData;
+      assertEquals(-2.57, new Double(oTable[1][1].toString()).doubleValue(), 0.001);
+      assertEquals(-3.46, new Double(oTable[2][1].toString()).doubleValue(), 0.001);
+      assertEquals(-6.93, new Double(oTable[3][1].toString()).doubleValue(), 0.001);
+      assertEquals(-7.76, new Double(oTable[4][1].toString()).doubleValue(), 0.001);
+      assertEquals(-0.72, new Double(oTable[5][1].toString()).doubleValue(), 0.001);
+      assertEquals(1.3, new Double(oTable[6][1].toString()).doubleValue(), 0.001);
       
-      assertEquals(2.75, new Double(oWindow.m_oTempData[0][2].toString()).doubleValue(),0.001);
-      assertEquals(-8.57, new Double(oWindow.m_oTempData[1][2].toString()).doubleValue(),0.001);
-      assertEquals(1.98, new Double(oWindow.m_oTempData[2][2].toString()).doubleValue(),0.001);
-      assertEquals(-7.5, new Double(oWindow.m_oTempData[3][2].toString()).doubleValue(),0.001);
-      assertEquals(-2.44, new Double(oWindow.m_oTempData[4][2].toString()).doubleValue(),0.001);
-      assertEquals(-9.36, new Double(oWindow.m_oTempData[5][2].toString()).doubleValue(),0.001);
+      assertEquals(2.75, new Double(oTable[1][2].toString()).doubleValue(),0.001);
+      assertEquals(-8.57, new Double(oTable[2][2].toString()).doubleValue(),0.001);
+      assertEquals(1.98, new Double(oTable[3][2].toString()).doubleValue(),0.001);
+      assertEquals(-7.5, new Double(oTable[4][2].toString()).doubleValue(),0.001);
+      assertEquals(-2.44, new Double(oTable[5][2].toString()).doubleValue(),0.001);
+      assertEquals(-9.36, new Double(oTable[6][2].toString()).doubleValue(),0.001);
       
-      assertEquals(2.94, new Double(oWindow.m_oTempData[0][3].toString()).doubleValue(),0.001);
-      assertEquals(0.28, new Double(oWindow.m_oTempData[1][3].toString()).doubleValue(),0.001);
-      assertEquals(0.3, new Double(oWindow.m_oTempData[2][3].toString()).doubleValue(),0.001);
-      assertEquals(-0.78, new Double(oWindow.m_oTempData[3][3].toString()).doubleValue(),0.001);
-      assertEquals(4.85, new Double(oWindow.m_oTempData[4][3].toString()).doubleValue(),0.001);
-      assertEquals(3.78, new Double(oWindow.m_oTempData[5][3].toString()).doubleValue(),0.001);
+      assertEquals(2.94, new Double(oTable[1][3].toString()).doubleValue(),0.001);
+      assertEquals(0.28, new Double(oTable[2][3].toString()).doubleValue(),0.001);
+      assertEquals(0.3, new Double(oTable[3][3].toString()).doubleValue(),0.001);
+      assertEquals(-0.78, new Double(oTable[4][3].toString()).doubleValue(),0.001);
+      assertEquals(4.85, new Double(oTable[5][3].toString()).doubleValue(),0.001);
+      assertEquals(3.78, new Double(oTable[6][3].toString()).doubleValue(),0.001);
       
-      assertEquals(2.17, new Double(oWindow.m_oTempData[0][4].toString()).doubleValue(),0.001);
-      assertEquals(5.9, new Double(oWindow.m_oTempData[1][4].toString()).doubleValue(),0.001);
-      assertEquals(7.17, new Double(oWindow.m_oTempData[2][4].toString()).doubleValue(),0.001);
-      assertEquals(8.67, new Double(oWindow.m_oTempData[3][4].toString()).doubleValue(),0.001);
-      assertEquals(5.61, new Double(oWindow.m_oTempData[4][4].toString()).doubleValue(),0.001);
-      assertEquals(4.56, new Double(oWindow.m_oTempData[5][4].toString()).doubleValue(),0.001);
+      assertEquals(2.17, new Double(oTable[1][4].toString()).doubleValue(),0.001);
+      assertEquals(5.9, new Double(oTable[2][4].toString()).doubleValue(),0.001);
+      assertEquals(7.17, new Double(oTable[3][4].toString()).doubleValue(),0.001);
+      assertEquals(8.67, new Double(oTable[4][4].toString()).doubleValue(),0.001);
+      assertEquals(5.61, new Double(oTable[5][4].toString()).doubleValue(),0.001);
+      assertEquals(4.56, new Double(oTable[6][4].toString()).doubleValue(),0.001);
       
-      assertEquals(7.25, new Double(oWindow.m_oTempData[0][5].toString()).doubleValue(),0.001);
-      assertEquals(7.6, new Double(oWindow.m_oTempData[1][5].toString()).doubleValue(),0.001);
-      assertEquals(9.46, new Double(oWindow.m_oTempData[2][5].toString()).doubleValue(),0.001);
-      assertEquals(11.26, new Double(oWindow.m_oTempData[3][5].toString()).doubleValue(),0.001);
-      assertEquals(7.6, new Double(oWindow.m_oTempData[4][5].toString()).doubleValue(),0.001);
-      assertEquals(6.9, new Double(oWindow.m_oTempData[5][5].toString()).doubleValue(),0.001);
+      assertEquals(7.25, new Double(oTable[1][5].toString()).doubleValue(),0.001);
+      assertEquals(7.6, new Double(oTable[2][5].toString()).doubleValue(),0.001);
+      assertEquals(9.46, new Double(oTable[3][5].toString()).doubleValue(),0.001);
+      assertEquals(11.26, new Double(oTable[4][5].toString()).doubleValue(),0.001);
+      assertEquals(7.6, new Double(oTable[5][5].toString()).doubleValue(),0.001);
+      assertEquals(6.9, new Double(oTable[6][5].toString()).doubleValue(),0.001);
       
-      assertEquals(11.05, new Double(oWindow.m_oTempData[0][6].toString()).doubleValue(),0.001);
-      assertEquals(17.16, new Double(oWindow.m_oTempData[1][6].toString()).doubleValue(),0.001);
-      assertEquals(11.06, new Double(oWindow.m_oTempData[2][6].toString()).doubleValue(),0.001);
-      assertEquals(17.72, new Double(oWindow.m_oTempData[3][6].toString()).doubleValue(),0.001);
-      assertEquals(14.05, new Double(oWindow.m_oTempData[4][6].toString()).doubleValue(),0.001);
-      assertEquals(13.52, new Double(oWindow.m_oTempData[5][6].toString()).doubleValue(),0.001);
+      assertEquals(11.05, new Double(oTable[1][6].toString()).doubleValue(),0.001);
+      assertEquals(17.16, new Double(oTable[2][6].toString()).doubleValue(),0.001);
+      assertEquals(11.06, new Double(oTable[3][6].toString()).doubleValue(),0.001);
+      assertEquals(17.72, new Double(oTable[4][6].toString()).doubleValue(),0.001);
+      assertEquals(14.05, new Double(oTable[5][6].toString()).doubleValue(),0.001);
+      assertEquals(13.52, new Double(oTable[6][6].toString()).doubleValue(),0.001);
       
-      assertEquals(16.82, new Double(oWindow.m_oTempData[0][7].toString()).doubleValue(),0.001);
-      assertEquals(22, new Double(oWindow.m_oTempData[1][7].toString()).doubleValue(),0.001);
-      assertEquals(18.34, new Double(oWindow.m_oTempData[2][7].toString()).doubleValue(),0.001);
-      assertEquals(20.99, new Double(oWindow.m_oTempData[3][7].toString()).doubleValue(),0.001);
-      assertEquals(15.46, new Double(oWindow.m_oTempData[4][7].toString()).doubleValue(),0.001);
-      assertEquals(15.74, new Double(oWindow.m_oTempData[5][7].toString()).doubleValue(),0.001);
+      assertEquals(16.82, new Double(oTable[1][7].toString()).doubleValue(),0.001);
+      assertEquals(22, new Double(oTable[2][7].toString()).doubleValue(),0.001);
+      assertEquals(18.34, new Double(oTable[3][7].toString()).doubleValue(),0.001);
+      assertEquals(20.99, new Double(oTable[4][7].toString()).doubleValue(),0.001);
+      assertEquals(15.46, new Double(oTable[5][7].toString()).doubleValue(),0.001);
+      assertEquals(15.74, new Double(oTable[6][7].toString()).doubleValue(),0.001);
       
-      assertEquals(18.32, new Double(oWindow.m_oTempData[0][8].toString()).doubleValue(),0.001);
-      assertEquals(15.97, new Double(oWindow.m_oTempData[1][8].toString()).doubleValue(),0.001);
-      assertEquals(17.54, new Double(oWindow.m_oTempData[2][8].toString()).doubleValue(),0.001);
-      assertEquals(17.46, new Double(oWindow.m_oTempData[3][8].toString()).doubleValue(),0.001);
-      assertEquals(16.69, new Double(oWindow.m_oTempData[4][8].toString()).doubleValue(),0.001);
-      assertEquals(17.48, new Double(oWindow.m_oTempData[5][8].toString()).doubleValue(),0.001);
+      assertEquals(18.32, new Double(oTable[1][8].toString()).doubleValue(),0.001);
+      assertEquals(15.97, new Double(oTable[2][8].toString()).doubleValue(),0.001);
+      assertEquals(17.54, new Double(oTable[3][8].toString()).doubleValue(),0.001);
+      assertEquals(17.46, new Double(oTable[4][8].toString()).doubleValue(),0.001);
+      assertEquals(16.69, new Double(oTable[5][8].toString()).doubleValue(),0.001);
+      assertEquals(17.48, new Double(oTable[6][8].toString()).doubleValue(),0.001);
       
-      assertEquals(22.73, new Double(oWindow.m_oTempData[0][9].toString()).doubleValue(),0.001);
-      assertEquals(20.94, new Double(oWindow.m_oTempData[1][9].toString()).doubleValue(),0.001);
-      assertEquals(15.94, new Double(oWindow.m_oTempData[2][9].toString()).doubleValue(),0.001);
-      assertEquals(18.87, new Double(oWindow.m_oTempData[3][9].toString()).doubleValue(),0.001);
-      assertEquals(22.85, new Double(oWindow.m_oTempData[4][9].toString()).doubleValue(),0.001);
-      assertEquals(19.53, new Double(oWindow.m_oTempData[5][9].toString()).doubleValue(),0.001);
+      assertEquals(22.73, new Double(oTable[1][9].toString()).doubleValue(),0.001);
+      assertEquals(20.94, new Double(oTable[2][9].toString()).doubleValue(),0.001);
+      assertEquals(15.94, new Double(oTable[3][9].toString()).doubleValue(),0.001);
+      assertEquals(18.87, new Double(oTable[4][9].toString()).doubleValue(),0.001);
+      assertEquals(22.85, new Double(oTable[5][9].toString()).doubleValue(),0.001);
+      assertEquals(19.53, new Double(oTable[6][9].toString()).doubleValue(),0.001);
       
-      assertEquals(7.92, new Double(oWindow.m_oTempData[0][10].toString()).doubleValue(),0.001);
-      assertEquals(8.18, new Double(oWindow.m_oTempData[1][10].toString()).doubleValue(),0.001);
-      assertEquals(8.43, new Double(oWindow.m_oTempData[2][10].toString()).doubleValue(),0.001);
-      assertEquals(8.68, new Double(oWindow.m_oTempData[3][10].toString()).doubleValue(),0.001);
-      assertEquals(8.94, new Double(oWindow.m_oTempData[4][10].toString()).doubleValue(),0.001);
-      assertEquals(9.19, new Double(oWindow.m_oTempData[5][10].toString()).doubleValue(),0.001);
+      assertEquals(7.92, new Double(oTable[1][10].toString()).doubleValue(),0.001);
+      assertEquals(8.18, new Double(oTable[2][10].toString()).doubleValue(),0.001);
+      assertEquals(8.43, new Double(oTable[3][10].toString()).doubleValue(),0.001);
+      assertEquals(8.68, new Double(oTable[4][10].toString()).doubleValue(),0.001);
+      assertEquals(8.94, new Double(oTable[5][10].toString()).doubleValue(),0.001);
+      assertEquals(9.19, new Double(oTable[6][10].toString()).doubleValue(),0.001);
       
-      assertEquals(2.48, new Double(oWindow.m_oTempData[0][11].toString()).doubleValue(),0.001);
-      assertEquals(2.56, new Double(oWindow.m_oTempData[1][11].toString()).doubleValue(),0.001);
-      assertEquals(2.64, new Double(oWindow.m_oTempData[2][11].toString()).doubleValue(),0.001);
-      assertEquals(2.72, new Double(oWindow.m_oTempData[3][11].toString()).doubleValue(),0.001);
-      assertEquals(2.8, new Double(oWindow.m_oTempData[4][11].toString()).doubleValue(),0.001);
-      assertEquals(2.88, new Double(oWindow.m_oTempData[5][11].toString()).doubleValue(),0.001);
+      assertEquals(2.48, new Double(oTable[1][11].toString()).doubleValue(),0.001);
+      assertEquals(2.56, new Double(oTable[2][11].toString()).doubleValue(),0.001);
+      assertEquals(2.64, new Double(oTable[3][11].toString()).doubleValue(),0.001);
+      assertEquals(2.72, new Double(oTable[4][11].toString()).doubleValue(),0.001);
+      assertEquals(2.8, new Double(oTable[5][11].toString()).doubleValue(),0.001);
+      assertEquals(2.88, new Double(oTable[6][11].toString()).doubleValue(),0.001);
       
-      assertEquals(-9.6, new Double(oWindow.m_oTempData[0][12].toString()).doubleValue(),0.001);
-      assertEquals(-6.94, new Double(oWindow.m_oTempData[1][12].toString()).doubleValue(),0.001);
-      assertEquals(-6.51, new Double(oWindow.m_oTempData[2][12].toString()).doubleValue(),0.001);
-      assertEquals(-1.59, new Double(oWindow.m_oTempData[3][12].toString()).doubleValue(),0.001);
-      assertEquals(0.19, new Double(oWindow.m_oTempData[4][12].toString()).doubleValue(),0.001);
-      assertEquals(2.49, new Double(oWindow.m_oTempData[5][12].toString()).doubleValue(),0.001);
+      assertEquals(-9.6, new Double(oTable[1][12].toString()).doubleValue(),0.001);
+      assertEquals(-6.94, new Double(oTable[2][12].toString()).doubleValue(),0.001);
+      assertEquals(-6.51, new Double(oTable[3][12].toString()).doubleValue(),0.001);
+      assertEquals(-1.59, new Double(oTable[4][12].toString()).doubleValue(),0.001);
+      assertEquals(0.19, new Double(oTable[5][12].toString()).doubleValue(),0.001);
+      assertEquals(2.49, new Double(oTable[6][12].toString()).doubleValue(),0.001);
       
-      assertEquals(161.48, new Double(oWindow.m_oPptData[0][1].toString()).doubleValue(),0.001);
-      assertEquals(152.09, new Double(oWindow.m_oPptData[1][1].toString()).doubleValue(),0.001);
-      assertEquals(152.5, new Double(oWindow.m_oPptData[2][1].toString()).doubleValue(),0.001);
-      assertEquals(152.71, new Double(oWindow.m_oPptData[3][1].toString()).doubleValue(),0.001);
-      assertEquals(78.44, new Double(oWindow.m_oPptData[4][1].toString()).doubleValue(),0.001);
-      assertEquals(123.19, new Double(oWindow.m_oPptData[5][1].toString()).doubleValue(),0.001);
       
-      assertEquals(199.32, new Double(oWindow.m_oPptData[0][2].toString()).doubleValue(),0.001);
-      assertEquals(192.94, new Double(oWindow.m_oPptData[1][2].toString()).doubleValue(),0.001);
-      assertEquals(188.1, new Double(oWindow.m_oPptData[2][2].toString()).doubleValue(),0.001);
-      assertEquals(153.95, new Double(oWindow.m_oPptData[3][2].toString()).doubleValue(),0.001);
-      assertEquals(89.79, new Double(oWindow.m_oPptData[4][2].toString()).doubleValue(),0.001);
-      assertEquals(189.67, new Double(oWindow.m_oPptData[5][2].toString()).doubleValue(),0.001);
+      oTable = oWindow.m_oPptTable.getData().mp_oTableData;
+      assertEquals(161.48, new Double(oTable[1][1].toString()).doubleValue(),0.001);
+      assertEquals(152.09, new Double(oTable[2][1].toString()).doubleValue(),0.001);
+      assertEquals(152.5, new Double(oTable[3][1].toString()).doubleValue(),0.001);
+      assertEquals(152.71, new Double(oTable[4][1].toString()).doubleValue(),0.001);
+      assertEquals(78.44, new Double(oTable[5][1].toString()).doubleValue(),0.001);
+      assertEquals(123.19, new Double(oTable[6][1].toString()).doubleValue(),0.001);
       
-      assertEquals(169.99, new Double(oWindow.m_oPptData[0][3].toString()).doubleValue(),0.001);
-      assertEquals(105.49, new Double(oWindow.m_oPptData[1][3].toString()).doubleValue(),0.001);
-      assertEquals(141.34, new Double(oWindow.m_oPptData[2][3].toString()).doubleValue(),0.001);
-      assertEquals(84.71, new Double(oWindow.m_oPptData[3][3].toString()).doubleValue(),0.001);
-      assertEquals(188.92, new Double(oWindow.m_oPptData[4][3].toString()).doubleValue(),0.001);
-      assertEquals(93.47, new Double(oWindow.m_oPptData[5][3].toString()).doubleValue(),0.001);
+      assertEquals(199.32, new Double(oTable[1][2].toString()).doubleValue(),0.001);
+      assertEquals(192.94, new Double(oTable[2][2].toString()).doubleValue(),0.001);
+      assertEquals(188.1, new Double(oTable[3][2].toString()).doubleValue(),0.001);
+      assertEquals(153.95, new Double(oTable[4][2].toString()).doubleValue(),0.001);
+      assertEquals(89.79, new Double(oTable[5][2].toString()).doubleValue(),0.001);
+      assertEquals(189.67, new Double(oTable[6][2].toString()).doubleValue(),0.001);
       
-      assertEquals(82.02, new Double(oWindow.m_oPptData[0][4].toString()).doubleValue(),0.001);
-      assertEquals(77.49, new Double(oWindow.m_oPptData[1][4].toString()).doubleValue(),0.001);
-      assertEquals(186.32, new Double(oWindow.m_oPptData[2][4].toString()).doubleValue(),0.001);
-      assertEquals(174.4, new Double(oWindow.m_oPptData[3][4].toString()).doubleValue(),0.001);
-      assertEquals(161.25, new Double(oWindow.m_oPptData[4][4].toString()).doubleValue(),0.001);
-      assertEquals(99.76, new Double(oWindow.m_oPptData[5][4].toString()).doubleValue(),0.001);
+      assertEquals(169.99, new Double(oTable[1][3].toString()).doubleValue(),0.001);
+      assertEquals(105.49, new Double(oTable[2][3].toString()).doubleValue(),0.001);
+      assertEquals(141.34, new Double(oTable[3][3].toString()).doubleValue(),0.001);
+      assertEquals(84.71, new Double(oTable[4][3].toString()).doubleValue(),0.001);
+      assertEquals(188.92, new Double(oTable[5][3].toString()).doubleValue(),0.001);
+      assertEquals(93.47, new Double(oTable[6][3].toString()).doubleValue(),0.001);
       
-      assertEquals(132.54, new Double(oWindow.m_oPptData[0][5].toString()).doubleValue(),0.001);
-      assertEquals(121.74, new Double(oWindow.m_oPptData[1][5].toString()).doubleValue(),0.001);
-      assertEquals(178.18, new Double(oWindow.m_oPptData[2][5].toString()).doubleValue(),0.001);
-      assertEquals(102.86, new Double(oWindow.m_oPptData[3][5].toString()).doubleValue(),0.001);
-      assertEquals(102.84, new Double(oWindow.m_oPptData[4][5].toString()).doubleValue(),0.001);
-      assertEquals(172.41, new Double(oWindow.m_oPptData[5][5].toString()).doubleValue(),0.001);
+      assertEquals(82.02, new Double(oTable[1][4].toString()).doubleValue(),0.001);
+      assertEquals(77.49, new Double(oTable[2][4].toString()).doubleValue(),0.001);
+      assertEquals(186.32, new Double(oTable[3][4].toString()).doubleValue(),0.001);
+      assertEquals(174.4, new Double(oTable[4][4].toString()).doubleValue(),0.001);
+      assertEquals(161.25, new Double(oTable[5][4].toString()).doubleValue(),0.001);
+      assertEquals(99.76, new Double(oTable[6][4].toString()).doubleValue(),0.001);
       
-      assertEquals(157.67, new Double(oWindow.m_oPptData[0][6].toString()).doubleValue(),0.001);
-      assertEquals(133.89, new Double(oWindow.m_oPptData[1][6].toString()).doubleValue(),0.001);
-      assertEquals(147.29, new Double(oWindow.m_oPptData[2][6].toString()).doubleValue(),0.001);
-      assertEquals(123.74, new Double(oWindow.m_oPptData[3][6].toString()).doubleValue(),0.001);
-      assertEquals(126.66, new Double(oWindow.m_oPptData[4][6].toString()).doubleValue(),0.001);
-      assertEquals(134.35, new Double(oWindow.m_oPptData[5][6].toString()).doubleValue(),0.001);
+      assertEquals(132.54, new Double(oTable[1][5].toString()).doubleValue(),0.001);
+      assertEquals(121.74, new Double(oTable[2][5].toString()).doubleValue(),0.001);
+      assertEquals(178.18, new Double(oTable[3][5].toString()).doubleValue(),0.001);
+      assertEquals(102.86, new Double(oTable[4][5].toString()).doubleValue(),0.001);
+      assertEquals(102.84, new Double(oTable[5][5].toString()).doubleValue(),0.001);
+      assertEquals(172.41, new Double(oTable[6][5].toString()).doubleValue(),0.001);
       
-      assertEquals(97.63, new Double(oWindow.m_oPptData[0][7].toString()).doubleValue(),0.001);
-      assertEquals(141.94, new Double(oWindow.m_oPptData[1][7].toString()).doubleValue(),0.001);
-      assertEquals(173.88, new Double(oWindow.m_oPptData[2][7].toString()).doubleValue(),0.001);
-      assertEquals(166.53, new Double(oWindow.m_oPptData[3][7].toString()).doubleValue(),0.001);
-      assertEquals(140.41, new Double(oWindow.m_oPptData[4][7].toString()).doubleValue(),0.001);
-      assertEquals(128.89, new Double(oWindow.m_oPptData[5][7].toString()).doubleValue(),0.001);
+      assertEquals(157.67, new Double(oTable[1][6].toString()).doubleValue(),0.001);
+      assertEquals(133.89, new Double(oTable[2][6].toString()).doubleValue(),0.001);
+      assertEquals(147.29, new Double(oTable[3][6].toString()).doubleValue(),0.001);
+      assertEquals(123.74, new Double(oTable[4][6].toString()).doubleValue(),0.001);
+      assertEquals(126.66, new Double(oTable[5][6].toString()).doubleValue(),0.001);
+      assertEquals(134.35, new Double(oTable[6][6].toString()).doubleValue(),0.001);
       
-      assertEquals(145.57, new Double(oWindow.m_oPptData[0][8].toString()).doubleValue(),0.001);
-      assertEquals(156.69, new Double(oWindow.m_oPptData[1][8].toString()).doubleValue(),0.001);
-      assertEquals(146.55, new Double(oWindow.m_oPptData[2][8].toString()).doubleValue(),0.001);
-      assertEquals(167.73, new Double(oWindow.m_oPptData[3][8].toString()).doubleValue(),0.001);
-      assertEquals(147.67, new Double(oWindow.m_oPptData[4][8].toString()).doubleValue(),0.001);
-      assertEquals(119.52, new Double(oWindow.m_oPptData[5][8].toString()).doubleValue(),0.001);
+      assertEquals(97.63, new Double(oTable[1][7].toString()).doubleValue(),0.001);
+      assertEquals(141.94, new Double(oTable[2][7].toString()).doubleValue(),0.001);
+      assertEquals(173.88, new Double(oTable[3][7].toString()).doubleValue(),0.001);
+      assertEquals(166.53, new Double(oTable[4][7].toString()).doubleValue(),0.001);
+      assertEquals(140.41, new Double(oTable[5][7].toString()).doubleValue(),0.001);
+      assertEquals(128.89, new Double(oTable[6][7].toString()).doubleValue(),0.001);
       
-      assertEquals(134.38, new Double(oWindow.m_oPptData[0][9].toString()).doubleValue(),0.001);
-      assertEquals(89.78, new Double(oWindow.m_oPptData[1][9].toString()).doubleValue(),0.001);
-      assertEquals(173.37, new Double(oWindow.m_oPptData[2][9].toString()).doubleValue(),0.001);
-      assertEquals(146.16, new Double(oWindow.m_oPptData[3][9].toString()).doubleValue(),0.001);
-      assertEquals(108.71, new Double(oWindow.m_oPptData[4][9].toString()).doubleValue(),0.001);
-      assertEquals(90.68, new Double(oWindow.m_oPptData[5][9].toString()).doubleValue(),0.001);
+      assertEquals(145.57, new Double(oTable[1][8].toString()).doubleValue(),0.001);
+      assertEquals(156.69, new Double(oTable[2][8].toString()).doubleValue(),0.001);
+      assertEquals(146.55, new Double(oTable[3][8].toString()).doubleValue(),0.001);
+      assertEquals(167.73, new Double(oTable[4][8].toString()).doubleValue(),0.001);
+      assertEquals(147.67, new Double(oTable[5][8].toString()).doubleValue(),0.001);
+      assertEquals(119.52, new Double(oTable[6][8].toString()).doubleValue(),0.001);
       
-      assertEquals(100.17, new Double(oWindow.m_oPptData[0][10].toString()).doubleValue(),0.001);
-      assertEquals(178.11, new Double(oWindow.m_oPptData[1][10].toString()).doubleValue(),0.001);
-      assertEquals(120.16, new Double(oWindow.m_oPptData[2][10].toString()).doubleValue(),0.001);
-      assertEquals(198.43, new Double(oWindow.m_oPptData[3][10].toString()).doubleValue(),0.001);
-      assertEquals(75.22, new Double(oWindow.m_oPptData[4][10].toString()).doubleValue(),0.001);
-      assertEquals(198.3, new Double(oWindow.m_oPptData[5][10].toString()).doubleValue(),0.001);
+      assertEquals(134.38, new Double(oTable[1][9].toString()).doubleValue(),0.001);
+      assertEquals(89.78, new Double(oTable[2][9].toString()).doubleValue(),0.001);
+      assertEquals(173.37, new Double(oTable[3][9].toString()).doubleValue(),0.001);
+      assertEquals(146.16, new Double(oTable[4][9].toString()).doubleValue(),0.001);
+      assertEquals(108.71, new Double(oTable[5][9].toString()).doubleValue(),0.001);
+      assertEquals(90.68, new Double(oTable[6][9].toString()).doubleValue(),0.001);
+      
+      assertEquals(100.17, new Double(oTable[1][10].toString()).doubleValue(),0.001);
+      assertEquals(178.11, new Double(oTable[2][10].toString()).doubleValue(),0.001);
+      assertEquals(120.16, new Double(oTable[3][10].toString()).doubleValue(),0.001);
+      assertEquals(198.43, new Double(oTable[4][10].toString()).doubleValue(),0.001);
+      assertEquals(75.22, new Double(oTable[5][10].toString()).doubleValue(),0.001);
+      assertEquals(198.3, new Double(oTable[6][10].toString()).doubleValue(),0.001);
 
-      assertEquals(112.34, new Double(oWindow.m_oPptData[0][11].toString()).doubleValue(),0.001);
-      assertEquals(191.22, new Double(oWindow.m_oPptData[1][11].toString()).doubleValue(),0.001);
-      assertEquals(125.47, new Double(oWindow.m_oPptData[2][11].toString()).doubleValue(),0.001);
-      assertEquals(79.8, new Double(oWindow.m_oPptData[3][11].toString()).doubleValue(),0.001);
-      assertEquals(116.29, new Double(oWindow.m_oPptData[4][11].toString()).doubleValue(),0.001);
-      assertEquals(146.75, new Double(oWindow.m_oPptData[5][11].toString()).doubleValue(),0.001);
+      assertEquals(112.34, new Double(oTable[1][11].toString()).doubleValue(),0.001);
+      assertEquals(191.22, new Double(oTable[2][11].toString()).doubleValue(),0.001);
+      assertEquals(125.47, new Double(oTable[3][11].toString()).doubleValue(),0.001);
+      assertEquals(79.8, new Double(oTable[4][11].toString()).doubleValue(),0.001);
+      assertEquals(116.29, new Double(oTable[5][11].toString()).doubleValue(),0.001);
+      assertEquals(146.75, new Double(oTable[6][11].toString()).doubleValue(),0.001);
 
-      assertEquals(137.22, new Double(oWindow.m_oPptData[0][12].toString()).doubleValue(),0.001);
-      assertEquals(101.29, new Double(oWindow.m_oPptData[1][12].toString()).doubleValue(),0.001);
-      assertEquals(159.21, new Double(oWindow.m_oPptData[2][12].toString()).doubleValue(),0.001);
-      assertEquals(171.75, new Double(oWindow.m_oPptData[3][12].toString()).doubleValue(),0.001);
-      assertEquals(191.54, new Double(oWindow.m_oPptData[4][12].toString()).doubleValue(),0.001);
-      assertEquals(131.83, new Double(oWindow.m_oPptData[5][12].toString()).doubleValue(),0.001);
+      assertEquals(137.22, new Double(oTable[1][12].toString()).doubleValue(),0.001);
+      assertEquals(101.29, new Double(oTable[2][12].toString()).doubleValue(),0.001);
+      assertEquals(159.21, new Double(oTable[3][12].toString()).doubleValue(),0.001);
+      assertEquals(171.75, new Double(oTable[4][12].toString()).doubleValue(),0.001);
+      assertEquals(191.54, new Double(oTable[5][12].toString()).doubleValue(),0.001);
+      assertEquals(131.83, new Double(oTable[6][12].toString()).doubleValue(),0.001);
       
     }
     catch (ModelException oErr) {
@@ -248,7 +364,7 @@ public class TestClimateImporterEditor extends ModelTestCase {
       new File(sFileName).delete();
     }
   }
-  
+    
   /**
    * Tests that the setting of values works using files.
    */
