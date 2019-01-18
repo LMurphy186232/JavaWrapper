@@ -13,6 +13,7 @@ import sortie.data.simpletypes.ModelException;
 import sortie.data.simpletypes.ModelFloat;
 import sortie.data.simpletypes.ModelInt;
 import sortie.data.simpletypes.ModelVector;
+import sortie.data.simpletypes.SpeciesTypeCombo;
 import sortie.gui.ErrorGUI;
 import sortie.gui.GUIManager;
 import sortie.gui.behaviorsetup.BehaviorParameterDisplay;
@@ -235,6 +236,107 @@ public abstract class GLIBase extends Behavior {
       ValidationHelpers.makeSureIsBounded(m_iJulianDayGrowthEnds, 1, 365);
     }
     validateSubData(oPop);
+  }
+  
+  /**
+   * Triggered when there is a change in the species list.  This goes through
+   * everything in the mp_oAllData array.  Any piece of data of type
+   * ModelVector which is species-specific is transformed.  The
+   * ModelVector will be re-sized to match the new number of species.  Any
+   * species that are the same from the old set to the new have their data
+   * transferred to their new array index.  Any new species indexes are set
+   * to null.  Any species which were deleted have their data lost.
+   * @param iOldNumSpecies says how many species there used to be.
+   * @param p_iIndexer is an array, sized to the new number of species.  For
+   * each bucket (representing the index number of a species on the new list),
+   * the value is either the index of that same species in the old species
+   * list, or -1 if the species is new.
+   * @param p_sNewSpecies The new species list.
+   * @throws ModelException if there's a problem.
+   */
+  public void changeOfSpecies(int iOldNumSpecies, int[] p_iIndexer,
+      String[] p_sNewSpecies) throws ModelException {
+    
+    if (m_bHooked) {
+      super.changeOfSpecies(iOldNumSpecies, p_iIndexer, p_sNewSpecies);
+      return;
+    }
+
+    TreePopulation oPop = m_oManager.getTreePopulation();
+    SpeciesTypeCombo oCombo;
+    ModelVector p_oVectorData; //A ModelVector object that needs translation
+    ArrayList<Object> p_oCopy = new ArrayList<Object>(iOldNumSpecies); //A copy of the old data
+    int i, j, iSpecies;
+
+    //***********************
+    // Update species/type combos
+    //***********************
+    //Make the index translator from old to new
+    int[] p_iOldToNewTranslator = new int[oPop.getNumberOfSpecies()];
+    for (i = 0; i < p_iOldToNewTranslator.length; i++) {
+      p_iOldToNewTranslator[i] = -1;
+
+      //Does this species still exist in the new list?  If so, grab its index
+      for (j = 0; j < p_sNewSpecies.length; j++) {
+        if (p_sNewSpecies[j].equals(oPop.getSpeciesNameFromCode(i))) {
+          p_iOldToNewTranslator[i] = j;
+        }
+      }
+    }
+
+    //Go through all combos and update
+    for (j = 0; j < getNumberOfCombos(); j++) {
+      oCombo = getSpeciesTypeCombo(j);
+      iSpecies = oCombo.getSpecies();
+
+      if (p_iOldToNewTranslator[iSpecies] == -1) {
+        deleteSpeciesTypeCombo(j);
+        j--;
+      }
+      else {
+        oCombo.setSpecies(p_iOldToNewTranslator[iSpecies]);
+      }
+    }
+
+    //***********************
+    // Update data vectors
+    //***********************
+    for (i = 0; i < mp_oAllData.size(); i++) {
+      if (mp_oAllData.get(i) instanceof ModelVector)
+      {
+        p_oVectorData = (ModelVector) mp_oAllData.get(i);
+        
+        //Is it for species-specific values?
+        if (p_oVectorData.getIsSpeciesSpecific() &&
+            !p_oVectorData.getXMLTag().equals("li_lightExtinctionCoefficient") &&
+            !p_oVectorData.getXMLTag().equals("li_snag1LightExtinctionCoefficient") &&
+            !p_oVectorData.getXMLTag().equals("li_snag2LightExtinctionCoefficient") &&
+            !p_oVectorData.getXMLTag().equals("li_snag3LightExtinctionCoefficient")) {
+
+          //There may be nothing in this vector - check for that
+          if (p_oVectorData.getValue().size() > 0) {
+
+            //Make a copy of the vector's data
+            for (j = 0; j < iOldNumSpecies; j++) {
+              p_oCopy.add(j, p_oVectorData.getValue().get(j));
+            }
+
+            //Clear out the existing array
+            p_oVectorData.getValue().clear();
+
+            //Now transfer back any data that has the same species
+            for (j = 0; j < p_iIndexer.length; j++) {
+              if (p_iIndexer[j] != -1) {
+                p_oVectorData.getValue().add(p_oCopy.get(p_iIndexer[j]));
+              }
+              else {
+                p_oVectorData.getValue().add(null);
+              }
+            }
+          }
+        }
+      }
+    }
   }
   
   /**
