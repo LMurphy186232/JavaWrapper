@@ -18,6 +18,7 @@ package sortie.fileops;
 import com.ice.tar.*;
 
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.activation.*;
@@ -500,7 +501,12 @@ public class TarArchive extends Object {
         //Skip to the next entry
         entry = this.tarIn.getNextEntry();
       }
-
+      // This is a check for a null character at the end of the filename,
+      // which is very bad and will lead to an invalid path exception
+      int iCheck = sFileName.indexOf('\u0000');
+      if (iCheck == (sFileName.length()-1)) {
+    	  sFileName = sFileName.substring(0, (sFileName.length()-1));
+      }
       this.extractEntry(destDir, entry, sFileName);
       entry = this.tarIn.getNextEntry();
     }
@@ -540,6 +546,14 @@ public class TarArchive extends Object {
       //Strip out any path information
       sFileName = sFileName.replace('/', File.separatorChar);
       sFileName = sFileName.substring(sFileName.lastIndexOf(File.separatorChar) + 1);
+      
+      // This is a check for a null character at the end of the filename,
+      // which is very bad and will lead to an invalid path exception
+      int iCheck = sFileName.indexOf('\u0000');
+      if (iCheck == (sFileName.length()-1)) {
+    	  sFileName = sFileName.substring(0, (sFileName.length()-1));
+      }
+      
       this.extractEntry(destDir, entry, sFileName);
       entry = this.tarIn.getNextEntry();
     }
@@ -787,8 +801,8 @@ public class TarArchive extends Object {
     }
 
     sName = sName.replace('/', File.separatorChar);
-
-    File destFile = new File(destDir, sName);
+    
+    File destFile = new File(destDir, sName);    
 
     if (entry.isDirectory()) {
       if (!destFile.exists()) {
