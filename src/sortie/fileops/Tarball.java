@@ -175,9 +175,11 @@ public class Tarball {
   public static InputStream getUnzipFileStream(String sFileToGet) throws
   ModelException {
     try {
-
-      GZIPInputStream oGZipStream = new GZIPInputStream(new FileInputStream(new
-          File(sFileToGet)));
+      File oFile = new File(sFileToGet);
+      FileInputStream oFileInputStream = new FileInputStream(oFile);
+      GZIPInputStream oGZipStream = new GZIPInputStream(oFileInputStream);
+      //GZIPInputStream oGZipStream = new GZIPInputStream(new FileInputStream(new
+       //   File(sFileToGet)));
 
       return oGZipStream;
 

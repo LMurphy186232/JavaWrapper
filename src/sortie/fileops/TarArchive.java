@@ -804,7 +804,7 @@ public class TarArchive extends Object {
     
     File destFile = new File(destDir, sName);    
 
-    if (entry.isDirectory()) {
+    if (entry.isDirectory() && !sName.endsWith(".gz")) {
       if (!destFile.exists()) {
         if (!destFile.mkdirs()) {
           throw new IOException("error making directory path '"
