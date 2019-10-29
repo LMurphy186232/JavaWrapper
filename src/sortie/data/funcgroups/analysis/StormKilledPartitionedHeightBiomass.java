@@ -79,16 +79,6 @@ public class StormKilledPartitionedHeightBiomass extends Behavior {
     // Storm killed partitioned biomass grid
     String sGridName = "Storm Killed Partitioned Biomass";
 
-    //If cell size changes have been made, preserve 'em
-    oNewGrid = m_oManager.getGridByName(sGridName);
-    if (oNewGrid == null) {
-      fXCellLength = 8;
-      fYCellLength = 8;
-    } else {
-      fXCellLength = oNewGrid.getXCellLength();
-      fYCellLength = oNewGrid.getYCellLength();
-    }
-
     DataMember[] p_oDataMembers = new DataMember[5 * iNumSpecies];
     iStart = 0;
     for (i = 0; i < iNumSpecies; i++) {
@@ -120,9 +110,54 @@ public class StormKilledPartitionedHeightBiomass extends Behavior {
           + p_sSpeciesNames[i].replace('_', ' '), "hbole_" + i,
           DataMember.FLOAT);
     }
-    oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
-    oNewGrid = m_oManager.addGrid(oNewGrid, true);
-    addGrid(oNewGrid, true);
+    
+    //If cell size changes have been made, preserve 'em
+    oNewGrid = m_oManager.getGridByName(sGridName);
+    if (oNewGrid == null) {
+
+      // Our grid didn't alreay exist. Add it
+      fXCellLength = 8;
+      fYCellLength = 8;
+
+
+      oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
+      oNewGrid = m_oManager.addGrid(oNewGrid, true);
+      addGrid(oNewGrid, true);
+
+    } else {
+  
+      // This grid already did exist. Check the data members to see if they're right.
+      // If they don't match what we expect, there might have been a change of species
+      // and we'll recreate the grid. If they match, don't make a new grid because
+      // there are pointers to this grid already possessed by other behaviors
+      
+      DataMember[] p_oExisting = oNewGrid.getDataMembers();
+      boolean same = p_oExisting.length == p_oDataMembers.length;
+      
+      if (same) {
+        for (i = 0; i < p_oExisting.length; i++) {
+          if (p_oExisting[i].equals(p_oDataMembers[i]) == false) {
+            same = false;
+            break;
+          }
+        }
+      }
+      
+      if (same) {
+        addGrid(oNewGrid, true);
+      } else {
+        //If cell size changes have been made, preserve 'em
+        fXCellLength = oNewGrid.getXCellLength();
+        fYCellLength = oNewGrid.getYCellLength();
+        
+        // Create our grid
+        oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
+
+        // Add the grid to this behavior
+        oNewGrid = m_oManager.addGrid(oNewGrid, true);
+        addGrid(oNewGrid, true);
+      }
+    }
   }
 
   /**

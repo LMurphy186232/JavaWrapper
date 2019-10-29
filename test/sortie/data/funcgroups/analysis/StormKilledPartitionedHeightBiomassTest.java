@@ -1,6 +1,7 @@
 package sortie.data.funcgroups.analysis;
 
 import java.io.File;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import sortie.ModelTestCase;
 import sortie.data.funcgroups.AnalysisBehaviors;
 import sortie.data.funcgroups.Behavior;
+import sortie.data.funcgroups.BehaviorTypeBase;
 import sortie.data.funcgroups.Grid;
 import sortie.data.funcgroups.TreePopulation;
 import sortie.data.simpletypes.ModelException;
@@ -16,6 +18,66 @@ import sortie.data.simpletypes.SpeciesTypeCombo;
 import sortie.gui.GUIManager;
 
 public class StormKilledPartitionedHeightBiomassTest extends ModelTestCase {
+  
+  /**
+   * Tests grid setup. This recreates a bug I found that was triggered when
+   * trying to open the Grid Setup window. The problem came with two 
+   * behaviors sharing a grid object and not playing nice by making sure
+   * the grid didn't already exist before overwriting it.
+   */
+  public void testGridSetup() {
+    GUIManager oManager = null;
+    String sFileName = null;
+    try {
+      oManager = new GUIManager(null);
+      sFileName = writeXMLFileForGridTest();
+      oManager.inputXMLParameterFile(sFileName);
+
+      ArrayList<Grid> p_oGrids = new ArrayList<Grid>(0);
+      BehaviorTypeBase[] p_oBehaviors = oManager.getAllObjects();
+      Grid[] p_oSetGrids;
+      String sCheckGridName, sGridName;
+      int i, j, k;
+      boolean bFound;
+
+      //Retrieve the list of enabled grid objects
+      if (null != p_oBehaviors) {
+        for (i = 0; i < p_oBehaviors.length; i++) {
+          p_oSetGrids = p_oBehaviors[i].getEnabledGridObjects();
+          if (null != p_oSetGrids) {
+            for (j = 0; j < p_oSetGrids.length; j++) {
+              sGridName = p_oSetGrids[j].getName();
+              //Make sure this grid isn't already in there
+              bFound = false;
+              for (k = 0; k < p_oGrids.size(); k++) {
+                sCheckGridName = p_oGrids.get(k).getName();
+                if (sCheckGridName.equals(sGridName)) {
+                  bFound = true;
+                  break;
+                }
+              }
+              if (bFound == false) {
+                p_oGrids.add(p_oSetGrids[j]);
+              }
+            }
+          }
+        }
+      }
+      
+      
+      System.out.println("Grid setup test succeeded.");
+    }
+    catch (ModelException oErr) {
+      fail("Grid setup test failed with message " + oErr.getMessage());
+    }
+    catch (java.io.IOException oE) {
+      fail("Caught IOException.  Message: " + oE.getMessage());
+    }
+    finally {
+      new File(sFileName).delete();
+    }
+  }
+
   
   public void testReadV6ParFile() {
     GUIManager oManager = null;
@@ -469,6 +531,75 @@ public class StormKilledPartitionedHeightBiomassTest extends ModelTestCase {
     return sFileName;
   }
   
+  /**
+   * Writes a file with multiple analysis behaviors represented.
+   * @return String Filename written.
+   * @throws IOException if there is a problem writing the file.
+   */
+  private String writeXMLFileForGridTest() throws IOException {
+    String sFileName = "\\loratestxml1.xml";
+    FileWriter oOut = new FileWriter(sFileName);
+
+    writePlotAndTrees(oOut);
+    
+    oOut.write("<behaviorList>");
+    oOut.write("<behavior>");
+    oOut.write("<behaviorName>StormKilledPartitionedHeightBiomass</behaviorName>");
+    oOut.write("<version>1</version>");
+    oOut.write("<listPosition>1</listPosition>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Snag\"/>");
+    oOut.write("</behavior>");
+    oOut.write("<behavior>");
+    oOut.write("<behaviorName>StormKilledPartitionedDBHBiomass</behaviorName>");
+    oOut.write("<version>1</version>");
+    oOut.write("<listPosition>2</listPosition>");
+    oOut.write("<applyTo species=\"Species_2\" type=\"Snag\"/>");
+    oOut.write("</behavior>");
+    oOut.write("</behaviorList>");
+    oOut.write("<grid gridName=\"Storm Killed Partitioned Biomass\">");
+    oOut.write("<ma_lengthXCells>4</ma_lengthXCells>");
+    oOut.write("<ma_lengthYCells>5</ma_lengthYCells>");
+    oOut.write("</grid>");
+    oOut.write("<StormKilledPartitionedBiomass1>");
+    oOut.write("<an_partBioHeightLeafA>");
+    oOut.write("<an_pbhlaVal species=\"Species_1\">1.7</an_pbhlaVal>");
+    oOut.write("</an_partBioHeightLeafA>");
+    oOut.write("<an_partBioHeightLeafB>");
+    oOut.write("<an_pbhlbVal species=\"Species_1\">6.8</an_pbhlbVal>");
+    oOut.write("</an_partBioHeightLeafB>");
+    oOut.write("<an_partBioHeightBoleA>");
+    oOut.write("<an_pbhboaVal species=\"Species_1\">5.9</an_pbhboaVal>");
+    oOut.write("</an_partBioHeightBoleA>");
+    oOut.write("<an_partBioHeightBoleB>");
+    oOut.write("<an_pbhbobVal species=\"Species_1\">-1.6</an_pbhbobVal>");
+    oOut.write("</an_partBioHeightBoleB>");
+    oOut.write("</StormKilledPartitionedBiomass1>");
+    oOut.write("<StormKilledPartitionedBiomass2>");
+    oOut.write("<an_partBioDbhLeafA>");
+    oOut.write("<an_pbdlaVal species=\"Species_2\">1.792</an_pbdlaVal>");
+    oOut.write("</an_partBioDbhLeafA>");
+    oOut.write("<an_partBioDbhLeafB>");
+    oOut.write("<an_pbdlbVal species=\"Species_2\">3.758</an_pbdlbVal>");
+    oOut.write("</an_partBioDbhLeafB>");
+    oOut.write("<an_partBioDbhBranchA>");
+    oOut.write("<an_pbdbraVal species=\"Species_2\">1.982</an_pbdbraVal>");
+    oOut.write("</an_partBioDbhBranchA>");
+    oOut.write("<an_partBioDbhBranchB>");
+    oOut.write("<an_pbdbrbVal species=\"Species_2\">3.69</an_pbdbrbVal>");
+    oOut.write("</an_partBioDbhBranchB>");
+    oOut.write("<an_partBioDbhBoleA>");
+    oOut.write("<an_pbdboaVal species=\"Species_2\">2.559</an_pbdboaVal>");
+    oOut.write("</an_partBioDbhBoleA>");
+    oOut.write("<an_partBioDbhBoleB>");
+    oOut.write("<an_pbdbobVal species=\"Species_2\">2.832</an_pbdbobVal>");
+    oOut.write("</an_partBioDbhBoleB>");
+    oOut.write("</StormKilledPartitionedBiomass2>");
+    oOut.write("</paramFile>");
+
+    oOut.close();
+    return sFileName;
+  }
+    
   /**
    * Writes a valid version 6 file.
    * @return The file name.
