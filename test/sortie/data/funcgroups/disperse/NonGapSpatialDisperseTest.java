@@ -172,9 +172,9 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
           oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(i, oEnum);
         }
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
       }
       catch (ModelException oErr) {
@@ -198,7 +198,7 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(0, oEnum);
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad Xb canopy values " +
             "when only non-gap disperse was enabled.");
@@ -225,7 +225,7 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(0, oEnum);
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad X0 canopy values " +
             "when only non-gap disperse was enabled.");
@@ -249,7 +249,7 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(1);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(1, new Float(70));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(1, Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad theta canopy values " +
             "when only non gap disperse was enabled.");
@@ -273,7 +273,7 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(new Float(70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta weibull canopy " +
             "values when only non gap disperse was enabled.");
@@ -296,7 +296,7 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(new Float(70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta lognormal canopy " +
             "values when only non gap disperse was enabled.");
@@ -319,7 +319,7 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fMinDbhForReproduction.getValue().remove(0);
-        oDisperse.mp_fMinDbhForReproduction.getValue().add(0, new Float(-70));
+        oDisperse.mp_fMinDbhForReproduction.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch negative reproduction DBH" +
             " values.");

@@ -152,8 +152,8 @@ public class SubstrateTest extends TestCase {
     // Case: proportion of dead that fall is not a proportion
     try {
       oSub.mp_fProportionOfDeadThatFall.getValue().clear();
-      oSub.mp_fProportionOfDeadThatFall.getValue().add(new Float(0.2));
-      oSub.mp_fProportionOfDeadThatFall.getValue().add(new Float(1.2));
+      oSub.mp_fProportionOfDeadThatFall.getValue().add(Float.valueOf((float)0.2));
+      oSub.mp_fProportionOfDeadThatFall.getValue().add(Float.valueOf((float)1.2));
       oSubBeh.validateData(oManager.getTreePopulation());
       fail("Substrate didn't catch bad value for proportion of dead that fall.");
     } catch (ModelException oErr) {
@@ -174,8 +174,8 @@ public class SubstrateTest extends TestCase {
     // Case: proportion of fallen that uproot is not a proportion
     try {
       oSub.mp_fProportionOfFallenThatUproot.getValue().clear();
-      oSub.mp_fProportionOfFallenThatUproot.getValue().add(new Float(0.2));
-      oSub.mp_fProportionOfFallenThatUproot.getValue().add(new Float(-1.2));
+      oSub.mp_fProportionOfFallenThatUproot.getValue().add(Float.valueOf((float)0.2));
+      oSub.mp_fProportionOfFallenThatUproot.getValue().add(Float.valueOf((float)-1.2));
       oSubBeh.validateData(oManager.getTreePopulation());
       fail("Substrate didn't catch bad value for proportion of fallen that uproot.");
     } catch (ModelException oErr) {
@@ -196,8 +196,8 @@ public class SubstrateTest extends TestCase {
     // Case: proportion of snags that uproot is not a proportion
     try {
       oSub.mp_fProportionOfSnagsThatUproot.getValue().clear();
-      oSub.mp_fProportionOfSnagsThatUproot.getValue().add(new Float(0.2));
-      oSub.mp_fProportionOfSnagsThatUproot.getValue().add(new Float(-1.2));
+      oSub.mp_fProportionOfSnagsThatUproot.getValue().add(Float.valueOf((float)0.2));
+      oSub.mp_fProportionOfSnagsThatUproot.getValue().add(Float.valueOf((float)-1.2));
       oSubBeh.validateData(oManager.getTreePopulation());
       fail("Substrate didn't catch bad value for proportion of snags that uproot.");
     } catch (ModelException oErr) {

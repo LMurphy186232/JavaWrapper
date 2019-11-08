@@ -389,7 +389,7 @@ public class HarvestData {
    * @param fRate Mortality rate.
    */
   public void setSeedlingMortRate(int iSpecies, float fRate) {
-    mp_fSeedlingMortRate.add(iSpecies, new Float(fRate));
+    mp_fSeedlingMortRate.add(iSpecies, Float.valueOf(fRate));
   }
 
   /**
@@ -429,7 +429,7 @@ public class HarvestData {
     }
 
     if (!bFound) {
-      mp_iSpecies.add(new Integer(iSpecies));
+      mp_iSpecies.add(Integer.valueOf(iSpecies));
     }
   }
 

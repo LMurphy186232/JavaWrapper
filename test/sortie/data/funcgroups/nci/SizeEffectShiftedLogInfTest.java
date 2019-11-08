@@ -104,7 +104,7 @@ public class SizeEffectShiftedLogInfTest extends TestCase {
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oGrowth.mp_oEffects.get(0) instanceof SizeEffectShiftedLogInf);
       SizeEffectShiftedLogInf oSizeEffect = (SizeEffectShiftedLogInf) oGrowth.mp_oEffects.get(0);
-      oSizeEffect.mp_fSizeEffectX0.getValue().set(0, new Float(0));
+      oSizeEffect.mp_fSizeEffectX0.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad X0 values.");
     }
@@ -124,7 +124,7 @@ public class SizeEffectShiftedLogInfTest extends TestCase {
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oGrowth.mp_oEffects.get(0) instanceof SizeEffectShiftedLogInf);
       SizeEffectShiftedLogInf oSizeEffect = (SizeEffectShiftedLogInf) oGrowth.mp_oEffects.get(0);
-      oSizeEffect.mp_fSizeEffectInfX0.getValue().set(0, new Float(0));
+      oSizeEffect.mp_fSizeEffectInfX0.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad X0 values.");
     }
@@ -144,7 +144,7 @@ public class SizeEffectShiftedLogInfTest extends TestCase {
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oGrowth.mp_oEffects.get(0) instanceof SizeEffectShiftedLogInf);
       SizeEffectShiftedLogInf oSizeEffect = (SizeEffectShiftedLogInf) oGrowth.mp_oEffects.get(0);
-      oSizeEffect.mp_fSizeEffectXb.getValue().set(0, new Float(0));
+      oSizeEffect.mp_fSizeEffectXb.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad Xb values.");
     }
@@ -164,7 +164,7 @@ public class SizeEffectShiftedLogInfTest extends TestCase {
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oGrowth.mp_oEffects.get(0) instanceof SizeEffectShiftedLogInf);
       SizeEffectShiftedLogInf oSizeEffect = (SizeEffectShiftedLogInf) oGrowth.mp_oEffects.get(0);
-      oSizeEffect.mp_fSizeEffectInfXb.getValue().set(0, new Float(0));
+      oSizeEffect.mp_fSizeEffectInfXb.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad Xb values.");
     }

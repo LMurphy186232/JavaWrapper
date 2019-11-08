@@ -113,7 +113,7 @@ public class TreeBehavior extends Behavior {
     int iNumSpecies = m_oPop.getNumberOfSpecies(), i;
     if (mp_fMaxSeedlingHeight.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fMaxSeedlingHeight.getValue().add(new Float(1.35));
+        mp_fMaxSeedlingHeight.getValue().add(Float.valueOf((float)1.35));
       }
     } 
   }
@@ -494,10 +494,10 @@ public class TreeBehavior extends Behavior {
         String sSizeClass = p_oAttributes[i].getValue("sizeClass");
         Float fSizeClass;
         if (sSizeClass.equalsIgnoreCase("seedling")) {
-          fSizeClass = new Float(0);
+          fSizeClass = Float.valueOf(0);
         } else {
           sSizeClass = sSizeClass.substring(1); // trim off inital letter
-          fSizeClass = new Float(sSizeClass);
+          fSizeClass = Float.valueOf(sSizeClass);
         }
         // Find the index of the size class
         iClass = -1;
@@ -519,7 +519,7 @@ public class TreeBehavior extends Behavior {
         }
         p_oDensityArray.getValue().remove(iSpecies);
         p_oDensityArray.getValue().add(iSpecies,
-            new Float(p_oData.get(i)));
+            Float.valueOf(p_oData.get(i)));
       }
       return true;
     } else if (sXMLTag.equals("tr_sizeClasses")) {
@@ -530,9 +530,9 @@ public class TreeBehavior extends Behavior {
       for (i = 0; i < p_fSizeClasses.length; i++) {
         String sSizeKey = p_oAttributes[i].getValue("sizeKey");
         if (sSizeKey.equalsIgnoreCase("seedling")) {
-          p_fSizeClasses[i] = new Float(0);
+          p_fSizeClasses[i] = Float.valueOf(0);
         } else {
-          p_fSizeClasses[i] = new Float(sSizeKey.substring(1));
+          p_fSizeClasses[i] = Float.valueOf(sSizeKey.substring(1));
         }
       }
       setSizeClasses(p_fSizeClasses);
@@ -636,7 +636,7 @@ public class TreeBehavior extends Behavior {
     
     //Add the new values
     for (i = 0; i < p_fVals.length; i++) {
-      mp_fSizeClasses.getValue().add(i, new Float(p_fVals[i].floatValue()));    
+      mp_fSizeClasses.getValue().add(i, Float.valueOf(p_fVals[i].floatValue()));    
     }
 
      // Reset all initial densities
@@ -672,7 +672,7 @@ public class TreeBehavior extends Behavior {
 
       // Initialize to all zeroes so it will look nice in the parameter window
       for (j = 0; j < iNumSpecies; j++) {
-        oDensity.getValue().add(new Float(0));
+        oDensity.getValue().add(Float.valueOf(0));
       }
       mp_fInitialDensities.getValue().add(i, oDensity);
       mp_oAllData.add(oDensity);

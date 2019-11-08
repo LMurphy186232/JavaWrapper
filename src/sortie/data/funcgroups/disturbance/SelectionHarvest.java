@@ -245,7 +245,7 @@ public class SelectionHarvest extends Behavior {
     if (sXMLTag != null) {
       if (sXMLTag.equals("sha_target_BA")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Assuming we have a valid cut range counter, assign this to the
         // appropriate variable
@@ -265,7 +265,7 @@ public class SelectionHarvest extends Behavior {
         return true;
       } else if (sXMLTag.equals("sha_loDBH")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Assuming we have a valid cut range counter, assign this to the
         // appropriate variable
@@ -285,7 +285,7 @@ public class SelectionHarvest extends Behavior {
         return true;
       } else if (sXMLTag.equals("sha_hiDBH")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Assuming we have a valid cut range counter, assign this to the
         // appropriate variable

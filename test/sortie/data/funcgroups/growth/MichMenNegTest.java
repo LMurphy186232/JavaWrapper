@@ -159,8 +159,8 @@ public class MichMenNegTest extends ModelTestCase {
       assertEquals(1, p_oBehs.size());
       MichMenNeg oBeh = (MichMenNeg) p_oBehs.get(0);
       oBeh.mp_fMMNegGrowthBeta.getValue().clear();
-      oBeh.mp_fMMNegGrowthBeta.getValue().add(new Float(0));
-      oBeh.mp_fMMNegGrowthBeta.getValue().add(new Float(10));
+      oBeh.mp_fMMNegGrowthBeta.getValue().add(Float.valueOf((float)0));
+      oBeh.mp_fMMNegGrowthBeta.getValue().add(Float.valueOf((float)10));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to notice beta equal to zero for Michaelis Menten negative growth.");
     }
@@ -186,8 +186,8 @@ public class MichMenNegTest extends ModelTestCase {
       assertEquals(1, p_oBehs.size());
       MichMenNeg oBeh = (MichMenNeg) p_oBehs.get(0);
       oBeh.mp_fMMNegGrowthAutoCorrProb.getValue().clear();
-      oBeh.mp_fMMNegGrowthAutoCorrProb.getValue().add(new Float(10));
-      oBeh.mp_fMMNegGrowthAutoCorrProb.getValue().add(new Float(10));
+      oBeh.mp_fMMNegGrowthAutoCorrProb.getValue().add(Float.valueOf((float)10));
+      oBeh.mp_fMMNegGrowthAutoCorrProb.getValue().add(Float.valueOf((float)10));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to notice bad autocorrelation probability for Michaelis Menten negative growth.");
     }

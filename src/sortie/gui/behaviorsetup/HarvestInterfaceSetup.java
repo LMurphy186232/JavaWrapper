@@ -863,7 +863,7 @@ implements ActionListener {
 
     //Make sure the harvest period is a positive integer
     try {
-      Integer iTest = new Integer(m_jHarvestPeriod.getText().trim());
+      Integer iTest = Integer.valueOf(m_jHarvestPeriod.getText().trim());
       if (iTest.intValue() < 0) {
         throw(new ModelException(ErrorGUI.BAD_DATA,
             "JAVA",
@@ -945,7 +945,7 @@ implements ActionListener {
     m_oBehavior.m_sHarvIntExecHarvestOutFile.setValue(sPath);
 
     // Harvest period
-    m_oBehavior.m_iHarvIntHarvestPeriod.setValue(new Integer(m_jHarvestPeriod.getText().trim()).intValue());
+    m_oBehavior.m_iHarvIntHarvestPeriod.setValue(Integer.valueOf(m_jHarvestPeriod.getText().trim()).intValue());
 
     // Additional file columns
     m_oBehavior.mp_sHarvIntFileColumns.getValue().clear();

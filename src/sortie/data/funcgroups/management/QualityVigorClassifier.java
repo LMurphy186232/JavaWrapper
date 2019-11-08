@@ -351,7 +351,7 @@ public class QualityVigorClassifier extends Behavior {
     if (sXMLTag != null) {
       if (sXMLTag.equals("ma_classifierBeginDBH")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
         m_fPriorityMin = fVal;
         //Check to see if the end DBH has already been read
         if (m_fPriorityMax > -1) {
@@ -365,7 +365,7 @@ public class QualityVigorClassifier extends Behavior {
         return true;
       } else if (sXMLTag.equals("ma_classifierEndDBH")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
         m_fPriorityMax = fVal;
         //Check to see if the end DBH has already been read
         if (m_fPriorityMin > -1) {
@@ -422,7 +422,7 @@ public class QualityVigorClassifier extends Behavior {
         if (p_bAppliesTo[i]) {
           String sData = p_oData.get(i);
           try {
-            oQual.mp_fProbVigorous.getValue().set(i, new Float(sData));
+            oQual.mp_fProbVigorous.getValue().set(i, Float.valueOf(sData));
           } catch (NumberFormatException e) {
             throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
                 "Vigor probability unreadable."));
@@ -439,7 +439,7 @@ public class QualityVigorClassifier extends Behavior {
         if (p_bAppliesTo[i]) {
           String sData = p_oData.get(i);
           try {
-            oQual.mp_fProbSawlog.getValue().set(i, new Float(sData));
+            oQual.mp_fProbSawlog.getValue().set(i, Float.valueOf(sData));
           } catch (NumberFormatException e) {
             throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
                 "Sawlog probability unreadable."));
@@ -574,8 +574,8 @@ public class QualityVigorClassifier extends Behavior {
               + m_fMaxDbh + " cm DBH");
 
       for (int i = 0; i < iNumSpecies; i++) {
-        mp_fProbVigorous.getValue().add(new Float(-1));
-        mp_fProbSawlog.getValue().add(new Float(-1));
+        mp_fProbVigorous.getValue().add(Float.valueOf(-1));
+        mp_fProbSawlog.getValue().add(Float.valueOf(-1));
       }
     }
   }

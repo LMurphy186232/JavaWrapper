@@ -89,8 +89,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);        
         
         oEst.mp_fTipUpFavorability[MOUND].getValue().clear();
-        oEst.mp_fTipUpFavorability[MOUND].getValue().add(new Float(0.2));
-        oEst.mp_fTipUpFavorability[MOUND].getValue().add(new Float( -1.2));
+        oEst.mp_fTipUpFavorability[MOUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fTipUpFavorability[MOUND].getValue().add(Float.valueOf((float) -1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for mound tip-up " +
         		"favorability.");
@@ -108,8 +108,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fScarifiedSoilFavorability[MOUND].getValue().clear();
-        oEst.mp_fScarifiedSoilFavorability[MOUND].getValue().add(new Float(0.2));
-        oEst.mp_fScarifiedSoilFavorability[MOUND].getValue().add(new Float(-1.2));
+        oEst.mp_fScarifiedSoilFavorability[MOUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fScarifiedSoilFavorability[MOUND].getValue().add(Float.valueOf((float)-1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for mound scarified soil " +
         		"favorability.");
@@ -127,8 +127,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fForestFloorLitterFavorability[MOUND].getValue().clear();
-        oEst.mp_fForestFloorLitterFavorability[MOUND].getValue().add(new Float(0.2));
-        oEst.mp_fForestFloorLitterFavorability[MOUND].getValue().add(new Float(-1.2));
+        oEst.mp_fForestFloorLitterFavorability[MOUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fForestFloorLitterFavorability[MOUND].getValue().add(Float.valueOf((float)-1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for mound forest floor " +
         		"litter favorability.");
@@ -146,8 +146,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fForestFloorMossFavorability[MOUND].getValue().clear();
-        oEst.mp_fForestFloorMossFavorability[MOUND].getValue().add(new Float(0.2));
-        oEst.mp_fForestFloorMossFavorability[MOUND].getValue().add(new Float(-1.2));
+        oEst.mp_fForestFloorMossFavorability[MOUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fForestFloorMossFavorability[MOUND].getValue().add(Float.valueOf((float)-1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for mound forest " +
         		"floor moss favorability.");
@@ -165,8 +165,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fFreshLogsFavorability[MOUND].getValue().clear();
-        oEst.mp_fFreshLogsFavorability[MOUND].getValue().add(new Float(0.2));
-        oEst.mp_fFreshLogsFavorability[MOUND].getValue().add(new Float(-1.2));
+        oEst.mp_fFreshLogsFavorability[MOUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fFreshLogsFavorability[MOUND].getValue().add(Float.valueOf((float)-1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for mound fresh " +
         		"logs favorability.");
@@ -184,8 +184,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fDecayedLogsFavorability[MOUND].getValue().clear();
-        oEst.mp_fDecayedLogsFavorability[MOUND].getValue().add(new Float(0.2));
-        oEst.mp_fDecayedLogsFavorability[MOUND].getValue().add(new Float(-1.2));
+        oEst.mp_fDecayedLogsFavorability[MOUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fDecayedLogsFavorability[MOUND].getValue().add(Float.valueOf((float)-1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for mound decayed " +
         		"logs favorability.");
@@ -203,8 +203,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fTipUpFavorability[GROUND].getValue().clear();
-        oEst.mp_fTipUpFavorability[GROUND].getValue().add(new Float(0.2));
-        oEst.mp_fTipUpFavorability[GROUND].getValue().add(new Float(-1.2));
+        oEst.mp_fTipUpFavorability[GROUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fTipUpFavorability[GROUND].getValue().add(Float.valueOf((float)-1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for ground " +
         		"tip-up favorability.");
@@ -222,8 +222,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fScarifiedSoilFavorability[GROUND].getValue().clear();
-        oEst.mp_fScarifiedSoilFavorability[GROUND].getValue().add(new Float(0.2));
-        oEst.mp_fScarifiedSoilFavorability[GROUND].getValue().add(new Float(-1.2));
+        oEst.mp_fScarifiedSoilFavorability[GROUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fScarifiedSoilFavorability[GROUND].getValue().add(Float.valueOf((float)-1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for ground scarified " +
         		"soil favorability.");
@@ -241,8 +241,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fForestFloorLitterFavorability[GROUND].getValue().clear();
-        oEst.mp_fForestFloorLitterFavorability[GROUND].getValue().add(new Float(0.2));
-        oEst.mp_fForestFloorLitterFavorability[GROUND].getValue().add(new Float( -1.2));
+        oEst.mp_fForestFloorLitterFavorability[GROUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fForestFloorLitterFavorability[GROUND].getValue().add(Float.valueOf((float) -1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for ground forest floor " +
         		"litter favorability.");
@@ -260,8 +260,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fForestFloorMossFavorability[GROUND].getValue().clear();
-        oEst.mp_fForestFloorMossFavorability[GROUND].getValue().add(new Float(0.2));
-        oEst.mp_fForestFloorMossFavorability[GROUND].getValue().add(new Float( -1.2));
+        oEst.mp_fForestFloorMossFavorability[GROUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fForestFloorMossFavorability[GROUND].getValue().add(Float.valueOf((float) -1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for ground forest floor " +
         		"moss favorability.");
@@ -279,8 +279,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fFreshLogsFavorability[GROUND].getValue().clear();
-        oEst.mp_fFreshLogsFavorability[GROUND].getValue().add(new Float(0.2));
-        oEst.mp_fFreshLogsFavorability[GROUND].getValue().add(new Float( -1.2));
+        oEst.mp_fFreshLogsFavorability[GROUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fFreshLogsFavorability[GROUND].getValue().add(Float.valueOf((float) -1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for ground fresh " +
         		"logs favorability.");
@@ -298,8 +298,8 @@ public class MicrotopographicSubstrateSeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (MicrotopographicSubstrateSeedSurvival) p_oBehs.get(0);
         oEst.mp_fDecayedLogsFavorability[GROUND].getValue().clear();
-        oEst.mp_fDecayedLogsFavorability[GROUND].getValue().add(new Float(0.2));
-        oEst.mp_fDecayedLogsFavorability[GROUND].getValue().add(new Float( -1.2));
+        oEst.mp_fDecayedLogsFavorability[GROUND].getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fDecayedLogsFavorability[GROUND].getValue().add(Float.valueOf((float) -1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for ground decayed " +
         		"logs favorability.");

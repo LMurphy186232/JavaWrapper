@@ -455,7 +455,7 @@ class ParseReader {
       throw (new ModelException(0, "JAVA", "Could not find behavior " + sData));
       
     } else if (sTagName.equals("version")) {
-      double fVersion = new Double(sData).doubleValue();
+      double fVersion = Double.valueOf(sData).doubleValue();
       if (m_oBehavior.getVersion() < fVersion ||
           m_oBehavior.getMinimumVersion() > fVersion) {
         throw(new ModelException(0, "JAVA", "Version number " + sData +
@@ -472,8 +472,8 @@ class ParseReader {
       if (m_oGrid != null) {
 
         //Get the code
-        int iCode = new Integer(oAttributes.getValue("c")).intValue();
-        Float fValue = new Float(sData);
+        int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+        Float fValue = Float.valueOf(sData);
 
         //Set it for the grid
         m_oGrid.setGridValue(m_iCurrentXCell, m_iCurrentYCell, iCode,
@@ -485,8 +485,8 @@ class ParseReader {
       if (m_oGrid != null) {
 
         //Get the code
-        int iCode = new Integer(oAttributes.getValue("c")).intValue();
-        Integer iValue = new Integer(sData);
+        int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+        Integer iValue = Integer.valueOf(sData);
 
         //Set it for the grid
         m_oGrid.setGridValue(m_iCurrentXCell, m_iCurrentYCell, iCode,
@@ -499,7 +499,7 @@ class ParseReader {
       if (m_oGrid != null) {
 
         //Get the code
-        int iCode = new Integer(oAttributes.getValue("c")).intValue();
+        int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
 
         //Set it for the grid
         m_oGrid.setGridValue(m_iCurrentXCell, m_iCurrentYCell, iCode,
@@ -511,8 +511,8 @@ class ParseReader {
       if (m_oGrid != null) {
 
         //Get the code
-        int iCode = new Integer(oAttributes.getValue("c")).intValue();
-        Boolean bValue = new Boolean(sData);
+        int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+        Boolean bValue = Boolean.valueOf(sData);
 
         //Set it for the grid
         m_oGrid.setGridValue(m_iCurrentXCell, m_iCurrentYCell, iCode,
@@ -524,8 +524,8 @@ class ParseReader {
       if (m_oGrid != null) {
 
         //Get the code
-        int iCode = new Integer(oAttributes.getValue("c")).intValue();
-        Float fValue = new Float(sData);
+        int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+        Float fValue = Float.valueOf(sData);
 
         //Set it for the grid
         m_oGrid.setGridPackageValue(m_iCurrentXCell, m_iCurrentYCell,
@@ -538,8 +538,8 @@ class ParseReader {
       if (m_oGrid != null) {
 
         //Get the code
-        int iCode = new Integer(oAttributes.getValue("c")).intValue();
-        Integer iValue = new Integer(sData);
+        int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+        Integer iValue = Integer.valueOf(sData);
 
         //Set it for the grid
         m_oGrid.setGridPackageValue(m_iCurrentXCell, m_iCurrentYCell,
@@ -553,7 +553,7 @@ class ParseReader {
       if (m_oGrid != null) {
 
         //Get the code
-        int iCode = new Integer(oAttributes.getValue("c")).intValue();
+        int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
 
         //Set it for the grid
         m_oGrid.setGridPackageValue(m_iCurrentXCell, m_iCurrentYCell,
@@ -566,8 +566,8 @@ class ParseReader {
       if (m_oGrid != null) {
 
         //Get the code
-        int iCode = new Integer(oAttributes.getValue("c")).intValue();
-        Boolean bValue = new Boolean(sData);
+        int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+        Boolean bValue = Boolean.valueOf(sData);
 
         //Set it for the grid
         m_oGrid.setGridPackageValue(m_iCurrentXCell, m_iCurrentYCell,
@@ -579,7 +579,7 @@ class ParseReader {
     else if (sTagName.equals("ma_floatCode")) {
       if (m_oGrid != null) {
         String sLabel = oAttributes.getValue("label");
-        int iIndex = new Integer(sData).intValue();
+        int iIndex = Integer.valueOf(sData).intValue();
         if (m_iPackageIndex > -1) {
           m_oGrid.setGridPackageFloatCode(sLabel, iIndex);
         }
@@ -592,7 +592,7 @@ class ParseReader {
     else if (sTagName.equals("ma_intCode")) {
       if (m_oGrid != null) {
         String sLabel = oAttributes.getValue("label");
-        int iIndex = new Integer(sData).intValue();
+        int iIndex = Integer.valueOf(sData).intValue();
         if (m_iPackageIndex > -1) {
           m_oGrid.setGridPackageIntCode(sLabel, iIndex);
         }
@@ -605,7 +605,7 @@ class ParseReader {
     else if (sTagName.equals("ma_boolCode")) {
       if (m_oGrid != null) {
         String sLabel = oAttributes.getValue("label");
-        int iIndex = new Integer(sData).intValue();
+        int iIndex = Integer.valueOf(sData).intValue();
         if (m_iPackageIndex > -1) {
           m_oGrid.setGridPackageBoolCode(sLabel, iIndex);
         }
@@ -618,7 +618,7 @@ class ParseReader {
     else if (sTagName.equals("ma_charCode")) {
       if (m_oGrid != null) {
         String sLabel = oAttributes.getValue("label");
-        int iIndex = new Integer(sData).intValue();
+        int iIndex = Integer.valueOf(sData).intValue();
         if (m_iPackageIndex > -1) {
           m_oGrid.setGridPackageCharCode(sLabel, iIndex);
         }
@@ -631,7 +631,7 @@ class ParseReader {
     else if (sTagName.equals("ma_lengthXCells")) {
       if (m_oGrid != null) {
 
-        float fLength = new Float(sData).floatValue();
+        float fLength = Float.valueOf(sData).floatValue();
         m_oGrid.setXCellLength(fLength);
       }
       return;
@@ -639,7 +639,7 @@ class ParseReader {
     else if (sTagName.equals("ma_lengthYCells")) {
       if (m_oGrid != null) {
 
-        float fLength = new Float(sData).floatValue();
+        float fLength = Float.valueOf(sData).floatValue();
         m_oGrid.setYCellLength(fLength);
       }
       return;
@@ -647,7 +647,7 @@ class ParseReader {
     else if (sTagName.equals("ma_plotLenX")) {
       if (m_oGrid != null) {
         if (java.lang.Math.abs(m_oManager.getPlot().getPlotXLength() -
-                               new Float(sData).floatValue()) >
+                               Float.valueOf(sData).floatValue()) >
             0.001) {
           throw(new ModelException(0, "JAVA", "In the grid map for " +
                                    m_oGrid.getName() +
@@ -660,7 +660,7 @@ class ParseReader {
     else if (sTagName.equals("ma_plotLenY")) {
       if (m_oGrid != null) {
         if (java.lang.Math.abs(m_oManager.getPlot().getPlotYLength() -
-                               new Float(sData).floatValue()) >
+                               Float.valueOf(sData).floatValue()) >
             0.001) {
           throw(new ModelException(0, "JAVA", "In the grid map for " +
                                    m_oGrid.getName() +
@@ -893,8 +893,8 @@ class ParseReader {
 
       //Get the X and Y
       if (m_oGrid != null) {
-        m_iCurrentXCell = new Integer(oParentAttributes.getValue("x")).intValue();
-        m_iCurrentYCell = new Integer(oParentAttributes.getValue("y")).intValue();
+        m_iCurrentXCell = Integer.valueOf(oParentAttributes.getValue("x")).intValue();
+        m_iCurrentYCell = Integer.valueOf(oParentAttributes.getValue("y")).intValue();
         m_iPackageIndex = -1;
       }
     }

@@ -165,7 +165,7 @@ public class MastingNonSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingNonSpatialDisperse oDisperse = (MastingNonSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fNonSpatialMastMastInvGaussMu.getValue().remove(0);
-        oDisperse.mp_fNonSpatialMastMastInvGaussMu.getValue().add(0, new Float(-70));
+        oDisperse.mp_fNonSpatialMastMastInvGaussMu.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad mast mu.");
       }
@@ -187,7 +187,7 @@ public class MastingNonSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingNonSpatialDisperse oDisperse = (MastingNonSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fNonSpatialMastMastInvGaussLambda.getValue().remove(0);
-        oDisperse.mp_fNonSpatialMastMastInvGaussLambda.getValue().add(0, new Float(-70));
+        oDisperse.mp_fNonSpatialMastMastInvGaussLambda.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad mast lambda.");
       }
@@ -210,7 +210,7 @@ public class MastingNonSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingNonSpatialDisperse oDisperse = (MastingNonSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fNonSpatialMastNonMastInvGaussMu.getValue().remove(0);
-        oDisperse.mp_fNonSpatialMastNonMastInvGaussMu.getValue().add(0, new Float(-70));
+        oDisperse.mp_fNonSpatialMastNonMastInvGaussMu.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad non-mast mu.");
       }
@@ -233,7 +233,7 @@ public class MastingNonSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingNonSpatialDisperse oDisperse = (MastingNonSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fNonSpatialMastNonMastInvGaussLambda.getValue().remove(0);
-        oDisperse.mp_fNonSpatialMastNonMastInvGaussLambda.getValue().add(0, new Float(-70));
+        oDisperse.mp_fNonSpatialMastNonMastInvGaussLambda.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad non-mast lambda.");
       }

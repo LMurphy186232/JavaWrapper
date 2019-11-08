@@ -78,7 +78,7 @@ public class SizeDependentLogisticMortalityTest extends TestCase {
         p_oBehs = oMortBeh.getBehaviorByParameterFileTag("SizeDependentLogisticMortality");
         SizeDependentLogisticMortality oMort = (SizeDependentLogisticMortality) p_oBehs.get(0);
         oMort.mp_fMax.getValue().remove(2);
-        oMort.mp_fMax.getValue().add(2, new Float(1.4));
+        oMort.mp_fMax.getValue().add(2, Float.valueOf((float)1.4));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad max mort value.");
       } catch (ModelException oErr) {;}
@@ -90,7 +90,7 @@ public class SizeDependentLogisticMortalityTest extends TestCase {
         p_oBehs = oMortBeh.getBehaviorByParameterFileTag("SizeDependentLogisticMortality");
         SizeDependentLogisticMortality oMort = (SizeDependentLogisticMortality) p_oBehs.get(0);
         oMort.mp_fX0.getValue().remove(2);
-        oMort.mp_fX0.getValue().add(2, new Float(0));
+        oMort.mp_fX0.getValue().add(2, Float.valueOf((float)0));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad max mort value.");
       } catch (ModelException oErr) {;}

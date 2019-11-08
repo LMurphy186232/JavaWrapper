@@ -140,11 +140,10 @@ public class DensitySelfThinningGompertzTest extends ModelTestCase {
           oMortBeh.createBehaviorFromParameterFileTag("GompertzDensitySelfThinning");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fGompertzMinHeight.getValue().add(new Float(0.5));
+        oMort.mp_fGompertzMinHeight.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fGompertzMinHeight.getValue().add(0,
-            new Float( -20));
+        oMort.mp_fGompertzMinHeight.getValue().add(0, Float.valueOf((float) -20));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch gompertz density self-thinning minimum height negative.");
       }

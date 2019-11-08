@@ -831,7 +831,7 @@ public class NCIMasterGrowthTest extends ModelTestCase {
       GrowthBehaviors oGrowthBeh = oManager.getGrowthBehaviors();
       ArrayList<Behavior> p_oBehs = oGrowthBeh.getBehaviorByParameterFileTag("NCIMasterGrowth");
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
-      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().set(0, new Float(-20));
+      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().set(0, Float.valueOf((float)-20));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad NCI max growth values.");
     }
@@ -883,7 +883,7 @@ public class NCIMasterGrowthTest extends ModelTestCase {
       GrowthBehaviors oGrowthBeh = oManager.getGrowthBehaviors();
       ArrayList<Behavior> p_oBehs = oGrowthBeh.getBehaviorByParameterFileTag("NCIMasterGrowth diam only");
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
-      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().set(0, new Float(-20));
+      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().set(0, Float.valueOf((float)-20));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad NCI max growth values.");
     }

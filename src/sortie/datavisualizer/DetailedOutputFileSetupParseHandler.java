@@ -403,19 +403,19 @@ public class DetailedOutputFileSetupParseHandler
 
     }
     else if (sQName.equals("timesteps")) {
-      int iTimesteps = new Integer(m_sBuf.toString()).intValue();
+      int iTimesteps = Integer.valueOf(m_sBuf.toString()).intValue();
       m_oManager.setParFileTimesteps(iTimesteps);
     }
     else if (sQName.equals("plot_lenX")) {
-      float f = new Float(m_sBuf.toString()).floatValue();
+      float f = Float.valueOf(m_sBuf.toString()).floatValue();
       m_oManager.setXPlotLength(f);
     }
     else if (sQName.equals("plot_lenY")) {
-      float f = new Float(m_sBuf.toString()).floatValue();
+      float f = Float.valueOf(m_sBuf.toString()).floatValue();
       m_oManager.setYPlotLength(f);
     }
     else if (sQName.equals("yearsPerTimestep")) {
-      float f = new Float(m_sBuf.toString()).floatValue();
+      float f = Float.valueOf(m_sBuf.toString()).floatValue();
       m_oManager.setNumberOfYearsPerTimestep(f);
     }
     else if (sQName.equals("ou_subplotXLength")) {

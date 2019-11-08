@@ -228,10 +228,10 @@ public class StockTableDataRequest
               m_oChartFrame.getContentPane(), PANEL_NAME);
           JTextField jField = (JTextField)DataGrapher.findNamedComponent(
               jControls, NUMBER_SIZE_CLASS_NAME);
-          Integer oNumSizeClasses = new Integer(jField.getText());
+          Integer oNumSizeClasses = Integer.valueOf(jField.getText());
           jField = (JTextField)DataGrapher.findNamedComponent(jControls, 
               SIZE_CLASS_SIZE_NAME);
-          Float oSizeClassSize = new Float(jField.getText());
+          Float oSizeClassSize = Float.valueOf(jField.getText());
           iNumSizeClasses = oNumSizeClasses.intValue();
           fSizeClassSize = oSizeClassSize.floatValue();
         }
@@ -621,10 +621,10 @@ public class StockTableDataRequest
     
     //**********
     // Column 3: Mean annual increment
-    p_oTableData[0][2] = new Float(0);
+    p_oTableData[0][2] = Float.valueOf(0);
     for (j = 1; j < p_oTableData.length; j++) {
       //Get this timestep's total
-      fTotal = new Float(p_oTableData[j][4].toString()).floatValue();
+      fTotal = Float.valueOf(p_oTableData[j][4].toString()).floatValue();
       //Set the MAI
       p_oTableData[j][2] = oFormat.format( (fTotal) /
           (m_fNumYearsPerTimestep * j));
@@ -934,10 +934,10 @@ public class StockTableDataRequest
     try {      
       JTextField jField = (JTextField)DataGrapher.findNamedComponent(
           oInfo.m_jExtraOptions, NUMBER_SIZE_CLASS_NAME);
-      Integer oNumSizeClasses = new Integer(jField.getText());
+      Integer oNumSizeClasses = Integer.valueOf(jField.getText());
       jField = (JTextField)DataGrapher.findNamedComponent(oInfo.m_jExtraOptions, 
           SIZE_CLASS_SIZE_NAME);
-      Float oSizeClassSize = new Float(jField.getText());
+      Float oSizeClassSize = Float.valueOf(jField.getText());
       iNumSizeClasses = oNumSizeClasses.intValue();
       fSizeClassSize = oSizeClassSize.floatValue();
     }

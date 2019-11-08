@@ -110,10 +110,10 @@ public class BrowsedStochasticMortalityTest extends ModelTestCase {
            oMortBeh.createBehaviorFromParameterFileTag("BrowsedStochasticMortality");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fRandomMortality.getValue().add(new Float(0.5));
+        oMort.mp_fRandomMortality.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fRandomMortality.getValue().add(0, new Float( -20));
+        oMort.mp_fRandomMortality.getValue().add(0, Float.valueOf((float) -20));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch unbrowsed mortality rates.");
       }
@@ -132,11 +132,11 @@ public class BrowsedStochasticMortalityTest extends ModelTestCase {
            oMortBeh.createBehaviorFromParameterFileTag("BrowsedStochasticMortality");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fBrowsedRandomMortality.getValue().add(new Float(0.5));
+        oMort.mp_fBrowsedRandomMortality.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
         oMort.mp_fBrowsedRandomMortality.getValue().add(0,
-            new Float( -20));
+            Float.valueOf((float) -20));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch unbrowsed mortality rates.");
       }

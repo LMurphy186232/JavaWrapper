@@ -181,12 +181,12 @@ public class MastingSpatialDisperse extends SpatialDisperseBase {
     //Set up the proportion participating vectors to default to values of 1
     if (mp_fSpatialMastMastPropParticipating.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fSpatialMastMastPropParticipating.getValue().add(new Float(1.0));
+        mp_fSpatialMastMastPropParticipating.getValue().add(Float.valueOf((float)1.0));
       }
     }
     if (mp_fSpatialMastNonMastPropParticipating.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fSpatialMastNonMastPropParticipating.getValue().add(new Float(1.0));
+        mp_fSpatialMastNonMastPropParticipating.getValue().add(Float.valueOf((float)1.0));
       }
     }
   } 
@@ -346,12 +346,12 @@ public class MastingSpatialDisperse extends SpatialDisperseBase {
     //Set up the proportion participating vectors to default to values of 1
     if (mp_fSpatialMastMastPropParticipating.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fSpatialMastMastPropParticipating.getValue().add(new Float(1.0));
+        mp_fSpatialMastMastPropParticipating.getValue().add(Float.valueOf((float)1.0));
       }
     }
     if (mp_fSpatialMastNonMastPropParticipating.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fSpatialMastNonMastPropParticipating.getValue().add(new Float(1.0));
+        mp_fSpatialMastNonMastPropParticipating.getValue().add(Float.valueOf((float)1.0));
       }
     }
 

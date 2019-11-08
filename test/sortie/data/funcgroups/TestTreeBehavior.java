@@ -101,20 +101,21 @@ public class TestTreeBehavior extends ModelTestCase {
       assertEquals(48.0, ((Float)oTreeBeh.mp_fSizeClasses.getValue().get(24)).floatValue(), 0.0001);
       
       //Change the size classes
-      Float[] p_fNew = new Float[] {new Float(7.5),
-          new Float(12.5),
-          new Float(17.5),
-          new Float(22.5),
-          new Float(27.5),
-          new Float(32.5),
-          new Float(37.5),
-          new Float(42.5),
-          new Float(47.5),
-          new Float(52.5),
-          new Float(57.5),
-          new Float(62.5),
-          new Float(67.5),
-          new Float(72.5)};
+      Float[] p_fNew = new Float[] {
+          Float.valueOf((float)7.5),
+          Float.valueOf((float)12.5),
+          Float.valueOf((float)17.5),
+          Float.valueOf((float)22.5),
+          Float.valueOf((float)27.5),
+          Float.valueOf((float)32.5),
+          Float.valueOf((float)37.5),
+          Float.valueOf((float)42.5),
+          Float.valueOf((float)47.5),
+          Float.valueOf((float)52.5),
+          Float.valueOf((float)57.5),
+          Float.valueOf((float)62.5),
+          Float.valueOf((float)67.5),
+          Float.valueOf((float)72.5)};
       
       oTreeBeh.setSizeClasses(p_fNew);
       

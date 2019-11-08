@@ -1669,7 +1669,7 @@ public class ShortOutputFileManager
         if (bSubplotsExist) {
           sData = p_oLine.get(1);
           try {
-            iSubplotIndex = new Integer(sData.trim()).intValue();
+            iSubplotIndex = Integer.valueOf(sData.trim()).intValue();
           }
           catch (java.lang.NumberFormatException oE) {
             throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA",
@@ -1688,19 +1688,19 @@ public class ShortOutputFileManager
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iAABAIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fABA.get(iDeadCode).get(iSubplotIndex).get(ADULT).get(i).add(new Float(sData));
+                p_fABA.get(iDeadCode).get(iSubplotIndex).get(ADULT).get(i).add(Float.valueOf(sData));
             }
             //And the total
             sData = p_oLine.get(i + p_iAABAIndex[iDeadCode]);
             if (!sData.equals("NA"))
-              p_fABT.get(iDeadCode).get(iSubplotIndex).get(ADULT).add(new Float(sData));
+              p_fABT.get(iDeadCode).get(iSubplotIndex).get(ADULT).add(Float.valueOf(sData));
           }
 
           if (p_iARBAIndex[iDeadCode] != -1) {
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iARBAIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fRBA.get(iDeadCode).get(iSubplotIndex).get(ADULT).get(i).add(new Float(sData));
+                p_fRBA.get(iDeadCode).get(iSubplotIndex).get(ADULT).get(i).add(Float.valueOf(sData));
             }
           }
 
@@ -1708,19 +1708,19 @@ public class ShortOutputFileManager
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iAADNIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fADN.get(iDeadCode).get(iSubplotIndex).get(ADULT).get(i).add(new Float(sData));
+                p_fADN.get(iDeadCode).get(iSubplotIndex).get(ADULT).get(i).add(Float.valueOf(sData));
             }
             //And the total
             sData = p_oLine.get(i + p_iAADNIndex[iDeadCode]);
             if (!sData.equals("NA"))
-              p_fADT.get(iDeadCode).get(iSubplotIndex).get(ADULT).add(new Float(sData));
+              p_fADT.get(iDeadCode).get(iSubplotIndex).get(ADULT).add(Float.valueOf(sData));
           }
 
           if (p_iARDNIndex[iDeadCode] != -1) {
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iARDNIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fRDN.get(iDeadCode).get(iSubplotIndex).get(ADULT).get(i).add(new Float(sData));
+                p_fRDN.get(iDeadCode).get(iSubplotIndex).get(ADULT).get(i).add(Float.valueOf(sData));
             }
           }
 
@@ -1729,7 +1729,7 @@ public class ShortOutputFileManager
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iSNRDNIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fRDN.get(iDeadCode).get(iSubplotIndex).get(SNAG).get(i).add(new Float(sData));
+                p_fRDN.get(iDeadCode).get(iSubplotIndex).get(SNAG).get(i).add(Float.valueOf(sData));
             }
           }
 
@@ -1737,19 +1737,19 @@ public class ShortOutputFileManager
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iSNABAIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fABA.get(iDeadCode).get(iSubplotIndex).get(SNAG).get(i).add(new Float(sData));
+                p_fABA.get(iDeadCode).get(iSubplotIndex).get(SNAG).get(i).add(Float.valueOf(sData));
             }
             //And the total
             sData = p_oLine.get(i + p_iSNABAIndex[iDeadCode]);
             if (!sData.equals("NA"))
-              p_fABT.get(iDeadCode).get(iSubplotIndex).get(SNAG).add(new Float(sData));
+              p_fABT.get(iDeadCode).get(iSubplotIndex).get(SNAG).add(Float.valueOf(sData));
           }
 
           if (p_iSNRBAIndex[iDeadCode] != -1) {
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iSNRBAIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fRBA.get(iDeadCode).get(iSubplotIndex).get(SNAG).get(i).add(new Float(sData));
+                p_fRBA.get(iDeadCode).get(iSubplotIndex).get(SNAG).get(i).add(Float.valueOf(sData));
             }
           }
 
@@ -1757,12 +1757,12 @@ public class ShortOutputFileManager
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iSNADNIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fADN.get(iDeadCode).get(iSubplotIndex).get(SNAG).get(i).add(new Float(sData));
+                p_fADN.get(iDeadCode).get(iSubplotIndex).get(SNAG).get(i).add(Float.valueOf(sData));
             }
             //And the total
             sData = p_oLine.get(i + p_iSNADNIndex[iDeadCode]);
             if (!sData.equals("NA"))
-              p_fADT.get(iDeadCode).get(iSubplotIndex).get(SNAG).add(new Float(sData));
+              p_fADT.get(iDeadCode).get(iSubplotIndex).get(SNAG).add(Float.valueOf(sData));
           }
 
           //Saplings
@@ -1770,19 +1770,19 @@ public class ShortOutputFileManager
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iJABAIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fABA.get(iDeadCode).get(iSubplotIndex).get(SAPLING).get(i).add(new Float(sData));
+                p_fABA.get(iDeadCode).get(iSubplotIndex).get(SAPLING).get(i).add(Float.valueOf(sData));
             }
             //And the total
             sData = p_oLine.get(i + p_iJABAIndex[iDeadCode]);
             if (!sData.equals("NA"))
-              p_fABT.get(iDeadCode).get(iSubplotIndex).get(SAPLING).add(new Float(sData));
+              p_fABT.get(iDeadCode).get(iSubplotIndex).get(SAPLING).add(Float.valueOf(sData));
           }
 
           if (p_iJRBAIndex[iDeadCode] != -1) {
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iJRBAIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fRBA.get(iDeadCode).get(iSubplotIndex).get(SAPLING).get(i).add(new Float(sData));
+                p_fRBA.get(iDeadCode).get(iSubplotIndex).get(SAPLING).get(i).add(Float.valueOf(sData));
             }
           }
 
@@ -1790,19 +1790,19 @@ public class ShortOutputFileManager
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iJADNIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fADN.get(iDeadCode).get(iSubplotIndex).get(SAPLING).get(i).add(new Float(sData));
+                p_fADN.get(iDeadCode).get(iSubplotIndex).get(SAPLING).get(i).add(Float.valueOf(sData));
             }
             //And the total
             sData = p_oLine.get(i + p_iJADNIndex[iDeadCode]);
             if (!sData.equals("NA"))
-              p_fADT.get(iDeadCode).get(iSubplotIndex).get(SAPLING).add(new Float(sData));
+              p_fADT.get(iDeadCode).get(iSubplotIndex).get(SAPLING).add(Float.valueOf(sData));
           }
 
           if (p_iJRDNIndex[iDeadCode] != -1) {
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iJRDNIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fRDN.get(iDeadCode).get(iSubplotIndex).get(SAPLING).get(i).add(new Float(sData));
+                p_fRDN.get(iDeadCode).get(iSubplotIndex).get(SAPLING).get(i).add(Float.valueOf(sData));
             }
           }
 
@@ -1811,19 +1811,19 @@ public class ShortOutputFileManager
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iSADNIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fADN.get(iDeadCode).get(iSubplotIndex).get(SEEDLING).get(i).add(new Float(sData));
+                p_fADN.get(iDeadCode).get(iSubplotIndex).get(SEEDLING).get(i).add(Float.valueOf(sData));
             }
             //And the total
             sData = p_oLine.get(i + p_iSADNIndex[iDeadCode]);
             if (!sData.equals("NA"))
-              p_fADT.get(iDeadCode).get(iSubplotIndex).get(SEEDLING).add(new Float(sData));
+              p_fADT.get(iDeadCode).get(iSubplotIndex).get(SEEDLING).add(Float.valueOf(sData));
           }
 
           if (p_iSRDNIndex[iDeadCode] != -1) {
             for (i = 0; i < p_sSpeciesNames.size(); i++) {
               sData = p_oLine.get(i + p_iSRDNIndex[iDeadCode]);
               if (!sData.equals("NA"))
-                p_fRDN.get(iDeadCode).get(iSubplotIndex).get(SEEDLING).get(i).add(new Float(sData));
+                p_fRDN.get(iDeadCode).get(iSubplotIndex).get(SEEDLING).get(i).add(Float.valueOf(sData));
             }
           }
         }
@@ -2256,7 +2256,7 @@ public class ShortOutputFileManager
 
             //Get the current timestep
             JLabel jTempLabel = (JLabel) DataGrapher.findNamedComponent(m_jFrame.getContentPane(), "current_timestep");
-            iTimestep = new Integer(jTempLabel.getText()).intValue();
+            iTimestep = Integer.valueOf(jTempLabel.getText()).intValue();
 
             //Write the chart header
             jOut.write(m_jFrame.getTitle() + "\n");
@@ -2597,7 +2597,7 @@ class TableUpdater
       if (jLabel == null) {
         return;
       }
-      iNumberTimesteps = new Integer(jLabel.getText()).intValue();
+      iNumberTimesteps = Integer.valueOf(jLabel.getText()).intValue();
 
       //Find the timestep it's on right now
       jLabel = (JLabel) DataGrapher.findNamedComponent(m_jContentPanel,
@@ -2605,7 +2605,7 @@ class TableUpdater
       if (jLabel == null) {
         return;
       }
-      iCurrentTimestep = new Integer(jLabel.getText()).intValue();
+      iCurrentTimestep = Integer.valueOf(jLabel.getText()).intValue();
 
       //If we're already at the end, skip out
       if (iCurrentTimestep == iNumberTimesteps) {
@@ -2627,7 +2627,7 @@ class TableUpdater
       if (jLabel == null) {
         return;
       }
-      iCurrentTimestep = new Integer(jLabel.getText()).intValue();
+      iCurrentTimestep = Integer.valueOf(jLabel.getText()).intValue();
 
       //If we're already at the end, skip out
       if (iCurrentTimestep == 0) {
@@ -2640,7 +2640,7 @@ class TableUpdater
     }
 
     else if (sAction.equals("ChangeDeadCode")) {
-      int iCurrentTimestep = new Integer(((JLabel) DataGrapher.findNamedComponent(m_jContentPanel,
+      int iCurrentTimestep = Integer.valueOf(((JLabel) DataGrapher.findNamedComponent(m_jContentPanel,
           "current_timestep")).getText()).intValue();
       m_oManager.updateTable(m_jContentPanel, iCurrentTimestep, m_iSubplot, iDeadCode);
     }
@@ -2654,7 +2654,7 @@ class TableUpdater
 
       int iTimestep = 0;
       try {
-        iTimestep = new Integer(jField.getText()).intValue();
+        iTimestep = Integer.valueOf(jField.getText()).intValue();
       }
       catch (java.lang.NumberFormatException e) {
         JOptionPane.showMessageDialog(m_jContentPanel,
@@ -2675,7 +2675,7 @@ class TableUpdater
       if (jLabel == null) {
         return;
       }
-      int iNumberTimesteps = new Integer(jLabel.getText()).intValue();
+      int iNumberTimesteps = Integer.valueOf(jLabel.getText()).intValue();
       if (iTimestep > iNumberTimesteps) {
         JOptionPane.showMessageDialog(m_jContentPanel,
                  "The timestep to jump to must not be greater\n"+

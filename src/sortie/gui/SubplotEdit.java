@@ -983,7 +983,7 @@ public class SubplotEdit
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextHarvest() throws ModelException {
-    int iCurrentHarvest = new Integer(m_jHarvestNumber.getText()).intValue();
+    int iCurrentHarvest = Integer.valueOf(m_jHarvestNumber.getText()).intValue();
 
     if (iCurrentHarvest < m_iNumTotalHarvestEvents) {
       //Display the next harvest event - the vector index is already right
@@ -1003,7 +1003,7 @@ public class SubplotEdit
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextMortEpisode() throws ModelException {
-    int iCurrentEpisode = new Integer(m_jMortEpisodeNumber.getText()).
+    int iCurrentEpisode = Integer.valueOf(m_jMortEpisodeNumber.getText()).
         intValue();
 
     if (iCurrentEpisode < m_iNumTotalMortEpisodes) {
@@ -1024,7 +1024,7 @@ public class SubplotEdit
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextPlanting() throws ModelException {
-    int iCurrentPlanting = new Integer(m_jPlantNumber.getText()).intValue();
+    int iCurrentPlanting = Integer.valueOf(m_jPlantNumber.getText()).intValue();
 
     if (iCurrentPlanting < m_iNumTotalPlantingEvents) {
       //Display the next plant event - the vector index is already right
@@ -1044,7 +1044,7 @@ public class SubplotEdit
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousHarvest() throws ModelException {
-    int iCurrentHarvest = new Integer(m_jHarvestNumber.getText()).intValue();
+    int iCurrentHarvest = Integer.valueOf(m_jHarvestNumber.getText()).intValue();
 
     if (iCurrentHarvest > 1) {
       //Display the previous harvest event - subtract two since the vector
@@ -1068,7 +1068,7 @@ public class SubplotEdit
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousMortEpisode() throws ModelException {
-    int iCurrentEpisode = new Integer(m_jMortEpisodeNumber.getText()).
+    int iCurrentEpisode = Integer.valueOf(m_jMortEpisodeNumber.getText()).
         intValue();
 
     if (iCurrentEpisode > 1) {
@@ -1093,7 +1093,7 @@ public class SubplotEdit
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousPlanting() throws ModelException {
-    int iCurrentPlanting = new Integer(m_jPlantNumber.getText()).intValue();
+    int iCurrentPlanting = Integer.valueOf(m_jPlantNumber.getText()).intValue();
 
     if (iCurrentPlanting > 1) {
       //Display the previous planting event - subtract two since the vector

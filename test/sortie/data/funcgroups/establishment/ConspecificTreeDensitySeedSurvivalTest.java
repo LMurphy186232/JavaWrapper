@@ -98,8 +98,8 @@ public class ConspecificTreeDensitySeedSurvivalTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oEst = (ConspecificTreeDensitySeedSurvival) p_oBehs.get(0);
         oEst.mp_fDensDepMinNeighHeight.getValue().clear();
-        oEst.mp_fDensDepMinNeighHeight.getValue().add(new Float(0.2));
-        oEst.mp_fDensDepMinNeighHeight.getValue().add(new Float( -1.2));
+        oEst.mp_fDensDepMinNeighHeight.getValue().add(Float.valueOf((float)0.2));
+        oEst.mp_fDensDepMinNeighHeight.getValue().add(Float.valueOf((float) -1.2));
         oEstBeh.validateData(oManager.getTreePopulation());
         fail("Establishment didn't catch bad value for density dependent " +
         		"min neighbor height.");

@@ -175,7 +175,7 @@ public class CompetitionHarvest extends Behavior {
     // up, set all their values to a default of 1. Otherwise leave them alone.
     if (mp_fCompHarvProportion.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fCompHarvProportion.getValue().add(new Float(1.0));
+        mp_fCompHarvProportion.getValue().add(Float.valueOf((float)1.0));
       }
     }
   }
@@ -403,7 +403,7 @@ public class CompetitionHarvest extends Behavior {
     if (oCopyTo.getValue().size() == 0) {
       for (i = 0; i < oCopyFrom.getValue().size(); i++) {
         f1 = (Float) oCopyFrom.getValue().get(i);
-        f2 = new Float(f1.floatValue());
+        f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().add(i, f2);
       } 
     } else {
@@ -412,7 +412,7 @@ public class CompetitionHarvest extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().remove(i);
         oCopyTo.getValue().add(i, f2);
       }

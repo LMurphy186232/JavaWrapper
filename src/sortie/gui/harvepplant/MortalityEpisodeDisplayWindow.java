@@ -351,9 +351,9 @@ public class MortalityEpisodeDisplayWindow
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextMortalityEpisode() throws ModelException {
-    int iCurrentEpisode = new Integer(m_jMortEpNumber.getText()).
+    int iCurrentEpisode = Integer.valueOf(m_jMortEpNumber.getText()).
         intValue(),
-        iTotalEpisodes = new Integer(m_jNumMortEpEvents.getText()).
+        iTotalEpisodes = Integer.valueOf(m_jNumMortEpEvents.getText()).
         intValue();
 
     if (iCurrentEpisode < iTotalEpisodes) {
@@ -374,7 +374,7 @@ public class MortalityEpisodeDisplayWindow
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousMortalityEpisode() throws ModelException {
-    int iCurrentEpisode = new Integer(m_jMortEpNumber.getText()).
+    int iCurrentEpisode = Integer.valueOf(m_jMortEpNumber.getText()).
         intValue();
 
     if (iCurrentEpisode > 1) {
@@ -447,7 +447,7 @@ public class MortalityEpisodeDisplayWindow
       try {
 
         //Get the mortality episode to edit
-        int iMortEpisodeNumber = new Integer(m_jMortEpNumber.getText()).
+        int iMortEpisodeNumber = Integer.valueOf(m_jMortEpNumber.getText()).
             intValue();
         iMortEpisodeNumber--; //Since the display is always one more than the index
         if (iMortEpisodeNumber >= 0) {
@@ -510,7 +510,7 @@ public class MortalityEpisodeDisplayWindow
             oData.updateCellsNewGridResolution(oGrid.getXCellLength(), 
                 oGrid.getYCellLength(), oPlot);
           }
-          int iSelectedEvent = new Integer(m_jMortEpNumber.getText()).intValue();
+          int iSelectedEvent = Integer.valueOf(m_jMortEpNumber.getText()).intValue();
           if (iSelectedEvent > 0) {
             HarvestData oData = mp_oMortEpisodeData.get(iSelectedEvent - 1);
             displayMortalityEpisode(oData);
@@ -534,9 +534,9 @@ public class MortalityEpisodeDisplayWindow
    * @throws ModelException passed through from called methods.
    */
   protected void deleteMortalityEpisode() throws ModelException {
-    int iCurrentEpisode = new Integer(m_jMortEpNumber.getText()).intValue() -
+    int iCurrentEpisode = Integer.valueOf(m_jMortEpNumber.getText()).intValue() -
         1,
-        iTotalEpisodes = new Integer(m_jNumMortEpEvents.getText()).
+        iTotalEpisodes = Integer.valueOf(m_jNumMortEpEvents.getText()).
         intValue();
 
     if (iCurrentEpisode < 0) {

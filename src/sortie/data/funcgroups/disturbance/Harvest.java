@@ -564,8 +564,8 @@ public class Harvest extends Behavior {
     } else if (sXMLTag.equals("ha_applyToCell")) {
 
       // Get the X and Y values
-      int iX = new Integer(oAttributes.getValue("x")).intValue(), 
-          iY = new Integer(oAttributes.getValue("y")).intValue();
+      int iX = Integer.valueOf(oAttributes.getValue("x")).intValue(), 
+          iY = Integer.valueOf(oAttributes.getValue("y")).intValue();
       float fXGridLength = m_oManager.getGridByName("harvestmastercuts").getXCellLength(),
           fYGridLength = m_oManager.getGridByName("harvestmastercuts").getYCellLength();
 
@@ -622,7 +622,7 @@ public class Harvest extends Behavior {
       if (sXMLTag.equals("ha_timestep")) {
 
         // Get the timestep value
-        int iTimestep = new Integer(String.valueOf(oData)).intValue();
+        int iTimestep = Integer.valueOf(String.valueOf(oData)).intValue();
 
         // Get the last harvest event and set this as the timestep
         HarvestData oHarvest =  mp_oHarvestCuts
@@ -679,7 +679,7 @@ public class Harvest extends Behavior {
       } else if (sXMLTag.equals("ha_low")) {
 
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Check to see whether the high and amount values have already been
         // read
@@ -700,7 +700,7 @@ public class Harvest extends Behavior {
         return true;
       } else if (sXMLTag.equals("ha_high")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Check to see whether the low and amount values have already been
         // read
@@ -721,7 +721,7 @@ public class Harvest extends Behavior {
         return true;
       } else if (sXMLTag.equals("ha_amountToCut")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Check to see whether the low and high bounds have already been
         // read
@@ -817,7 +817,7 @@ public class Harvest extends Behavior {
         return true;
       } else if (sXMLTag.equals("ha_min")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
         m_fPriorityMin = fVal;
         //Check to see if it's time to add a priority
         if (m_fPriorityMax != -1 && m_fPriorityMin != -1 &&
@@ -843,7 +843,7 @@ public class Harvest extends Behavior {
         return true;      
       } else if (sXMLTag.equals("ha_max")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
         m_fPriorityMax = fVal;
         //Check to see if it's time to add a priority
         if (m_fPriorityMax != -1 && m_fPriorityMin != -1 &&
@@ -971,7 +971,7 @@ public class Harvest extends Behavior {
       for (int i = 0; i < p_oData.size(); i++) {
         String sData = p_oData.get(i);
         try {
-          float fVal = new Float(sData).floatValue();
+          float fVal = Float.valueOf(sData).floatValue();
           oHarvest.setSeedlingMortRate(i, fVal);
         } catch (NumberFormatException e) {
           throw (new ModelException(ErrorGUI.BAD_DATA, "Java",

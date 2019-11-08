@@ -18,7 +18,6 @@ package sortie.fileops;
 import com.ice.tar.*;
 
 import java.io.*;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.activation.*;

@@ -767,9 +767,9 @@ public class CompetitionHarvestTest extends ModelTestCase {
       assertEquals(1, p_oDists.size());
       CompetitionHarvest oDist = (CompetitionHarvest) p_oDists.get(0);
       oDist.mp_fCompHarvProportion.getValue().remove(0);
-      oDist.mp_fCompHarvProportion.getValue().add(0, new Float(0.4));
+      oDist.mp_fCompHarvProportion.getValue().add(0, Float.valueOf((float)0.4));
       oDist.mp_fCompHarvProportion.getValue().remove(2);
-      oDist.mp_fCompHarvProportion.getValue().add(2, new Float(0.3));
+      oDist.mp_fCompHarvProportion.getValue().add(2, Float.valueOf((float)0.3));
       oDistBeh.validateData(oPop);
       fail("Disturbance validation failed to catch interval less than 1."); 
     }
@@ -838,7 +838,7 @@ public class CompetitionHarvestTest extends ModelTestCase {
       assertEquals(1, p_oDists.size());
       CompetitionHarvest oDist = (CompetitionHarvest) p_oDists.get(0);
       oDist.mp_fCompHarvProportion.getValue().remove(0);
-      oDist.mp_fCompHarvProportion.getValue().add(0, new Float(-2));
+      oDist.mp_fCompHarvProportion.getValue().add(0, Float.valueOf((float)-2));
       oDistBeh.validateData(oPop);
       fail("Disturbance validation failed to catch crowding radius less than 1."); 
     }

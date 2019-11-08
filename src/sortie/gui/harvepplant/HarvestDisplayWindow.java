@@ -391,8 +391,8 @@ public class HarvestDisplayWindow
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextHarvest() throws ModelException {
-    int iCurrentHarvest = new Integer(m_jHarvestNumber.getText()).intValue(),
-        iTotalHarvests = new Integer(m_jNumHarvestEvents.getText()).
+    int iCurrentHarvest = Integer.valueOf(m_jHarvestNumber.getText()).intValue(),
+        iTotalHarvests = Integer.valueOf(m_jNumHarvestEvents.getText()).
         intValue();
 
     if (iCurrentHarvest < iTotalHarvests) {
@@ -413,7 +413,7 @@ public class HarvestDisplayWindow
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousHarvest() throws ModelException {
-    int iCurrentHarvest = new Integer(m_jHarvestNumber.getText()).intValue();
+    int iCurrentHarvest = Integer.valueOf(m_jHarvestNumber.getText()).intValue();
 
     if (iCurrentHarvest > 1) {
       //Display the previous harvest event - subtract two since the vector
@@ -485,7 +485,7 @@ public class HarvestDisplayWindow
       try {
 
         //Get the harvest object to edit
-        int iHarvestNumber = new Integer(m_jHarvestNumber.getText()).intValue();
+        int iHarvestNumber = Integer.valueOf(m_jHarvestNumber.getText()).intValue();
         iHarvestNumber--; //Since the display is always one more than the index
         if (iHarvestNumber >= 0) {
           HarvestData oHarvest = mp_oHarvestData.get(iHarvestNumber);
@@ -547,7 +547,7 @@ public class HarvestDisplayWindow
             oData.updateCellsNewGridResolution(oGrid.getXCellLength(), 
                 oGrid.getYCellLength(), oPlot);
           }
-          int iSelectedEvent = new Integer(m_jHarvestNumber.getText()).intValue();
+          int iSelectedEvent = Integer.valueOf(m_jHarvestNumber.getText()).intValue();
           if (iSelectedEvent > 0) {
             HarvestData oData = mp_oHarvestData.get(iSelectedEvent - 1);
             displayHarvest(oData);
@@ -571,9 +571,9 @@ public class HarvestDisplayWindow
    * @throws ModelException passed through from called methods.
    */
   protected void deleteHarvest() throws ModelException {
-    int iCurrentHarvest = new Integer(m_jHarvestNumber.getText()).intValue() -
+    int iCurrentHarvest = Integer.valueOf(m_jHarvestNumber.getText()).intValue() -
         1,
-        iTotalHarvests = new Integer(m_jNumHarvestEvents.getText()).
+        iTotalHarvests = Integer.valueOf(m_jNumHarvestEvents.getText()).
         intValue();
 
     if (iCurrentHarvest < 0) {

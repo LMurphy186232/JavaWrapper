@@ -109,7 +109,7 @@ public class SizeEffectLowerBoundedTest extends TestCase {
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oGrowth.mp_oEffects.get(2) instanceof SizeEffectLowerBounded);
       SizeEffectLowerBounded oSizeEffect = (SizeEffectLowerBounded) oGrowth.mp_oEffects.get(2);
-      oSizeEffect.mp_fSizeEffectX0.getValue().set(0, new Float(0));
+      oSizeEffect.mp_fSizeEffectX0.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad X0 values.");
     }
@@ -131,7 +131,7 @@ public class SizeEffectLowerBoundedTest extends TestCase {
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oGrowth.mp_oEffects.get(2) instanceof SizeEffectLowerBounded);
       SizeEffectLowerBounded oSizeEffect = (SizeEffectLowerBounded) oGrowth.mp_oEffects.get(2);
-      oSizeEffect.mp_fSizeEffectXb.getValue().set(0, new Float(0));
+      oSizeEffect.mp_fSizeEffectXb.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad Xb values.");
     }

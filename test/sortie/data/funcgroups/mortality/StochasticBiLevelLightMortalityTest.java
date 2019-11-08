@@ -196,10 +196,10 @@ public class StochasticBiLevelLightMortalityTest extends ModelTestCase {
           oMortBeh.createBehaviorFromParameterFileTag("StochasticBiLevelMortality - GLI");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fStochBiLevHiLiteThreshold.getValue().add(new Float(50));
+        oMort.mp_fStochBiLevHiLiteThreshold.getValue().add(Float.valueOf(50));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fStochBiLevHiLiteThreshold.getValue().add(0, new Float( -20));
+        oMort.mp_fStochBiLevHiLiteThreshold.getValue().add(0, Float.valueOf( -20));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail(
             "Mortality validation failed to catch bad stochastic bi-level threshold values.");
@@ -223,10 +223,10 @@ public class StochasticBiLevelLightMortalityTest extends ModelTestCase {
             oMortBeh.createBehaviorFromParameterFileTag("StochasticBiLevelMortality - GLI");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fStochBiLevLoLiteMortProb.getValue().add(new Float(0.5));
+        oMort.mp_fStochBiLevLoLiteMortProb.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fStochBiLevLoLiteMortProb.getValue().add(0, new Float(2));
+        oMort.mp_fStochBiLevLoLiteMortProb.getValue().add(0, Float.valueOf(2));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad stochastic bi-level low-light probability values.");
       }
@@ -249,10 +249,10 @@ public class StochasticBiLevelLightMortalityTest extends ModelTestCase {
             oMortBeh.createBehaviorFromParameterFileTag("StochasticBiLevelMortality - GLI");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fStochBiLevHiLiteMortProb.getValue().add(new Float(0.5));
+        oMort.mp_fStochBiLevHiLiteMortProb.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fStochBiLevHiLiteMortProb.getValue().add(0, new Float(2));
+        oMort.mp_fStochBiLevHiLiteMortProb.getValue().add(0, Float.valueOf(2));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad stochastic bi-level low-light probability values.");
       }
@@ -295,10 +295,10 @@ public class StochasticBiLevelLightMortalityTest extends ModelTestCase {
         Behavior oBeh = oManager.getLightBehaviors().createBehaviorFromParameterFileTag("StormLight");
         oBeh.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fStochBiLevHiLiteThreshold.getValue().add(new Float(50));
+        oMort.mp_fStochBiLevHiLiteThreshold.getValue().add(Float.valueOf(50));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fStochBiLevHiLiteThreshold.getValue().add(0, new Float( -20));
+        oMort.mp_fStochBiLevHiLiteThreshold.getValue().add(0, Float.valueOf( -20));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail(
             "Mortality validation failed to catch bad stochastic bi-level threshold values.");
@@ -323,10 +323,10 @@ public class StochasticBiLevelLightMortalityTest extends ModelTestCase {
         Behavior oBeh = oManager.getLightBehaviors().createBehaviorFromParameterFileTag("StormLight");
         oBeh.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fStochBiLevLoLiteMortProb.getValue().add(new Float(0.5));
+        oMort.mp_fStochBiLevLoLiteMortProb.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fStochBiLevLoLiteMortProb.getValue().add(0, new Float(2));
+        oMort.mp_fStochBiLevLoLiteMortProb.getValue().add(0, Float.valueOf((float)2));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad stochastic bi-level low-light probability values.");
       }
@@ -350,10 +350,10 @@ public class StochasticBiLevelLightMortalityTest extends ModelTestCase {
         Behavior oBeh = oManager.getLightBehaviors().createBehaviorFromParameterFileTag("StormLight");
         oBeh.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fStochBiLevHiLiteMortProb.getValue().add(new Float(0.5));
+        oMort.mp_fStochBiLevHiLiteMortProb.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fStochBiLevHiLiteMortProb.getValue().add(0, new Float(2));
+        oMort.mp_fStochBiLevHiLiteMortProb.getValue().add(0, Float.valueOf((float)2));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad stochastic bi-level low-light probability values.");
       }

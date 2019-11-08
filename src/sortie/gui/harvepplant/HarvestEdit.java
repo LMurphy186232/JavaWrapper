@@ -704,9 +704,9 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     try {
       // Cut range 1
       sTemp = m_jCutRange1MinDBH.getText().trim();
-      fMin = new Float(m_jCutRange1MinDBH.getText()).floatValue();
-      fMax = new Float(m_jCutRange1MaxDBH.getText()).floatValue();
-      fAmt = new Float(m_jCutRange1Amt.getText()).floatValue();
+      fMin = Float.valueOf(m_jCutRange1MinDBH.getText()).floatValue();
+      fMax = Float.valueOf(m_jCutRange1MaxDBH.getText()).floatValue();
+      fAmt = Float.valueOf(m_jCutRange1Amt.getText()).floatValue();
       oNewHarvest.addCutRange(fMin, fMax, fAmt);
 
       // Cut range 2
@@ -717,21 +717,21 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMin = new Float(sTemp).floatValue();
+          fMin = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange2MaxDBH.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMax = new Float(sTemp).floatValue();
+          fMax = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange2Amt.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fAmt = new Float(sTemp).floatValue();
+          fAmt = Float.valueOf(sTemp).floatValue();
         }
       }
       if (fMin > 0 || fMax > 0 || fAmt > 0) {
@@ -746,21 +746,21 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMin = new Float(sTemp).floatValue();
+          fMin = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange3MaxDBH.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMax = new Float(sTemp).floatValue();
+          fMax = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange3Amt.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fAmt = new Float(sTemp).floatValue();
+          fAmt = Float.valueOf(sTemp).floatValue();
         }
       }
       if (fMin > 0 || fMax > 0 || fAmt > 0) {
@@ -775,21 +775,21 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMin = new Float(sTemp).floatValue();
+          fMin = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange4MaxDBH.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMax = new Float(sTemp).floatValue();
+          fMax = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange4Amt.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fAmt = new Float(sTemp).floatValue();
+          fAmt = Float.valueOf(sTemp).floatValue();
         }
       }
       if (fMin > 0 || fMax > 0 || fAmt > 0) {
@@ -822,7 +822,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
         if (sTemp != null) {
           sTemp = sTemp.trim();
           if (sTemp.length() > 0) {
-            fMin = new Float(sTemp).floatValue();
+            fMin = Float.valueOf(sTemp).floatValue();
           }
         }
       } catch (java.lang.NumberFormatException oEx) {
@@ -834,7 +834,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
         if (sTemp != null) {
           sTemp = sTemp.trim();
           if (sTemp.length() > 0) {
-            fMax = new Float(sTemp).floatValue();
+            fMax = Float.valueOf(sTemp).floatValue();
           } else {
             fMax = fMin;
           }
@@ -861,7 +861,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
         if (sTemp != null) {
           sTemp = sTemp.trim();
           if (sTemp.length() > 0) {
-            fMin = new Float(sTemp).floatValue();
+            fMin = Float.valueOf(sTemp).floatValue();
           }
         }
       } catch (java.lang.NumberFormatException oEx) {
@@ -873,7 +873,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
         if (sTemp != null) {
           sTemp = sTemp.trim();
           if (sTemp.length() > 0) {
-            fMax = new Float(sTemp).floatValue();
+            fMax = Float.valueOf(sTemp).floatValue();
           } else {
             fMax = fMin;
           }
@@ -900,7 +900,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
         if (sTemp != null) {
           sTemp = sTemp.trim();
           if (sTemp.length() > 0) {
-            fMin = new Float(sTemp).floatValue();
+            fMin = Float.valueOf(sTemp).floatValue();
           }
         }
       } catch (java.lang.NumberFormatException oEx) {
@@ -912,7 +912,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
         if (sTemp != null) {
           sTemp = sTemp.trim();
           if (sTemp.length() > 0) {
-            fMax = new Float(sTemp).floatValue();
+            fMax = Float.valueOf(sTemp).floatValue();
           } else {
             fMax = fMin;
           }

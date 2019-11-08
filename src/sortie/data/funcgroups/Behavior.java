@@ -563,7 +563,7 @@ abstract public class Behavior {
         ModelFloat ofloatDataMember = (ModelFloat) oDataMember;
         Float oFloat;
         if (oData instanceof String) {
-          oFloat = new Float( (String) oData);
+          oFloat = Float.parseFloat((String) oData);
         }
         else {
           oFloat = (Float) oData;
@@ -574,7 +574,7 @@ abstract public class Behavior {
         ModelInt oIntDataMember = (ModelInt) oDataMember;
         Integer oInt;
         if (oData instanceof String) {
-          oInt = new Integer( (String) oData);
+          oInt = Integer.parseInt((String) oData);
         }
         else {
           oInt = (Integer) oData;
@@ -588,7 +588,7 @@ abstract public class Behavior {
           //Try to make the string into an integer - if it doesn't work,
           //set the string directly
           try {
-            oInt = new Integer( (String) oData);
+            oInt = Integer.parseInt((String) oData);
             oEnumDataMember.setValue(oInt.intValue());
           }
           catch (java.lang.NumberFormatException oE) {
@@ -704,7 +704,7 @@ abstract public class Behavior {
     for (i = 0; i < p_fValuesToSet.length; i++) {
       if (p_bAppliesTo[i]) {
         oData.getValue().remove(i);
-        oData.getValue().add(i, new Float(p_fValuesToSet[i].floatValue()));
+        oData.getValue().add(i, Float.valueOf(p_fValuesToSet[i].floatValue()));
       }
     }
   }
@@ -743,7 +743,7 @@ abstract public class Behavior {
     for (i = 0; i < p_fValuesToSet.length; i++) {
       if (p_bAppliesTo[i]) {
         oData.getValue().remove(i);
-        oData.getValue().add(i, new Double(p_fValuesToSet[i].doubleValue()));
+        oData.getValue().add(i, Double.valueOf(p_fValuesToSet[i].doubleValue()));
       }
     }
   }
@@ -781,7 +781,7 @@ abstract public class Behavior {
     for (i = 0; i < p_iValuesToSet.length; i++) {
       if (p_bAppliesTo[i]) {
         oData.getValue().remove(i);
-        oData.getValue().add(i, new Integer(p_iValuesToSet[i].intValue()));
+        oData.getValue().add(i, Integer.valueOf(p_iValuesToSet[i].intValue()));
       }
     }
   }
@@ -864,10 +864,10 @@ abstract public class Behavior {
         for (i = 0; i < p_oValuesToSet.size(); i++) {
           String sVal = p_oValuesToSet.get(i);
           if (null == sVal || sVal.length() == 0) {
-            p_oInts[i] = new Integer(0);
+            p_oInts[i] = Integer.valueOf(0);
           }
           else {
-            p_oInts[i] = new Integer(sVal);
+            p_oInts[i] = Integer.parseInt(sVal);
           }
         }
         if (null == p_bAppliesTo || p_bAppliesTo.length == 0) {
@@ -883,10 +883,10 @@ abstract public class Behavior {
         for (i = 0; i < p_oFloats.length; i++) {
           String sVal = p_oValuesToSet.get(i);
           if (null == sVal || sVal.length() == 0) {
-            p_oFloats[i] = new Float(0);
+            p_oFloats[i] = Float.valueOf(0);
           }
           else {
-            p_oFloats[i] = new Float(sVal);
+            p_oFloats[i] = Float.valueOf(sVal);
           }  
         }
         if (null == p_bAppliesTo || p_bAppliesTo.length == 0) {
@@ -907,7 +907,7 @@ abstract public class Behavior {
               //Try to make the string into an integer - if it doesn't work,
               //set the string directly
               try {
-                Integer oInt = new Integer(p_oValuesToSet.get(i));
+                Integer oInt = Integer.valueOf(p_oValuesToSet.get(i));
                 oData.setValue(oInt.intValue());
               }
               catch (NumberFormatException oE) {
@@ -923,10 +923,10 @@ abstract public class Behavior {
         for (i = 0; i < p_oDoubles.length; i++) {
           String sVal = p_oValuesToSet.get(i);
           if (null == sVal || sVal.length() == 0) {
-            p_oDoubles[i] = new Double(0);
+            p_oDoubles[i] = Double.valueOf(0);
           }
           else {
-            p_oDoubles[i] = new Double(sVal);
+            p_oDoubles[i] = Double.valueOf(sVal);
           }  
         }
         if (null == p_bAppliesTo || p_bAppliesTo.length == 0) {
@@ -1045,7 +1045,7 @@ abstract public class Behavior {
               Float oNewFloat = null;
               oObject = p_oVectorData.getValue().get(iSpeciesCopyFrom);
               if (null != oObject) {
-                oNewFloat = new Float(((Float)oObject).floatValue());
+                oNewFloat = Float.valueOf(((Float)oObject).floatValue());
               }
               //Remove the value of the species being copied
               p_oVectorData.getValue().remove(iSpeciesCopyTo);
@@ -1055,7 +1055,7 @@ abstract public class Behavior {
               Integer oNewInt = null;
               oObject = p_oVectorData.getValue().get(iSpeciesCopyFrom);
               if (null != oObject) {
-                oNewInt = new Integer( ( (Integer) oObject).intValue());
+                oNewInt = Integer.valueOf( ( (Integer) oObject).intValue());
               }
               //Remove the value of the species being copied
               p_oVectorData.getValue().remove(iSpeciesCopyTo);
@@ -1867,7 +1867,7 @@ abstract public class Behavior {
     //Create our new array
     Object[] p_oArray = new Object[2];
     p_oArray[0] = oToFormat.getDescriptor();
-    p_oArray[1] = new Float(oToFormat.getValue());
+    p_oArray[1] = Float.valueOf(oToFormat.getValue());
 
     return addDataToArray(p_oExisting, p_oArray);
   }
@@ -1889,7 +1889,7 @@ abstract public class Behavior {
     //Create our vectory
     Object[] p_oArray = new Object[2];
     p_oArray[0] = oToFormat.getDescriptor();
-    p_oArray[1] = new Integer(oToFormat.getValue());
+    p_oArray[1] = Integer.valueOf(oToFormat.getValue());
 
     return addDataToArray(p_oExisting, p_oArray);
   }

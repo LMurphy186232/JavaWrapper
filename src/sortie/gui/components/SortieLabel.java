@@ -16,7 +16,6 @@ import javax.swing.JLabel;
  * <br>May 11, 2004: Added support for font styles (LEM)
  * <br>February 4, 2008: Updated to conform to Java 6 compliance (LEM)
  */
-@SuppressWarnings("serial")
 public class SortieLabel extends JLabel {
   
   public SortieLabel(String text) {

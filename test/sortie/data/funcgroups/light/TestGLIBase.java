@@ -168,53 +168,53 @@ public class TestGLIBase extends ModelTestCase {
       //Case: Light transmission coefficient not between 0 and 1.
       oManager = new GUIManager(null);
 
-      GLIBase.mp_fLightTransmissionCoefficient.getValue().add(0, new Float(20));
+      GLIBase.mp_fLightTransmissionCoefficient.getValue().add(0, Float.valueOf((float)20));
       oLightBeh.validateData(oPop);
       fail("GLIBase validation failed to catch bad light transmission coefficient.");
     }
     catch (ModelException oErr) {
       ;
     }
-    GLIBase.mp_fLightTransmissionCoefficient.getValue().add(0, new Float(0.1));
+    GLIBase.mp_fLightTransmissionCoefficient.getValue().add(0, Float.valueOf((float)0.1));
     
     try {
       //Case: Snag transmission coefficient not between 0 and 1.
       oManager = new GUIManager(null);
 
-      GLIBase.mp_fSnagClass1LightTransmissionCoefficient.getValue().add(0, new Float(20));
+      GLIBase.mp_fSnagClass1LightTransmissionCoefficient.getValue().add(0, Float.valueOf((float)20));
       oLightBeh.validateData(oPop);
       fail("GLIBase validation failed to catch bad snag light transmission coefficient.");
     }
     catch (ModelException oErr) {
       ;
     }
-    GLIBase.mp_fSnagClass1LightTransmissionCoefficient.getValue().add(0, new Float(0.5));
+    GLIBase.mp_fSnagClass1LightTransmissionCoefficient.getValue().add(0, Float.valueOf((float)0.5));
     
     try {
       //Case: Snag transmission coefficient not between 0 and 1.
       oManager = new GUIManager(null);
 
-      GLIBase.mp_fSnagClass2LightTransmissionCoefficient.getValue().add(0, new Float(20));
+      GLIBase.mp_fSnagClass2LightTransmissionCoefficient.getValue().add(0, Float.valueOf((float)20));
       oLightBeh.validateData(oPop);
       fail("GLIBase validation failed to catch bad snag light transmission coefficient.");
     }
     catch (ModelException oErr) {
       ;
     }
-    GLIBase.mp_fSnagClass2LightTransmissionCoefficient.getValue().add(0, new Float(0.5));
+    GLIBase.mp_fSnagClass2LightTransmissionCoefficient.getValue().add(0, Float.valueOf((float)0.5));
     
     try {
       //Case: Snag transmission coefficient not between 0 and 1.
       oManager = new GUIManager(null);
 
-      GLIBase.mp_fSnagClass3LightTransmissionCoefficient.getValue().add(0, new Float(20));
+      GLIBase.mp_fSnagClass3LightTransmissionCoefficient.getValue().add(0, Float.valueOf((float)20));
       oLightBeh.validateData(oPop);
       fail("GLIBase validation failed to catch bad snag light transmission coefficient.");
     }
     catch (ModelException oErr) {
       ;
     }
-    GLIBase.mp_fSnagClass3LightTransmissionCoefficient.getValue().add(0, new Float(0.5));
+    GLIBase.mp_fSnagClass3LightTransmissionCoefficient.getValue().add(0, Float.valueOf((float)0.5));
 
    }
   

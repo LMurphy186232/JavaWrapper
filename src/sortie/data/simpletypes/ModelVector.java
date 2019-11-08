@@ -168,7 +168,7 @@ public class ModelVector
       for (i = 0; i < mp_oData.size(); i++) {
         obj = mp_oData.get(i);
         if (obj == null) dat = null;
-        else dat = new Integer((Integer)obj);
+        else dat = Integer.valueOf((Integer)obj);
         clone.mp_oData.add(i, dat);
       }
     } else if (FLOAT == m_iDataType) {
@@ -177,7 +177,7 @@ public class ModelVector
       for (i = 0; i < mp_oData.size(); i++) {
         obj = mp_oData.get(i);
         if (obj == null) dat = null;
-        else dat = new Float((Float)obj);
+        else dat = Float.valueOf((Float)obj);
         clone.mp_oData.add(i, dat);
       }
     } else if (MODEL_ENUM == m_iDataType) {
@@ -204,7 +204,7 @@ public class ModelVector
       for (i = 0; i < mp_oData.size(); i++) {
         obj = mp_oData.get(i);
         if (obj == null) dat = null;
-        else dat = new Double((Double)obj);
+        else dat = Double.valueOf((Double)obj);
         clone.mp_oData.add(i, dat);
       }
     }

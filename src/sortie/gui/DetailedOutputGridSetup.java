@@ -327,7 +327,7 @@ public class DetailedOutputGridSetup
 
     //Get the save frequency
     try {
-      iSaveFreq = new Integer(m_jTimestepsEdit.getText()).intValue();
+      iSaveFreq = Integer.valueOf(m_jTimestepsEdit.getText()).intValue();
     }
     catch (java.lang.NumberFormatException oErr) {
       //This means that they typed something other than a number

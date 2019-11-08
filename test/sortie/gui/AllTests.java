@@ -1,7 +1,5 @@
 package sortie.gui;
 
-import sortie.gui.behaviorsetup.TestHarvestInterface;
-import sortie.gui.modelflowsetup.ModelFlowSetupTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 

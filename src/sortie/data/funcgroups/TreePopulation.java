@@ -274,7 +274,7 @@ public class TreePopulation extends BehaviorTypeBase {
       // Get the maximum possible height
       fMaxHeight = -1;
       for (i = 0; i < iNumSpecies; i++) {
-        fHeight = new Float(oAllom.mp_fMaxCanopyHeight.getValue().get(i).toString()).floatValue();
+        fHeight = Float.valueOf(oAllom.mp_fMaxCanopyHeight.getValue().get(i).toString()).floatValue();
         if (fHeight > fMaxHeight)          
           fMaxHeight = fHeight;
       }
@@ -501,11 +501,11 @@ public class TreePopulation extends BehaviorTypeBase {
                   .size(), mp_sTreeCharDataMembers.get(iSpecies)
                   .get(iType).size(), mp_sTreeBoolDataMembers.get(
                   iSpecies).get(iType).size(), this);
-          oTree.setValue(p_iXCodes[iSpecies][iType], new Float(fX));
-          oTree.setValue(p_iYCodes[iSpecies][iType], new Float(fY));
-          oTree.setValue(p_iDiamCodes[iSpecies][iType], new Float(fDiam));
+          oTree.setValue(p_iXCodes[iSpecies][iType], Float.valueOf(fX));
+          oTree.setValue(p_iYCodes[iSpecies][iType], Float.valueOf(fY));
+          oTree.setValue(p_iDiamCodes[iSpecies][iType], Float.valueOf(fDiam));
           if (java.lang.Math.abs(fHeight) > 0.01) {
-            oTree.setValue(p_iHeightCodes[iSpecies][iType], new Float(fHeight));
+            oTree.setValue(p_iHeightCodes[iSpecies][iType], Float.valueOf(fHeight));
           }         
           
 
@@ -1454,8 +1454,8 @@ public class TreePopulation extends BehaviorTypeBase {
           // Get the last added tree
           Tree oTree = mp_oTrees.get(mp_oTrees.size() - 1);
           // Get the code
-          int iCode = new Integer(oAttributes.getValue("c")).intValue();
-          Float fValue = new Float(String.valueOf(oData));
+          int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+          Float fValue = Float.valueOf(String.valueOf(oData));
           Integer iIndex = mp_iTreeFloatTransforms.get(
               m_iCurrentSpecies).get(m_iCurrentTreeType).get(
                   iCode);
@@ -1491,8 +1491,8 @@ public class TreePopulation extends BehaviorTypeBase {
           // Get the last added tree
           Tree oTree = mp_oTrees.get(mp_oTrees.size() - 1);
           // Get the code
-          int iCode = new Integer(oAttributes.getValue("c")).intValue();
-          Integer iValue = new Integer(String.valueOf(oData)), 
+          int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+          Integer iValue = Integer.valueOf(String.valueOf(oData)), 
                   iIndex = (Integer) mp_iTreeIntTransforms.get(m_iCurrentSpecies).get(m_iCurrentTreeType).get(iCode);
           if (iIndex == null) {
             throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
@@ -1510,7 +1510,7 @@ public class TreePopulation extends BehaviorTypeBase {
           // Get the last added tree
           Tree oTree = mp_oTrees.get(mp_oTrees.size() - 1);
           // Get the code
-          int iCode = new Integer(oAttributes.getValue("c")).intValue();
+          int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
           Integer iIndex = (Integer) mp_iTreeCharTransforms.get(m_iCurrentSpecies).get(m_iCurrentTreeType).get(iCode);
           if (iIndex == null) {
             throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
@@ -1530,8 +1530,8 @@ public class TreePopulation extends BehaviorTypeBase {
           // Get the last added tree
           Tree oTree = mp_oTrees.get(mp_oTrees.size() - 1);
           // Get the code
-          int iCode = new Integer(oAttributes.getValue("c")).intValue();
-          Boolean bValue = new Boolean(String.valueOf(oData));
+          int iCode = Integer.valueOf(oAttributes.getValue("c")).intValue();
+          Boolean bValue = Boolean.valueOf(String.valueOf(oData));
           Integer iIndex = (Integer) mp_iTreeBoolTransforms.get(m_iCurrentSpecies).get(m_iCurrentTreeType).get(iCode);
           if (iIndex == null) {
             throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
@@ -1547,18 +1547,18 @@ public class TreePopulation extends BehaviorTypeBase {
         return true;
       } else if (sXMLTag.equals("tm_floatCode")) {
         String sLabel = oAttributes.getValue("label");
-        int iIndex = new Integer(oData.toString()).intValue(), 
+        int iIndex = Integer.valueOf(oData.toString()).intValue(), 
             iOfficialIndex = getCodeForDataMember(mp_sTreeFloatDataMembers.get(m_iCurrentSpecies).get(m_iCurrentTreeType), sLabel);
         if (mp_iTreeFloatTransforms.get(m_iCurrentSpecies).get(m_iCurrentTreeType).size() <= iIndex) {
           Behavior.ensureSize(mp_iTreeFloatTransforms.get(m_iCurrentSpecies).get(m_iCurrentTreeType), iIndex + 1);
         }
         mp_iTreeFloatTransforms.get(m_iCurrentSpecies).get(
-            m_iCurrentTreeType).set(iIndex, new Integer(iOfficialIndex));
+            m_iCurrentTreeType).set(iIndex, Integer.valueOf(iOfficialIndex));
 
         return true;
       } else if (sXMLTag.equals("tm_intCode")) {
         String sLabel = oAttributes.getValue("label");
-        int iIndex = new Integer(oData.toString()).intValue(), iOfficialIndex = getCodeForDataMember(
+        int iIndex = Integer.valueOf(oData.toString()).intValue(), iOfficialIndex = getCodeForDataMember(
             mp_sTreeIntDataMembers.get(m_iCurrentSpecies).get(
                 m_iCurrentTreeType), sLabel);
         if (mp_iTreeIntTransforms.get(m_iCurrentSpecies).get(
@@ -1567,7 +1567,7 @@ public class TreePopulation extends BehaviorTypeBase {
               m_iCurrentTreeType), iIndex + 1);
         }
         mp_iTreeIntTransforms.get(m_iCurrentSpecies).get(
-            m_iCurrentTreeType).set(iIndex, new Integer(iOfficialIndex));
+            m_iCurrentTreeType).set(iIndex, Integer.valueOf(iOfficialIndex));
 
         return true;
       } else if (sXMLTag.equals("tm_boolCode")) {
@@ -1578,7 +1578,7 @@ public class TreePopulation extends BehaviorTypeBase {
           return true;
         }
 
-        int iIndex = new Integer(oData.toString()).intValue(), iOfficialIndex = getCodeForDataMember(
+        int iIndex = Integer.valueOf(oData.toString()).intValue(), iOfficialIndex = getCodeForDataMember(
             mp_sTreeBoolDataMembers.get(m_iCurrentSpecies).get(
                 m_iCurrentTreeType), sLabel);
         if (mp_iTreeBoolTransforms.get(m_iCurrentSpecies).get(
@@ -1587,12 +1587,12 @@ public class TreePopulation extends BehaviorTypeBase {
               m_iCurrentTreeType), iIndex + 1);
         }
         mp_iTreeBoolTransforms.get(m_iCurrentSpecies).get(
-            m_iCurrentTreeType).set(iIndex, new Integer(iOfficialIndex));
+            m_iCurrentTreeType).set(iIndex, Integer.valueOf(iOfficialIndex));
 
         return true;
       } else if (sXMLTag.equals("tm_charCode")) {
         String sLabel = oAttributes.getValue("label");
-        int iIndex = new Integer(oData.toString()).intValue(), iOfficialIndex = getCodeForDataMember(
+        int iIndex = Integer.valueOf(oData.toString()).intValue(), iOfficialIndex = getCodeForDataMember(
             mp_sTreeCharDataMembers.get(m_iCurrentSpecies).get(
                 m_iCurrentTreeType), sLabel);
         if (mp_iTreeCharTransforms.get(m_iCurrentSpecies).get(
@@ -1601,7 +1601,7 @@ public class TreePopulation extends BehaviorTypeBase {
               m_iCurrentTreeType), iIndex + 1);
         }
         mp_iTreeCharTransforms.get(m_iCurrentSpecies).get(
-            m_iCurrentTreeType).set(iIndex, new Integer(iOfficialIndex));
+            m_iCurrentTreeType).set(iIndex, Integer.valueOf(iOfficialIndex));
 
         return true;
       }
@@ -1641,7 +1641,7 @@ public class TreePopulation extends BehaviorTypeBase {
   public void readTreeSettings(Attributes oAttributes) throws ModelException {
     // Extract species and type
     m_iCurrentSpecies = getSpeciesCodeFromName(oAttributes.getValue("sp"));
-    m_iCurrentTreeType = new Integer(oAttributes.getValue("tp")).intValue();
+    m_iCurrentTreeType = Integer.valueOf(oAttributes.getValue("tp")).intValue();
 
     if (m_iCurrentSpecies == -1 || 
         m_iCurrentTreeType < 0 || 
@@ -1659,8 +1659,8 @@ public class TreePopulation extends BehaviorTypeBase {
    */
   public void readTreeParent(Attributes oAttributes) throws ModelException {
     // Extract species and type
-    m_iCurrentSpecies = new Integer(oAttributes.getValue("sp")).intValue();
-    m_iCurrentTreeType = new Integer(oAttributes.getValue("tp")).intValue();
+    m_iCurrentSpecies = Integer.valueOf(oAttributes.getValue("sp")).intValue();
+    m_iCurrentTreeType = Integer.valueOf(oAttributes.getValue("tp")).intValue();
 
     if (m_iCurrentSpecies < 0 || 
         m_iCurrentSpecies >= getNumberOfSpecies() || 

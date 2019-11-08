@@ -148,7 +148,7 @@ public class XYZSimpleDataset
    * @return The x-value.
    */
   public Number getX(int series, int item) {
-    return new Float(getXValue(series, item));
+    return Double.valueOf(getXValue(series, item));
   }
 
   /**
@@ -168,7 +168,7 @@ public class XYZSimpleDataset
    * @return The y-value.
    */
   public Number getY(int series, int item) {
-    return new Float(getYValue(series, item));
+    return Double.valueOf(getYValue(series, item));
   }
 
   /**
@@ -190,7 +190,7 @@ public class XYZSimpleDataset
    * @return The z-value.
    */
   public Number getZ(int series, int item) {
-    return new Float(getZValue(series, item));
+    return Double.valueOf(getZValue(series, item));
   }
   
   public Object clone() {

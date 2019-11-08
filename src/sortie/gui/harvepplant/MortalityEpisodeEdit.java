@@ -431,7 +431,7 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
       throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "Invalid timestep."));
     }
     try {
-      iTemp = new Integer(sTemp).intValue();
+      iTemp = Integer.valueOf(sTemp).intValue();
     }
     catch (java.lang.NumberFormatException oEx) {
       throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "Invalid timestep."));
@@ -467,9 +467,9 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
     try {
       //Cut range 1
       sTemp = m_jCutRange1MinDBH.getText().trim();
-      fMinDBH = new Float(m_jCutRange1MinDBH.getText()).floatValue();
-      fMaxDBH = new Float(m_jCutRange1MaxDBH.getText()).floatValue();
-      fAmt = new Float(m_jCutRange1Amt.getText()).floatValue();
+      fMinDBH = Float.valueOf(m_jCutRange1MinDBH.getText()).floatValue();
+      fMaxDBH = Float.valueOf(m_jCutRange1MaxDBH.getText()).floatValue();
+      fAmt = Float.valueOf(m_jCutRange1Amt.getText()).floatValue();
       oNewEpisode.addCutRange(fMinDBH, fMaxDBH, fAmt);
 
       //Cut range 2
@@ -480,21 +480,21 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMinDBH = new Float(sTemp).floatValue();
+          fMinDBH = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange2MaxDBH.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMaxDBH = new Float(sTemp).floatValue();
+          fMaxDBH = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange2Amt.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fAmt = new Float(sTemp).floatValue();
+          fAmt = Float.valueOf(sTemp).floatValue();
         }
       }
       if (fMinDBH > 0 || fMaxDBH > 0 || fAmt > 0) {
@@ -509,21 +509,21 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMinDBH = new Float(sTemp).floatValue();
+          fMinDBH = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange3MaxDBH.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMaxDBH = new Float(sTemp).floatValue();
+          fMaxDBH = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange3Amt.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fAmt = new Float(sTemp).floatValue();
+          fAmt = Float.valueOf(sTemp).floatValue();
         }
       }
       if (fMinDBH > 0 || fMaxDBH > 0 || fAmt > 0) {
@@ -538,21 +538,21 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMinDBH = new Float(sTemp).floatValue();
+          fMinDBH = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange4MaxDBH.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fMaxDBH = new Float(sTemp).floatValue();
+          fMaxDBH = Float.valueOf(sTemp).floatValue();
         }
       }
       sTemp = m_jCutRange4Amt.getText();
       if (sTemp != null) {
         sTemp = sTemp.trim();
         if (sTemp.length() > 0) {
-          fAmt = new Float(sTemp).floatValue();
+          fAmt = Float.valueOf(sTemp).floatValue();
         }
       }
       if (fMinDBH > 0 || fMaxDBH > 0 || fAmt > 0) {

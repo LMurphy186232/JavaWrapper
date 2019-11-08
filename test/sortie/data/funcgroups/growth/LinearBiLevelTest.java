@@ -233,8 +233,8 @@ public class LinearBiLevelTest extends ModelTestCase {
       assertEquals(1, p_oBehs.size());
       LinearBiLevel oGrowth = (LinearBiLevel) p_oBehs.get(0); 
       oGrowth.mp_fBiLevelHighLightThreshold.getValue().clear();
-      oGrowth.mp_fBiLevelHighLightThreshold.getValue().add(new Float(-20));
-      oGrowth.mp_fBiLevelHighLightThreshold.getValue().add(new Float(0));
+      oGrowth.mp_fBiLevelHighLightThreshold.getValue().add(Float.valueOf(-20));
+      oGrowth.mp_fBiLevelHighLightThreshold.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad light threshold values.");
     }
@@ -290,8 +290,8 @@ public class LinearBiLevelTest extends ModelTestCase {
       assertEquals(1, p_oBehs.size());
       LinearBiLevel oGrowth = (LinearBiLevel) p_oBehs.get(0);
       oGrowth.mp_fBiLevelHighLightThreshold.getValue().clear();
-      oGrowth.mp_fBiLevelHighLightThreshold.getValue().add(new Float(-20));
-      oGrowth.mp_fBiLevelHighLightThreshold.getValue().add(new Float(0));
+      oGrowth.mp_fBiLevelHighLightThreshold.getValue().add(Float.valueOf(-20));
+      oGrowth.mp_fBiLevelHighLightThreshold.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad light threshold values.");
     }

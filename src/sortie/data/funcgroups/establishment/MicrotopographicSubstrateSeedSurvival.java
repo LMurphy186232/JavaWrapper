@@ -152,32 +152,32 @@ public class MicrotopographicSubstrateSeedSurvival extends Behavior {
     for (i = 0; i < mp_fFreshLogsFavorability.length; i++) {
       if (mp_fFreshLogsFavorability[i].getValue().size() == 0) {
         for (k = 0; k < iNumSpecies; k++) {
-          mp_fFreshLogsFavorability[i].getValue().add(new Float(0));
+          mp_fFreshLogsFavorability[i].getValue().add(Float.valueOf(0));
         }
       }
       if (mp_fDecayedLogsFavorability[i].getValue().size() == 0) {
         for (k = 0; k < iNumSpecies; k++) {
-          mp_fDecayedLogsFavorability[i].getValue().add(new Float(0));
+          mp_fDecayedLogsFavorability[i].getValue().add(Float.valueOf(0));
         }
       }
       if (mp_fTipUpFavorability[i].getValue().size() == 0) {
         for (k = 0; k < iNumSpecies; k++) {
-          mp_fTipUpFavorability[i].getValue().add(new Float(0));
+          mp_fTipUpFavorability[i].getValue().add(Float.valueOf(0));
         }
       }
       if (mp_fScarifiedSoilFavorability[i].getValue().size() == 0) {
         for (k = 0; k < iNumSpecies; k++) {
-          mp_fScarifiedSoilFavorability[i].getValue().add(new Float(0));
+          mp_fScarifiedSoilFavorability[i].getValue().add(Float.valueOf(0));
         }
       }
       if (mp_fForestFloorLitterFavorability[i].getValue().size() == 0) {
         for (k = 0; k < iNumSpecies; k++) {
-          mp_fForestFloorLitterFavorability[i].getValue().add(new Float(0));
+          mp_fForestFloorLitterFavorability[i].getValue().add(Float.valueOf(0));
         }
       }
       if (mp_fForestFloorMossFavorability[i].getValue().size() == 0) {
         for (k = 0; k < iNumSpecies; k++) {
-          mp_fForestFloorMossFavorability[i].getValue().add(new Float(0));
+          mp_fForestFloorMossFavorability[i].getValue().add(Float.valueOf(0));
         }
       }
     }

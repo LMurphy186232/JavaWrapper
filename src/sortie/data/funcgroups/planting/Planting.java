@@ -72,7 +72,7 @@ public class Planting extends Behavior {
     TreeBehavior oPopBeh = oPop.getTreeBehavior();
     float fDiam10 = oPopBeh.getNewSeedlingDiam10();
     for (i = 0; i < iNumSpecies; i++) {
-      p_fDiam10s[i] = new Float(fDiam10);
+      p_fDiam10s[i] = Float.valueOf(fDiam10);
     }
     setVectorValues(mp_fInitialDiam10, p_fDiam10s);
     String[] p_sSpeciesNames = new String[iNumSpecies];
@@ -331,7 +331,7 @@ public class Planting extends Behavior {
       for (i = 0; i < p_oData.size(); i++) {
         Object oData = p_oData.get(i);
         if (oData != null) {
-          float fValue = new Float(String.valueOf(oData)).floatValue();
+          float fValue = Float.valueOf(String.valueOf(oData)).floatValue();
           oPlanting.addAbundance(i, fValue);
         }
       }
@@ -363,8 +363,8 @@ public class Planting extends Behavior {
     if (sXMLTag.equals("pl_applyToCell")) {
 
       //Get the X and Y values
-      int iX = new Integer(oAttributes.getValue("x")).intValue(),
-          iY = new Integer(oAttributes.getValue("y")).intValue();
+      int iX = Integer.valueOf(oAttributes.getValue("x")).intValue(),
+          iY = Integer.valueOf(oAttributes.getValue("y")).intValue();
 
       //Assign them to the newest planting event
       PlantingData oPlanting = mp_oPlantings.get(mp_oPlantings.size() - 1);
@@ -427,7 +427,7 @@ public class Planting extends Behavior {
       if (sXMLTag.equals("pl_timestep")) {
 
         //Get the timestep value
-        int iTimestep = new Integer(String.valueOf(oData)).intValue();
+        int iTimestep = Integer.valueOf(String.valueOf(oData)).intValue();
 
         //Get the last planting event and set this as the timestep
         PlantingData oPlanting = mp_oPlantings.get(mp_oPlantings.size() - 1);
@@ -461,7 +461,7 @@ public class Planting extends Behavior {
       else if (sXMLTag.equals("pl_distanceOrDensity")) {
 
         //Get the spacing or density value
-        float fValue = new Float(String.valueOf(oData)).floatValue();
+        float fValue = Float.valueOf(String.valueOf(oData)).floatValue();
 
         //Get the last planting event and set this as the density - it's the
         //same as setting this as the distance if it's gridded

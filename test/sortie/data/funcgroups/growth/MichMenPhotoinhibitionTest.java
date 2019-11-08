@@ -138,8 +138,8 @@ public class MichMenPhotoinhibitionTest extends ModelTestCase {
       MichMenPhotoinhibition oBeh = (MichMenPhotoinhibition) p_oBehs.get(0); 
       oBeh.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 1, oPop));
       oBeh.mp_fMMPhotGrowthBeta.getValue().clear();
-      oBeh.mp_fMMPhotGrowthBeta.getValue().add(new Float(0));
-      oBeh.mp_fMMPhotGrowthBeta.getValue().add(new Float(10));
+      oBeh.mp_fMMPhotGrowthBeta.getValue().add(Float.valueOf((float)0));
+      oBeh.mp_fMMPhotGrowthBeta.getValue().add(Float.valueOf((float)10));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to notice beta equal to zero for Michaelis Menten negative growth.");
     }

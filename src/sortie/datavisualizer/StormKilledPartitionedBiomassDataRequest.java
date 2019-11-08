@@ -262,7 +262,7 @@ public class StormKilledPartitionedBiomassDataRequest extends DataRequest {
     if (iPos == -1) {
       return -1;
     }
-    return new Integer(sLabel.substring(iPos + 1)).intValue();
+    return Integer.valueOf(sLabel.substring(iPos + 1)).intValue();
   }
 
   /**

@@ -230,17 +230,17 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
           oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(i, oEnum);
         }
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fSpatialMastMastLognormalX0.getValue().remove(0);
-        oDisperse.mp_fSpatialMastMastLognormalX0.getValue().add(new Float(0));
+        oDisperse.mp_fSpatialMastMastLognormalX0.getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fSpatialMastMastLognormalXb.getValue().remove(0);
-        oDisperse.mp_fSpatialMastMastLognormalXb.getValue().add(new Float(0));
+        oDisperse.mp_fSpatialMastMastLognormalXb.getValue().add(Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
       }
       catch (ModelException oErr) {
@@ -264,7 +264,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(0, oEnum);
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad Xb canopy values " +
             "when only masting disperse was enabled.");
@@ -291,7 +291,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(0, oEnum);
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad X0 canopy values " +
             "when only masting disperse was enabled.");
@@ -318,7 +318,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(0, oEnum);
         oDisperse.mp_fSpatialMastMastLognormalXb.getValue().remove(0);
-        oDisperse.mp_fSpatialMastMastLognormalXb.getValue().add(0, new Float(0));
+        oDisperse.mp_fSpatialMastMastLognormalXb.getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad Xb masting values.");
       }
@@ -344,7 +344,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(0, oEnum);
         oDisperse.mp_fSpatialMastMastLognormalX0.getValue().remove(0);
-        oDisperse.mp_fSpatialMastMastLognormalX0.getValue().add(0, new Float(0));
+        oDisperse.mp_fSpatialMastMastLognormalX0.getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad X0 masting values.");
       }
@@ -367,7 +367,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(new Float(70));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad theta canopy values " +
             "when only masting disperse was enabled.");
@@ -389,7 +389,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByParameterFileTag("MastingSpatialDisperse");
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
-        oDisperse.mp_fSpatialMastMastWeibTheta.getValue().add(new Float(70));
+        oDisperse.mp_fSpatialMastMastWeibTheta.getValue().add(Float.valueOf((float)70));
         oDisperse.mp_fSpatialMastMastWeibTheta.getValue().remove(0);
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad theta masting values.");
@@ -412,7 +412,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(new Float(70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta weibull canopy " +
             "values when only masting disperse was enabled.");
@@ -435,7 +435,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(new Float(70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta lognormal canopy " +
             "values when only masting disperse was enabled.");
@@ -458,7 +458,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fSpatialMastMastBeta.getValue().remove(0);
-        oDisperse.mp_fSpatialMastMastBeta.getValue().add(new Float(70));
+        oDisperse.mp_fSpatialMastMastBeta.getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad masting beta values.");
       }
@@ -480,7 +480,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fMinDbhForReproduction.getValue().remove(0);
-        oDisperse.mp_fMinDbhForReproduction.getValue().add(0, new Float(-70));
+        oDisperse.mp_fMinDbhForReproduction.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch negative reproduction DBH" +
             " values.");
@@ -503,7 +503,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fSpatialMastMastPropParticipating.getValue().remove(0);
-        oDisperse.mp_fSpatialMastMastPropParticipating.getValue().add(0, new Float(-70));
+        oDisperse.mp_fSpatialMastMastPropParticipating.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad mast proportion " +
             "participating value.");
@@ -526,7 +526,7 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fSpatialMastNonMastPropParticipating.getValue().remove(0);
-        oDisperse.mp_fSpatialMastNonMastPropParticipating.getValue().add(0, new Float(-70));
+        oDisperse.mp_fSpatialMastNonMastPropParticipating.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad non mast proportion " +
             "participating value.");

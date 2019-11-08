@@ -78,8 +78,8 @@ public class ModelHistogramDataset
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("name", sName);
     map.put("bins", p_oBins);
-    map.put("values.length", new Integer(p_fValues.length));
-    map.put("bin width", new Float(fBinSize));
+    map.put("values.length", Integer.valueOf(p_fValues.length));
+    map.put("bin width", Float.valueOf((float)fBinSize));
     list.add(map);
   }
 
@@ -117,8 +117,8 @@ public class ModelHistogramDataset
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("name", "Total");
     map.put("bins", p_oBins);
-    map.put("values.length", new Integer(iNumBins));
-    map.put("bin width", new Float(fBinSize));
+    map.put("values.length", Integer.valueOf(iNumBins));
+    map.put("bin width", Float.valueOf((float)fBinSize));
     list.add(map);
   }
 
@@ -206,7 +206,7 @@ public class ModelHistogramDataset
     HistogramBin[] bins = getBins(series);
     HistogramBin bin = bins[item];
     double x = (bin.getStartBoundary() + bin.getEndBoundary()) / 2.;
-    return new Float(x);
+    return Float.valueOf((float)x);
   }
 
   /**
@@ -219,7 +219,7 @@ public class ModelHistogramDataset
    */
   public Number getY(int series, int item) {
     HistogramBin[] bins = getBins(series);
-    return new Float( (float) bins[item].getCount());
+    return Float.valueOf( (float) bins[item].getCount());
 
   }
 
@@ -247,7 +247,7 @@ public class ModelHistogramDataset
     HistogramBin[] bins = getBins(series);
 
     //This makes the bars render all the same width.
-    return new Float(bins[item].getStartBoundary() +
+    return Float.valueOf(bins[item].getStartBoundary() +
                       ( ( (float) series / (float) getSeriesCount()) *
                        bins[item].getBinWidth()));
   }
@@ -263,7 +263,7 @@ public class ModelHistogramDataset
   public Number getEndX(int series, int item) {
     HistogramBin[] bins = getBins(series);
     //This makes the bars render all the same width
-    return new Float(getStartX(series, item).floatValue() +
+    return Float.valueOf(getStartX(series, item).floatValue() +
                       bins[item].getBinWidth() / getSeriesCount());
   }
 

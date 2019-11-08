@@ -193,24 +193,24 @@ public class Grid {
         if (mp_oDataMembers[i].getType() == DataMember.BOOLEAN) {
           mp_sBoolDataMembers[iNumBools] = mp_oDataMembers[i].
               getCodeName();
-          mp_iGridBoolTransforms.add(new Integer(iNumBools));
+          mp_iGridBoolTransforms.add(Integer.valueOf(iNumBools));
           iNumBools++;
         }
         else if (mp_oDataMembers[i].getType() == DataMember.INTEGER) {
           mp_sIntDataMembers[iNumInts] = mp_oDataMembers[i].getCodeName();
-          mp_iGridIntTransforms.add(new Integer(iNumInts));
+          mp_iGridIntTransforms.add(Integer.valueOf(iNumInts));
           iNumInts++;
         }
         else if (mp_oDataMembers[i].getType() == DataMember.FLOAT) {
           mp_sFloatDataMembers[iNumFloats] = mp_oDataMembers[i].
               getCodeName();
-          mp_iGridFloatTransforms.add(new Integer(iNumFloats));
+          mp_iGridFloatTransforms.add(Integer.valueOf(iNumFloats));
           iNumFloats++;
         }
         else if (mp_oDataMembers[i].getType() == DataMember.CHAR) {
           mp_sCharDataMembers[iNumChars] = mp_oDataMembers[i].
               getCodeName();
-          mp_iGridCharTransforms.add(new Integer(iNumChars));
+          mp_iGridCharTransforms.add(Integer.valueOf(iNumChars));
           iNumChars++;
         }
       }
@@ -275,25 +275,25 @@ public class Grid {
         if (mp_oPackageDataMembers[i].getType() == DataMember.BOOLEAN) {
           mp_sPackageBoolDataMembers[iNumBools] = mp_oPackageDataMembers[i].
               getCodeName();
-          mp_iGridPackageBoolTransforms.add(new Integer(iNumBools));
+          mp_iGridPackageBoolTransforms.add(Integer.valueOf(iNumBools));
           iNumBools++;
         }
         else if (mp_oPackageDataMembers[i].getType() == DataMember.INTEGER) {
           mp_sPackageIntDataMembers[iNumInts] = mp_oPackageDataMembers[i].
               getCodeName();
-          mp_iGridPackageIntTransforms.add(new Integer(iNumInts));
+          mp_iGridPackageIntTransforms.add(Integer.valueOf(iNumInts));
           iNumInts++;
         }
         else if (mp_oPackageDataMembers[i].getType() == DataMember.FLOAT) {
           mp_sPackageFloatDataMembers[iNumFloats] = mp_oPackageDataMembers[i].
               getCodeName();
-          mp_iGridPackageFloatTransforms.add(new Integer(iNumFloats));
+          mp_iGridPackageFloatTransforms.add(Integer.valueOf(iNumFloats));
           iNumFloats++;
         }
         else if (mp_oPackageDataMembers[i].getType() == DataMember.CHAR) {
           mp_sPackageCharDataMembers[iNumChars] = mp_oPackageDataMembers[i].
               getCodeName();
-          mp_iGridPackageCharTransforms.add(new Integer(iNumChars));
+          mp_iGridPackageCharTransforms.add(Integer.valueOf(iNumChars));
           iNumChars++;
         }
       }
@@ -482,7 +482,7 @@ public class Grid {
     if (mp_iGridFloatTransforms.size() <= iIndex) {
       Behavior.ensureSize(mp_iGridFloatTransforms, iIndex + 1);
     }
-    mp_iGridFloatTransforms.set(iIndex, new Integer(iOfficialIndex));
+    mp_iGridFloatTransforms.set(iIndex, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -517,7 +517,7 @@ public class Grid {
     if (mp_iGridIntTransforms.size() <= iIndex) {
       Behavior.ensureSize(mp_iGridIntTransforms, iIndex + 1);
     }
-    mp_iGridIntTransforms.set(iIndex, new Integer(iOfficialIndex));
+    mp_iGridIntTransforms.set(iIndex, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -551,7 +551,7 @@ public class Grid {
     if (mp_iGridCharTransforms.size() <= iIndex) {
       Behavior.ensureSize(mp_iGridCharTransforms, iIndex + 1);
     }
-    mp_iGridCharTransforms.set(iIndex, new Integer(iOfficialIndex));
+    mp_iGridCharTransforms.set(iIndex, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -585,7 +585,7 @@ public class Grid {
     if (mp_iGridBoolTransforms.size() <= iIndex) {
       Behavior.ensureSize(mp_iGridBoolTransforms, iIndex + 1);
     }
-    mp_iGridBoolTransforms.set(iIndex, new Integer(iOfficialIndex));
+    mp_iGridBoolTransforms.set(iIndex, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -620,7 +620,7 @@ public class Grid {
       Behavior.ensureSize(mp_iGridPackageFloatTransforms, iIndex + 1);
     }
     mp_iGridPackageFloatTransforms.remove(iIndex);
-    mp_iGridPackageFloatTransforms.add(iIndex, new Integer(iOfficialIndex));
+    mp_iGridPackageFloatTransforms.add(iIndex, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -655,7 +655,7 @@ public class Grid {
       Behavior.ensureSize(mp_iGridPackageIntTransforms, iIndex + 1);
     }
     mp_iGridPackageIntTransforms.remove(iIndex);
-    mp_iGridPackageIntTransforms.add(iIndex, new Integer(iOfficialIndex));
+    mp_iGridPackageIntTransforms.add(iIndex, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -690,7 +690,7 @@ public class Grid {
       Behavior.ensureSize(mp_iGridPackageCharTransforms, iIndex + 1);
     }
     mp_iGridPackageCharTransforms.remove(iIndex);
-    mp_iGridPackageCharTransforms.add(iIndex, new Integer(iOfficialIndex));
+    mp_iGridPackageCharTransforms.add(iIndex, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -725,7 +725,7 @@ public class Grid {
       Behavior.ensureSize(mp_iGridPackageBoolTransforms, iIndex + 1);
     }
     mp_iGridPackageBoolTransforms.remove(iIndex);
-    mp_iGridPackageBoolTransforms.add(iIndex, new Integer(iOfficialIndex));
+    mp_iGridPackageBoolTransforms.add(iIndex, Integer.valueOf(iOfficialIndex));
   }
 
   /**

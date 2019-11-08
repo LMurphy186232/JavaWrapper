@@ -209,7 +209,7 @@ public class DamageEffectDefaultTest extends TestCase {
       NCIMasterGrowth oMaster = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oMaster.mp_oEffects.get(1) instanceof DamageEffectDefault);
       DamageEffectDefault oDamageEffect = (DamageEffectDefault) oMaster.mp_oEffects.get(1);
-      oDamageEffect.mp_fNCIStormEffectFull.getValue().set(0, new Float(20));
+      oDamageEffect.mp_fNCIStormEffectFull.getValue().set(0, Float.valueOf((float)20));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad NCI full damage storm effect.");
     }
@@ -236,7 +236,7 @@ public class DamageEffectDefaultTest extends TestCase {
       NCIMasterGrowth oMaster = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oMaster.mp_oEffects.get(1) instanceof DamageEffectDefault);
       DamageEffectDefault oDamageEffect = (DamageEffectDefault) oMaster.mp_oEffects.get(1);
-      oDamageEffect.mp_fNCIStormEffectMed.getValue().set(0, new Float(20));
+      oDamageEffect.mp_fNCIStormEffectMed.getValue().set(0, Float.valueOf((float)20));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad NCI med damage storm effect.");
     }

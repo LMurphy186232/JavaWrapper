@@ -191,9 +191,9 @@ public class TempDepNeighborhoodSurvivalTest extends ModelTestCase {
         TempDepNeighborhoodSurvival oMort = (TempDepNeighborhoodSurvival) 
             oMortBeh.createBehaviorFromParameterFileTag("TempDependentNeighborhoodSurvival");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
-        oMort.mp_fTempDepSurvN.getValue().add(new Float(0.5));
+        oMort.mp_fTempDepSurvN.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
-        oMort.mp_fTempDepSurvN.getValue().add(0, new Float(0));
+        oMort.mp_fTempDepSurvN.getValue().add(0, Float.valueOf((float)0));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch temperature dependent neighborhood survival N equals zero.");
       } catch (ModelException oErr) {;}
@@ -208,9 +208,9 @@ public class TempDepNeighborhoodSurvivalTest extends ModelTestCase {
         TempDepNeighborhoodSurvival oMort = (TempDepNeighborhoodSurvival) 
             oMortBeh.createBehaviorFromParameterFileTag("TempDependentNeighborhoodSurvival");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
-        oMort.m_fTempDepSurvSearchRadius.setValue(new Float(10)); 
+        oMort.m_fTempDepSurvSearchRadius.setValue(Float.valueOf((float)10)); 
         oMortBeh.validateData(oManager.getTreePopulation());
-        oMort.m_fTempDepSurvSearchRadius.setValue(new Float(-10));
+        oMort.m_fTempDepSurvSearchRadius.setValue(Float.valueOf((float)-10));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch temperature dependent neighborhood survival negative neighbor search radius.");
       } catch (ModelException oErr) {;}

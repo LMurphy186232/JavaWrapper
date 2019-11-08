@@ -220,7 +220,7 @@ public class DetailedOutputLegend
 
     int iRate = 0;
     try {
-      iRate = new Integer(m_jRateField.getText()).intValue();
+      iRate = Integer.valueOf(m_jRateField.getText()).intValue();
     }
     catch (java.lang.NumberFormatException e) {
       throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
@@ -251,7 +251,7 @@ public class DetailedOutputLegend
     }
     int iTimestep = 0;
     try {
-      iTimestep = new Integer(m_jJumpToTimestepField.getText()).intValue();
+      iTimestep = Integer.valueOf(m_jJumpToTimestepField.getText()).intValue();
     }
     catch (java.lang.NumberFormatException e) {
       throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
@@ -278,7 +278,7 @@ public class DetailedOutputLegend
     int iRate = 0;
     if (m_bRunning) return;
     try {
-      iRate = new Integer(m_jRateField.getText()).intValue();
+      iRate = Integer.valueOf(m_jRateField.getText()).intValue();
     }
     catch (java.lang.NumberFormatException e) {
       throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",

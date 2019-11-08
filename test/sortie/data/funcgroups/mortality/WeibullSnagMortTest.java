@@ -153,14 +153,14 @@ public class WeibullSnagMortTest extends ModelTestCase {
       assertEquals(1, p_oBehs.size());
       WeibullSnagMort oMort = (WeibullSnagMort) p_oBehs.get(0);
       oMort.mp_fSnag1WeibullA.getValue().remove(0);
-      oMort.mp_fSnag1WeibullA.getValue().add(0, new Float( -3));
+      oMort.mp_fSnag1WeibullA.getValue().add(0, Float.valueOf((float) -3));
       //Whole number - should be OK
       oMort.mp_fSnag1WeibullB.getValue().remove(0);
-      oMort.mp_fSnag1WeibullB.getValue().add(0, new Float(4));
+      oMort.mp_fSnag1WeibullB.getValue().add(0, Float.valueOf((float)4));
       oMortBeh.validateData(oManager.getTreePopulation());
       //Set to non-whole-number
       oMort.mp_fSnag1WeibullB.getValue().remove(0);
-      oMort.mp_fSnag1WeibullB.getValue().add(0, new Float(0.25));
+      oMort.mp_fSnag1WeibullB.getValue().add(0, Float.valueOf((float)0.25));
       try {          
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad weibull snag \"a\" values.");
@@ -179,14 +179,14 @@ public class WeibullSnagMortTest extends ModelTestCase {
       assertEquals(1, p_oBehs.size());
       oMort = (WeibullSnagMort) p_oBehs.get(0);
       oMort.mp_fSnag2WeibullA.getValue().remove(0);
-      oMort.mp_fSnag2WeibullA.getValue().add(0, new Float( -3));
+      oMort.mp_fSnag2WeibullA.getValue().add(0, Float.valueOf((float) -3));
       //Whole number - should be OK
       oMort.mp_fSnag2WeibullB.getValue().remove(0);
-      oMort.mp_fSnag2WeibullB.getValue().add(0, new Float(4));
+      oMort.mp_fSnag2WeibullB.getValue().add(0, Float.valueOf((float)4));
       oMortBeh.validateData(oManager.getTreePopulation());
       //Set to non-whole-number
       oMort.mp_fSnag2WeibullB.getValue().remove(0);
-      oMort.mp_fSnag2WeibullB.getValue().add(0, new Float(0.25));
+      oMort.mp_fSnag2WeibullB.getValue().add(0, Float.valueOf((float)0.25));
       try {          
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad weibull snag \"a\" values.");
@@ -205,14 +205,14 @@ public class WeibullSnagMortTest extends ModelTestCase {
       assertEquals(1, p_oBehs.size());
       oMort = (WeibullSnagMort) p_oBehs.get(0);
       oMort.mp_fSnag3WeibullA.getValue().remove(0);
-      oMort.mp_fSnag3WeibullA.getValue().add(0, new Float( -3));
+      oMort.mp_fSnag3WeibullA.getValue().add(0, Float.valueOf((float) -3));
       //Whole number - should be OK
       oMort.mp_fSnag3WeibullB.getValue().remove(0);
-      oMort.mp_fSnag3WeibullB.getValue().add(0, new Float(4));
+      oMort.mp_fSnag3WeibullB.getValue().add(0, Float.valueOf((float)4));
       oMortBeh.validateData(oManager.getTreePopulation());
       //Set to non-whole-number
       oMort.mp_fSnag3WeibullB.getValue().remove(0);
-      oMort.mp_fSnag3WeibullB.getValue().add(0, new Float(0.25));
+      oMort.mp_fSnag3WeibullB.getValue().add(0, Float.valueOf((float)0.25));
       try {          
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad weibull snag \"a\" values.");

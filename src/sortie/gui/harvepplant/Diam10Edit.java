@@ -103,7 +103,7 @@ public class Diam10Edit
                                      "All species must have a value."));
           }
           try {
-            p_fVal[i] = new Float(sTemp).floatValue();
+            p_fVal[i] = Float.valueOf(sTemp).floatValue();
           }
           catch (NumberFormatException oEx) {
             throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA",

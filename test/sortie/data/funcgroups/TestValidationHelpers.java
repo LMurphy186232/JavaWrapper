@@ -29,9 +29,9 @@ public class TestValidationHelpers extends ModelTestCase {
 
     try {
       //Case - all are proportions and are applied to all
-      fVal = new Float(0.11);
+      fVal = Float.valueOf((float)0.11);
       for (i = 0; i < iNumElements; i++) {
-        fVal = new Float(fVal.floatValue() + 0.1);
+        fVal = Float.valueOf((float)(fVal.floatValue() + 0.1));
         p_oData.getValue().add(i, fVal);
         p_bAppliesTo[i] = true;
       }
@@ -47,7 +47,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //buckets
       p_bAppliesTo[2] = false;
       p_oData.getValue().remove(2);
-      p_oData.getValue().add(2, new Float(2.3));
+      p_oData.getValue().add(2, Float.valueOf((float)2.3));
       ValidationHelpers.makeSureAllAreProportions(p_oData, p_bAppliesTo);
 
     }
@@ -67,15 +67,15 @@ public class TestValidationHelpers extends ModelTestCase {
       }
       p_oData = null;
       p_oData = new ModelVector("", "", "", iNumElements, ModelVector.FLOAT);
-      fVal = new Float(0.11);
+      fVal = Float.valueOf((float)0.11);
       for (i = 0; i < iNumElements; i++) {
-        fVal = new Float(fVal.floatValue() + 0.1);
+        fVal = Float.valueOf((float)(fVal.floatValue() + 0.1));
         p_oData.getValue().add(i, fVal);
         p_bAppliesTo[i] = true;
       }
 
       p_oData.getValue().remove(2);
-      p_oData.getValue().add(2, new Float( -2.3));
+      p_oData.getValue().add(2, Float.valueOf((float) -2.3));
 
       ValidationHelpers.makeSureAllAreProportions(p_oData, p_bAppliesTo);
       fail("makeSureAllAreProportions failed to catch invalid values.");
@@ -92,15 +92,15 @@ public class TestValidationHelpers extends ModelTestCase {
       }
       p_oData = null;
       p_oData = new ModelVector("", "", "", iNumElements, ModelVector.FLOAT);
-      fVal = new Float(0.11);
+      fVal = Float.valueOf((float)0.11);
       for (i = 0; i < iNumElements; i++) {
-        fVal = new Float(fVal.floatValue() + 0.1);
+        fVal = Float.valueOf((float)(fVal.floatValue() + 0.1));
         p_oData.getValue().add(i, fVal);
         p_bAppliesTo[i] = true;
       }
 
       p_oData.getValue().remove(0);
-      p_oData.getValue().add(0, new Float(2.3));
+      p_oData.getValue().add(0, Float.valueOf((float)2.3));
 
       ValidationHelpers.makeSureAllAreProportions(p_oData, p_bAppliesTo);
       fail("makeSureAllAreProportions failed to catch invalid values.");
@@ -128,10 +128,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_fData[0] = new Float(0);
-      p_fData[1] = new Float(2.3);
-      p_fData[2] = new Float(0.74);
-      p_fData[3] = new Float(5.88);
+      p_fData[0] = Float.valueOf(0);
+      p_fData[1] = Float.valueOf((float)2.3);
+      p_fData[2] = Float.valueOf((float)0.74);
+      p_fData[3] = Float.valueOf((float)5.88);
       ValidationHelpers.makeSureAllNonNegative(p_fData, sName, p_bAppliesTo);
 
       //Case - all are non-negative and none are applied
@@ -143,7 +143,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //Case - some are applied and some negatives exist in unapplied
       //buckets
       p_bAppliesTo[0] = false;
-      p_fData[0] = new Float( -0.3);
+      p_fData[0] = Float.valueOf((float) -0.3);
       ValidationHelpers.makeSureAllNonNegative(p_fData, sName, p_bAppliesTo);
 
     }
@@ -161,10 +161,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_fData[0] = new Float(0);
-      p_fData[1] = new Float( -2.3);
-      p_fData[2] = new Float(0.74);
-      p_fData[3] = new Float(5.88);
+      p_fData[0] = Float.valueOf(0);
+      p_fData[1] = Float.valueOf((float) -2.3);
+      p_fData[2] = Float.valueOf((float)0.74);
+      p_fData[3] = Float.valueOf((float)5.88);
 
       ValidationHelpers.makeSureAllNonNegative(p_fData, sName, p_bAppliesTo);
       fail("makeSureAllNonNegative normal failed to catch invalid values.");
@@ -194,10 +194,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_oData.getValue().add(0, new Integer(5));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(-74));
-      p_oData.getValue().add(3, new Integer(588));
+      p_oData.getValue().add(0, Integer.valueOf(5));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(-74));
+      p_oData.getValue().add(3, Integer.valueOf(588));
       ValidationHelpers.makeSureAllNonZero(p_oData, p_bAppliesTo);
 
       //Case - all are non-zero and none are applied
@@ -210,7 +210,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //buckets
       p_bAppliesTo[0] = false;
       p_oData.getValue().remove(0);
-      p_oData.getValue().add(0, new Integer( 0 ));
+      p_oData.getValue().add(0, Integer.valueOf( 0 ));
       ValidationHelpers.makeSureAllNonZero(p_oData, p_bAppliesTo);
 
     }
@@ -229,10 +229,10 @@ public class TestValidationHelpers extends ModelTestCase {
         p_bAppliesTo[i] = true;
       }
       p_oData.getValue().clear();
-      p_oData.getValue().add(0, new Integer(2));
-      p_oData.getValue().add(1, new Integer(0));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer( -588));
+      p_oData.getValue().add(0, Integer.valueOf(2));
+      p_oData.getValue().add(1, Integer.valueOf(0));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf( -588));
 
       ValidationHelpers.makeSureAllNonZero(p_oData, p_bAppliesTo);
       fail("ValidationHelpers.makeSureAllNonZero normal failed to catch invalid values.");
@@ -261,10 +261,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_iData[0] = new Integer(0);
-      p_iData[1] = new Integer(2);
-      p_iData[2] = new Integer(74);
-      p_iData[3] = new Integer(588);
+      p_iData[0] = Integer.valueOf(0);
+      p_iData[1] = Integer.valueOf(2);
+      p_iData[2] = Integer.valueOf(74);
+      p_iData[3] = Integer.valueOf(588);
       ValidationHelpers.makeSureAllNonNegative(p_iData, sName, p_bAppliesTo);
 
       //Case - all are non-negative and none are applied
@@ -276,7 +276,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //Case - some are applied and some negatives exist in unapplied
       //buckets
       p_bAppliesTo[0] = false;
-      p_iData[0] = new Integer( -3);
+      p_iData[0] = Integer.valueOf( -3);
       ValidationHelpers.makeSureAllNonNegative(p_iData, sName, p_bAppliesTo);
 
     }
@@ -294,10 +294,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_iData[0] = new Integer(0);
-      p_iData[1] = new Integer( -2);
-      p_iData[2] = new Integer(74);
-      p_iData[3] = new Integer(588);
+      p_iData[0] = Integer.valueOf(0);
+      p_iData[1] = Integer.valueOf( -2);
+      p_iData[2] = Integer.valueOf(74);
+      p_iData[3] = Integer.valueOf(588);
 
       ValidationHelpers.makeSureAllNonNegative(p_iData, sName, p_bAppliesTo);
       fail("makeSureAllNonNegative normal failed to catch invalid values.");
@@ -328,10 +328,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_oData.getValue().add(0, new Integer(0));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer(588));
+      p_oData.getValue().add(0, Integer.valueOf(0));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf(588));
       ValidationHelpers.makeSureAllNonNegative(p_oData, p_bAppliesTo);
 
       //Case - all are non-negative and none are applied
@@ -344,7 +344,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //buckets
       p_bAppliesTo[0] = false;
       p_oData.getValue().remove(0);
-      p_oData.getValue().add(0, new Integer( -3));
+      p_oData.getValue().add(0, Integer.valueOf( -3));
       ValidationHelpers.makeSureAllNonNegative(p_oData, p_bAppliesTo);
 
     }
@@ -363,10 +363,10 @@ public class TestValidationHelpers extends ModelTestCase {
         p_bAppliesTo[i] = true;
       }
       p_oData.getValue().clear();
-      p_oData.getValue().add(0, new Integer(0));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer( -588));
+      p_oData.getValue().add(0, Integer.valueOf(0));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf( -588));
 
       ValidationHelpers.makeSureAllNonNegative(p_oData, p_bAppliesTo);
       fail("makeSureAllNonNegative normal failed to catch invalid values.");
@@ -395,10 +395,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_fData[0] = new Float(0.66);
-      p_fData[1] = new Float(2.3);
-      p_fData[2] = new Float(0.74);
-      p_fData[3] = new Float(5.88);
+      p_fData[0] = Float.valueOf((float)0.66);
+      p_fData[1] = Float.valueOf((float)2.3);
+      p_fData[2] = Float.valueOf((float)0.74);
+      p_fData[3] = Float.valueOf((float)5.88);
       ValidationHelpers.makeSureAllPositive(p_fData, sName, p_bAppliesTo);
 
       //Case - all are positive and none are applied
@@ -410,7 +410,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //Case - some are applied and some negatives exist in unapplied
       //buckets
       p_bAppliesTo[0] = false;
-      p_fData[0] = new Float( -0.3);
+      p_fData[0] = Float.valueOf((float) -0.3);
       ValidationHelpers.makeSureAllPositive(p_fData, sName, p_bAppliesTo);
 
     }
@@ -428,10 +428,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_fData[0] = new Float(0.66);
-      p_fData[1] = new Float( -2.3);
-      p_fData[2] = new Float(0.74);
-      p_fData[3] = new Float(5.88);
+      p_fData[0] = Float.valueOf((float)0.66);
+      p_fData[1] = Float.valueOf((float) -2.3);
+      p_fData[2] = Float.valueOf((float)0.74);
+      p_fData[3] = Float.valueOf((float)5.88);
 
       ValidationHelpers.makeSureAllPositive(p_fData, sName, p_bAppliesTo);
       fail("ValidationHelpers.makeSureAllPositive normal failed to catch invalid values.");
@@ -446,10 +446,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_fData[0] = new Float(0.66);
-      p_fData[1] = new Float(2.3);
-      p_fData[2] = new Float(0);
-      p_fData[3] = new Float(5.88);
+      p_fData[0] = Float.valueOf((float)0.66);
+      p_fData[1] = Float.valueOf((float)2.3);
+      p_fData[2] = Float.valueOf((float)0);
+      p_fData[3] = Float.valueOf((float)5.88);
 
       ValidationHelpers.makeSureAllPositive(p_fData, sName, p_bAppliesTo);
       fail("ValidationHelpers.makeSureAllPositive normal failed to catch invalid values.");
@@ -478,10 +478,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_oData.getValue().add(0, new Integer(0));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer(100));
+      p_oData.getValue().add(0, Integer.valueOf(0));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf(100));
       ValidationHelpers.makeSureAllAreBounded(p_oData, p_bAppliesTo, 0, 100);
 
       //Case - all are between the bounds and none are applied
@@ -494,7 +494,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //buckets
       p_bAppliesTo[0] = false;
       p_oData.getValue().remove(0);
-      p_oData.getValue().add(0, new Integer( -3));
+      p_oData.getValue().add(0, Integer.valueOf( -3));
       ValidationHelpers.makeSureAllNonNegative(p_oData, p_bAppliesTo);
 
     }
@@ -513,10 +513,10 @@ public class TestValidationHelpers extends ModelTestCase {
         p_bAppliesTo[i] = true;
       }
       p_oData.getValue().clear();
-      p_oData.getValue().add(0, new Integer(1));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer( -588));
+      p_oData.getValue().add(0, Integer.valueOf(1));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf( -588));
 
       ValidationHelpers.makeSureAllPositive(p_oData, p_bAppliesTo);
       fail("makeSureAllAreBounded failed to catch invalid values.");
@@ -532,10 +532,10 @@ public class TestValidationHelpers extends ModelTestCase {
         p_bAppliesTo[i] = true;
       }
       p_oData.getValue().clear();
-      p_oData.getValue().add(0, new Integer(0));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer(588));
+      p_oData.getValue().add(0, Integer.valueOf(0));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf(588));
 
       ValidationHelpers.makeSureAllPositive(p_oData, p_bAppliesTo);
       fail("makeSureAllAreBounded normal failed to catch invalid values.");
@@ -563,10 +563,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_iData[0] = new Integer(66);
-      p_iData[1] = new Integer(2);
-      p_iData[2] = new Integer(74);
-      p_iData[3] = new Integer(588);
+      p_iData[0] = Integer.valueOf(66);
+      p_iData[1] = Integer.valueOf(2);
+      p_iData[2] = Integer.valueOf(74);
+      p_iData[3] = Integer.valueOf(588);
       ValidationHelpers.makeSureAllPositive(p_iData, sName, p_bAppliesTo);
 
       //Case - all are positive and none are applied
@@ -578,7 +578,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //Case - some are applied and some negatives exist in unapplied
       //buckets
       p_bAppliesTo[0] = false;
-      p_iData[0] = new Integer( -3);
+      p_iData[0] = Integer.valueOf( -3);
       ValidationHelpers.makeSureAllPositive(p_iData, sName, p_bAppliesTo);
 
     }
@@ -596,10 +596,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_iData[0] = new Integer( -66);
-      p_iData[1] = new Integer(2);
-      p_iData[2] = new Integer(74);
-      p_iData[3] = new Integer(588);
+      p_iData[0] = Integer.valueOf( -66);
+      p_iData[1] = Integer.valueOf(2);
+      p_iData[2] = Integer.valueOf(74);
+      p_iData[3] = Integer.valueOf(588);
 
       ValidationHelpers.makeSureAllPositive(p_iData, sName, p_bAppliesTo);
       fail("ValidationHelpers.makeSureAllPositive normal failed to catch invalid values.");
@@ -614,10 +614,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_iData[0] = new Integer(66);
-      p_iData[1] = new Integer(2);
-      p_iData[2] = new Integer(74);
-      p_iData[3] = new Integer(0);
+      p_iData[0] = Integer.valueOf(66);
+      p_iData[1] = Integer.valueOf(2);
+      p_iData[2] = Integer.valueOf(74);
+      p_iData[3] = Integer.valueOf(0);
 
       ValidationHelpers.makeSureAllPositive(p_iData, sName, p_bAppliesTo);
       fail("ValidationHelpers.makeSureAllPositive normal failed to catch invalid values.");
@@ -647,10 +647,10 @@ public class TestValidationHelpers extends ModelTestCase {
       for (i = 0; i < iNumElements; i++) {
         p_bAppliesTo[i] = true;
       }
-      p_oData.getValue().add(0, new Integer(1));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer(588));
+      p_oData.getValue().add(0, Integer.valueOf(1));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf(588));
       ValidationHelpers.makeSureAllPositive(p_oData, p_bAppliesTo);
 
       //Case - all are non-negative and none are applied
@@ -663,7 +663,7 @@ public class TestValidationHelpers extends ModelTestCase {
       //buckets
       p_bAppliesTo[0] = false;
       p_oData.getValue().remove(0);
-      p_oData.getValue().add(0, new Integer( -3));
+      p_oData.getValue().add(0, Integer.valueOf( -3));
       ValidationHelpers.makeSureAllNonNegative(p_oData, p_bAppliesTo);
 
     }
@@ -682,10 +682,10 @@ public class TestValidationHelpers extends ModelTestCase {
         p_bAppliesTo[i] = true;
       }
       p_oData.getValue().clear();
-      p_oData.getValue().add(0, new Integer(1));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer( -588));
+      p_oData.getValue().add(0, Integer.valueOf(1));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf( -588));
 
       ValidationHelpers.makeSureAllPositive(p_oData, p_bAppliesTo);
       fail("ValidationHelpers.makeSureAllPositive normal failed to catch invalid values.");
@@ -701,10 +701,10 @@ public class TestValidationHelpers extends ModelTestCase {
         p_bAppliesTo[i] = true;
       }
       p_oData.getValue().clear();
-      p_oData.getValue().add(0, new Integer(0));
-      p_oData.getValue().add(1, new Integer(2));
-      p_oData.getValue().add(2, new Integer(74));
-      p_oData.getValue().add(3, new Integer(588));
+      p_oData.getValue().add(0, Integer.valueOf(0));
+      p_oData.getValue().add(1, Integer.valueOf(2));
+      p_oData.getValue().add(2, Integer.valueOf(74));
+      p_oData.getValue().add(3, Integer.valueOf(588));
 
       ValidationHelpers.makeSureAllPositive(p_oData, p_bAppliesTo);
       fail("ValidationHelpers.makeSureAllPositive normal failed to catch invalid values.");

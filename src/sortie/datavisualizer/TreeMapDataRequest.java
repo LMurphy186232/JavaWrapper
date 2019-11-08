@@ -629,7 +629,7 @@ public class TreeMapDataRequest
       //Get the DBH scale factor
       float fNewScale, fNewDbh;
       try {
-        Float oNewScale = new Float(m_jDBHScale.getText());
+        Float oNewScale = Float.valueOf(m_jDBHScale.getText());
         fNewScale = oNewScale.floatValue();
       }
       catch (java.lang.NumberFormatException oErr) {
@@ -650,7 +650,7 @@ public class TreeMapDataRequest
 
       //Get the new minimum DBH
       try {
-        Float oNewDbh = new Float(m_jMinDbh.getText());
+        Float oNewDbh = Float.valueOf(m_jMinDbh.getText());
         fNewDbh = oNewDbh.floatValue();
       }
       catch (java.lang.NumberFormatException oErr) {

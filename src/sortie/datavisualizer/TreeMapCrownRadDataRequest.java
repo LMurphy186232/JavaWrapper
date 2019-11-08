@@ -609,7 +609,7 @@ public class TreeMapCrownRadDataRequest
       float fNewCrownRad;
       //Get the new minimum crown radius 
       try {
-        Float oNewDbh = new Float(m_jMinCrownRad.getText());
+        Float oNewDbh = Float.valueOf(m_jMinCrownRad.getText());
         fNewCrownRad = oNewDbh.floatValue();
       }
       catch (java.lang.NumberFormatException oErr) {

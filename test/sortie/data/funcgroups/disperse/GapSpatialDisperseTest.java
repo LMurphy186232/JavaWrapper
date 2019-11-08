@@ -193,13 +193,13 @@ public class GapSpatialDisperseTest extends ModelTestCase {
           oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.GAP].getValue().add(i, oEnum);
         }
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)0));
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
       }
       catch (ModelException oErr) {
@@ -223,7 +223,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(0, oEnum);
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad Xb canopy values " +
             "when only gap disperse was enabled.");
@@ -250,7 +250,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(0, oEnum);
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad X0 canopy values " +
             "when only gap disperse was enabled.");
@@ -281,7 +281,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.GAP].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.GAP].getValue().add(0, oEnum);
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(0, new Float(0));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad Xb gap values.");
       }
@@ -311,7 +311,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.GAP].getValue().remove(0);
         oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.GAP].getValue().add(0, oEnum);
         oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(0, new Float(0));
+        oDisperse.mp_fDispOrX0[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(0, Float.valueOf((float)0));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad X0 gap values.");
       }
@@ -339,7 +339,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
           oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(i, oEnum);
         }
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(70));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad theta canopy values " +
             "when only gap disperse was enabled.");
@@ -368,7 +368,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
           oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.GAP].getValue().add(i, oEnum);
         }
         oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.GAP].getValue().add(0, new Float(70));
+        oDisperse.mp_fThetaOrXb[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.GAP].getValue().add(0, Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad theta gap values.");
       }
@@ -396,7 +396,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
           oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(i, oEnum);
         }
         oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta weibull canopy " +
             "values when only gap disperse was enabled.");
@@ -425,7 +425,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
           oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.CANOPY].getValue().add(i, oEnum);
         }
         oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, new Float(70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(0, Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta lognormal canopy " +
             "values when only gap disperse was enabled.");
@@ -455,7 +455,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
         }
         
         oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.GAP].getValue().add(0, new Float(70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.GAP].getValue().add(0, Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad weibull beta gap values.");
       }
@@ -483,7 +483,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
           oDisperse.mp_iWhichFunctionUsed[SpatialDisperseBase.GAP].getValue().add(i, oEnum);
         }
         oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(0, new Float(70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.GAP].getValue().add(0, Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad lognormal beta gap values.");
       }
@@ -505,7 +505,7 @@ public class GapSpatialDisperseTest extends ModelTestCase {
         assertEquals(1, p_oDisps.size());
         GapSpatialDisperse oDisperse = (GapSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fMinDbhForReproduction.getValue().remove(0);
-        oDisperse.mp_fMinDbhForReproduction.getValue().add(0, new Float(-70));
+        oDisperse.mp_fMinDbhForReproduction.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch negative reproduction DBH" +
             " values.");

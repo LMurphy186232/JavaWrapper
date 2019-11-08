@@ -204,7 +204,7 @@ public class CarbonValueCalculatorTest extends ModelTestCase {
       assertEquals(1, p_oBehaviors.size());
       CarbonValueCalculator oCarb = (CarbonValueCalculator) p_oBehaviors.get(0);
       oCarb.mp_fCarbonValuePercentBiomassCarbon.getValue().remove(0);
-      oCarb.mp_fCarbonValuePercentBiomassCarbon.getValue().add(new Float(-3));
+      oCarb.mp_fCarbonValuePercentBiomassCarbon.getValue().add(Float.valueOf((float)-3));
       oAnalysis.validateData(oPop);
       fail("Didn't catch carbon value carbon percent of biomass not between 0 and 100.");
     }

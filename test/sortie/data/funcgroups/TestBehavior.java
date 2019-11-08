@@ -58,8 +58,8 @@ public class TestBehavior extends ModelTestCase {
       p_oNonSpeciesSpecific.setIsSpeciesSpecific(false);
 
       //Give all the vectors data
-      p_oNonSpeciesSpecificTooShort.getValue().add(new Float(1));
-      p_oNonSpeciesSpecificTooShort.getValue().add(new Float(2));
+      p_oNonSpeciesSpecificTooShort.getValue().add(Float.valueOf(1));
+      p_oNonSpeciesSpecificTooShort.getValue().add(Float.valueOf(2));
 
       p_oNonSpeciesSpecific.getValue().add("test 1");
       p_oNonSpeciesSpecific.getValue().add("test 2");
@@ -71,10 +71,10 @@ public class TestBehavior extends ModelTestCase {
       p_oStringSpeciesSpecific.getValue().add("species 2");
       p_oStringSpeciesSpecific.getValue().add("species 3");
 
-      p_oFloatSpeciesSpecific.getValue().add(new Float(0));
-      p_oFloatSpeciesSpecific.getValue().add(new Float(1));
-      p_oFloatSpeciesSpecific.getValue().add(new Float(2));
-      p_oFloatSpeciesSpecific.getValue().add(new Float(3));
+      p_oFloatSpeciesSpecific.getValue().add(Float.valueOf(0));
+      p_oFloatSpeciesSpecific.getValue().add(Float.valueOf(1));
+      p_oFloatSpeciesSpecific.getValue().add(Float.valueOf(2));
+      p_oFloatSpeciesSpecific.getValue().add(Float.valueOf(3));
 
       p_oModelEnumSpeciesSpecific.getValue().add(new ModelEnum(null, null,
           "enum 0", ""));
@@ -85,10 +85,10 @@ public class TestBehavior extends ModelTestCase {
       p_oModelEnumSpeciesSpecific.getValue().add(new ModelEnum(null, null,
           "enum 3", ""));
 
-      p_oIntegerSpeciesSpecific.getValue().add(new Integer(0));
-      p_oIntegerSpeciesSpecific.getValue().add(new Integer(1));
-      p_oIntegerSpeciesSpecific.getValue().add(new Integer(2));
-      p_oIntegerSpeciesSpecific.getValue().add(new Integer(3));
+      p_oIntegerSpeciesSpecific.getValue().add(Integer.valueOf(0));
+      p_oIntegerSpeciesSpecific.getValue().add(Integer.valueOf(1));
+      p_oIntegerSpeciesSpecific.getValue().add(Integer.valueOf(2));
+      p_oIntegerSpeciesSpecific.getValue().add(Integer.valueOf(3));
 
       //Put the data in the test object
       BehaviorTester oTest = new BehaviorTester(oManager);
@@ -107,9 +107,9 @@ public class TestBehavior extends ModelTestCase {
       assertEquals(2, p_oNonSpeciesSpecificTooShort.getValue().size());
       Float fTest = (Float) p_oNonSpeciesSpecificTooShort.getValue().get(
           0);
-      assertEquals(new Float(1), fTest);
+      assertEquals(Float.valueOf(1), fTest);
       fTest = (Float) p_oNonSpeciesSpecificTooShort.getValue().get(1);
-      assertEquals(new Float(2), fTest);
+      assertEquals(Float.valueOf(2), fTest);
 
       assertEquals(4, p_oNonSpeciesSpecific.getValue().size());
       String sTest = (String) p_oNonSpeciesSpecific.getValue().get(0);
@@ -137,11 +137,11 @@ public class TestBehavior extends ModelTestCase {
       fTest = (Float) p_oFloatSpeciesSpecific.getValue().get(0);
       assertEquals(null, fTest);
       fTest = (Float) p_oFloatSpeciesSpecific.getValue().get(1);
-      assertEquals(new Float(1), fTest);
+      assertEquals(Float.valueOf(1), fTest);
       fTest = (Float) p_oFloatSpeciesSpecific.getValue().get(2);
-      assertEquals(new Float(3), fTest);
+      assertEquals(Float.valueOf(3), fTest);
       fTest = (Float) p_oFloatSpeciesSpecific.getValue().get(3);
-      assertEquals(new Float(0), fTest);
+      assertEquals(Float.valueOf(0), fTest);
       fTest = (Float) p_oFloatSpeciesSpecific.getValue().get(4);
       assertEquals(null, fTest);
 
@@ -167,11 +167,11 @@ public class TestBehavior extends ModelTestCase {
           0);
       assertEquals(null, iTest);
       iTest = (Integer) p_oIntegerSpeciesSpecific.getValue().get(1);
-      assertEquals(new Integer(1), iTest);
+      assertEquals(Integer.valueOf(1), iTest);
       iTest = (Integer) p_oIntegerSpeciesSpecific.getValue().get(2);
-      assertEquals(new Integer(3), iTest);
+      assertEquals(Integer.valueOf(3), iTest);
       iTest = (Integer) p_oIntegerSpeciesSpecific.getValue().get(3);
-      assertEquals(new Integer(0), iTest);
+      assertEquals(Integer.valueOf(0), iTest);
       iTest = (Integer) p_oIntegerSpeciesSpecific.getValue().get(4);
       assertEquals(null, iTest);
 
@@ -208,34 +208,34 @@ public class TestBehavior extends ModelTestCase {
         assertEquals(null, fTest);
         //TSCA
         fTest = (Float) p_oLEC.getValue().get(1);
-        assertEquals(new Float(0.5), fTest);
+        assertEquals(Float.valueOf((float)0.5), fTest);
         //QURU
         fTest = (Float) p_oLEC.getValue().get(2);
-        assertEquals(new Float(0.9), fTest);
+        assertEquals(Float.valueOf((float)0.9), fTest);
         //PRSE
         fTest = (Float) p_oLEC.getValue().get(3);
-        assertEquals(new Float(0.8), fTest);
+        assertEquals(Float.valueOf((float)0.8), fTest);
         //PIST
         fTest = (Float) p_oLEC.getValue().get(4);
-        assertEquals(new Float(0.7), fTest);
+        assertEquals(Float.valueOf((float)0.7), fTest);
         //Test 2
         fTest = (Float) p_oLEC.getValue().get(5);
         assertEquals(null, fTest);
         //FRAM
         fTest = (Float) p_oLEC.getValue().get(6);
-        assertEquals(new Float(0.6), fTest);
+        assertEquals(Float.valueOf((float)0.6), fTest);
         //FAGR
         fTest = (Float) p_oLEC.getValue().get(7);
-        assertEquals(new Float(0.4), fTest);
+        assertEquals(Float.valueOf((float)0.4), fTest);
         //BEAL
         fTest = (Float) p_oLEC.getValue().get(8);
-        assertEquals(new Float(0.3), fTest);
+        assertEquals(Float.valueOf((float)0.3), fTest);
         //ACSA
         fTest = (Float) p_oLEC.getValue().get(9);
-        assertEquals(new Float(0.2), fTest);
+        assertEquals(Float.valueOf((float)0.2), fTest);
         //ACRU
         fTest = (Float) p_oLEC.getValue().get(10);
-        assertEquals(new Float(0.1), fTest);
+        assertEquals(Float.valueOf((float)0.1), fTest);
 
       } catch (ModelException oErr) {
         fail("ChangeOfSpecies testing failed with message " + oErr.getMessage());
@@ -285,34 +285,34 @@ public class TestBehavior extends ModelTestCase {
       assertEquals(10, p_oLEC.getValue().size());
       //ACRU
       fTest = (Float) p_oLEC.getValue().get(0);
-      assertEquals(new Float(0.1), fTest);
+      assertEquals(Float.valueOf((float)0.1), fTest);
       //ACSA
       fTest = (Float) p_oLEC.getValue().get(1);
-      assertEquals(new Float(0.2), fTest);
+      assertEquals(Float.valueOf((float)0.2), fTest);
       //BEAL
       fTest = (Float) p_oLEC.getValue().get(2);
-      assertEquals(new Float(0.3), fTest);
+      assertEquals(Float.valueOf((float)0.3), fTest);
       //FAGR
       fTest = (Float) p_oLEC.getValue().get(3);
-      assertEquals(new Float(0.4), fTest);
+      assertEquals(Float.valueOf((float)0.4), fTest);
       //TSCA
       fTest = (Float) p_oLEC.getValue().get(4);
-      assertEquals(new Float(0.5), fTest);
+      assertEquals(Float.valueOf((float)0.5), fTest);
       //FRAM
       fTest = (Float) p_oLEC.getValue().get(5);
-      assertEquals(new Float(0.6), fTest);
+      assertEquals(Float.valueOf((float)0.6), fTest);
       //PIST
       fTest = (Float) p_oLEC.getValue().get(6);
-      assertEquals(new Float(0.7), fTest);
+      assertEquals(Float.valueOf((float)0.7), fTest);
       //PRSE
       fTest = (Float) p_oLEC.getValue().get(7);
-      assertEquals(new Float(0.8), fTest);
+      assertEquals(Float.valueOf((float)0.8), fTest);
       //QURU
       fTest = (Float) p_oLEC.getValue().get(8);
-      assertEquals(new Float(0.9), fTest);
+      assertEquals(Float.valueOf((float)0.9), fTest);
       //Test 1
       fTest = (Float) p_oLEC.getValue().get(9);
-      assertEquals(new Float(0.3), fTest);
+      assertEquals(Float.valueOf((float)0.3), fTest);
 
       //Test a ModelEnum
       Allometry oAllom = oManager.getTreePopulation().getAllometry();

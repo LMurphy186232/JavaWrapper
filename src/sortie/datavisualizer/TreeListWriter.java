@@ -286,7 +286,7 @@ public class TreeListWriter extends DataRequest {
     } else if (oEvent.getActionCommand().equals("WriteTrees")) {
       int iTimestep = 0;
       try {
-        Integer oTS = new Integer(m_jTimestep.getText());
+        Integer oTS = Integer.valueOf(m_jTimestep.getText());
         iTimestep = oTS.intValue();
       } catch (java.lang.NumberFormatException oErr) {
         JOptionPane.showMessageDialog(m_oChartFrame,
@@ -802,7 +802,7 @@ public class TreeListWriter extends DataRequest {
         iType, sLabel);
 
     Behavior.ensureSize(mp_iTreeFloatTransforms.get(iSpecies).get(iType), iCode + 1);
-    mp_iTreeFloatTransforms.get(iSpecies).get(iType).set(iCode, new Integer(iOfficialIndex));
+    mp_iTreeFloatTransforms.get(iSpecies).get(iType).set(iCode, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -820,7 +820,7 @@ public class TreeListWriter extends DataRequest {
         iType, sLabel);
 
     Behavior.ensureSize(mp_iTreeIntTransforms.get(iSpecies).get(iType), iCode + 1);
-    mp_iTreeIntTransforms.get(iSpecies).get(iType).set(iCode, new Integer(iOfficialIndex));
+    mp_iTreeIntTransforms.get(iSpecies).get(iType).set(iCode, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -838,7 +838,7 @@ public class TreeListWriter extends DataRequest {
         sLabel);
 
     Behavior.ensureSize(mp_iTreeCharTransforms.get(iSpecies).get(iType), iCode + 1);
-    mp_iTreeCharTransforms.get(iSpecies).get(iType).set(iCode, new Integer(iOfficialIndex));
+    mp_iTreeCharTransforms.get(iSpecies).get(iType).set(iCode, Integer.valueOf(iOfficialIndex));
   }
 
   /**
@@ -856,7 +856,7 @@ public class TreeListWriter extends DataRequest {
         iType, sLabel);
 
     Behavior.ensureSize(mp_iTreeBoolTransforms.get(iSpecies).get(iType), iCode + 1);
-    mp_iTreeBoolTransforms.get(iSpecies).get(iType).set(iCode, new Integer(iOfficialIndex));
+    mp_iTreeBoolTransforms.get(iSpecies).get(iType).set(iCode, Integer.valueOf(iOfficialIndex));
   }
 
   /**

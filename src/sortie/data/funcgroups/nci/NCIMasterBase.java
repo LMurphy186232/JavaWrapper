@@ -528,75 +528,75 @@ public class NCIMasterBase extends Behavior {
    * with neighbor damage.
    */
   public void setupLikeOldNCI() throws ModelException {
-    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichNCITerm", "", null, new Integer(2));
-    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, new Integer(0));
+    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichNCITerm", "", null, Integer.valueOf(2));
+    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, Integer.valueOf(0));
   }
   
   /**
    * For backwards compatibility with the old weibull climate behavior. 
    */
   public void setupLikeOldWeibullClimate() throws ModelException {
-    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichNCITerm", "", null, new Integer(3));
-    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, new Integer(2));
-    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, new Integer(0));
+    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichNCITerm", "", null, Integer.valueOf(3));
+    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, Integer.valueOf(2));
+    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, Integer.valueOf(0));
   }
   
   /**
    * For backwards compatibility with the old weibull climate quadrat behavior. 
    */
   public void setupLikeOldWeibullClimateQuadrat() throws ModelException {
-    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, new Integer(3));
-    setSingleValueByXMLTag("nciWhichNCITerm", "", null, new Integer(3));
-    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, new Integer(0));
+    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, Integer.valueOf(3));
+    setSingleValueByXMLTag("nciWhichNCITerm", "", null, Integer.valueOf(3));
+    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, Integer.valueOf(0));
   }
   
   /**
    * For backwards compatibility with the old BA NCI behavior.
    */
   public void setupLikeOldBANCI() throws ModelException {
-    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, new Integer(2));
-    setSingleValueByXMLTag("nciWhichNCITerm", "", null, new Integer(4));
-    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, new Integer(1));
-    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, new Integer(0));
+    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, Integer.valueOf(2));
+    setSingleValueByXMLTag("nciWhichNCITerm", "", null, Integer.valueOf(4));
+    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, Integer.valueOf(1));
+    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, Integer.valueOf(0));
   }
   
   /**
    * For backwards compatibility with the old NCI Juvenile growth behavior.
    */
   public void setupLikeOldNCIJuvenile() throws ModelException {
-    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, new Integer(3));
-    setSingleValueByXMLTag("nciWhichNCITerm", "", null, new Integer(5));
-    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, new Integer(3));
-    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, new Integer(0));
-    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, new Integer(0));
+    setSingleValueByXMLTag("nciWhichShadingEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichCrowdingEffect", "", null, Integer.valueOf(3));
+    setSingleValueByXMLTag("nciWhichNCITerm", "", null, Integer.valueOf(5));
+    setSingleValueByXMLTag("nciWhichSizeEffect", "", null, Integer.valueOf(3));
+    setSingleValueByXMLTag("nciWhichDamageEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichPrecipitationEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichTemperatureEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichNitrogenEffect", "", null, Integer.valueOf(0));
+    setSingleValueByXMLTag("nciWhichInfectionEffect", "", null, Integer.valueOf(0));
   }
 
   

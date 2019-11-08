@@ -1281,7 +1281,7 @@ public class MainWindow
     String sTemp = sCommandString.substring(sCommandString.length() - 1);
     int iIndex = -1;
     try {
-      iIndex = new Integer(sTemp).intValue();
+      iIndex = Integer.valueOf(sTemp).intValue();
     } catch (NumberFormatException e) {
       JOptionPane.showMessageDialog(this, "I cannot understand which file to open.");
       return;
@@ -1936,7 +1936,7 @@ public class MainWindow
       String sTemp = sCommandString.substring(sCommandString.length() - 1);
       int iIndex = -1, i;
       try {
-        iIndex = new Integer(sTemp).intValue();
+        iIndex = Integer.valueOf(sTemp).intValue();
       } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "I cannot understand which file to open.");
         return;

@@ -153,8 +153,8 @@ public class ManagementBehaviors extends GroupBase {
           + m_fMaxDbh + " cm DBH");
       
       for (int i = 0; i < iNumSpecies; i++) {
-        mp_fProbVigorous.getValue().add(new Float(-1));
-        mp_fProbSawlog.getValue().add(new Float(-1));
+        mp_fProbVigorous.getValue().add(Float.valueOf(-1));
+        mp_fProbSawlog.getValue().add(Float.valueOf(-1));
       }
     }
   }

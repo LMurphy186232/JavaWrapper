@@ -281,8 +281,8 @@ public class GridAllSpeciesHistogramDataRequest
         JTextField jBinSize = (JTextField) DataGrapher.findNamedComponent(
             m_oChartFrame.getContentPane(), BIN_SIZE_NAME);
         try {
-          Integer oNumBins = new Integer(jNumBins.getText());
-          Float oBinSize = new Float(jBinSize.getText());
+          Integer oNumBins = Integer.valueOf(jNumBins.getText());
+          Float oBinSize = Float.valueOf(jBinSize.getText());
           iNumBins = oNumBins.intValue();
           fBinSize = oBinSize.floatValue();
         }
@@ -352,10 +352,10 @@ public class GridAllSpeciesHistogramDataRequest
     try {      
       JTextField jField = (JTextField)DataGrapher.findNamedComponent(
           oInfo.m_jExtraOptions, NUMBER_BINS_NAME);
-      Integer oNumBins = new Integer(jField.getText());
+      Integer oNumBins = Integer.valueOf(jField.getText());
       jField = (JTextField)DataGrapher.findNamedComponent(oInfo.m_jExtraOptions, 
           BIN_SIZE_NAME);
-      Float oBinSize = new Float(jField.getText());
+      Float oBinSize = Float.valueOf(jField.getText());
       iNumBins = oNumBins.intValue();
       fSizeBins = oBinSize.floatValue();
     }
@@ -595,7 +595,7 @@ public class GridAllSpeciesHistogramDataRequest
     if (iPos == -1) {
       return -1;
     }
-    return new Integer(sLabel.substring(iPos + 1)).intValue();
+    return Integer.valueOf(sLabel.substring(iPos + 1)).intValue();
   }
  
   /**
@@ -712,7 +712,7 @@ public class GridAllSpeciesHistogramDataRequest
     for (iSpecies = 0; iSpecies < mp_iDataMemberCodes.length; iSpecies++) {
       if (mp_iDataMemberCodes[iSpecies] == iCode) {
         //Add this piece of data to our dataset
-        mp_oData.get(iSpecies).add(new Integer(iVal));
+        mp_oData.get(iSpecies).add(Integer.valueOf(iVal));
         m_fDatasetMax = java.lang.Math.max(iVal, m_fDatasetMax);
         m_fDatasetMin = java.lang.Math.min(iVal, m_fDatasetMin);
       }      
@@ -736,7 +736,7 @@ public class GridAllSpeciesHistogramDataRequest
     for (iSpecies = 0; iSpecies < mp_iDataMemberCodes.length; iSpecies++) {
       if (mp_iDataMemberCodes[iSpecies] == iCode) {
         //Add this piece of data to our dataset
-        mp_oData.get(iSpecies).add(new Float(fVal));
+        mp_oData.get(iSpecies).add(Float.valueOf(fVal));
         m_fDatasetMax = java.lang.Math.max(fVal, m_fDatasetMax);
         m_fDatasetMin = java.lang.Math.min(fVal, m_fDatasetMin);
       }      

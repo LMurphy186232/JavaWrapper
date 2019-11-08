@@ -654,8 +654,7 @@ public class DetailedOutput extends Behavior {
     }
     else if (sXMLTag.equals("ou_saveFreq")) {
       //Detailed output save frequency - tree or grid
-      m_oCurrentDetailedSettings.setSaveFrequency(
-                         new Integer(String.valueOf(oData)).intValue());
+      m_oCurrentDetailedSettings.setSaveFrequency(Integer.valueOf(String.valueOf(oData)).intValue());
       return true;
     }
     else if (sXMLTag.equals("ou_bool")) {
@@ -948,9 +947,9 @@ public class DetailedOutput extends Behavior {
     else if (sXMLTag.equals("po_point") && m_oCurrentSubplot != null) {
       Plot oPlot = m_oManager.getPlot();
 
-      int iX = new Integer( (String) oAttributes.getValue("x")).
+      int iX = Integer.valueOf((String) oAttributes.getValue("x")).
           intValue(),
-          iY = new Integer( (String) oAttributes.getValue("y")).
+          iY = Integer.valueOf((String) oAttributes.getValue("y")).
           intValue();
       m_oCurrentSubplot.addCell(iX, iY, oPlot);
     }

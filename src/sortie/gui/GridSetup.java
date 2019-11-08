@@ -273,8 +273,8 @@ public class GridSetup
         //Make sure the values in the X and Y length boxes are numbers
         Float fXLength, fYLength;
         try {
-          fXLength = new Float(m_jXCellLengthEdit.getText());
-          fYLength = new Float(m_jYCellLengthEdit.getText());
+          fXLength = Float.valueOf(m_jXCellLengthEdit.getText());
+          fYLength = Float.valueOf(m_jYCellLengthEdit.getText());
         }
         catch (java.lang.NumberFormatException oErr) {
           throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA",

@@ -15,8 +15,8 @@ public class ModelVectorTest extends ModelTestCase {
     ModelVector ints = new ModelVector("int vector", "intXMLTag", 
         "intChildTag", num_species, ModelVector.INTEGER, false);
     
-    Integer[] intdata = new Integer[] {null, new Integer(1), new Integer(2), 
-        new Integer(3), new Integer(4)};
+    Integer[] intdata = new Integer[] {null, Integer.valueOf(1), Integer.valueOf(2), 
+        Integer.valueOf(3), Integer.valueOf(4)};
     boolean[] applies = new boolean[] {false, true, true, true, true};
     
     Behavior.setVectorValues(ints, intdata, applies);
@@ -36,8 +36,8 @@ public class ModelVectorTest extends ModelTestCase {
     assertEquals(4, ((Integer)intclone.getValue().get(4)).intValue());
     
     //Change original and verify it doesn't change the clone
-    intdata = new Integer[] {new Integer(6), new Integer(7), new Integer(8), 
-        new Integer(9), new Integer(10)};
+    intdata = new Integer[] {Integer.valueOf(6), Integer.valueOf(7), Integer.valueOf(8), 
+        Integer.valueOf(9), Integer.valueOf(10)};
     Behavior.setVectorValues(ints, intdata);
     assertEquals(6, ((Integer)ints.getValue().get(0)).intValue());
     assertEquals(7, ((Integer)ints.getValue().get(1)).intValue());
@@ -56,8 +56,8 @@ public class ModelVectorTest extends ModelTestCase {
     ModelVector floats = new ModelVector("float vector", "floatXMLTag", 
         "floatChildTag", num_species, ModelVector.FLOAT, false);
     
-    Float[] floatdata = new Float[] {null, new Float(1.3), new Float(5.6), 
-        new Float(500), new Float(66)};
+    Float[] floatdata = new Float[] {null, Float.valueOf((float)1.3), Float.valueOf((float)5.6), 
+        Float.valueOf((float)500), Float.valueOf((float)66)};
         
     Behavior.setVectorValues(floats, floatdata, applies);
     
@@ -76,8 +76,8 @@ public class ModelVectorTest extends ModelTestCase {
     assertEquals(66, ((Float)floatclone.getValue().get(4)).floatValue(), 0.00001);
     
     //Change original and verify it doesn't change the clone
-    floatdata = new Float[] {new Float(5354), new Float(2.3), new Float(6.6), 
-        new Float(23), new Float(76)};
+    floatdata = new Float[] {Float.valueOf((float)5354), Float.valueOf((float)2.3), Float.valueOf((float)6.6), 
+        Float.valueOf((float)23), Float.valueOf((float)76)};
     Behavior.setVectorValues(floats, floatdata);
     assertEquals(5354, ((Float)floats.getValue().get(0)).floatValue(), 0.00001);
     assertEquals(2.3, ((Float)floats.getValue().get(1)).floatValue(), 0.00001);
@@ -206,8 +206,8 @@ public class ModelVectorTest extends ModelTestCase {
     ModelVector doubles = new ModelVector("double vector", "doubleXMLTag", 
         "doubleChildTag", num_species, ModelVector.DOUBLE, false);
     
-    Double[] doubledata = new Double[] {null, new Double(1.3), new Double(5.6), 
-        new Double(500), new Double(66)};
+    Double[] doubledata = new Double[] {null, Double.valueOf(1.3), Double.valueOf(5.6), 
+        Double.valueOf(500), Double.valueOf(66)};
         
     Behavior.setVectorValues(doubles, doubledata, applies);
     
@@ -226,8 +226,8 @@ public class ModelVectorTest extends ModelTestCase {
     assertEquals(66, ((Double)doubleclone.getValue().get(4)).doubleValue(), 0.00001);
     
     //Change original and verify it doesn't change the clone
-    doubledata = new Double[] {new Double(5354), new Double(2.3), new Double(6.6), 
-        new Double(23), new Double(76)};
+    doubledata = new Double[] {Double.valueOf(5354), Double.valueOf(2.3), Double.valueOf(6.6), 
+        Double.valueOf(23), Double.valueOf(76)};
     Behavior.setVectorValues(doubles, doubledata);
     assertEquals(5354, ((Double)doubles.getValue().get(0)).doubleValue(), 0.00001);
     assertEquals(2.3, ((Double)doubles.getValue().get(1)).doubleValue(), 0.00001);

@@ -358,10 +358,10 @@ EnhancedTableWindow {
       for (i = 1; i < oTempData.length; i++) {
         for (j = 1; j < 13; j++) {
           sTemp = oTempData[i][j].toString();
-          m_oClim.setTempData(new Double(sTemp).doubleValue(), i, j);
+          m_oClim.setTempData(Double.valueOf(sTemp).doubleValue(), i, j);
           
           sTemp = oPptData[i][j].toString();
-          m_oClim.setPptData(new Double(sTemp).doubleValue(), i, j);
+          m_oClim.setPptData(Double.valueOf(sTemp).doubleValue(), i, j);
         }
       }
     } catch (NumberFormatException e) {

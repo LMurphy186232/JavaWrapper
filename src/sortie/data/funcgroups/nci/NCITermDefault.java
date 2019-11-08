@@ -283,7 +283,7 @@ public class NCITermDefault extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().remove(i);
         oCopyTo.getValue().add(i, f2);
       }
@@ -293,7 +293,7 @@ public class NCITermDefault extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().add(i, f2);
       }
     }

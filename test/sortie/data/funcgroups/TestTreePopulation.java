@@ -384,7 +384,7 @@ public class TestTreePopulation extends ModelTestCase {
       //Set up seedling initial densities
       oPop.m_fSeedlingHeightClass1.setValue((float)10.0);
       oPop.m_fSeedlingHeightClass2.setValue((float)100.0);
-      Float[] p_fDensities = new Float[]{new Float(0), new Float(0.1), new Float(0.2), new Float(0.4), new Float(0), new Float(0), new Float(0), new Float(0), new Float(0)};
+      Float[] p_fDensities = new Float[]{Float.valueOf((float)0), Float.valueOf((float)0.1), Float.valueOf((float)0.2), Float.valueOf((float)0.4), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0)};
       Behavior.setVectorValues(oPop.mp_fSeedlingClass1Density, p_fDensities);
       oPopBeh.validateData(oPopBeh);
     } catch (ModelException oErr) {
@@ -407,7 +407,7 @@ public class TestTreePopulation extends ModelTestCase {
 
       oPop.m_fSeedlingHeightClass1.setValue((float)0.0);
       oPop.m_fSeedlingHeightClass2.setValue((float)0.0);
-      Float[] p_fDensities = new Float[]{new Float(0), new Float(0.1), new Float(0.2), new Float(0.4), new Float(0), new Float(0), new Float(0), new Float(0), new Float(0)};
+      Float[] p_fDensities = new Float[]{Float.valueOf((float)0), Float.valueOf((float)0.1), Float.valueOf((float)0.2), Float.valueOf((float)0.4), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0)};
       Behavior.setVectorValues(oPop.mp_fSeedlingClass1Density, p_fDensities);
       oPopBeh.validateData(oPopBeh);
       fail("Test ValidateData didn't catch lack of seedling bounds.");
@@ -430,7 +430,7 @@ public class TestTreePopulation extends ModelTestCase {
 
       oPop.m_fSeedlingHeightClass1.setValue((float)0.0);
       oPop.m_fSeedlingHeightClass2.setValue((float)0.0);
-      Float[] p_fDensities = new Float[]{new Float(0), new Float(0.1), new Float(0.2), new Float(0.4), new Float(0), new Float(0), new Float(0), new Float(0), new Float(0)};
+      Float[] p_fDensities = new Float[]{Float.valueOf((float)0), Float.valueOf((float)0.1), Float.valueOf((float)0.2), Float.valueOf((float)0.4), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0)};
       Behavior.setVectorValues(oPop.mp_fSeedlingClass2Density, p_fDensities);
       oPopBeh.validateData(oPopBeh);
       fail("Test ValidateData didn't catch lack of seedling bounds.");
@@ -453,7 +453,7 @@ public class TestTreePopulation extends ModelTestCase {
 
       oPop.m_fSeedlingHeightClass1.setValue((float)0.0);
       oPop.m_fSeedlingHeightClass2.setValue((float)0.0);
-      Float[] p_fDensities = new Float[]{new Float(0), new Float(0.1), new Float(0.2), new Float(0.4), new Float(0), new Float(0), new Float(0), new Float(0), new Float(0)};
+      Float[] p_fDensities = new Float[]{Float.valueOf((float)0), Float.valueOf((float)0.1), Float.valueOf((float)0.2), Float.valueOf((float)0.4), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0), Float.valueOf((float)0)};
       Behavior.setVectorValues(oPop.mp_fSeedlingClass3Density, p_fDensities);
       oPopBeh.validateData(oPopBeh);
       fail("Test ValidateData didn't catch lack of seedling bounds.");
@@ -1116,15 +1116,15 @@ public class TestTreePopulation extends ModelTestCase {
         assertTrue(oTree.getBool(i) == null);
       }
 
-      oTree.setValue(0, new Boolean(true));
+      oTree.setValue(0, Boolean.valueOf(true));
       oTree.setValue(1, new String("test"));
-      oTree.setValue(2, new Integer(1));
-      oTree.setValue(3, new Float(2.3));
+      oTree.setValue(2, Integer.valueOf(1));
+      oTree.setValue(3, Float.valueOf((float)2.3));
 
-      assertTrue(oTree.getBool(0).equals(new Boolean(true)));
+      assertTrue(oTree.getBool(0).equals(Boolean.valueOf(true)));
       assertTrue(oTree.getChar(1).equals("test"));
-      assertTrue(oTree.getInt(2).equals(new Integer(1)));
-      assertTrue(oTree.getFloat(3).equals(new Float(2.3)));
+      assertTrue(oTree.getInt(2).equals(Integer.valueOf(1)));
+      assertTrue(oTree.getFloat(3).equals(Float.valueOf((float)2.3)));
 
       System.out.println("Normal processing for Tree succeeded.");
     }
@@ -1173,7 +1173,7 @@ public class TestTreePopulation extends ModelTestCase {
     try {
       //Bad float
       Tree oTree = new Tree(1, 2, 5, 4, 3, 1, oPop);
-      oTree.setValue( -1, new Float(2));
+      oTree.setValue( -1, Float.valueOf((float)2));
       fail("Tree constructor failed to catch bad float index.");
     }
     catch (ModelException oErr) {
@@ -1183,7 +1183,7 @@ public class TestTreePopulation extends ModelTestCase {
     try {
       //Bad float
       Tree oTree = new Tree(1, 2, 5, 6, 6, 6, oPop);
-      oTree.setValue(5, new Float(2));
+      oTree.setValue(5, Float.valueOf((float)2));
       fail("Tree constructor failed to catch bad float index.");
     }
     catch (ModelException oErr) {
@@ -1193,7 +1193,7 @@ public class TestTreePopulation extends ModelTestCase {
     try {
       //Bad int
       Tree oTree = new Tree(1, 2, 5, 4, 3, 1, oPop);
-      oTree.setValue( -1, new Integer(2));
+      oTree.setValue( -1, Integer.valueOf(2));
       fail("Tree constructor failed to catch bad int index.");
     }
     catch (ModelException oErr) {
@@ -1203,7 +1203,7 @@ public class TestTreePopulation extends ModelTestCase {
     try {
       //Bad int
       Tree oTree = new Tree(1, 2, 6, 5, 6, 6, oPop);
-      oTree.setValue(5, new Integer(2));
+      oTree.setValue(5, Integer.valueOf(2));
       fail("Tree constructor failed to catch bad int index.");
     }
     catch (ModelException oErr) {
@@ -1233,7 +1233,7 @@ public class TestTreePopulation extends ModelTestCase {
     try {
       //Bad bool
       Tree oTree = new Tree(1, 2, 5, 4, 3, 1, oPop);
-      oTree.setValue( -1, new Boolean(true));
+      oTree.setValue( -1, Boolean.valueOf(true));
       fail("Tree constructor failed to catch bad bool index.");
     }
     catch (ModelException oErr) {
@@ -1243,7 +1243,7 @@ public class TestTreePopulation extends ModelTestCase {
     try {
       //Bad bool
       Tree oTree = new Tree(1, 2, 6, 6, 6, 5, oPop);
-      oTree.setValue(5, new Boolean(true));
+      oTree.setValue(5, Boolean.valueOf(true));
       fail("Tree constructor failed to catch bad bool index.");
     }
     catch (ModelException oErr) {

@@ -176,10 +176,10 @@ public class HeightGLIWeibullMortalityTest extends ModelTestCase {
             oMortBeh.createBehaviorFromParameterFileTag("HeightGLIWeibullMortality");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
         //Should be OK
-        oMort.mp_fHeightGLIWeibMaxMort.getValue().add(new Float(0.5));
+        oMort.mp_fHeightGLIWeibMaxMort.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
         //Set to bad value
-        oMort.mp_fHeightGLIWeibMaxMort.getValue().add(0, new Float( -20));
+        oMort.mp_fHeightGLIWeibMaxMort.getValue().add(0, Float.valueOf((float) -20));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad max mortality values.");
       }

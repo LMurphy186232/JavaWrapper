@@ -153,8 +153,8 @@ public class PRStormBiLevelTest extends ModelTestCase {
       oManager.getDisturbanceBehaviors().createBehaviorFromParameterFileTag("Storm");
       oManager.getLightBehaviors().createBehaviorFromParameterFileTag("StormLight");
       
-      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(new Float(20));
-      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(new Float(0));
+      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(Float.valueOf((float)20));
+      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
     }
     catch (ModelException oErr) {
@@ -184,8 +184,8 @@ public class PRStormBiLevelTest extends ModelTestCase {
       oManager.getDisturbanceBehaviors().createBehaviorFromParameterFileTag("Storm");
       oManager.getLightBehaviors().createBehaviorFromParameterFileTag("StormLight");
 
-      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(new Float(-20));
-      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(new Float(0));
+      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(Float.valueOf((float)-20));
+      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad light threshold values.");
     }
@@ -214,8 +214,8 @@ public class PRStormBiLevelTest extends ModelTestCase {
       //Enable storm light
       oManager.getLightBehaviors().createBehaviorFromParameterFileTag("StormLight");
 
-      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(new Float(20));
-      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(new Float(0));
+      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(Float.valueOf((float)20));
+      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to notice lack of storms with pr storm bi-level growth.");
     }
@@ -244,8 +244,8 @@ public class PRStormBiLevelTest extends ModelTestCase {
       //Enable storms
       oManager.getDisturbanceBehaviors().createBehaviorFromParameterFileTag("Storm");
 
-      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(new Float(20));
-      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(new Float(0));
+      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(Float.valueOf((float)20));
+      oGrowth.mp_fPRStormLevelHighLightThreshold.getValue().add(Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to notice lack of storm light with pr storm bi-level growth.");
     }

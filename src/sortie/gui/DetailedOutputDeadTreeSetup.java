@@ -992,16 +992,16 @@ public class DetailedOutputDeadTreeSetup
     //Get the save frequency
     try {
       if (iType == TreePopulation.SEEDLING) {
-        iSaveFreq = new Integer(m_jSeedlingTimestepsEdit.getText()).intValue();
+        iSaveFreq = Integer.valueOf(m_jSeedlingTimestepsEdit.getText()).intValue();
       }
       else if (iType == TreePopulation.SAPLING) {
-        iSaveFreq = new Integer(m_jSaplingTimestepsEdit.getText()).intValue();
+        iSaveFreq = Integer.valueOf(m_jSaplingTimestepsEdit.getText()).intValue();
       }
       else if (iType == TreePopulation.ADULT) {
-        iSaveFreq = new Integer(m_jAdultTimestepsEdit.getText()).intValue();
+        iSaveFreq = Integer.valueOf(m_jAdultTimestepsEdit.getText()).intValue();
       }
       else if (iType == TreePopulation.SNAG) {
-        iSaveFreq = new Integer(m_jSnagTimestepsEdit.getText()).intValue();
+        iSaveFreq = Integer.valueOf(m_jSnagTimestepsEdit.getText()).intValue();
       }
     }
     catch (java.lang.NumberFormatException oErr) {

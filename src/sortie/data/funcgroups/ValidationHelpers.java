@@ -48,7 +48,7 @@ public class ValidationHelpers {
     int i;
     for (i = 0; i < p_fData.length; i++) {
       if (p_bAppliesTo[i]) {
-        if (p_fData[i] == null || p_fData[i].compareTo(new Float(0)) <= 0) {
+        if (p_fData[i] == null || p_fData[i].compareTo(Float.valueOf(0)) <= 0) {
           throw( new ModelException(ErrorGUI.BAD_DATA, "JAVA", "All values in " 
               + sName + " must be greater than zero."));
         }
@@ -90,7 +90,7 @@ public class ValidationHelpers {
     int i;
     for (i = 0; i < p_fData.length; i++) {
       if (p_bAppliesTo[i]) {
-        if (p_fData[i] == null || p_fData[i].compareTo(new Float(0)) < 0) {
+        if (p_fData[i] == null || p_fData[i].compareTo(Float.valueOf(0)) < 0) {
           throw( new ModelException(ErrorGUI.BAD_DATA, "JAVA", "All values in " 
               + sName + " must be greater than or equal to zero."));
         }
@@ -132,7 +132,7 @@ public class ValidationHelpers {
     int i;
     for (i = 0; i < p_iData.length; i++) {
       if (p_bAppliesTo[i]) {
-        if (p_iData[i] == null || p_iData[i].compareTo(new Integer(0)) <= 0) {
+        if (p_iData[i] == null || p_iData[i].compareTo(Integer.valueOf(0)) <= 0) {
           throw( new ModelException(ErrorGUI.BAD_DATA, "JAVA", "All values in " 
               + sName + " must be greater than zero."));
         }
@@ -174,7 +174,7 @@ public class ValidationHelpers {
     int i;
     for (i = 0; i < p_iData.length; i++) {
       if (p_bAppliesTo[i]) {
-        if (p_iData[i] == null || p_iData[i].compareTo(new Integer(0)) < 0) {
+        if (p_iData[i] == null || p_iData[i].compareTo(Integer.valueOf(0)) < 0) {
           throw( new ModelException(ErrorGUI.BAD_DATA, "JAVA", "All values in " 
               + sName + " must be greater than or equal to zero."));
         }

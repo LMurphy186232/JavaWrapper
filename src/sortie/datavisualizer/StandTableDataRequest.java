@@ -240,10 +240,10 @@ public class StandTableDataRequest extends DataRequest
               m_oChartFrame.getContentPane(), PANEL_NAME);
           JTextField jField = (JTextField)DataGrapher.findNamedComponent(
               jControls, NUMBER_SIZE_CLASS_NAME);
-          Integer oNumSizeClasses = new Integer(jField.getText());
+          Integer oNumSizeClasses = Integer.valueOf(jField.getText());
           jField = (JTextField)DataGrapher.findNamedComponent(jControls, 
               SIZE_CLASS_SIZE_NAME);
-          Float oSizeClassSize = new Float(jField.getText());
+          Float oSizeClassSize = Float.valueOf(jField.getText());
           iNumSizeClasses = oNumSizeClasses.intValue();
           fSizeClassSize = oSizeClassSize.floatValue();
         }
@@ -1009,10 +1009,10 @@ public class StandTableDataRequest extends DataRequest
     try {      
       JTextField jField = (JTextField)DataGrapher.findNamedComponent(
           oInfo.m_jExtraOptions, NUMBER_SIZE_CLASS_NAME);
-      Integer oNumSizeClasses = new Integer(jField.getText());
+      Integer oNumSizeClasses = Integer.valueOf(jField.getText());
       jField = (JTextField)DataGrapher.findNamedComponent(oInfo.m_jExtraOptions, 
           SIZE_CLASS_SIZE_NAME);
-      Float oSizeClassSize = new Float(jField.getText());
+      Float oSizeClassSize = Float.valueOf(jField.getText());
       iNumSizeClasses = oNumSizeClasses.intValue();
       fSizeClassSize = oSizeClassSize.floatValue();
     }
@@ -1119,7 +1119,7 @@ public class StandTableDataRequest extends DataRequest
       int iColumn = iSizeClass + 4;
       Float fTableVal = (Float) mp_oTableData[iSpecies][iRow][iColumn];
       if (fTableVal == null) {
-        fTableVal = new Float(0);
+        fTableVal = Float.valueOf(0);
       }*/
 
       if (m_iTableType == BASAL_AREA) {

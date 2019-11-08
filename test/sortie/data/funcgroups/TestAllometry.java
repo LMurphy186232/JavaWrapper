@@ -1146,7 +1146,7 @@ extends ModelTestCase {
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(1);
       oEnum.setValue(1);
       Behavior.setVectorValues(oAllom.mp_fAdultLinearSlope,
-          new Float[] {new Float(0), new Float(1.3)});
+          new Float[] {Float.valueOf((float)0), Float.valueOf((float)1.3)});
       oAllom.validateData(oPop);
 
       //Case:  adult linear slope is 0 and linear is used - error
@@ -1162,7 +1162,7 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fAdultLinearSlope,
-          new Float[] {new Float(0.1), new Float(1.3)});
+          new Float[] {Float.valueOf((float)0.1), Float.valueOf((float)1.3)});
 
       //Case:  sapling linear slope is 0 but linear isn't used - not an error
       oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(
@@ -1172,7 +1172,7 @@ extends ModelTestCase {
           1);
       oEnum.setValue(1);
       Behavior.setVectorValues(oAllom.mp_fSaplingLinearSlope,
-          new Float[] {new Float(0), new Float(1.3)});
+          new Float[] {Float.valueOf((float)0), Float.valueOf((float)1.3)});
       oAllom.validateData(oPop);
 
       //Case:  sapling linear slope is 0 and linear is used - error
@@ -1190,7 +1190,7 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fSaplingLinearSlope,
-          new Float[] {new Float(10), new Float(1.3)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)1.3)});
 
       //Case:  seedling linear slope is 0 but linear isn't used - not an error
       oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().
@@ -1200,7 +1200,7 @@ extends ModelTestCase {
           get(1);
       oEnum.setValue(1);
       Behavior.setVectorValues(oAllom.mp_fSeedlingLinearSlope,
-          new Float[] {new Float(0), new Float(1.3)});
+          new Float[] {Float.valueOf((float)0), Float.valueOf((float)1.3)});
       oAllom.validateData(oPop);
 
       //Case:  seedling linear slope is 0 and linear is used - error
@@ -1218,7 +1218,7 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fSeedlingLinearSlope,
-          new Float[] {new Float(10), new Float(1.3)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)1.3)});
 
       //Case:  adult reverse linear slope is 0 but reverse linear isn't used - not an error
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(0);
@@ -1226,7 +1226,7 @@ extends ModelTestCase {
       oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(1);
       oEnum.setValue(2);
       Behavior.setVectorValues(oAllom.mp_fAdultReverseLinearSlope,
-          new Float[] {new Float(0), new Float(1.3)});
+          new Float[] {Float.valueOf((float)0), Float.valueOf((float)1.3)});
       oAllom.validateData(oPop);
 
       //Case:  adult reverse linear slope is 0 and reverse linear is used - error
@@ -1242,7 +1242,7 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fAdultReverseLinearSlope,
-          new Float[] {new Float(10), new Float(1.3)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)1.3)});
 
       //Case:  sapling reverse linear slope is 0 but reverse linear isn't used - not an error
       oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(
@@ -1252,7 +1252,7 @@ extends ModelTestCase {
           1);
       oEnum.setValue(2);
       Behavior.setVectorValues(oAllom.mp_fSaplingReverseLinearSlope,
-          new Float[] {new Float(0), new Float(1.3)});
+          new Float[] {Float.valueOf((float)0), Float.valueOf((float)1.3)});
       oAllom.validateData(oPop);
 
       //Case:  sapling reverse linear slope is 0 and reverse linear is used - error
@@ -1270,7 +1270,7 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fSaplingReverseLinearSlope,
-          new Float[] {new Float(10), new Float(1.3)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)1.3)});
 
       //Case:  seedling reverse linear slope is 0 but reverse linear isn't used - not an error
       oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().
@@ -1280,7 +1280,7 @@ extends ModelTestCase {
           get(1);
       oEnum.setValue(2);
       Behavior.setVectorValues(oAllom.mp_fSeedlingReverseLinearSlope,
-          new Float[] {new Float(0), new Float(1.3)});
+          new Float[] {Float.valueOf((float)0), Float.valueOf((float)1.3)});
       oAllom.validateData(oPop);
 
       //Case:  seedling reverse linear slope is 0 and reverse linear is used - error
@@ -1298,11 +1298,11 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fSeedlingReverseLinearSlope,
-          new Float[] {new Float(10), new Float(1.3)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)1.3)});
 
       //Case:  Max tree height less than 0
       Behavior.setVectorValues(oAllom.mp_fMaxCanopyHeight,
-          new Float[] {new Float( -10), new Float(1.3)});
+          new Float[] {Float.valueOf((float) -10), Float.valueOf((float)1.3)});
       try {
         oAllom.validateData(oPop);
         fail("ValidateData didn't negative max canopy height");
@@ -1311,7 +1311,7 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fMaxCanopyHeight,
-          new Float[] {new Float(10), new Float(10)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)10)});
       oAllom.validateData(oPop);
 
       //Case:  slope of asymptotic height is 0 but standard isn't used - not an error
@@ -1326,7 +1326,7 @@ extends ModelTestCase {
           1);
       oEnum.setValue(2);
       Behavior.setVectorValues(oAllom.mp_fSlopeOfAsymptoticHeight,
-          new Float[] {new Float( -0.1), new Float(1.3)});
+          new Float[] {Float.valueOf((float) -0.1), Float.valueOf((float)1.3)});
       oAllom.validateData(oPop);
 
       //Case:  slope of asymptotic height is 0 and adult standard is used - error
@@ -1361,12 +1361,12 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fSlopeOfAsymptoticHeight,
-          new Float[] {new Float(0.1), new Float(1.3)});
+          new Float[] {Float.valueOf((float)0.1), Float.valueOf((float)1.3)});
       oAllom.validateData(oPop);
 
       //Case:  Canrad to dbh ratio less than 0
       Behavior.setVectorValues(oAllom.mp_fSlopeOfAsympCrownRad,
-          new Float[] {new Float( -10), new Float(1.3)});
+          new Float[] {Float.valueOf((float) -10), Float.valueOf((float)1.3)});
       try {
         oAllom.validateData(oPop);
         fail("ValidateData didn't negative canrad to dbh ratio");
@@ -1375,11 +1375,11 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fSlopeOfAsympCrownRad,
-          new Float[] {new Float(10), new Float(10)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)10)});
       oAllom.validateData(oPop);
       
       //Case:  Max canrad less than 0
-      Behavior.setVectorValues(oAllom.mp_fMaxCrownRad, new Float[] {new Float( -10), new Float(1.3)});
+      Behavior.setVectorValues(oAllom.mp_fMaxCrownRad, new Float[] {Float.valueOf((float) -10), Float.valueOf((float)1.3)});
       try {
         oAllom.validateData(oPop);
         fail("ValidateData didn't negative max canrad");
@@ -1387,12 +1387,12 @@ extends ModelTestCase {
       catch (ModelException oErr) {
         ;
       }
-      Behavior.setVectorValues(oAllom.mp_fMaxCrownRad, new Float[] {new Float(10), new Float(10)});
+      Behavior.setVectorValues(oAllom.mp_fMaxCrownRad, new Float[] {Float.valueOf((float)10), Float.valueOf((float)10)});
       oAllom.validateData(oPop);
 
       //Case:  diam 10 to dbh ratio less than 0
       Behavior.setVectorValues(oAllom.mp_fDiam10ToDbhSlope,
-          new Float[] {new Float( -10), new Float(1.3)});
+          new Float[] {Float.valueOf((float) -10), Float.valueOf((float)1.3)});
       try {
         oAllom.validateData(oPop);
         fail("ValidateData didn't negative diam10 to dbh ratio");
@@ -1401,12 +1401,12 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fDiam10ToDbhSlope,
-          new Float[] {new Float(10), new Float(10)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)10)});
       oAllom.validateData(oPop);
 
       //Case:  asymptotic slope of canopy depth less than 0
       Behavior.setVectorValues(oAllom.mp_fSlopeOfAsympCrownDpth,
-          new Float[] {new Float( -10), new Float(1.3)});
+          new Float[] {Float.valueOf((float) -10), Float.valueOf((float)1.3)});
       oEnum = new ModelEnum(new int[] {1, 0},
           new String[] {"Chapman-Richards", "Standard"},
           "Function used", "");
@@ -1420,7 +1420,7 @@ extends ModelTestCase {
         ;
       }
       Behavior.setVectorValues(oAllom.mp_fSlopeOfAsympCrownDpth,
-          new Float[] {new Float(10), new Float(10)});
+          new Float[] {Float.valueOf((float)10), Float.valueOf((float)10)});
       oAllom.validateData(oPop);
     }
     catch (ModelException oErr) {

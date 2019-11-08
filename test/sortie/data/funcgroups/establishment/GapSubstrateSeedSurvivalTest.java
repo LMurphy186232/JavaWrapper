@@ -211,7 +211,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       ArrayList<Behavior> p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fDecayedLogsFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, new Float(1.2));
+      oEst.mp_fDecayedLogsFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -229,7 +229,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fForestFloorLitterFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, new Float(1.2));
+      oEst.mp_fForestFloorLitterFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -246,7 +246,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fFreshLogsFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, new Float(1.2));
+      oEst.mp_fFreshLogsFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -264,7 +264,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fScarifiedSoilFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, new Float(1.2));
+      oEst.mp_fScarifiedSoilFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -281,7 +281,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fTipUpFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, new Float(1.2));
+      oEst.mp_fTipUpFavorability[SpatialDisperseBase.CANOPY].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -298,7 +298,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fDecayedLogsFavorability[SpatialDisperseBase.GAP].getValue().set(0, new Float(1.2));
+      oEst.mp_fDecayedLogsFavorability[SpatialDisperseBase.GAP].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -316,7 +316,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fForestFloorLitterFavorability[SpatialDisperseBase.GAP].getValue().set(0, new Float(1.2));
+      oEst.mp_fForestFloorLitterFavorability[SpatialDisperseBase.GAP].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -333,7 +333,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fFreshLogsFavorability[SpatialDisperseBase.GAP].getValue().set(0, new Float(1.2));
+      oEst.mp_fFreshLogsFavorability[SpatialDisperseBase.GAP].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -351,7 +351,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fScarifiedSoilFavorability[SpatialDisperseBase.GAP].getValue().set(0, new Float(1.2));
+      oEst.mp_fScarifiedSoilFavorability[SpatialDisperseBase.GAP].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -368,7 +368,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fTipUpFavorability[SpatialDisperseBase.GAP].getValue().set(0, new Float(1.2));
+      oEst.mp_fTipUpFavorability[SpatialDisperseBase.GAP].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -386,7 +386,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fForestFloorMossFavorability[SpatialDisperseBase.GAP].getValue().set(0, new Float(1.2));
+      oEst.mp_fForestFloorMossFavorability[SpatialDisperseBase.GAP].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -404,7 +404,7 @@ public class GapSubstrateSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("GapSubstrateSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (GapSubstrateSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fForestFloorMossFavorability[SpatialDisperseBase.GAP].getValue().set(0, new Float(1.2));
+      oEst.mp_fForestFloorMossFavorability[SpatialDisperseBase.GAP].getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());

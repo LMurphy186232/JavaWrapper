@@ -678,12 +678,12 @@ public class Allometry extends Behavior {
 
     //Default diam10 to DBH intercept to 0
     for (i = 0; i < iNumSpecies; i++) {
-      mp_fDiam10ToDbhIntercept.getValue().add(new Float(0.0));
+      mp_fDiam10ToDbhIntercept.getValue().add(Float.valueOf(0));
     }
     
     //Default max standad crown radius to 10
     for (i = 0; i < iNumSpecies; i++) {
-      mp_fMaxCrownRad.getValue().add(new Float(10.0));
+      mp_fMaxCrownRad.getValue().add(Float.valueOf(10));
     }
 
     //Add lambdas for crown radius 
@@ -969,7 +969,7 @@ public class Allometry extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().remove(i);
         oCopyTo.getValue().add(i, f2);
       }
@@ -979,7 +979,7 @@ public class Allometry extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().add(i, f2);
       }
     }
@@ -1009,7 +1009,7 @@ public class Allometry extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().remove(i);
         oCopyTo.getValue().add(i, f2);
       }
@@ -1019,7 +1019,7 @@ public class Allometry extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().add(i, f2);
       }
     }

@@ -662,8 +662,8 @@ public class DetailedOutputFileManager
           }
           if (!bFound) {
             oOptions.add(sLabel);
-            oIsFloat.add(new Boolean(true));
-            oDeadCode.add(new Integer(iDeadCode));            
+            oIsFloat.add(Boolean.valueOf(true));
+            oDeadCode.add(Integer.valueOf(iDeadCode));            
           }
         }
       }
@@ -686,8 +686,8 @@ public class DetailedOutputFileManager
         }
         if (!bFound) {
           oOptions.add(sLabel);
-          oIsFloat.add(new Boolean(false));
-          oDeadCode.add(new Integer(iDeadCode));          
+          oIsFloat.add(Boolean.valueOf(false));
+          oDeadCode.add(Integer.valueOf(iDeadCode));          
         }
       }
     }      
@@ -728,7 +728,7 @@ public class DetailedOutputFileManager
             }
             if (!bFound) {
               oOptions.add(sLabel);
-              oIsFloat.add(new Boolean(true));
+              oIsFloat.add(Boolean.valueOf(true));
               oDeadCode.add(OutputBehaviors.NOTDEAD);              
             }
           }
@@ -749,7 +749,7 @@ public class DetailedOutputFileManager
             }
             if (!bFound) {
               oOptions.add(sLabel);
-              oIsFloat.add(new Boolean(false));
+              oIsFloat.add(Boolean.valueOf(false));
               oDeadCode.add(OutputBehaviors.NOTDEAD);
             }
           }
@@ -788,7 +788,7 @@ public class DetailedOutputFileManager
           }
           if (!bFound) {
             oOptions.add("Grid: " + oGridSetting.getName() + " - " + sLabel);
-            oIsFloat.add(new Boolean(true));
+            oIsFloat.add(Boolean.valueOf(true));
             oDeadCode.add(OutputBehaviors.NOTDEAD);
           }
         }
@@ -808,7 +808,7 @@ public class DetailedOutputFileManager
           }
           if (!bFound) {
             oOptions.add("Grid: " + oGridSetting.getName() + " - " + sLabel);
-            oIsFloat.add(new Boolean(false));
+            oIsFloat.add(Boolean.valueOf(false));
             oDeadCode.add(OutputBehaviors.NOTDEAD);
           }
         }

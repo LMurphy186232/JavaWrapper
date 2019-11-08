@@ -276,39 +276,39 @@ public class DetailedOutputTimestepParseHandler
             m_bIsFloatData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("int") && m_bWantsTreeInt) {
             //Set the int codes flag to true
             m_bIsIntData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("gfl") && m_bWantsDeadTreeFloat) {
             //Set the float codes flag to true
             m_bIsDeadFloatData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("gint") && m_bWantsDeadTreeInt) {
             //Set the int codes flag to true
             m_bIsDeadIntData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("tree")) {
             //Get the type number and species name
-            m_iType = new Integer(oAttributes.getValue("tp")).intValue();
-            m_iSpecies = new Integer(oAttributes.getValue("sp")).intValue();
+            m_iType = Integer.parseInt(oAttributes.getValue("tp"));
+            m_iSpecies = Integer.parseInt(oAttributes.getValue("sp"));
           } 
           else if (sQName.equals("ghost")) {
             //Get the type number and species name
-            m_iType = new Integer(oAttributes.getValue("tp")).intValue();
-            m_iSpecies = new Integer(oAttributes.getValue("sp")).intValue();
-            m_iDeadCode = new Integer(oAttributes.getValue("rs")).intValue();
+            m_iType = Integer.parseInt(oAttributes.getValue("tp"));
+            m_iSpecies = Integer.parseInt(oAttributes.getValue("sp"));
+            m_iDeadCode = Integer.parseInt(oAttributes.getValue("rs"));
           } 
           //Settings data
           else if (sQName.equals("tm_floatCode")) {
@@ -349,7 +349,7 @@ public class DetailedOutputTimestepParseHandler
             String sSpecies = oAttributes.getValue("sp");
             m_iSpecies = m_oData.getSpeciesCodeFromName(sSpecies);
 
-            m_iType = new Integer(oAttributes.getValue("tp")).intValue();
+            m_iType = Integer.parseInt(oAttributes.getValue("tp"));
           }
 
           //OR, this is the first grid tag
@@ -363,28 +363,28 @@ public class DetailedOutputTimestepParseHandler
             m_bIsCharData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("bl") && m_bWantsTreeBool) {
             //Set the bool codes flag to true
             m_bIsBoolData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("gch") && m_bWantsDeadTreeChar) {
             //Set the char codes flag to true
             m_bIsDeadCharData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("gbl") && m_bWantsDeadTreeBool) {
             //Set the bool codes flag to true
             m_bIsDeadBoolData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
 
       }
@@ -400,34 +400,34 @@ public class DetailedOutputTimestepParseHandler
             m_bIsFloatData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("int") && m_bWantsGridInt) {
             //Set the int codes flag to true
             m_bIsIntData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           if (sQName.equals("pfl") && m_bWantsGridPackageFloat) {
             //Set the float codes flag to true
             m_bIsFloatData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("pint") && m_bWantsGridPackageInt) {
             //Set the int codes flag to true
             m_bIsIntData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("ma_v")) {
 
-            m_iX = new Integer(oAttributes.getValue("x")).intValue();
+            m_iX = Integer.parseInt(oAttributes.getValue("x"));
 
-            m_iY = new Integer(oAttributes.getValue("y")).intValue();
+            m_iY = Integer.parseInt(oAttributes.getValue("y"));
           }
           else if (sQName.equals("pkg")) {
             m_bIsPackage = true;
@@ -461,28 +461,28 @@ public class DetailedOutputTimestepParseHandler
             m_bIsCharData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("bl") && m_bWantsGridBool) {
             //Set the bool codes flag to true
             m_bIsBoolData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("pch") && m_bWantsGridPackageChar) {
             //Set the char codes flag to true
             m_bIsCharData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("pbl") && m_bWantsGridPackageBool) {
             //Set the bool codes flag to true
             m_bIsBoolData = true;
             //Grab the attribute which has the label and put it in m_iDataMemberCode
             String sCode = oAttributes.getValue("c");
-            m_iDataMemberCode = new Integer(sCode).intValue();
+            m_iDataMemberCode = Integer.parseInt(sCode);
           }
           else if (sQName.equals("ma_charCode")) {
 
@@ -552,7 +552,7 @@ public class DetailedOutputTimestepParseHandler
         if (m_bIsFloatData) {
           if (m_bWantsTreeFloat) {
             m_oData.addTreeFloatData(m_iSpecies, m_iType, m_iDataMemberCode,
-                                     new Float(m_sBuf.toString()).floatValue());
+                                     Float.parseFloat(m_sBuf.toString()));
           }
 
           //Reset our flag
@@ -562,7 +562,7 @@ public class DetailedOutputTimestepParseHandler
         else if (m_bIsDeadFloatData) {
           if (m_bWantsDeadTreeFloat) {
             m_oData.addDeadTreeFloatData(m_iSpecies, m_iType, m_iDataMemberCode,
-                       m_iDeadCode, new Float(m_sBuf.toString()).floatValue());
+                       m_iDeadCode, Float.parseFloat(m_sBuf.toString()));
           }
 
           //Reset our flag
@@ -573,7 +573,7 @@ public class DetailedOutputTimestepParseHandler
           if (m_bWantsTreeInt) {
 
             m_oData.addTreeIntData(m_iSpecies, m_iType, m_iDataMemberCode,
-                                   new Integer(m_sBuf.toString()).intValue());
+                                   Integer.parseInt(m_sBuf.toString()));
           }
 
           //Reset our flag
@@ -584,7 +584,7 @@ public class DetailedOutputTimestepParseHandler
           if (m_bWantsDeadTreeInt) {
 
             m_oData.addDeadTreeIntData(m_iSpecies, m_iType, m_iDataMemberCode,
-                m_iDeadCode, new Integer(m_sBuf.toString()).intValue());
+                m_iDeadCode, Integer.parseInt(m_sBuf.toString()));
           }
 
           //Reset our flag
@@ -596,7 +596,7 @@ public class DetailedOutputTimestepParseHandler
 
             if (m_iSpecies > -1 && m_iType > -1) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addTreeFloatDataMemberCode(m_iSpecies, m_iType,
                                                  m_sDataMemberLabel,
                                                  iCode);
@@ -612,7 +612,7 @@ public class DetailedOutputTimestepParseHandler
 
             if (m_iSpecies > -1 && m_iType > -1) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addTreeIntDataMemberCode(m_iSpecies, m_iType,
                                                m_sDataMemberLabel,
                                                iCode);
@@ -628,7 +628,7 @@ public class DetailedOutputTimestepParseHandler
 
             if (m_iSpecies > -1 && m_iType > -1) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addTreeCharDataMemberCode(m_iSpecies, m_iType,
                                                 m_sDataMemberLabel,
                                                 iCode);
@@ -644,7 +644,7 @@ public class DetailedOutputTimestepParseHandler
 
             if (m_iSpecies > -1 && m_iType > -1) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addTreeBoolDataMemberCode(m_iSpecies, m_iType,
                                                 m_sDataMemberLabel,
                                                 iCode);
@@ -670,7 +670,7 @@ public class DetailedOutputTimestepParseHandler
           if (m_bWantsTreeBool) {
 
             m_oData.addTreeBoolData(m_iSpecies, m_iType, m_iDataMemberCode,
-                                    new Boolean(m_sBuf.toString()).booleanValue());
+                                    Boolean.valueOf(m_sBuf.toString()));
           }
 
           //Reset our flag
@@ -691,7 +691,7 @@ public class DetailedOutputTimestepParseHandler
           if (m_bWantsDeadTreeBool) {
 
             m_oData.addDeadTreeBoolData(m_iSpecies, m_iType, m_iDataMemberCode,
-                m_iDeadCode, new Boolean(m_sBuf.toString()).booleanValue());
+                m_iDeadCode, Boolean.valueOf(m_sBuf.toString()));
           }
 
           //Reset our flag
@@ -713,12 +713,12 @@ public class DetailedOutputTimestepParseHandler
           if (false == m_bIsPackage) {
             if (m_bWantsGridFloat) {
               m_oData.addGridFloatData(m_sGridName, m_iX, m_iY, m_iDataMemberCode,
-                                       new Float(m_sBuf.toString()).floatValue());
+                                       Float.parseFloat(m_sBuf.toString()));
             }
           } else {
             if (m_bWantsGridPackageFloat) {
               m_oData.addGridPackageFloatData(m_sGridName, m_iX, m_iY, m_iDataMemberCode,
-                                       new Float(m_sBuf.toString()).floatValue());
+                                       Float.parseFloat(m_sBuf.toString()));
             }
           }
 
@@ -730,12 +730,12 @@ public class DetailedOutputTimestepParseHandler
           if (false == m_bIsPackage) {
             if (m_bWantsGridInt) {
               m_oData.addGridIntData(m_sGridName, m_iX, m_iY, m_iDataMemberCode,
-                                     new Integer(m_sBuf.toString()).intValue());
+                                     Integer.parseInt(m_sBuf.toString()));
             }
           } else {
             if (m_bWantsGridPackageInt) {
               m_oData.addGridPackageIntData(m_sGridName, m_iX, m_iY, m_iDataMemberCode,
-                                     new Integer(m_sBuf.toString()).intValue());
+                                     Integer.parseInt(m_sBuf.toString()));
             }
           }
 
@@ -767,15 +767,13 @@ public class DetailedOutputTimestepParseHandler
             if (m_bWantsGridBool) {
               m_oData.addGridBoolData(m_sGridName, m_iX, m_iY,
                                       m_iDataMemberCode,
-                                      new Boolean(m_sBuf.toString()).
-                                      booleanValue());
+                                      Boolean.parseBoolean(m_sBuf.toString()));
             }
           } else {
             if (m_bWantsGridPackageBool) {
               m_oData.addGridPackageBoolData(m_sGridName, m_iX, m_iY,
                                       m_iDataMemberCode,
-                                      new Boolean(m_sBuf.toString()).
-                                      booleanValue());
+                                      Boolean.parseBoolean(m_sBuf.toString()));
             }
           }
 
@@ -786,14 +784,14 @@ public class DetailedOutputTimestepParseHandler
         else if (m_bIsFloatCode) {
           if (false == m_bIsPackage) {
             if (m_bWantsGridFloat) {
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addGridFloatDataMemberCode(m_sGridName,
                                                  m_sDataMemberLabel,
                                                  iCode);
             }
           } else {
             if (m_bWantsGridPackageFloat) {
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addGridPackageFloatDataMemberCode(m_sGridName,
                   m_sDataMemberLabel,
                   iCode);
@@ -808,7 +806,7 @@ public class DetailedOutputTimestepParseHandler
           if (false == m_bIsPackage) {
             if (m_bWantsGridInt) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addGridIntDataMemberCode(m_sGridName,
                                                m_sDataMemberLabel,
                                                iCode);
@@ -816,7 +814,7 @@ public class DetailedOutputTimestepParseHandler
           } else {
             if (m_bWantsGridPackageInt) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addGridPackageIntDataMemberCode(m_sGridName,
                                                m_sDataMemberLabel,
                                                iCode);
@@ -831,7 +829,7 @@ public class DetailedOutputTimestepParseHandler
           if (false == m_bIsPackage) {
             if (m_bWantsGridChar) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addGridCharDataMemberCode(m_sGridName,
                                                 m_sDataMemberLabel,
                                                 iCode);
@@ -839,7 +837,7 @@ public class DetailedOutputTimestepParseHandler
           } else {
             if (m_bWantsGridPackageChar) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addGridPackageCharDataMemberCode(m_sGridName,
                                                 m_sDataMemberLabel,
                                                 iCode);
@@ -854,7 +852,7 @@ public class DetailedOutputTimestepParseHandler
           if (false == m_bIsPackage) {
             if (m_bWantsGridBool) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addGridBoolDataMemberCode(m_sGridName,
                                                 m_sDataMemberLabel,
                                                 iCode);
@@ -862,7 +860,7 @@ public class DetailedOutputTimestepParseHandler
           } else {
             if (m_bWantsGridPackageBool) {
 
-              int iCode = new Integer(m_sBuf.toString()).intValue();
+              int iCode = Integer.parseInt(m_sBuf.toString());
               m_oData.addGridPackageBoolDataMemberCode(m_sGridName,
                                                 m_sDataMemberLabel,
                                                 iCode);
@@ -875,14 +873,14 @@ public class DetailedOutputTimestepParseHandler
         }
         else if (m_bIsGridXCellLength) {
 
-          float fValue = new Float(m_sBuf.toString()).floatValue();
+          float fValue = Float.parseFloat(m_sBuf.toString());
           m_oData.addGridXCellLength(m_sGridName, fValue);
           m_bIsGridXCellLength = false;
 
         }
         else if (m_bIsGridYCellLength) {
 
-          float fValue = new Float(m_sBuf.toString()).floatValue();
+          float fValue = Float.parseFloat(m_sBuf.toString());
           m_oData.addGridYCellLength(m_sGridName, fValue);
           m_bIsGridYCellLength = false;
         }

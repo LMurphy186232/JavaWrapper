@@ -27,7 +27,7 @@ public class TestModelEnum
       oToTest.setValue(2);
 
       assertFalse(oToTest.equals(null)); //null
-      assertFalse(oToTest.equals(new Float(1))); //non-ModelEnum
+      assertFalse(oToTest.equals(Float.valueOf((float)1))); //non-ModelEnum
 
       //ModelEnum with different value
       ModelEnum oToTest2 = new ModelEnum(new int[] {1, 2, 3}

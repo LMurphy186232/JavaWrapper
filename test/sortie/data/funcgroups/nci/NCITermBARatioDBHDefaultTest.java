@@ -900,7 +900,7 @@ public class NCITermBARatioDBHDefaultTest extends TestCase {
       NCIMasterGrowth oMaster = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oMaster.mp_oEffects.get(1) instanceof NCITermNCIBARatioDBHDefault);
       NCITermNCIBARatioDBHDefault oNCITerm = (NCITermNCIBARatioDBHDefault) oMaster.mp_oEffects.get(1);
-      oNCITerm.mp_fNCIMinNeighborDBH.getValue().set(0, new Float(-20));
+      oNCITerm.mp_fNCIMinNeighborDBH.getValue().set(0, Float.valueOf((float)-20));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad NCI min neighbor DBH.");
     }

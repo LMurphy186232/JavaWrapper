@@ -87,13 +87,15 @@ public class PlantingDisplayWindow
     if (p_oBehs.size() > 0) {
       Planting oPlant = (Planting) p_oBehs.get(0);
       for (i = 0; i < m_iNumSpecies; i++) {
-        mp_fPlantInitialDiam10s[i] = new Float(String.valueOf(oPlant.
-            mp_fInitialDiam10.getValue().get(i))).floatValue();
+        // You would think that you could take a float from a float but I get an error that I 
+        // can't cast from Double. What? So for now I am passing it through a string stage
+        //mp_fPlantInitialDiam10s[i] = Float.valueOf(((Float)oPlant.mp_fInitialDiam10.getValue().get(i)).floatValue());
+        mp_fPlantInitialDiam10s[i] = Float.valueOf(oPlant.mp_fInitialDiam10.getValue().get(i).toString());
       }
     } else {
       for (i = 0; i < m_iNumSpecies; i++) {
         TreeBehavior oPop = m_oDisturbanceBehaviors.getGUIManager().getTreePopulation().getTreeBehavior();
-        mp_fPlantInitialDiam10s[i] = new Float(String.valueOf(oPop.getNewSeedlingDiam10()));
+        mp_fPlantInitialDiam10s[i] = Float.valueOf(oPop.getNewSeedlingDiam10());
       }
     }
     
@@ -314,8 +316,8 @@ public class PlantingDisplayWindow
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextPlanting() throws ModelException {
-    int iCurrentPlanting = new Integer(m_jPlantNumber.getText()).intValue(),
-        iTotalPlantings = new Integer(m_jNumPlantingEvents.getText()).
+    int iCurrentPlanting = Integer.valueOf(m_jPlantNumber.getText()).intValue(),
+        iTotalPlantings = Integer.valueOf(m_jNumPlantingEvents.getText()).
         intValue();
 
     if (iCurrentPlanting < iTotalPlantings) {
@@ -336,7 +338,7 @@ public class PlantingDisplayWindow
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousPlanting() throws ModelException {
-    int iCurrentPlanting = new Integer(m_jPlantNumber.getText()).intValue();
+    int iCurrentPlanting = Integer.valueOf(m_jPlantNumber.getText()).intValue();
 
     if (iCurrentPlanting > 1) {
       //Display the previous planting event - subtract two since the vector
@@ -417,7 +419,7 @@ public class PlantingDisplayWindow
       try {
 
         //Get the harvest object to edit
-        int iPlantNumber = new Integer(m_jPlantNumber.getText()).intValue();
+        int iPlantNumber = Integer.valueOf(m_jPlantNumber.getText()).intValue();
         iPlantNumber--; //Since the display is always one more than the index
         if (iPlantNumber >= 0) {
           PlantingData oPlanting = mp_oPlantingData.get(iPlantNumber);
@@ -457,8 +459,8 @@ public class PlantingDisplayWindow
    * @throws ModelException passed through from called methods.
    */
   protected void deletePlanting() throws ModelException {
-    int iCurrentPlanting = new Integer(m_jPlantNumber.getText()).intValue() - 1,
-        iTotalPlantings = new Integer(m_jNumPlantingEvents.getText()).
+    int iCurrentPlanting = Integer.valueOf(m_jPlantNumber.getText()).intValue() - 1,
+        iTotalPlantings = Integer.valueOf(m_jNumPlantingEvents.getText()).
         intValue();
 
     if (iCurrentPlanting < 0) {
@@ -599,7 +601,7 @@ public class PlantingDisplayWindow
       
       Double[] p_fValuesToSet = new Double[m_iNumSpecies];      
       for (i = 0; i < m_iNumSpecies; i++) {
-        p_fValuesToSet[i] = new Double(mp_fPlantInitialDiam10s[i]);
+        p_fValuesToSet[i] = Double.valueOf(mp_fPlantInitialDiam10s[i]);
       }
       Behavior.setVectorValues(oPlant.mp_fInitialDiam10, p_fValuesToSet);           
     //}

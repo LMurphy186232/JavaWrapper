@@ -454,7 +454,7 @@ public class BatchSetup
     //field
     int iNumTimesToRun;
     try {
-      iNumTimesToRun = new Integer(m_jNumTimesToRun.getText()).intValue();
+      iNumTimesToRun = Integer.valueOf(m_jNumTimesToRun.getText()).intValue();
     }
     catch (java.lang.NumberFormatException oErr) {
       JOptionPane.showMessageDialog(this,
@@ -693,7 +693,7 @@ class BatchFileParser
       m_sParFile = m_sBuf.toString();
     }
     else if (sLocalName.equals("ba_numTimesToRun")) {
-      m_iNumTimesToRun = new Integer(m_sBuf.toString()).intValue();
+      m_iNumTimesToRun = Integer.valueOf(m_sBuf.toString()).intValue();
     }
     else if (sLocalName.equals("ba_parFile")) {
       m_oBatchSetup.addParFile(m_sParFile, m_iNumTimesToRun);

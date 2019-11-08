@@ -693,7 +693,7 @@ public class NCIMasterMortalityTest extends ModelTestCase {
         MortalityBehaviors oMortBeh = oManager.getMortalityBehaviors();
         ArrayList<Behavior> p_oBehs = oMortBeh.getBehaviorByParameterFileTag("NCIMasterMortality");
         NCIMasterMortality oMort = (NCIMasterMortality) p_oBehs.get(0);
-        oMort.mp_fNCIMaxProbSurvival.getValue().set(0, new Float(-20));
+        oMort.mp_fNCIMaxProbSurvival.getValue().set(0, Float.valueOf((float)-20));
         oManager.getMortalityBehaviors().validateData(oManager.getTreePopulation());
         fail("Didn't catch bad max survival value.");
       }

@@ -223,7 +223,7 @@ public class Substrate extends Behavior {
     int iNumSpecies = oPop.getNumberOfSpecies(), i;
     if (mp_fProportionOfSnagsThatUproot.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fProportionOfSnagsThatUproot.getValue().add(new Float(0));
+        mp_fProportionOfSnagsThatUproot.getValue().add(Float.valueOf(0));
       }
     }      
     

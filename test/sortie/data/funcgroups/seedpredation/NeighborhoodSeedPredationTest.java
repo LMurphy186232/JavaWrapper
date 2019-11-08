@@ -1000,7 +1000,7 @@ public class NeighborhoodSeedPredationTest extends ModelTestCase {
         assertEquals(1, p_oBehs.size());
         oPred = (NeighborhoodSeedPredation) p_oBehs.get(0);
         oPred.mp_fNeighPredMinDbh.getValue().remove(0);
-        oPred.mp_fNeighPredMinDbh.getValue().add(new Float(-1.3));
+        oPred.mp_fNeighPredMinDbh.getValue().add(Float.valueOf((float)-1.3));
         oPredBeh.validateData(oManager.getTreePopulation());
         fail("Seed predation didn't catch bad value for minimum neighbor DBH.");
       }

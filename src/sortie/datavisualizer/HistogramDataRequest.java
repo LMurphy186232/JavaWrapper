@@ -378,8 +378,8 @@ public class HistogramDataRequest
         JTextField jBinSize = (JTextField) DataGrapher.findNamedComponent(
             m_oChartFrame.getContentPane(), BIN_SIZE_NAME);
         try {
-          Integer oNumBins = new Integer(jNumBins.getText());
-          Float oBinSize = new Float(jBinSize.getText());
+          Integer oNumBins = Integer.valueOf(jNumBins.getText());
+          Float oBinSize = Float.valueOf(jBinSize.getText());
           iNumBins = oNumBins.intValue();
           fBinSize = oBinSize.floatValue();
         }
@@ -489,10 +489,10 @@ public class HistogramDataRequest
     try {      
       JTextField jField = (JTextField)DataGrapher.findNamedComponent(
           oInfo.m_jExtraOptions, NUMBER_BINS_NAME);
-      Integer oNumBins = new Integer(jField.getText());
+      Integer oNumBins = Integer.valueOf(jField.getText());
       jField = (JTextField)DataGrapher.findNamedComponent(oInfo.m_jExtraOptions, 
           BIN_SIZE_NAME);
-      Float oBinSize = new Float(jField.getText());
+      Float oBinSize = Float.valueOf(jField.getText());
       iNumBins = oNumBins.intValue();
       fSizeBins = oBinSize.floatValue();
     }
@@ -862,7 +862,7 @@ public class HistogramDataRequest
     if (m_bIsInt && mp_iDataMemberCodes[iSpecies][iType] == iCode) {
 
       //Add this piece of data to our dataset
-      mp_oData.get(iSpecies).get(iType).add(new Integer(iVal));
+      mp_oData.get(iSpecies).get(iType).add(Integer.valueOf(iVal));
       m_fDatasetMax = java.lang.Math.max(iVal, m_fDatasetMax);
       m_fDatasetMin = java.lang.Math.min(iVal, m_fDatasetMin);
     }
@@ -885,7 +885,7 @@ public class HistogramDataRequest
         iDeadCode == m_iDeadCode) {
 
       //Add this piece of data to our dataset
-      mp_oData.get(iSpecies).get(iType).add(new Integer(iVal));
+      mp_oData.get(iSpecies).get(iType).add(Integer.valueOf(iVal));
       m_fDatasetMax = java.lang.Math.max(iVal, m_fDatasetMax);
       m_fDatasetMin = java.lang.Math.min(iVal, m_fDatasetMin);
     }
@@ -939,7 +939,7 @@ public class HistogramDataRequest
     if (m_bIsFloat && mp_iDataMemberCodes[iSpecies][iType] == iCode) {
 
       //Add this piece of data to our dataset
-      mp_oData.get(iSpecies).get(iType).add(new Float(fVal));
+      mp_oData.get(iSpecies).get(iType).add(Float.valueOf(fVal));
       m_fDatasetMax = java.lang.Math.max(fVal, m_fDatasetMax);
       m_fDatasetMin = java.lang.Math.min(fVal, m_fDatasetMin);
     }
@@ -962,7 +962,7 @@ public class HistogramDataRequest
         iDeadCode == m_iDeadCode) {
 
       //Add this piece of data to our dataset
-      mp_oData.get(iSpecies).get(iType).add(new Float(fVal));
+      mp_oData.get(iSpecies).get(iType).add(Float.valueOf(fVal));
       m_fDatasetMax = java.lang.Math.max(fVal, m_fDatasetMax);
       m_fDatasetMin = java.lang.Math.min(fVal, m_fDatasetMin);
     }

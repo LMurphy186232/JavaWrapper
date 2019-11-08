@@ -159,11 +159,9 @@ public class GLIPoints extends GLIBase {
      if (sXMLTag.equals("li_GLIPoint")) {
        Plot oPlot = m_oManager.getPlot();
        
-       float fX = new Float( (String) oAttributes.getValue("x")).
-       floatValue(),
-       fY = new Float( (String) oAttributes.getValue("y")).
-       floatValue(),
-       fHeight = new Float( (String) oAttributes.getValue("h")).floatValue();
+       float fX = Float.valueOf((String) oAttributes.getValue("x")).floatValue(),
+       fY = Float.valueOf((String) oAttributes.getValue("y")).floatValue(),
+       fHeight = Float.valueOf((String) oAttributes.getValue("h")).floatValue();
        mp_oPoints.add(new Points(fX, fY, fHeight, oPlot));
      }
      super.readXMLParentTag(sXMLTag, oAttributes);

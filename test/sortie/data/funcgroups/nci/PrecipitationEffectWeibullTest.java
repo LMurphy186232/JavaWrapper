@@ -113,7 +113,7 @@ public class PrecipitationEffectWeibullTest extends TestCase {
       assertTrue(oGrowth.mp_oEffects.get(3) instanceof PrecipitationEffectWeibull);
       PrecipitationEffectWeibull oPrecipEffect = (PrecipitationEffectWeibull) oGrowth.mp_oEffects.get(3);
       
-      oPrecipEffect.mp_fPrecipA.getValue().set(0, new Float(0));
+      oPrecipEffect.mp_fPrecipA.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad Precip A radius values.");
     }

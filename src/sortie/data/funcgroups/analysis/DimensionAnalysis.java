@@ -220,7 +220,7 @@ public class DimensionAnalysis extends Behavior {
     // Default all correction factors to 1
     if (mp_fCorrectionFactor.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fCorrectionFactor.getValue().add(new Float(1.0));
+        mp_fCorrectionFactor.getValue().add(Float.valueOf((float)1.0));
       }
     }
   }

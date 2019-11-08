@@ -122,7 +122,7 @@ public class NonSpatialDisperseTest extends ModelTestCase {
         ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByParameterFileTag("NonSpatialDisperse");
         NonSpatialDisperse oDisperse = (NonSpatialDisperse) p_oDisps.get(0);
         oDisperse.mp_fMinDbhForReproduction.getValue().remove(0);
-        oDisperse.mp_fMinDbhForReproduction.getValue().add(0, new Float(-70));
+        oDisperse.mp_fMinDbhForReproduction.getValue().add(0, Float.valueOf((float)-70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch negative reproduction DBH" +
             " values.");

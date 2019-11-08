@@ -236,7 +236,7 @@ public class TestGrid extends ModelTestCase {
       PackageGridValue oPackage = oGrid.getPackageGridValue(oVal, 0);
       assertEquals(1, oVal.mp_oPackages.size());
       //Set a value
-      oPackage.setValue(0, new Float(10));
+      oPackage.setValue(0, Float.valueOf((float)10));
 
       //Case: adding a new one
       oVal = oGrid.getGridValue(1, 10, oPlot);
@@ -779,19 +779,19 @@ public class TestGrid extends ModelTestCase {
       //Straight up value setting
       int iX = 2, iY = 3, iFloatCode = 0, iIntCode = 1, iCharCode = 2,
           iBoolCode = 3;
-      oGrid.setGridValue(iX, iY, iFloatCode, new Float(0.1), oPlot);
-      oGrid.setGridValue(iX, iY, iIntCode, new Integer(1), oPlot);
+      oGrid.setGridValue(iX, iY, iFloatCode, Float.valueOf((float)0.1), oPlot);
+      oGrid.setGridValue(iX, iY, iIntCode, Integer.valueOf(1), oPlot);
       oGrid.setGridValue(iX, iY, iCharCode, "test val 1", oPlot);
-      oGrid.setGridValue(iX, iY, iBoolCode, new Boolean(true), oPlot);
+      oGrid.setGridValue(iX, iY, iBoolCode, Boolean.valueOf(true), oPlot);
 
       iFloatCode = 1;
       iIntCode = 2;
       iCharCode = 3;
       iBoolCode = 4;
-      oGrid.setGridPackageValue(iX, iY, 0, iFloatCode, new Float(0.2), oPlot);
-      oGrid.setGridPackageValue(iX, iY, 0, iIntCode, new Integer(2), oPlot);
+      oGrid.setGridPackageValue(iX, iY, 0, iFloatCode, Float.valueOf((float)0.2), oPlot);
+      oGrid.setGridPackageValue(iX, iY, 0, iIntCode, Integer.valueOf(2), oPlot);
       oGrid.setGridPackageValue(iX, iY, 0, iCharCode, "test val 2", oPlot);
-      oGrid.setGridPackageValue(iX, iY, 0, iBoolCode, new Boolean(true), oPlot);
+      oGrid.setGridPackageValue(iX, iY, 0, iBoolCode, Boolean.valueOf(true), oPlot);
 
       iFloatCode = 0;
       iIntCode = 1;
@@ -826,15 +826,15 @@ public class TestGrid extends ModelTestCase {
 
       iX = 4;
       iY = 5;
-      oGrid.setGridValue(iX, iY, 2, new Float(0.1), oPlot);
-      oGrid.setGridValue(iX, iY, 3, new Integer(1), oPlot);
+      oGrid.setGridValue(iX, iY, 2, Float.valueOf((float)0.1), oPlot);
+      oGrid.setGridValue(iX, iY, 3, Integer.valueOf(1), oPlot);
       oGrid.setGridValue(iX, iY, 4, "test val 1", oPlot);
-      oGrid.setGridValue(iX, iY, 5, new Boolean(true), oPlot);
+      oGrid.setGridValue(iX, iY, 5, Boolean.valueOf(true), oPlot);
 
-      oGrid.setGridPackageValue(iX, iY, 0, 3, new Float(0.2), oPlot);
-      oGrid.setGridPackageValue(iX, iY, 0, 4, new Integer(2), oPlot);
+      oGrid.setGridPackageValue(iX, iY, 0, 3, Float.valueOf((float)0.2), oPlot);
+      oGrid.setGridPackageValue(iX, iY, 0, 4, Integer.valueOf(2), oPlot);
       oGrid.setGridPackageValue(iX, iY, 0, 5, "test val 2", oPlot);
-      oGrid.setGridPackageValue(iX, iY, 0, 6, new Boolean(true), oPlot);
+      oGrid.setGridPackageValue(iX, iY, 0, 6, Boolean.valueOf(true), oPlot);
 
       oVal = oGrid.getGridValue(iX, iY, oPlot);
       assertEquals(0.1, oVal.getFloat(0).floatValue(), 0.01);

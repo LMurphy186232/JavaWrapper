@@ -178,7 +178,7 @@ public class LightDependentSeedSurvivalTest extends ModelTestCase {
       ArrayList<Behavior> p_oBehs = oEstBeh.getBehaviorByParameterFileTag("LightDependentSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (LightDependentSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fLightExtCoeffNoDmg.getValue().set(0, new Float(1.2));
+      oEst.mp_fLightExtCoeffNoDmg.getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -197,7 +197,7 @@ public class LightDependentSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("LightDependentSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (LightDependentSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fLightExtCoeffPartDmg.getValue().set(0, new Float(1.2));
+      oEst.mp_fLightExtCoeffPartDmg.getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -216,7 +216,7 @@ public class LightDependentSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("LightDependentSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (LightDependentSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fLightExtCoeffFullDmg.getValue().set(0, new Float(1.2));
+      oEst.mp_fLightExtCoeffFullDmg.getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -253,7 +253,7 @@ public class LightDependentSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("LightDependentSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (LightDependentSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fOptimumGLI.getValue().set(0, new Float(100.2));
+      oEst.mp_fOptimumGLI.getValue().set(0, Float.valueOf((float)100.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -368,7 +368,7 @@ public class LightDependentSeedSurvivalTest extends ModelTestCase {
       assertEquals(1, p_oBehs.size());
       oEst = (LightDependentSeedSurvival) p_oBehs.get(0);
       oEst.mp_fSnagClass1LightExtinctionCoefficient.getValue().remove(0);
-      oEst.mp_fSnagClass1LightExtinctionCoefficient.getValue().set(0, new Float(1.2));
+      oEst.mp_fSnagClass1LightExtinctionCoefficient.getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -387,7 +387,7 @@ public class LightDependentSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("LightDependentSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (LightDependentSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fSnagClass2LightExtinctionCoefficient.getValue().set(0, new Float(1.2));
+      oEst.mp_fSnagClass2LightExtinctionCoefficient.getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());
@@ -406,7 +406,7 @@ public class LightDependentSeedSurvivalTest extends ModelTestCase {
       p_oBehs = oEstBeh.getBehaviorByParameterFileTag("LightDependentSeedSurvival");
       assertEquals(1, p_oBehs.size());
       oEst = (LightDependentSeedSurvival) p_oBehs.get(0);
-      oEst.mp_fSnagClass3LightExtinctionCoefficient.getValue().set(0, new Float(1.2));
+      oEst.mp_fSnagClass3LightExtinctionCoefficient.getValue().set(0, Float.valueOf((float)1.2));
       try {
         oManager.getEstablishmentBehaviors().validateData(oManager.
             getTreePopulation());

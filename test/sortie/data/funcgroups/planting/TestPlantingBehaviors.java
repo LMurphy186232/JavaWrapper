@@ -339,7 +339,7 @@ public class TestPlantingBehaviors extends ModelTestCase {
       //*************************
       int i, iNumSpecies = oPop.getNumberOfSpecies();
       for (i = 0; i < iNumSpecies; i++) {
-        float fDiam10 = new Float(String.valueOf(oPlant.mp_fInitialDiam10.
+        float fDiam10 = Float.valueOf(String.valueOf(oPlant.mp_fInitialDiam10.
             getValue().get(i))).
             floatValue();
         assertEquals(fDiam10, (0.1 * i) + 0.1, 0.001);

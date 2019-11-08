@@ -334,7 +334,7 @@ public class EpisodicMortality extends Behavior {
     if (sXMLTag.equals("ds_applyToCell")) {
 
       // Get the X and Y values
-      int iX = new Integer(oAttributes.getValue("x")).intValue(), iY = new Integer(
+      int iX = Integer.valueOf(oAttributes.getValue("x")).intValue(), iY = Integer.valueOf(
           oAttributes.getValue("y")).intValue();      
       float fXGridLength = m_oManager.getGridByName("mortepisodemastercuts").getXCellLength(),
       fYGridLength = m_oManager.getGridByName("mortepisodemastercuts").getYCellLength();
@@ -414,7 +414,7 @@ public class EpisodicMortality extends Behavior {
       if (sXMLTag.equals("ds_timestep")) {
 
         // Get the timestep value
-        int iTimestep = new Integer(String.valueOf(oData)).intValue();
+        int iTimestep = Integer.valueOf(String.valueOf(oData)).intValue();
 
         // Get the last harvest event and set this as the timestep
         HarvestData oMortEpisode = mp_oMortEpisodes.get(mp_oMortEpisodes.size() - 1);
@@ -448,7 +448,7 @@ public class EpisodicMortality extends Behavior {
       } else if (sXMLTag.equals("ds_low")) {
 
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Check to see whether the high and amount values have already been
         // read
@@ -470,7 +470,7 @@ public class EpisodicMortality extends Behavior {
         return true;
       } else if (sXMLTag.equals("ds_high")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Check to see whether the low and amount values have already been
         // read
@@ -492,7 +492,7 @@ public class EpisodicMortality extends Behavior {
         return true;
       } else if (sXMLTag.equals("ds_amountToCut")) {
         // Extract the value
-        float fVal = new Float(String.valueOf(oData)).floatValue();
+        float fVal = Float.valueOf(String.valueOf(oData)).floatValue();
 
         // Check to see whether the low and high bounds have already been
         // read
@@ -612,7 +612,7 @@ public class EpisodicMortality extends Behavior {
       for (int i = 0; i < p_oData.size(); i++) {
         String sData = p_oData.get(i);
         try {
-          float fVal = new Float(sData).floatValue();
+          float fVal = Float.valueOf(sData).floatValue();
           oHarvest.setSeedlingMortRate(i, fVal);
         } catch (NumberFormatException e) {
           throw (new ModelException(ErrorGUI.BAD_DATA, "Java",

@@ -182,9 +182,9 @@ public class RelativeNeighborhoodDensityDataRequest extends DataRequest {
 
       //Get the species value 
       SpInc oVal = new SpInc();
-      oVal.iSp = new Integer(sLabel.substring(iPos + 1)).intValue();
+      oVal.iSp = Integer.valueOf(sLabel.substring(iPos + 1)).intValue();
       //Get the increment value
-      oVal.iInc = new Integer(sLabel.substring(0, iPos)).intValue();
+      oVal.iInc = Integer.valueOf(sLabel.substring(0, iPos)).intValue();
       oVal.iCode = iCode;
 
       mp_oTempIndexer.add(oVal);

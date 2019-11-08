@@ -173,9 +173,9 @@ public class ClimateCompDepNeighborhoodSurvivalTest extends ModelTestCase {
         ClimateCompDepNeighborhoodSurvival oMort = (ClimateCompDepNeighborhoodSurvival) 
             oMortBeh.createBehaviorFromParameterFileTag("ClimateCompDepNeighborhoodSurvival");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
-        oMort.mp_fN.getValue().add(new Float(0.5));
+        oMort.mp_fN.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
-        oMort.mp_fN.getValue().add(0, new Float(0));
+        oMort.mp_fN.getValue().add(0, Float.valueOf((float)0));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch climate comp dependent neighborhood survival N equals zero.");
       } catch (ModelException oErr) {;}
@@ -190,9 +190,9 @@ public class ClimateCompDepNeighborhoodSurvivalTest extends ModelTestCase {
         ClimateCompDepNeighborhoodSurvival oMort = (ClimateCompDepNeighborhoodSurvival) 
             oMortBeh.createBehaviorFromParameterFileTag("ClimateCompDepNeighborhoodSurvival");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
-        oMort.mp_fD.getValue().add(new Float(0.5));
+        oMort.mp_fD.getValue().add(Float.valueOf((float)0.5));
         oMortBeh.validateData(oManager.getTreePopulation());
-        oMort.mp_fD.getValue().add(0, new Float(0));
+        oMort.mp_fD.getValue().add(0, Float.valueOf((float)0));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch climate comp dependent neighborhood survival D equals zero.");
       } catch (ModelException oErr) {;}
@@ -207,9 +207,9 @@ public class ClimateCompDepNeighborhoodSurvivalTest extends ModelTestCase {
         ClimateCompDepNeighborhoodSurvival oMort = (ClimateCompDepNeighborhoodSurvival) 
             oMortBeh.createBehaviorFromParameterFileTag("ClimateCompDepNeighborhoodSurvival");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
-        oMort.m_fSearchRadius.setValue(new Float(10)); 
+        oMort.m_fSearchRadius.setValue(Float.valueOf((float)10)); 
         oMortBeh.validateData(oManager.getTreePopulation());
-        oMort.m_fSearchRadius.setValue(new Float(-10));
+        oMort.m_fSearchRadius.setValue(Float.valueOf((float)-10));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch climate comp dependent neighborhood survival negative neighbor search radius.");
       } catch (ModelException oErr) {;}

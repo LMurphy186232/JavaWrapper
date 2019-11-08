@@ -134,8 +134,8 @@ public class LogisticBiLevelMortalityTest extends ModelTestCase {
         LogisticBiLevelMortality oMort = (LogisticBiLevelMortality) 
             oMortBeh.createBehaviorFromParameterFileTag("LogisticBiLevelMortality");
         oMort.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
-        oMort.mp_fLogBiLevHiLiteThreshold.getValue().add(new Float( -20));
-        oMort.mp_fLogBiLevHiLiteThreshold.getValue().add(new Float(0));
+        oMort.mp_fLogBiLevHiLiteThreshold.getValue().add(Float.valueOf((float) -20));
+        oMort.mp_fLogBiLevHiLiteThreshold.getValue().add(Float.valueOf((float)0));
         oMortBeh.validateData(oManager.getTreePopulation());
         fail("Mortality validation failed to catch bad light threshold values.");
 

@@ -518,7 +518,7 @@ public class EditWindowBase extends JDialog implements ActionListener {
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextHarvest() throws ModelException {
-    int iCurrentHarvest = new Integer(m_jHarvestNumber.getText()).intValue();
+    int iCurrentHarvest = Integer.valueOf(m_jHarvestNumber.getText()).intValue();
 
     if (iCurrentHarvest < m_iNumTotalHarvestEvents) {
       //Display the next harvest event - the vector index is already right
@@ -538,7 +538,7 @@ public class EditWindowBase extends JDialog implements ActionListener {
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextMortEpisode() throws ModelException {
-    int iCurrentEpisode = new Integer(m_jMortEpisodeNumber.getText()).
+    int iCurrentEpisode = Integer.valueOf(m_jMortEpisodeNumber.getText()).
         intValue();
 
     if (iCurrentEpisode < m_iNumTotalMortEpisodes) {
@@ -559,7 +559,7 @@ public class EditWindowBase extends JDialog implements ActionListener {
    * @throws ModelException Passing through from called methods.
    */
   protected void displayNextPlanting() throws ModelException {
-    int iCurrentPlanting = new Integer(m_jPlantNumber.getText()).intValue();
+    int iCurrentPlanting = Integer.valueOf(m_jPlantNumber.getText()).intValue();
 
     if (iCurrentPlanting < m_iNumTotalPlantingEvents) {
       //Display the next plant event - the vector index is already right
@@ -579,7 +579,7 @@ public class EditWindowBase extends JDialog implements ActionListener {
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousHarvest() throws ModelException {
-    int iCurrentHarvest = new Integer(m_jHarvestNumber.getText()).intValue();
+    int iCurrentHarvest = Integer.valueOf(m_jHarvestNumber.getText()).intValue();
 
     if (iCurrentHarvest > 1) {
       //Display the previous harvest event - subtract two since the vector
@@ -603,7 +603,7 @@ public class EditWindowBase extends JDialog implements ActionListener {
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousMortEpisode() throws ModelException {
-    int iCurrentEpisode = new Integer(m_jMortEpisodeNumber.getText()).
+    int iCurrentEpisode = Integer.valueOf(m_jMortEpisodeNumber.getText()).
         intValue();
 
     if (iCurrentEpisode > 1) {
@@ -628,7 +628,7 @@ public class EditWindowBase extends JDialog implements ActionListener {
    * @throws ModelException Passing through from called methods.
    */
   protected void displayPreviousPlanting() throws ModelException {
-    int iCurrentPlanting = new Integer(m_jPlantNumber.getText()).intValue();
+    int iCurrentPlanting = Integer.valueOf(m_jPlantNumber.getText()).intValue();
 
     if (iCurrentPlanting > 1) {
       //Display the previous planting event - subtract two since the vector
@@ -803,7 +803,7 @@ class DisplaySeedlingMortParameters
           String sVal = mp_oTable.getValueAt(1, i).toString();
           float fVal;
           try {
-            fVal = new Float(sVal).floatValue();
+            fVal = Float.valueOf(sVal).floatValue();
           } catch (NumberFormatException err) {
             throw( new ModelException(ErrorGUI.BAD_ARGUMENT, "JAVA",
             "Seedling mortality rate is not a recognized number."));
@@ -820,7 +820,7 @@ class DisplaySeedlingMortParameters
             for (i = 1; i < mp_oTable.getColumnCount(); i++) {
               String sVal = mp_oTable.getValueAt(1, i).toString();
               float fVal;
-              fVal = new Float(sVal).floatValue();
+              fVal = Float.valueOf(sVal).floatValue();
               oParent.mp_fSeedlingMortRate[i-1] = fVal;            
             }
           } catch (ArrayIndexOutOfBoundsException err) {
@@ -833,7 +833,7 @@ class DisplaySeedlingMortParameters
             for (i = 1; i < mp_oTable.getColumnCount(); i++) {
               String sVal = mp_oTable.getValueAt(1, i).toString();
               float fVal;
-              fVal = new Float(sVal).floatValue();
+              fVal = Float.valueOf(sVal).floatValue();
               oParent.mp_fSeedlingMortRate[i-1] = fVal;            
             }
           } catch (ArrayIndexOutOfBoundsException err) {

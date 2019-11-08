@@ -96,7 +96,7 @@ public class GaussianNitrogenEffectTest extends TestCase {
       assertTrue(oGrowth.mp_oEffects.get(5) instanceof NitrogenEffectGaussian);
       NitrogenEffectGaussian oNEffect = (NitrogenEffectGaussian) oGrowth.mp_oEffects.get(5);
       
-      oNEffect.mp_fXb.getValue().set(0, new Float(0));
+      oNEffect.mp_fXb.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad N Xb values.");
     }

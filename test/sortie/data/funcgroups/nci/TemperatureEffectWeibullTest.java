@@ -108,7 +108,7 @@ public class TemperatureEffectWeibullTest extends TestCase {
       assertTrue(oGrowth.mp_oEffects.get(4) instanceof TemperatureEffectWeibull);
       TemperatureEffectWeibull oTempEffect = (TemperatureEffectWeibull) oGrowth.mp_oEffects.get(4);
       
-      oTempEffect.mp_fTempA.getValue().set(0, new Float(0));
+      oTempEffect.mp_fTempA.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad Precip A radius values.");
     }

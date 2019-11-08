@@ -141,7 +141,7 @@ public class SizeClassEditor
     //Transform to a number
     Float fNewClass = null;
     try {
-      fNewClass = new Float(sNewClass);
+      fNewClass = Float.valueOf(sNewClass);
     }
     catch (java.lang.NumberFormatException oErr) {
       throw (new ModelException(ErrorGUI.BAD_ARGUMENT, "JAVA",

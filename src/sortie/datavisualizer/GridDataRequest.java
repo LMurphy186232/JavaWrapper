@@ -564,8 +564,7 @@ class GrayscaleListener implements ActionListener {
         if (sName.equals("jMinValue")) {
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           try {
-            oAdaptee.setMinimumDisplayValue(new Float(jField.getText()).
-                                            floatValue());
+            oAdaptee.setMinimumDisplayValue(Float.valueOf(jField.getText()).floatValue());
           } catch (NumberFormatException oErr) {
             JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The minimum value is not a recognized number.");
@@ -575,8 +574,7 @@ class GrayscaleListener implements ActionListener {
         else if (sName.equals("jMinPix")) {
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           try {
-            oAdaptee.setMinimumDisplayColor(new Integer(jField.getText()).
-                                            intValue());
+            oAdaptee.setMinimumDisplayColor(Integer.valueOf(jField.getText()).intValue());
           } catch (NumberFormatException oErr) {
             JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The minimum grayscale value is not a recognized number.");
@@ -587,7 +585,7 @@ class GrayscaleListener implements ActionListener {
         else if (sName.equals("jKneeValue")) {
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           try {
-            oAdaptee.setKneeDisplayValue(new Float(jField.getText()).floatValue());
+            oAdaptee.setKneeDisplayValue(Float.valueOf(jField.getText()).floatValue());
           } catch (NumberFormatException oErr) {
             JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The knee value is not a recognized number.");
@@ -597,7 +595,7 @@ class GrayscaleListener implements ActionListener {
         else if (sName.equals("jKneePix")) {
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           try {
-            oAdaptee.setKneeDisplayColor(new Integer(jField.getText()).intValue());
+            oAdaptee.setKneeDisplayColor(Integer.valueOf(jField.getText()).intValue());
           } catch (NumberFormatException oErr) {
             JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The knee grayscale value is not a recognized number.");
@@ -607,8 +605,7 @@ class GrayscaleListener implements ActionListener {
         else if (sName.equals("jMaxValue")) {
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           try {
-            oAdaptee.setMaximumDisplayValue(new Float(jField.getText()).
-                                            floatValue());
+            oAdaptee.setMaximumDisplayValue(Float.valueOf(jField.getText()).floatValue());
           } catch (NumberFormatException oErr) {
             JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The maximum value is not a recognized number.");
@@ -618,8 +615,7 @@ class GrayscaleListener implements ActionListener {
         else if (sName.equals("jMaxPix")) {
           jField = (JTextField) jGrayscalePanel.getComponent(i);
           try {
-            oAdaptee.setMaximumDisplayColor(new Integer(jField.getText()).
-                                            intValue());
+            oAdaptee.setMaximumDisplayColor(Integer.valueOf(jField.getText()).intValue());
           } catch (NumberFormatException oErr) {
             JOptionPane.showMessageDialog(oAdaptee.m_oChartFrame,
                                         "The maximum grayscale value is not a recognized number.");

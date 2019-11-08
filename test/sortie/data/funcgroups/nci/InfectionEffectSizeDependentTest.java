@@ -101,7 +101,7 @@ public class InfectionEffectSizeDependentTest extends TestCase {
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oGrowth.mp_oEffects.get(0) instanceof InfectionEffectSizeDependent);
       InfectionEffectSizeDependent oInfEffect = (InfectionEffectSizeDependent) oGrowth.mp_oEffects.get(0);
-      oInfEffect.mp_fX0.getValue().set(0, new Float(0));
+      oInfEffect.mp_fX0.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad X0 values.");
     }
@@ -123,7 +123,7 @@ public class InfectionEffectSizeDependentTest extends TestCase {
       NCIMasterGrowth oGrowth = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oGrowth.mp_oEffects.get(0) instanceof InfectionEffectSizeDependent);
       InfectionEffectSizeDependent oInfEffect = (InfectionEffectSizeDependent) oGrowth.mp_oEffects.get(0);
-      oInfEffect.mp_fXb.getValue().set(0, new Float(0));
+      oInfEffect.mp_fXb.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad Xb values.");
     }

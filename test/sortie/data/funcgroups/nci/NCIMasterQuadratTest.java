@@ -570,9 +570,9 @@ public class NCIMasterQuadratTest extends ModelTestCase {
       NCIMasterQuadratGrowth oGrowth = (NCIMasterQuadratGrowth) p_oBehs.get(0);
       oGrowth.mp_fNCIMaxPotentialGrowth.getValue().clear();
       Behavior.ensureSize(oGrowth.mp_fNCIMaxPotentialGrowth.getValue(), 4);
-      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().add(1, new Float(10));
-      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().add(2, new Float(-5));
-      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().add(3, new Float(10));
+      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().add(1, Float.valueOf((float)10));
+      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().add(2, Float.valueOf((float)-5));
+      oGrowth.mp_fNCIMaxPotentialGrowth.getValue().add(3, Float.valueOf((float)10));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to notice Max growth for any species is < 0 for NCI master quadrat growth.");
     }

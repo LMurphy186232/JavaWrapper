@@ -369,9 +369,9 @@ public class ShortOutput extends Behavior {
     else if (sXMLTag.equals("po_point") && m_oCurrentSubplot != null) {
       Plot oPlot = m_oManager.getPlot();
 
-      int iX = new Integer( (String) oAttributes.getValue("x")).
+      int iX = Integer.valueOf((String) oAttributes.getValue("x")).
           intValue(),
-          iY = new Integer( (String) oAttributes.getValue("y")).
+          iY = Integer.valueOf((String) oAttributes.getValue("y")).
           intValue();
       m_oCurrentSubplot.addCell(iX, iY, oPlot);
     }

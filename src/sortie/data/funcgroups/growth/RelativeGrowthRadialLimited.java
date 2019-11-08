@@ -62,7 +62,7 @@ public class RelativeGrowthRadialLimited extends Behavior {
     //Default the relative growth diameter exponents to 1
     if (mp_fRelGrowthDiamExp.getValue().size() == 0) {
       for (i = 0; i < iNumSpecies; i++) {
-        mp_fRelGrowthDiamExp.getValue().add(new Float(1.0));
+        mp_fRelGrowthDiamExp.getValue().add(Float.valueOf((float)1.0));
       }
     }
   }

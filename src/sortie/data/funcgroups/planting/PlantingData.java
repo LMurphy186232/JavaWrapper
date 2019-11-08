@@ -213,7 +213,7 @@ public class PlantingData {
     }
 
     if (!bFound) {
-      mp_iSpecies.add(new Integer(iSpecies));
+      mp_iSpecies.add(Integer.valueOf(iSpecies));
     }
   }
 

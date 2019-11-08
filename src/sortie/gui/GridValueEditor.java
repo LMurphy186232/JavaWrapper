@@ -579,7 +579,7 @@ implements java.awt.event.ActionListener, EnhancedTableWindow {
                       for (iY = 0; iY < p_oTableData[iX].length; iY++) {
                         sVal = (String) p_oTableData[iX][iY];
                         if (sVal != null && sVal.length() > 0) {
-                          Float fVal = new Float(sVal);
+                          Float fVal = Float.valueOf(sVal);
                           m_oGrid.setGridValue(iX, iY, iCode, fVal, oPlot);
                         }
                       }
@@ -591,7 +591,7 @@ implements java.awt.event.ActionListener, EnhancedTableWindow {
                       for (iY = 0; iY < p_oTableData[iX].length; iY++) {
                         sVal = (String) p_oTableData[iX][iY];
                         if (sVal != null && sVal.length() > 0) {
-                          Integer iVal = new Integer( (String) p_oTableData[iX][
+                          Integer iVal = Integer.valueOf( (String) p_oTableData[iX][
                                                                                 iY]);
                           m_oGrid.setGridValue(iX, iY, iCode, iVal, oPlot);
                         }
@@ -604,7 +604,7 @@ implements java.awt.event.ActionListener, EnhancedTableWindow {
                       for (iY = 0; iY < p_oTableData[iX].length; iY++) {
                         sVal = (String) p_oTableData[iX][iY];
                         if (sVal != null && sVal.length() > 0) {
-                          Boolean bVal = new Boolean( (String) p_oTableData[iX][
+                          Boolean bVal = Boolean.valueOf( (String) p_oTableData[iX][
                                                                                 iY]);
                           m_oGrid.setGridValue(iX, iY, iCode, bVal, oPlot);
                         }

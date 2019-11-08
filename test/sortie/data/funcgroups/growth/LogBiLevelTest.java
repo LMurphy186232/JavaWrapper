@@ -164,8 +164,8 @@ public class LogBiLevelTest extends ModelTestCase {
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(1, 3, oPop));
       oGrowth.mp_fLogBiLevelHighLightThreshold.getValue().clear();
-      oGrowth.mp_fLogBiLevelHighLightThreshold.getValue().add(new Float(-20));
-      oGrowth.mp_fLogBiLevelHighLightThreshold.getValue().add(new Float(0));
+      oGrowth.mp_fLogBiLevelHighLightThreshold.getValue().add(Float.valueOf(-20));
+      oGrowth.mp_fLogBiLevelHighLightThreshold.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad light threshold values.");
     }
@@ -195,8 +195,8 @@ public class LogBiLevelTest extends ModelTestCase {
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(1, 3, oPop));
       oGrowth.mp_fLogBiLevelLoLiteX0.getValue().clear();
-      oGrowth.mp_fLogBiLevelLoLiteX0.getValue().add(new Float(20));
-      oGrowth.mp_fLogBiLevelLoLiteX0.getValue().add(new Float(0));
+      oGrowth.mp_fLogBiLevelLoLiteX0.getValue().add(Float.valueOf(20));
+      oGrowth.mp_fLogBiLevelLoLiteX0.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad X0 value.");
     }
@@ -226,8 +226,8 @@ public class LogBiLevelTest extends ModelTestCase {
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(1, 3, oPop));
       oGrowth.mp_fLogBiLevelHiLiteX0.getValue().clear();
-      oGrowth.mp_fLogBiLevelHiLiteX0.getValue().add(new Float(20));
-      oGrowth.mp_fLogBiLevelHiLiteX0.getValue().add(new Float(0));
+      oGrowth.mp_fLogBiLevelHiLiteX0.getValue().add(Float.valueOf(20));
+      oGrowth.mp_fLogBiLevelHiLiteX0.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad X0 value.");
     }
@@ -257,8 +257,8 @@ public class LogBiLevelTest extends ModelTestCase {
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(1, 3, oPop));
       oGrowth.mp_fLogBiLevelLoLiteXb.getValue().clear();
-      oGrowth.mp_fLogBiLevelLoLiteXb.getValue().add(new Float(20));
-      oGrowth.mp_fLogBiLevelLoLiteXb.getValue().add(new Float(0));
+      oGrowth.mp_fLogBiLevelLoLiteXb.getValue().add(Float.valueOf(20));
+      oGrowth.mp_fLogBiLevelLoLiteXb.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad Xb value.");
     }
@@ -288,8 +288,8 @@ public class LogBiLevelTest extends ModelTestCase {
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(1, 3, oPop));
       oGrowth.mp_fLogBiLevelHiLiteXb.getValue().clear();
-      oGrowth.mp_fLogBiLevelHiLiteXb.getValue().add(new Float(20));
-      oGrowth.mp_fLogBiLevelHiLiteXb.getValue().add(new Float(0));
+      oGrowth.mp_fLogBiLevelHiLiteXb.getValue().add(Float.valueOf(20));
+      oGrowth.mp_fLogBiLevelHiLiteXb.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad Xb value.");
     }
@@ -319,8 +319,8 @@ public class LogBiLevelTest extends ModelTestCase {
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(1, 3, oPop));
       oGrowth.mp_fLogBiLevelHiLiteMaxGrwth.getValue().clear();
-      oGrowth.mp_fLogBiLevelHiLiteMaxGrwth.getValue().add(new Float(-20));
-      oGrowth.mp_fLogBiLevelHiLiteMaxGrwth.getValue().add(new Float(0));
+      oGrowth.mp_fLogBiLevelHiLiteMaxGrwth.getValue().add(Float.valueOf(-20));
+      oGrowth.mp_fLogBiLevelHiLiteMaxGrwth.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad max growth value.");
     }
@@ -350,8 +350,8 @@ public class LogBiLevelTest extends ModelTestCase {
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(0, 3, oPop));
       oGrowth.addSpeciesTypeCombo(new SpeciesTypeCombo(1, 3, oPop));
       oGrowth.mp_fLogBiLevelLoLiteMaxGrwth.getValue().clear();
-      oGrowth.mp_fLogBiLevelLoLiteMaxGrwth.getValue().add(new Float(-20));
-      oGrowth.mp_fLogBiLevelLoLiteMaxGrwth.getValue().add(new Float(0));
+      oGrowth.mp_fLogBiLevelLoLiteMaxGrwth.getValue().add(Float.valueOf(-20));
+      oGrowth.mp_fLogBiLevelLoLiteMaxGrwth.getValue().add(Float.valueOf(0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad max growth value.");
     }

@@ -443,7 +443,7 @@ public class WindstormTest extends ModelTestCase {
       assertEquals(1, p_oDists.size());
       Windstorm oDist = (Windstorm) p_oDists.get(0);
       oDist.mp_fWindstormMinDBH.getValue().clear();
-      oDist.mp_fWindstormMinDBH.getValue().add(new Float(-1.2));
+      oDist.mp_fWindstormMinDBH.getValue().add(Float.valueOf((float)-1.2));
       oDist.validateData(oManager.getTreePopulation());
       fail("Didn't catch negative min DBH.");
     }

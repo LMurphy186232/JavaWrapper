@@ -160,7 +160,7 @@ implements ActionListener, TreeSelectionListener {
     DefaultMutableTreeNode root = (DefaultMutableTreeNode)m_jTreeModel.getRoot();
     
     //There are only two levels below root. Traverse them
-    Enumeration children = root.children();
+    Enumeration<TreeNode> children = root.children();
     
     while (children.hasMoreElements()) {
       
@@ -174,7 +174,7 @@ implements ActionListener, TreeSelectionListener {
         treeState.add(node.toString());
         
         //Now search level two
-        Enumeration children2 = node.children();
+        Enumeration<TreeNode> children2 = node.children();
         while (children2.hasMoreElements()) {
           DefaultMutableTreeNode node2 = ((DefaultMutableTreeNode)children2.nextElement());
 
@@ -207,7 +207,7 @@ implements ActionListener, TreeSelectionListener {
     DefaultMutableTreeNode root = (DefaultMutableTreeNode)m_jTreeModel.getRoot();
     
     //Traverse the top-level nodes - behavior names
-    Enumeration children = root.children();
+    Enumeration<TreeNode> children = root.children();
     
     while (children.hasMoreElements()) {
     //Get the first-level node
@@ -219,11 +219,11 @@ implements ActionListener, TreeSelectionListener {
         //This first level node is expanded. Add its name, along with all its species/type combos
         String st = node.toString();
         
-        Enumeration children2 = node.children();
+        Enumeration<TreeNode> children2 = node.children();
         while (children2.hasMoreElements()) {
           DefaultMutableTreeNode node2 = ((DefaultMutableTreeNode)children2.nextElement());
                     
-          Enumeration children3 = node2.children();
+          Enumeration<TreeNode> children3 = node2.children();
           if (children3.hasMoreElements()) {
             String type = node2.toString();
             
@@ -274,14 +274,14 @@ implements ActionListener, TreeSelectionListener {
         level2 = "";
       }
       
-      Enumeration children = root.children();      
+      Enumeration<TreeNode> children = root.children();      
       while (children.hasMoreElements()) {
         DefaultMutableTreeNode node = ((DefaultMutableTreeNode)children.nextElement());
         if (node.toString().equals(level1)) {
           if (level2 == "") {
             m_jTree.expandPath(new TreePath(node.getPath()));
           } else {
-            Enumeration children2 = node.children();
+            Enumeration<TreeNode> children2 = node.children();
             while (children2.hasMoreElements()) {
               DefaultMutableTreeNode node2 = ((DefaultMutableTreeNode)children2.nextElement());
               if (node2.toString().equals(level2)) {
@@ -332,7 +332,7 @@ implements ActionListener, TreeSelectionListener {
       }
       
      
-      Enumeration children = root.children();      
+      Enumeration<TreeNode> children = root.children();      
       while (children.hasMoreElements()) {
         DefaultMutableTreeNode node = ((DefaultMutableTreeNode)children.nextElement());
         if (node.toString().equals(level1)) {
@@ -340,7 +340,7 @@ implements ActionListener, TreeSelectionListener {
             if (level2 == "") {
               m_jTree.expandPath(new TreePath(node.getPath()));
             } else {
-              Enumeration children2 = node.children();
+              Enumeration<TreeNode> children2 = node.children();
               while (children2.hasMoreElements()) {
                 DefaultMutableTreeNode node2 = ((DefaultMutableTreeNode)children2.nextElement());
                 if (node2.toString().equals(level2)) {
@@ -362,7 +362,7 @@ implements ActionListener, TreeSelectionListener {
    * @return True if it's a match, false if not.
    */
   private boolean isRightNode(DefaultMutableTreeNode node, String childstring) {
-    Enumeration children = node.children();
+    Enumeration<TreeNode> children = node.children();
     DefaultMutableTreeNode nodelevel1, nodelevel2;
     String level1, level2;
     int pos, pos2;
@@ -393,7 +393,7 @@ implements ActionListener, TreeSelectionListener {
       }
       
       //Check the level two subnodes in the same way
-      Enumeration children2 = nodelevel1.children();
+      Enumeration<TreeNode> children2 = nodelevel1.children();
       nodelevel2 = (DefaultMutableTreeNode)children2.nextElement();
       pos2 = childstring.indexOf("|"); 
       if (pos2 > -1) {

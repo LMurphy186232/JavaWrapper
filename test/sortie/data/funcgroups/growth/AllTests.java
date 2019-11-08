@@ -1,6 +1,5 @@
 package sortie.data.funcgroups.growth;
 
-import sortie.data.funcgroups.nci.NCIMasterQuadratTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 

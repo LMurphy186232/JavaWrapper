@@ -229,34 +229,34 @@ public abstract class SpatialDisperseBase extends DisperseBase {
       for (j = 0; j < NUMBER_OF_FOREST_COVERS; j++) {
         if (mp_fSTR[i][j].getValue().size() == 0) {
           for (k = 0; k < iNumSpecies; k++) {
-            mp_fSTR[i][j].getValue().add(new Float(0));
+            mp_fSTR[i][j].getValue().add(Float.valueOf(0));
           }
         }
         if (mp_fBeta[i][j].getValue().size() == 0) {
           for (k = 0; k < iNumSpecies; k++) {
-            mp_fBeta[i][j].getValue().add(new Float(0));
+            mp_fBeta[i][j].getValue().add(Float.valueOf(0));
           }
         }
         if (mp_fThetaOrXb[i][j].getValue().size() == 0) {
           for (k = 0; k < iNumSpecies; k++) {
-            mp_fThetaOrXb[i][j].getValue().add(new Float(0));
+            mp_fThetaOrXb[i][j].getValue().add(Float.valueOf(0));
           }
         }
         if (mp_fDispOrX0[i][j].getValue().size() == 0) {
           for (k = 0; k < iNumSpecies; k++) {
-            mp_fDispOrX0[i][j].getValue().add(new Float(0));
+            mp_fDispOrX0[i][j].getValue().add(Float.valueOf(0));
           }
         }
       }
     }
     if (mp_fStumpSTR.getValue().size() == 0) {
       for (k = 0; k < iNumSpecies; k++) {
-        mp_fStumpSTR.getValue().add(new Float(0));
+        mp_fStumpSTR.getValue().add(Float.valueOf(0));
       }
     }
     if (mp_fStumpBeta.getValue().size() == 0) {
       for (k = 0; k < iNumSpecies; k++) {
-        mp_fStumpBeta.getValue().add(new Float(0));
+        mp_fStumpBeta.getValue().add(Float.valueOf(0));
       }
     }
   }

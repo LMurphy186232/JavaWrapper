@@ -26,7 +26,7 @@ import sortie.gui.GUIManager;
   <li>we're summing over k = 0 to N neighbors greater than the minimum
   neighbor DBH</li>
   <li><i>&eta;</i> is the storm damage parameter of the target,
-  depending on the damage status.  It’s 1 if the neighbor is undamaged.</li>
+  depending on the damage status.  Itï¿½s 1 if the neighbor is undamaged.</li>
   <li><i>&alpha;</i> is the neighbor DBH effect parameter</li>
   <li><i>&beta;</i> is the neighbor distance effect parameter</li>
   <li><i>DBH</i> is of the target tree, in cm</li>
@@ -300,7 +300,7 @@ public class NCITermWithNeighborDamage extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().remove(i);
         oCopyTo.getValue().add(i, f2);
       }
@@ -310,7 +310,7 @@ public class NCITermWithNeighborDamage extends Behavior {
         if (null == f1)
           f2 = null;
         else
-          f2 = new Float(f1.floatValue());
+          f2 = Float.valueOf(f1.floatValue());
         oCopyTo.getValue().add(i, f2);
       }
     }

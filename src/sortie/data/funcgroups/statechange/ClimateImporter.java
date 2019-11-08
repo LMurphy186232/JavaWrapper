@@ -241,7 +241,7 @@ public class ClimateImporter extends Behavior {
         try {
           
           //Get the timestep number attribute
-          iTS = new Integer(p_oAttributes[i].getValue("ts")).intValue();
+          iTS = Integer.valueOf(p_oAttributes[i].getValue("ts")).intValue();
         } catch (NumberFormatException e) {
           //Whoops - wasn't formatted as a number
           throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
@@ -256,9 +256,9 @@ public class ClimateImporter extends Behavior {
         //Assign the monthly value to the appropriate place
         try {
           if (sXMLTag.startsWith("sc_ciMonthlyTemp")) {
-            mp_fTemp[iMonth][iTS-1] = new Double(p_oData.get(i)).doubleValue();
+            mp_fTemp[iMonth][iTS-1] = Double.valueOf(p_oData.get(i)).doubleValue();
           } else {
-            mp_fPpt[iMonth][iTS-1] = new Double(p_oData.get(i)).doubleValue();
+            mp_fPpt[iMonth][iTS-1] = Double.valueOf(p_oData.get(i)).doubleValue();
           }
               
         } catch (NumberFormatException e) {

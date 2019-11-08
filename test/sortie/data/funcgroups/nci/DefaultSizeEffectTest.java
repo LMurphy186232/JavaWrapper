@@ -209,7 +209,7 @@ public class DefaultSizeEffectTest extends TestCase {
       NCIMasterGrowth oMaster = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oMaster.mp_oEffects.get(0) instanceof SizeEffectDefault);
       SizeEffectDefault oSizeEffect = (SizeEffectDefault) oMaster.mp_oEffects.get(0);
-      oSizeEffect.mp_fNCISizeEffectX0.getValue().set(0, new Float(0));
+      oSizeEffect.mp_fNCISizeEffectX0.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad NCI Xb for a species = 0.");
     }
@@ -236,7 +236,7 @@ public class DefaultSizeEffectTest extends TestCase {
       NCIMasterGrowth oMaster = (NCIMasterGrowth) p_oBehs.get(0);
       assertTrue(oMaster.mp_oEffects.get(0) instanceof SizeEffectDefault);
       SizeEffectDefault oSizeEffect = (SizeEffectDefault) oMaster.mp_oEffects.get(0);
-      oSizeEffect.mp_fNCISizeEffectXb.getValue().set(0, new Float(0));
+      oSizeEffect.mp_fNCISizeEffectXb.getValue().set(0, Float.valueOf((float)0));
       oManager.getGrowthBehaviors().validateData(oManager.getTreePopulation());
       fail("Parameter file read failed to catch bad NCI X0 for a species = 0.");
     }
