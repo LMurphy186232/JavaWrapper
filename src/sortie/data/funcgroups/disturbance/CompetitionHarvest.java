@@ -108,6 +108,11 @@ public class CompetitionHarvest extends Behavior {
   protected ModelInt m_iCompHarvInterval = new ModelInt(1,
       "Competition Harvest: Fixed Interval Harvest Interval (yr)",
       "di_compHarvInterval");
+  
+  /** Competition harvest - year to start harvesting */
+  protected ModelInt m_iCompHarvFirstYear = new ModelInt(0,
+      "Competition Harvest: Year of Run To Begin Harvests",
+      "di_compHarvFirstHarvestYear");
 
   /** Competition harvest - for fixed basal area threshold harvests, the
    * threshold */
@@ -143,6 +148,7 @@ public class CompetitionHarvest extends Behavior {
     addRequiredData(m_fCompHarvCutAmount);
     addRequiredData(m_iCompHarvMinInterval);
     addRequiredData(m_iCompHarvInterval);
+    addRequiredData(m_iCompHarvFirstYear);
     addRequiredData(m_fCompHarvBAThreshold);
     addRequiredData(m_fCompHarvMinDBH);
     addRequiredData(m_fCompHarvMaxDBH);
