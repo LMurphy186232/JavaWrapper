@@ -85,8 +85,8 @@ public class CompetitionHarvest extends Behavior {
    * threshold with fixed amount to cut, 2 = fixed BA threshold with percentage
    * to cut */
   protected ModelEnum m_iCompHarvHarvType = new ModelEnum(
-      new int[] { 2, 1, 0, 3 }, new String[] { "Fixed BA %", "Fixed BA Amt",
-      "Fixed Interval Leave Amt", "Fixed Interval Remove Proportion" }, "Competition Harvest: Harvest Type",
+      new int[] { 2, 1, 0 }, new String[] { "Fixed BA %", "Fixed BA Amt",
+      "Fixed Interval" }, "Competition Harvest: Harvest Type",
       "di_compHarvTypeHarvest");
 
   /** Competition harvest - cut amount - if this is a fixed interval harvest,
@@ -108,11 +108,6 @@ public class CompetitionHarvest extends Behavior {
   protected ModelInt m_iCompHarvInterval = new ModelInt(1,
       "Competition Harvest: Fixed Interval Harvest Interval (yr)",
       "di_compHarvInterval");
-  
-  /** Competition harvest - year to start harvesting */
-  protected ModelInt m_iCompHarvFirstYear = new ModelInt(0,
-      "Competition Harvest: Year of run to begin harvesting",
-      "di_compHarvFirstHarvestYear");
 
   /** Competition harvest - for fixed basal area threshold harvests, the
    * threshold */
@@ -148,7 +143,6 @@ public class CompetitionHarvest extends Behavior {
     addRequiredData(m_fCompHarvCutAmount);
     addRequiredData(m_iCompHarvMinInterval);
     addRequiredData(m_iCompHarvInterval);
-    addRequiredData(m_iCompHarvFirstYear);
     addRequiredData(m_fCompHarvBAThreshold);
     addRequiredData(m_fCompHarvMinDBH);
     addRequiredData(m_fCompHarvMaxDBH);
@@ -329,7 +323,6 @@ public class CompetitionHarvest extends Behavior {
     ValidationHelpers.makeSureNotEqualTo(m_fCompHarvQ, 0);
     ValidationHelpers.makeSureGreaterThanEqualTo(m_fCompHarvMinDBH, 0);
     ValidationHelpers.makeSureGreaterThanEqualTo(m_fCompHarvMaxDBH, 0);
-    ValidationHelpers.makeSureGreaterThanEqualTo(m_iCompHarvFirstYear, 0);
 
     if (m_iCompHarvHarvType.getStringValue().equals("Fixed Interval")) {
       ValidationHelpers.makeSureGreaterThanEqualTo(m_fCompHarvCutAmount, 0);

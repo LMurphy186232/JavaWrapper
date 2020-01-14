@@ -196,7 +196,6 @@ public class CompetitionHarvestTest extends ModelTestCase {
       assertEquals(oDist.m_fCompHarvCutAmount.getValue(), 0.0406, 0.001);
       assertEquals(oDist.m_iCompHarvMinInterval.getValue(), 2);
       assertEquals(oDist.m_iCompHarvInterval.getValue(), 3);
-      assertEquals(oDist.m_iCompHarvFirstYear.getValue(), 7);
       assertEquals(oDist.m_fCompHarvBAThreshold.getValue(), 0.2, 0.001);
       assertEquals(oDist.m_sCompHarvFilename.getValue(),
           "core_model_tester1.txt");
@@ -1038,7 +1037,6 @@ public class CompetitionHarvestTest extends ModelTestCase {
     oOut.write("<di_compHarvBAThreshold>0.2</di_compHarvBAThreshold>");
     oOut.write("<di_compHarvMinInterval>2</di_compHarvMinInterval>");
     oOut.write("<di_compHarvInterval>3</di_compHarvInterval>");
-    oOut.write("<di_compHarvFirstHarvestYear>7</di_compHarvFirstHarvestYear>");
     oOut
         .write("<di_compHarvHarvestedListFile>core_model_tester1.txt</di_compHarvHarvestedListFile>");
     oOut.write("</CompetitionHarvest1>");
