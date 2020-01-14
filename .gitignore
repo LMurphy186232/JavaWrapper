@@ -47,3 +47,9 @@ bin/coremodel.exe
 bin/gzip.exe
 bin/tar.exe
 SORTIE.jar
+SORTIE.jar
+bin/messages.txt
+test.xml
+bin/messages.txt
+.settings/org.eclipse.jdt.core.prefs
+lib/sortie_help.jar
