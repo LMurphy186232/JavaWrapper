@@ -113,7 +113,14 @@ public class CompetitionHarvest extends Behavior {
   protected ModelInt m_iCompHarvFirstYear = new ModelInt(0,
       "Competition Harvest: Year of Run To Begin Harvests",
       "di_compHarvFirstHarvestYear");
-
+  
+  /** Competition harvest - most-to-least or least-to-most competitive cutting */
+  protected ModelEnum m_iCompHarvCutMostCompetitive = new ModelEnum(
+      new int[] {0, 1},
+      new String[] {"false", "true"},
+      "Competition Harvest: Cut Most Competitive First?",
+      "di_compHarvCutMostComp");
+  
   /** Competition harvest - for fixed basal area threshold harvests, the
    * threshold */
   protected ModelFloat m_fCompHarvBAThreshold = new ModelFloat(0,
@@ -152,6 +159,7 @@ public class CompetitionHarvest extends Behavior {
     addRequiredData(m_fCompHarvBAThreshold);
     addRequiredData(m_fCompHarvMinDBH);
     addRequiredData(m_fCompHarvMaxDBH);
+    addRequiredData(m_iCompHarvCutMostCompetitive);
     addRequiredData(m_fCompHarvQ);
     addRequiredData(m_sCompHarvFilename);
     setCanApplyTo(TreePopulation.SEEDLING, false);
@@ -184,6 +192,9 @@ public class CompetitionHarvest extends Behavior {
         mp_fCompHarvProportion.getValue().add(Float.valueOf((float)1.0));
       }
     }
+    
+    // Default to cutting most competitive first
+    m_iCompHarvCutMostCompetitive.setValue("true");
   }
   
   /**
