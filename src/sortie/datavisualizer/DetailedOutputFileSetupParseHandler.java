@@ -302,6 +302,12 @@ public class DetailedOutputFileSetupParseHandler
                          java.lang.String sLocalName,
                          java.lang.String sQName) throws SAXException {
 
+    //Check this before checking string buffer - it might be empty here
+    //and that's okay
+    if (sQName.equals("ou_subplot")) {
+      m_bReadingSubplot = false;
+    }
+    
     //Make sure there's data in the string buffer
     if (m_sBuf.length() == 0) return;
 
@@ -402,7 +408,7 @@ public class DetailedOutputFileSetupParseHandler
       m_bIsBool = false;
 
     }
-    else if (sQName.equals("timesteps")) {
+    if (sQName.equals("timesteps")) {
       int iTimesteps = Integer.valueOf(m_sBuf.toString()).intValue();
       m_oManager.setParFileTimesteps(iTimesteps);
     }
@@ -432,9 +438,6 @@ public class DetailedOutputFileSetupParseHandler
     	if (m_oManager.isThisSubplot(m_sBuf.toString())) {
     		m_bReadingSubplot = true;
     	} else m_bReadingSubplot = false;
-    }
-    else if (sQName.equals("ou_subplot")) {
-    	m_bReadingSubplot = false;
     }
   }
 

@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 import sortie.data.simpletypes.ModelException;
 
 
-class DetailedOutputFileSetupParseHandlerTest extends TestCase {
+public class TestDetailedOutputFileSetupParseHandler extends TestCase {
 
   /**
    * This tests that subplots are correctly read when there are both short output and detailed output subplots.
@@ -18,7 +18,7 @@ class DetailedOutputFileSetupParseHandlerTest extends TestCase {
     try {
       sFileName = writeXMLFileForSubplots();
       DetailedOutputFileManager oManager = new DetailedOutputFileManager(sFileName);
-      assertEquals(oManager.getPlotArea(), 4, 0.001);
+      assertEquals(4, oManager.getPlotArea(), 0.001);
       
     }catch (ModelException oErr) {
       fail("Parameter file read failed with message " + oErr.getMessage());
@@ -37,7 +37,7 @@ class DetailedOutputFileSetupParseHandlerTest extends TestCase {
    * @return String Filename of file written.
    */
   private String writeXMLFileForSubplots() throws IOException {
-    String sFileName = "\\testfile1.xml";
+    String sFileName = "\\testfile1_S1.xml";
     FileWriter oOut = new FileWriter(sFileName);
 
     oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
@@ -85,6 +85,7 @@ class DetailedOutputFileSetupParseHandlerTest extends TestCase {
     oOut.write("</tr_maxSeedlingHeight>");
     oOut.write("</trees>");
     oOut.write("<behaviorList>");
+    oOut.write("<behavior>");
     oOut.write("<behaviorName>StochasticMortality</behaviorName>");
     oOut.write("<version>1.0</version>");
     oOut.write("<listPosition>1</listPosition>");
@@ -196,7 +197,6 @@ class DetailedOutputFileSetupParseHandlerTest extends TestCase {
     oOut.write("<ou_float>Light</ou_float>");
     oOut.write("<ou_float>Growth</ou_float>");
     oOut.write("</ou_treeInfo>");
-    oOut.write("<ou_treeInfo species=\"White_Cedar\" type=\"Adult\">");
     oOut.write("<ou_subplot>");
     oOut.write("<ou_subplotName>S1</ou_subplotName>");
     oOut.write("<pointSet>");

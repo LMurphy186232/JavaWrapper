@@ -191,6 +191,7 @@ public class DetailedOutputFileManager
    */
   public DetailedOutputFileManager(String sParFile) throws ModelException {
     super(null, sParFile);
+    FileInputStream oInputStream = null;
     try {
 
       m_iLastTimestepRead = 0;
@@ -230,7 +231,7 @@ public class DetailedOutputFileManager
         m_sLongFileDisplayName = m_sFileRoot;
       }
 
-      m_sTempDir = sortie.fileops.Tarball.extractTarball(m_sFilename, m_sTempRoot);
+      m_sTempDir = "";
 
       //Create our parser
       //Create the parser this way - don't go through the SAXParserFactory!
@@ -238,8 +239,16 @@ public class DetailedOutputFileManager
       //read local files.
       m_oParser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
 
-      parseParamFile();
-      countTimesteps();
+      //Create the handler that looks for setup data and register it
+      DefaultHandler oHandler = new DetailedOutputFileSetupParseHandler(this);
+      m_oParser.setContentHandler(oHandler);
+
+      //Parse the file
+      oInputStream = new FileInputStream(sParFile);
+      InputSource oToParse = new InputSource(oInputStream);
+
+      m_oParser.parse(oToParse);
+      //countTimesteps();
       
       //Update area calculation
       if (m_fPlotArea < 0.0001) {
@@ -262,7 +271,15 @@ public class DetailedOutputFileManager
     }
     catch (SAXException e) {
       throw(new ModelException(ErrorGUI.UNKNOWN, "JAVA",
-      "There were problems constructing the XML parser."));
+      "There were problems constructing the XML parser. Message: " + e.getMessage()));
+    }
+    catch (IOException e) {
+        throw(new ModelException(ErrorGUI.BAD_FILE, "JAVA", e.getMessage()));
+    }
+    finally {
+      try {
+        if (oInputStream != null) oInputStream.close();        
+      } catch (IOException e) {;}
     }
   }
 
