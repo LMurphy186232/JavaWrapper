@@ -183,6 +183,88 @@ public class DetailedOutputFileManager
       "There were problems constructing the XML parser."));
     }
   }
+  
+  /**
+   * Constructor, for testing.
+   * @param sParFile Filename of a parameter file.
+   * @throws ModelException If there was a problem reading the file.
+   */
+  public DetailedOutputFileManager(String sParFile) throws ModelException {
+    super(null, sParFile);
+    try {
+
+      m_iLastTimestepRead = 0;
+
+      //Put together the root temp directory - the application's directory
+      //plus temp
+      String sPath = System.getProperty("SORTIE_PATH");
+      String sSeparator = System.getProperty("file.separator");
+      if (sPath == null) {
+        m_sTempRoot = sSeparator + "temp";
+      }
+      else {
+        if (sPath.endsWith(sSeparator) == false) {
+          sPath += sSeparator;
+        }
+        m_sTempRoot = sPath + "temp";
+      }
+      
+      //Get the root filename
+      m_sFileRoot = sParFile.substring(0, sParFile.indexOf(".xml"));
+      
+      //Create a display name
+      if (m_sFileRoot.length() > 40) {
+        //Take the LAST 40, minus the extension
+        String sText = m_sFileRoot.substring(m_sFileRoot.length() - 40);
+        m_sShortFileDisplayName = "..." + sText;
+      }
+      else {
+        m_sShortFileDisplayName = m_sFileRoot;
+      }
+      if (m_sFileRoot.length() > 90) {
+        //Take the LAST 90, minus the extension
+        String sText = m_sFileRoot.substring(m_sFileRoot.length() - 90);
+        m_sLongFileDisplayName = "..." + sText;
+      }
+      else {
+        m_sLongFileDisplayName = m_sFileRoot;
+      }
+
+      m_sTempDir = sortie.fileops.Tarball.extractTarball(m_sFilename, m_sTempRoot);
+
+      //Create our parser
+      //Create the parser this way - don't go through the SAXParserFactory!
+      //Parsers created that way throw MalformedURLExceptions when asked to
+      //read local files.
+      m_oParser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
+
+      parseParamFile();
+      countTimesteps();
+      
+      //Update area calculation
+      if (m_fPlotArea < 0.0001) {
+        m_fPlotArea = (m_fXPlotLength * m_fYPlotLength)/10000;
+      } else {
+        //This was a subplot and area is in square meters - transform to hectares
+        m_fPlotArea /= 10000;
+      }
+
+      //Create the legend
+      String[] sSpeciesNames = new String[mp_sSpeciesNames.size()];
+      for (int i = 0; i < mp_sSpeciesNames.size(); i++) {
+        sSpeciesNames[i] = mp_sSpeciesNames.get(i);
+      }
+
+      String sFileName = new java.io.File(m_sFilename).getName();
+      m_oLegend = new DetailedOutputLegend(this, sFileName, sSpeciesNames,
+                                           m_iNumTimesteps);
+
+    }
+    catch (SAXException e) {
+      throw(new ModelException(ErrorGUI.UNKNOWN, "JAVA",
+      "There were problems constructing the XML parser."));
+    }
+  }
 
   /**
    * Sets the number of timesteps for the detailed output file parameter file.
