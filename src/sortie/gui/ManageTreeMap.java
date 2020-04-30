@@ -371,10 +371,16 @@ public class ManageTreeMap extends JDialog implements ActionListener {
       }
       refreshChart();
     }
+    catch (Exception oErr) {
+      ErrorGUI oHandler = new ErrorGUI(this);
+      oHandler.writeErrorMessage(new ModelException(ErrorGUI.UNKNOWN, "JAVA",
+          "A problem occurred. Message: " + oErr.getMessage()));
+    }
     catch (ModelException oErr) {
       ErrorGUI oHandler = new ErrorGUI(this);
       oHandler.writeErrorMessage(oErr);
     }
+    
     finally {
       this.setCursor(java.awt.Cursor.getPredefinedCursor(java.awt.Cursor.
           DEFAULT_CURSOR));
