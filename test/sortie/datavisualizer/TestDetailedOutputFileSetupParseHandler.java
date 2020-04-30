@@ -26,7 +26,9 @@ public class TestDetailedOutputFileSetupParseHandler extends TestCase {
     catch (IOException oE) {
       fail("Caught IOException.  Message: " + oE.getMessage());
     } finally {
+      try {
       new File(sFileName).delete();
+      } catch (Exception e) { ;}
     }
   }
 

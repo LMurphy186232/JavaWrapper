@@ -63,6 +63,8 @@ public class TestOtherDisturbanceBehaviors extends ModelTestCase {
           "Competition Harvest: Fixed Interval Harvest Interval (yr)",
           "Competition Harvest: Fixed BA Harvest Threshold (m2/ha)",
           "Competition Harvest: Filename for List of Harvested Trees",
+          "Competition Harvest: Year of Run To Begin Harvests",
+          "Competition Harvest: Cut Most Competitive First?",
           "Competition Harvest: Species 1 Target Lambda",
       "Competition Harvest: Species 3 Target Lambda" };
       TestTable(oBeh.formatDataForDisplay(oPop), p_sExpected);
@@ -92,6 +94,8 @@ public class TestOtherDisturbanceBehaviors extends ModelTestCase {
           "Competition Harvest: Fixed Interval Harvest Interval (yr)",
           "Competition Harvest: Fixed BA Harvest Threshold (m2/ha)",
           "Competition Harvest: Filename for List of Harvested Trees",
+          "Competition Harvest: Year of Run To Begin Harvests",
+          "Competition Harvest: Cut Most Competitive First?",
           "Competition Harvest: Species 2 Target Lambda",
       "Competition Harvest: Species 3 Target Lambda" };
       TestTable(oBeh.formatDataForDisplay(oPop), p_sExpected);
@@ -119,6 +123,8 @@ public class TestOtherDisturbanceBehaviors extends ModelTestCase {
           "Competition Harvest: Min Years Between Fixed BA Harvests",
           "Competition Harvest: Fixed Interval Harvest Interval (yr)",
           "Competition Harvest: Fixed BA Harvest Threshold (m2/ha)",
+          "Competition Harvest: Year of Run To Begin Harvests",
+          "Competition Harvest: Cut Most Competitive First?",
           "Competition Harvest: Filename for List of Harvested Trees",
           "Competition Harvest: Species 1 Target Lambda",
           "Competition Harvest: Species 2 Target Lambda",
@@ -372,6 +378,8 @@ public class TestOtherDisturbanceBehaviors extends ModelTestCase {
     oOut.write("<di_compHarvTypeHarvest>1</di_compHarvTypeHarvest>");
     oOut.write("<di_compHarvCutAmount>0.0406</di_compHarvCutAmount>");
     oOut.write("<di_compHarvBAThreshold>0.2</di_compHarvBAThreshold>");
+    oOut.write("<di_compHarvFirstHarvestYear>6</di_compHarvFirstHarvestYear>");
+    oOut.write("<di_compHarvCutMostComp>0</di_compHarvCutMostComp>");
     oOut.write("<di_compHarvMinInterval>2</di_compHarvMinInterval>");
     oOut.write("<di_compHarvInterval>3</di_compHarvInterval>");
     oOut

@@ -26,6 +26,7 @@ public class AllTests {
     suite.addTest(sortie.data.funcgroups.statechange.AllTests.suite());
     suite.addTest(sortie.data.funcgroups.substrate.AllTests.suite());
     suite.addTest(sortie.data.simpletypes.AllTests.suite());
+    suite.addTest(sortie.datavisualizer.AllTests.suite());
     suite.addTest(sortie.gui.AllTests.suite());
     suite.addTest(sortie.gui.behaviorsetup.AllTests.suite());
     suite.addTest(sortie.gui.harvepplant.AllTests.suite());
