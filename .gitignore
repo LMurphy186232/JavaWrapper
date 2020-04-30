@@ -47,3 +47,4 @@ bin/coremodel.exe
 bin/gzip.exe
 bin/tar.exe
 SORTIE.jar
+/test.xml
