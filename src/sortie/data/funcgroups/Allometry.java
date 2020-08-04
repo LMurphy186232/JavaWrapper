@@ -433,37 +433,37 @@ public class Allometry extends Behavior {
   /** NCI crown radius - Maximum potential crown radius */
   protected ModelVector mp_fNCIMaxCrownRadius = new ModelVector(
       "NCI Crown Radius - Max Potential Radius (m)", 
-      "tr_nciCRMaxCrownRadius", "tr_ncrmcrVal", 0, ModelVector.FLOAT);
+      "tr_nciCRMaxCrownRadius", "tr_ncrmcrVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown radius alpha*/
   protected ModelVector mp_fNCICRAlpha = new ModelVector(
       "NCI Crown Radius - Alpha", 
-      "tr_nciCRAlpha", "tr_ncraVal", 0, ModelVector.FLOAT);
+      "tr_nciCRAlpha", "tr_ncraVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown radius beta*/
   protected ModelVector mp_fNCICRBeta = new ModelVector(
       "NCI Crown Radius - Beta", 
-      "tr_nciCRBeta", "tr_ncrbVal", 0, ModelVector.FLOAT);
+      "tr_nciCRBeta", "tr_ncrbVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown radius gamma*/
   protected ModelVector mp_fNCICRGamma = new ModelVector(
       "NCI Crown Radius - Gamma", 
-      "tr_nciCRGamma", "tr_ncrgVal", 0, ModelVector.FLOAT);
+      "tr_nciCRGamma", "tr_ncrgVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown radius maximum search distance for neighbors, in meters*/
   protected ModelVector mp_fNCICRMaxCrowdingRadius = new ModelVector(
       "NCI Crown Radius - Max Search Distance for Neighbors (m)", 
-      "tr_nciCRMaxCrowdingRadius", "tr_ncrmcrVal", 0, ModelVector.FLOAT);
+      "tr_nciCRMaxCrowdingRadius", "tr_ncrmcrVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown radius crowding effect n*/
   protected ModelVector mp_fNCICRN = new ModelVector(
       "NCI Crown Radius - Crowding Effect \"n\"", 
-      "tr_nciCRCrowdingN", "tr_nccrnVal", 0, ModelVector.FLOAT);
+      "tr_nciCRCrowdingN", "tr_nccrnVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown radius size effect d*/
   protected ModelVector mp_fNCICRD = new ModelVector(
       "NCI Crown Radius - Size Effect \"d\"", 
-      "tr_nciCRSizeEffectD", "tr_ncrsedVal", 0, ModelVector.FLOAT);
+      "tr_nciCRSizeEffectD", "tr_ncrsedVal", 0, ModelVector.FLOAT, true);
 
   /**The minimum DBH, in cm, of neighbors to be included in NCI calculations.
    * Array is sized total number of species.*/
@@ -474,37 +474,37 @@ public class Allometry extends Behavior {
   /**Maximum crown depth value*/
   protected ModelVector mp_fNCIMaxCrownDepth = new ModelVector(
       "NCI Crown Depth - Max Potential Depth (m)", 
-      "tr_nciCDMaxCrownDepth", "tr_ncdmcrVal", 0, ModelVector.FLOAT);
+      "tr_nciCDMaxCrownDepth", "tr_ncdmcrVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown depth alpha*/
   protected ModelVector mp_fNCICDAlpha = new ModelVector(
       "NCI Crown Depth - Alpha", 
-      "tr_nciCDAlpha", "tr_ncdaVal", 0, ModelVector.FLOAT);
+      "tr_nciCDAlpha", "tr_ncdaVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown depth beta*/
   protected ModelVector mp_fNCICDBeta = new ModelVector(
       "NCI Crown Depth - Beta", 
-      "tr_nciCDBeta", "tr_ncdbVal", 0, ModelVector.FLOAT);
+      "tr_nciCDBeta", "tr_ncdbVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown depth gamma*/
   protected ModelVector mp_fNCICDGamma = new ModelVector(
       "NCI Crown Depth - Gamma", 
-      "tr_nciCDGamma", "tr_ncdgVal", 0, ModelVector.FLOAT);
+      "tr_nciCDGamma", "tr_ncdgVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown depth maximum search distance for neighbors, in meters.*/
   protected ModelVector mp_fNCICDMaxCrowdingRadius = new ModelVector(
       "NCI Crown Depth - Max Search Distance for Neighbors (m)", 
-      "tr_nciCDMaxCrowdingRadius", "tr_ncdmcrVal", 0, ModelVector.FLOAT);
+      "tr_nciCDMaxCrowdingRadius", "tr_ncdmcrVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown depth crowding effect n*/
   protected ModelVector mp_fNCICDN = new ModelVector(
       "NCI Crown Depth - Crowding Effect \"n\"", 
-      "tr_nciCDCrowdingN", "tr_nccdnVal", 0, ModelVector.FLOAT);
+      "tr_nciCDCrowdingN", "tr_nccdnVal", 0, ModelVector.FLOAT, true);
 
   /**NCI crown depth size effect d*/
   protected ModelVector mp_fNCICDD = new ModelVector(
       "NCI Crown Depth - Size Effect \"d\"", 
-      "tr_nciCDSizeEffectD", "tr_ncdsedVal", 0, ModelVector.FLOAT);
+      "tr_nciCDSizeEffectD", "tr_ncdsedVal", 0, ModelVector.FLOAT, true);
 
   /**The minimum DBH, in cm, of neighbors to be included in NCI calculations.
    * Array is sized total number of species.*/
@@ -705,7 +705,7 @@ public class Allometry extends Behavior {
         ModelVector oVector = new ModelVector("NCI Crown Radius Lambda for "
             + sSpName.replace('_', ' ') + " Neighbors",
             "tr_nciCR" + sSpName + "NeighborLambda", "tr_ncrlVal",
-            0, ModelVector.FLOAT);
+            0, ModelVector.FLOAT, true);
 
         mp_oAllData.add(oVector);
       }
@@ -734,7 +734,7 @@ public class Allometry extends Behavior {
         ModelVector oVector = new ModelVector("NCI Crown Depth Lambda for "
             + sSpName.replace('_', ' ') + " Neighbors",
             "tr_nciCD" + sSpName + "NeighborLambda", "tr_ncdlVal",
-            0, ModelVector.FLOAT);
+            0, ModelVector.FLOAT, true);
 
         mp_oAllData.add(oVector);
       }
@@ -765,26 +765,25 @@ public class Allometry extends Behavior {
   public void validateData(TreePopulation oPop) throws ModelException {
     int iNumSpecies = oPop.getNumberOfSpecies(), i;
     boolean[] p_bApplies = new boolean[iNumSpecies];
-
-    //Validate the size of the species-specific vectors
-    ValidationHelpers.makeSureRightSize(mp_fCrownRadExp, iNumSpecies);
-    ValidationHelpers.makeSureRightSize(mp_fSlopeOfAsympCrownRad, iNumSpecies);
-    ValidationHelpers.makeSureRightSize(mp_fDiam10ToDbhSlope, iNumSpecies);
-    ValidationHelpers.makeSureRightSize(mp_fDiam10ToDbhIntercept, iNumSpecies);
-    ValidationHelpers.makeSureRightSize(mp_fSlopeOfAsympCrownDpth, iNumSpecies);
-    ValidationHelpers.makeSureRightSize(mp_fCrownDepthExp, iNumSpecies);
+    
+    //Validate the size of the species-specific vectors - actually, no, none of
+    //these universally applies
+    //ValidationHelpers.makeSureRightSize(mp_fCrownRadExp, iNumSpecies);
+    //ValidationHelpers.makeSureRightSize(mp_fSlopeOfAsympCrownRad, iNumSpecies);
+    //ValidationHelpers.makeSureRightSize(mp_fDiam10ToDbhSlope, iNumSpecies);
+    //ValidationHelpers.makeSureRightSize(mp_fDiam10ToDbhIntercept, iNumSpecies);
+    //ValidationHelpers.makeSureRightSize(mp_fSlopeOfAsympCrownDpth, iNumSpecies);
+    //ValidationHelpers.makeSureRightSize(mp_fCrownDepthExp, iNumSpecies);
     ValidationHelpers.makeSureRightSize(mp_fMaxCanopyHeight, iNumSpecies);
 
     //Slope of asymptotic crown depth should not be negative
     for (i = 0; i < p_bApplies.length; i++) {
-      if (1 ==
-          ( (ModelEnum) mp_iWhatAdultCDHFunction.getValue().get(i)).getValue() &&
-          1 ==
-          ( (ModelEnum) mp_iWhatSaplingCDHFunction.getValue().get(i)).getValue()) {
-        p_bApplies[i] = false;
+      if (0 == ((ModelEnum) mp_iWhatAdultCDHFunction.getValue().get(i)).getValue() ||
+          0 == ((ModelEnum) mp_iWhatSaplingCDHFunction.getValue().get(i)).getValue()) {
+        p_bApplies[i] = true;
       }
       else {
-        p_bApplies[i] = true;
+        p_bApplies[i] = false;
       }
     }
     ValidationHelpers.makeSureAllPositive(mp_fSlopeOfAsympCrownDpth, p_bApplies);

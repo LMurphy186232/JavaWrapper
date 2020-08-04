@@ -240,6 +240,237 @@ extends ModelTestCase {
       new File(sFileName).delete();
     }
   }
+  
+  
+  
+  /**
+   * Test that NCI parameters get correctly written. This is in response to a 
+   * bug reported July 2020
+   */
+  public void testReadWriteNCI() {
+    GUIManager oManager = null;
+    String sFileName = null;
+    ModelData oData;
+    ModelVector oVector;
+    int i, iIndex = 0; 
+    try {
+
+      oManager = new GUIManager(null);
+      oManager.clearCurrentData();
+      sFileName = WriteXMLFileForNCI();
+      oManager.inputXMLParameterFile(sFileName);
+      Allometry oAllom = oManager.getTreePopulation().getAllometry();
+      
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(0)).floatValue(), 0.7059, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(1)).floatValue(), 0.8008, 0.001);
+
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(0)).floatValue(), 0.0, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(1)).floatValue(), 1.3, 0.001);
+
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(0)).floatValue(), 0.03418, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(1)).floatValue(), 0.2871, 0.001);
+
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(0)).floatValue(), 0.0263, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(1)).floatValue(), 0.0163, 0.001);
+
+      ModelEnum oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 1);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 1);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 1);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 3);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 3);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 3);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 3);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 3);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 3);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 3);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 3);
+
+      for (i = 0; i < oAllom.mp_oAllData.size(); i++) {
+        oData =  oAllom.mp_oAllData.get(i);
+        if (oData.getDescriptor().toLowerCase().indexOf("nci crown radius lambda") > -1) {
+          iIndex = i;
+          break;
+        }
+      }
+      oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.6640108, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.71, 0.01);
+      oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex + 1);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.00442797, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.12, 0.01);
+
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownRadius.getValue().get(0)).floatValue(), 3.052587488, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownRadius.getValue().get(1)).floatValue(), 5.2, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMaxCrowdingRadius.getValue().get(0)).floatValue(), 10, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMaxCrowdingRadius.getValue().get(1)).floatValue(), 15, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRAlpha.getValue().get(0)).floatValue(), 2.17031683, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRAlpha.getValue().get(1)).floatValue(), 2.81, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRBeta.getValue().get(0)).floatValue(), 0.69994199, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRBeta.getValue().get(1)).floatValue(), 0.5, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRGamma.getValue().get(0)).floatValue(), 0, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRGamma.getValue().get(1)).floatValue(), -0.13, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRN.getValue().get(0)).floatValue(), 0.00163, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRN.getValue().get(1)).floatValue(), 0.000126, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMinNeighborDBH.getValue().get(0)).floatValue(), 10, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMinNeighborDBH.getValue().get(1)).floatValue(), 12, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRD.getValue().get(0)).floatValue(), 0.163, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRD.getValue().get(1)).floatValue(), 0.126, 0.001);
+
+      for (i = 0; i < oAllom.mp_oAllData.size(); i++) {
+        oData =  oAllom.mp_oAllData.get(i);
+        if (oData.getDescriptor().toLowerCase().indexOf("nci crown depth lambda") > -1) {
+          iIndex = i;
+          break;
+        }
+      }
+      oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.83, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.33, 0.01);
+      oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex + 1);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.54, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.27, 0.01);
+
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownDepth.getValue().get(0)).floatValue(), 65.67, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownDepth.getValue().get(1)).floatValue(), 9.52, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDMaxCrowdingRadius.getValue().get(0)).floatValue(), 10, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDMaxCrowdingRadius.getValue().get(1)).floatValue(), 15, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDAlpha.getValue().get(0)).floatValue(), 1.052587488, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDAlpha.getValue().get(1)).floatValue(), 1.531, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDBeta.getValue().get(0)).floatValue(), 0.698, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDBeta.getValue().get(1)).floatValue(), 0.457, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDGamma.getValue().get(0)).floatValue(), -0.0163, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDGamma.getValue().get(1)).floatValue(), -0.0126, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDN.getValue().get(0)).floatValue(), 0.0034, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDN.getValue().get(1)).floatValue(), 0.00526, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDMinNeighborDBH.getValue().get(0)).floatValue(), 11, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDMinNeighborDBH.getValue().get(1)).floatValue(), 13, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDD.getValue().get(0)).floatValue(), 0.042, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICDD.getValue().get(1)).floatValue(), 0.034, 0.001);
+      
+      
+      
+      ///////////////////////////////////////////////////////////////////////////
+      //Write the parameter file back out and make sure it reads back in the same
+      sFileName = "c:\\users\\lora\\documents\\test.xml";
+      oManager.writeParameterFile(sFileName);
+      oManager.inputXMLParameterFile(sFileName);
+      oAllom = oManager.getTreePopulation().getAllometry();
+
+      assertEquals(((Float) oAllom.mp_fMaxCanopyHeight.getValue().get(0)).floatValue(), 45, 0.001);
+      assertEquals(((Float) oAllom.mp_fMaxCanopyHeight.getValue().get(1)).floatValue(), 39.48, 0.001);
+
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(0)).floatValue(), 0.7059, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhSlope.getValue().get(1)).floatValue(), 0.8008, 0.001);
+
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(0)).floatValue(), 0.0, 0.001);
+      assertEquals(((Float) oAllom.mp_fDiam10ToDbhIntercept.getValue().get(1)).floatValue(), 1.3, 0.001);
+
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(0)).floatValue(), 0.03418, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfHeightDiam10.getValue().get(1)).floatValue(), 0.2871, 0.001);
+
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(0)).floatValue(), 0.0263, 0.001);
+      assertEquals(((Float) oAllom.mp_fSlopeOfAsymptoticHeight.getValue().get(1)).floatValue(), 0.0163, 0.001);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSeedlingHDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 1);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingHDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 1);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 1);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultHDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 1);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 3);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCRDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 3);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 3);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCRDFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 3);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 3);
+      oEnum = (ModelEnum) oAllom.mp_iWhatAdultCDHFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 3);
+
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().get(0);
+      assertEquals(oEnum.getValue(), 3);
+      oEnum = (ModelEnum) oAllom.mp_iWhatSaplingCDHFunction.getValue().get(1);
+      assertEquals(oEnum.getValue(), 3);
+
+      for (i = 0; i < oAllom.mp_oAllData.size(); i++) {
+        oData =  oAllom.mp_oAllData.get(i);
+        if (oData.getDescriptor().toLowerCase().indexOf("nci crown radius lambda") > -1) {
+          iIndex = i;
+          break;
+        }
+      }
+      oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex);
+      assertTrue(oVector.getValue().size() > 0);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.6640108, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.71, 0.01);
+      oVector = (ModelVector) oAllom.mp_oAllData.get(iIndex + 1);
+      assertEquals( ( (Number) oVector.getValue().get(0)).floatValue(), (float) 0.00442797, 0.01);
+      assertEquals( ( (Number) oVector.getValue().get(1)).floatValue(), (float) 0.12, 0.01);
+
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownRadius.getValue().get(0)).floatValue(), 3.052587488, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCIMaxCrownRadius.getValue().get(1)).floatValue(), 5.2, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMaxCrowdingRadius.getValue().get(0)).floatValue(), 10, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMaxCrowdingRadius.getValue().get(1)).floatValue(), 15, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRAlpha.getValue().get(0)).floatValue(), 2.17031683, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRAlpha.getValue().get(1)).floatValue(), 2.81, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRBeta.getValue().get(0)).floatValue(), 0.69994199, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRBeta.getValue().get(1)).floatValue(), 0.5, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRGamma.getValue().get(0)).floatValue(), 0, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRGamma.getValue().get(1)).floatValue(), -0.13, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRN.getValue().get(0)).floatValue(), 0.00163, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRN.getValue().get(1)).floatValue(), 0.000126, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMinNeighborDBH.getValue().get(0)).floatValue(), 10, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRMinNeighborDBH.getValue().get(1)).floatValue(), 12, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRD.getValue().get(0)).floatValue(), 0.163, 0.001);
+      assertEquals( ( (Float) oAllom.mp_fNCICRD.getValue().get(1)).floatValue(), 0.126, 0.001);
+    }
+    catch (ModelException oErr) {
+      fail("Allometry parameter file reading failed with message " +
+          oErr.getMessage());
+    }
+    catch (java.io.IOException oE) {
+      fail("Caught IOException.  Message: " + oE.getMessage());
+    }
+  }  
+  
+  
 
   /**
    * Test parameter file reading for allometry
@@ -771,7 +1002,9 @@ extends ModelTestCase {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
     finally {
-      new File(sFileName).delete();
+      if (sFileName != null) {
+        new File(sFileName).delete();
+      }
     }
   }
 
@@ -1116,7 +1349,9 @@ extends ModelTestCase {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
     finally {
-      new File(sFileName).delete();
+      if (sFileName != null) {
+        new File(sFileName).delete();
+      }
     }
   }
 
@@ -2474,7 +2709,9 @@ extends ModelTestCase {
       fail("Caught IOException.  Message: " + oE.getMessage());
     }
     finally {
-      new File(sFileName).delete();
+      if (sFileName != null) {
+        new File(sFileName).delete();
+      }
     }
   }
   
@@ -2814,6 +3051,219 @@ extends ModelTestCase {
     oOut.write("<applyTo species=\"Species_2\" type=\"Sapling\"/>");
     oOut.write("<applyTo species=\"Species_3\" type=\"Adult\"/>");
     oOut.write("<applyTo species=\"Species_3\" type=\"Sapling\"/>");
+    oOut.write("</behavior>");
+    oOut.write("</behaviorList>");
+    oOut.write("<ConstantGLI1>");
+    oOut.write("<li_constGLI>12.5</li_constGLI>");
+    oOut.write("</ConstantGLI1>");
+    oOut.write("</paramFile>");
+
+    oOut.close();
+
+    return sFileName;
+  }
+  
+  /**
+   * Writes a valid file for testing parameter file reading.
+   * @throws IOException if the file can't be written.
+   * @return String Filename.
+   */
+  private String WriteXMLFileForNCI() throws java.io.IOException {
+    String sFileName = "\\testfile1.xml";
+    java.io.FileWriter oOut = new java.io.FileWriter(sFileName);
+
+    oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+    oOut.write("<paramFile fileCode=\"07010101\">");
+    oOut.write("<plot>");
+    oOut.write("<timesteps>3</timesteps>");
+    oOut.write("<yearsPerTimestep>1</yearsPerTimestep>");
+    oOut.write("<randomSeed>1</randomSeed>");
+    oOut.write("<plot_lenX>200.0</plot_lenX>");
+    oOut.write("<plot_lenY>200.0</plot_lenY>");
+    oOut.write("<plot_latitude>55.37</plot_latitude>");
+    oOut.write("</plot>");
+    oOut.write("<trees>");
+    oOut.write("<tr_speciesList>");
+    oOut.write("<tr_species speciesName=\"Species_1\"/>");
+    oOut.write("<tr_species speciesName=\"Species_2\"/>");
+    oOut.write("</tr_speciesList>");
+    oOut.write("<tr_seedDiam10Cm>0.1</tr_seedDiam10Cm>");
+    oOut.write("<tr_minAdultDBH>");
+    oOut.write("<tr_madVal species=\"Species_1\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Species_2\">10</tr_madVal>");
+    oOut.write("</tr_minAdultDBH>");
+    oOut.write("<tr_maxSeedlingHeight>");
+    oOut.write("<tr_mshVal species=\"Species_1\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Species_2\">1.35</tr_mshVal>");
+    oOut.write("</tr_maxSeedlingHeight>");
+    oOut.write("</trees>");
+    oOut.write("<allometry>");
+    oOut.write("<tr_canopyHeight>");
+    oOut.write("<tr_chVal species=\"Species_1\">45</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Species_2\">39.48</tr_chVal>");
+    oOut.write("</tr_canopyHeight>");
+    oOut.write("<tr_stdMaxCrownRad>");
+    oOut.write("<tr_smcrVal species=\"Species_1\">22</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Species_2\">33</tr_smcrVal>");
+    oOut.write("</tr_stdMaxCrownRad>");
+    oOut.write("<tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_cdtdVal species=\"Species_1\">0.7059</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Species_2\">0.8008</tr_cdtdVal>");
+    oOut.write("</tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_interceptDiam10ToDBH>");
+    oOut.write("<tr_idtdVal species=\"Species_1\">0.0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Species_2\">1.3</tr_idtdVal>");
+    oOut.write("</tr_interceptDiam10ToDBH>");
+    oOut.write("<tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_sohdVal species=\"Species_1\">0.03418</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Species_2\">0.2871</tr_sohdVal>");
+    oOut.write("</tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_slopeOfAsymHeight>");
+    oOut.write("<tr_soahVal species=\"Species_1\">0.0263</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Species_2\">0.0163</tr_soahVal>");
+    oOut.write("</tr_slopeOfAsymHeight>");
+    oOut.write("<tr_whatSeedlingHeightDiam>");
+    oOut.write("<tr_wsehdVal species=\"Species_1\">1</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Species_2\">1</tr_wsehdVal>");
+    oOut.write("</tr_whatSeedlingHeightDiam>");
+    oOut.write("<tr_whatSaplingHeightDiam>");
+    oOut.write("<tr_wsahdVal species=\"Species_1\">1</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Species_2\">1</tr_wsahdVal>");
+    oOut.write("</tr_whatSaplingHeightDiam>");
+    oOut.write("<tr_whatAdultHeightDiam>");
+    oOut.write("<tr_wahdVal species=\"Species_1\">1</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Species_2\">1</tr_wahdVal>");
+    oOut.write("</tr_whatAdultHeightDiam>");
+    oOut.write("<tr_whatAdultCrownRadDiam>");
+    oOut.write("<tr_wacrdVal species=\"Species_1\">3</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Species_2\">3</tr_wacrdVal>");
+    oOut.write("</tr_whatAdultCrownRadDiam>");
+    oOut.write("<tr_whatAdultCrownHeightHeight>");
+    oOut.write("<tr_wachhVal species=\"Species_1\">3</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Species_2\">3</tr_wachhVal>");
+    oOut.write("</tr_whatAdultCrownHeightHeight>");
+    oOut.write("<tr_whatSaplingCrownRadDiam>");
+    oOut.write("<tr_wscrdVal species=\"Species_1\">3</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Species_2\">3</tr_wscrdVal>");
+    oOut.write("</tr_whatSaplingCrownRadDiam>");
+    oOut.write("<tr_whatSaplingCrownHeightHeight>");
+    oOut.write("<tr_wschhVal species=\"Species_1\">3</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Species_2\">3</tr_wschhVal>");
+    oOut.write("</tr_whatSaplingCrownHeightHeight>");
+    oOut.write("<tr_adultLinearSlope>");
+    oOut.write("<tr_alsVal species=\"Species_1\">0.96</tr_alsVal>");
+    oOut.write("<tr_alsVal species=\"Species_2\">1.3</tr_alsVal>");
+    oOut.write("</tr_adultLinearSlope>");
+    oOut.write("<tr_adultLinearIntercept>");
+    oOut.write("<tr_aliVal species=\"Species_1\">0</tr_aliVal>");
+    oOut.write("<tr_aliVal species=\"Species_2\">-0.9</tr_aliVal>");
+    oOut.write("</tr_adultLinearIntercept>");
+    oOut.write("<tr_saplingLinearSlope>");
+    oOut.write("<tr_salsVal species=\"Species_1\">0.492</tr_salsVal>");
+    oOut.write("<tr_salsVal species=\"Species_2\">0.0549</tr_salsVal>");
+    oOut.write("</tr_saplingLinearSlope>");
+    oOut.write("<tr_saplingLinearIntercept>");
+    oOut.write("<tr_saliVal species=\"Species_1\">1.2</tr_saliVal>");
+    oOut.write("<tr_saliVal species=\"Species_2\">0</tr_saliVal>");
+    oOut.write("</tr_saplingLinearIntercept>");
+    oOut.write("<tr_seedlingLinearSlope>");
+    oOut.write("<tr_selsVal species=\"Species_1\">0.9629</tr_selsVal>");
+    oOut.write("<tr_selsVal species=\"Species_2\">1.228</tr_selsVal>");
+    oOut.write("</tr_seedlingLinearSlope>");
+    oOut.write("<tr_seedlingLinearIntercept>");
+    oOut.write("<tr_seliVal species=\"Species_1\">0</tr_seliVal>");
+    oOut.write("<tr_seliVal species=\"Species_2\">-0.9</tr_seliVal>");
+    oOut.write("</tr_seedlingLinearIntercept>");
+    oOut.write("<tr_nciCRSpecies_1NeighborLambda>");
+    oOut.write("<tr_ncrlVal species=\"Species_1\">0.66401082</tr_ncrlVal>");
+    oOut.write("<tr_ncrlVal species=\"Species_2\">0.71</tr_ncrlVal>");
+    oOut.write("</tr_nciCRSpecies_1NeighborLambda>");
+    oOut.write("<tr_nciCRSpecies_2NeighborLambda>");
+    oOut.write("<tr_ncrlVal species=\"Species_1\">0.00442797</tr_ncrlVal>");
+    oOut.write("<tr_ncrlVal species=\"Species_2\">0.12</tr_ncrlVal>");
+    oOut.write("</tr_nciCRSpecies_2NeighborLambda>");
+    oOut.write("<tr_nciCRMaxCrownRadius>");
+    oOut.write("<tr_ncrmcrVal species=\"Species_1\">3.052587488</tr_ncrmcrVal>");
+    oOut.write("<tr_ncrmcrVal species=\"Species_2\">5.2</tr_ncrmcrVal>");
+    oOut.write("</tr_nciCRMaxCrownRadius>");
+    oOut.write("<tr_nciCRMaxCrowdingRadius>");
+    oOut.write("<tr_ncrmcrVal species=\"Species_1\">10</tr_ncrmcrVal>");
+    oOut.write("<tr_ncrmcrVal species=\"Species_2\">15</tr_ncrmcrVal>");
+    oOut.write("</tr_nciCRMaxCrowdingRadius>");
+    oOut.write("<tr_nciCRAlpha>");
+    oOut.write("<tr_ncraVal species=\"Species_1\">2.17031683</tr_ncraVal>");
+    oOut.write("<tr_ncraVal species=\"Species_2\">2.81</tr_ncraVal>");
+    oOut.write("</tr_nciCRAlpha>");
+    oOut.write("<tr_nciCRBeta>");
+    oOut.write("<tr_ncrbVal species=\"Species_1\">0.69994199</tr_ncrbVal>");
+    oOut.write("<tr_ncrbVal species=\"Species_2\">0.5</tr_ncrbVal>");
+    oOut.write("</tr_nciCRBeta>");
+    oOut.write("<tr_nciCRGamma>");
+    oOut.write("<tr_ncrgVal species=\"Species_1\">0</tr_ncrgVal>");
+    oOut.write("<tr_ncrgVal species=\"Species_2\">-0.13</tr_ncrgVal>");
+    oOut.write("</tr_nciCRGamma>");
+    oOut.write("<tr_nciCRCrowdingN>");
+    oOut.write("<tr_nccrnVal species=\"Species_1\">0.00163</tr_nccrnVal>");
+    oOut.write("<tr_nccrnVal species=\"Species_2\">0.000126</tr_nccrnVal>");
+    oOut.write("</tr_nciCRCrowdingN>");
+    oOut.write("<tr_nciCRMinNeighborDBH>");
+    oOut.write("<tr_ncrmndVal species=\"Species_1\">10</tr_ncrmndVal>");
+    oOut.write("<tr_ncrmndVal species=\"Species_2\">12</tr_ncrmndVal>");
+    oOut.write("</tr_nciCRMinNeighborDBH>");
+    oOut.write("<tr_nciCRSizeEffectD>");
+    oOut.write("<tr_ncrsedVal species=\"Species_1\">0.163</tr_ncrsedVal>");
+    oOut.write("<tr_ncrsedVal species=\"Species_2\">0.126</tr_ncrsedVal>");
+    oOut.write("</tr_nciCRSizeEffectD>");
+    oOut.write("<tr_nciCDSpecies_1NeighborLambda>");
+    oOut.write("<tr_ncdlVal species=\"Species_1\">0.83</tr_ncdlVal>");
+    oOut.write("<tr_ncdlVal species=\"Species_2\">0.33</tr_ncdlVal>");
+    oOut.write("</tr_nciCDSpecies_1NeighborLambda>");
+    oOut.write("<tr_nciCDSpecies_2NeighborLambda>");
+    oOut.write("<tr_ncdlVal species=\"Species_1\">0.54</tr_ncdlVal>");
+    oOut.write("<tr_ncdlVal species=\"Species_2\">0.27</tr_ncdlVal>");
+    oOut.write("</tr_nciCDSpecies_2NeighborLambda>");
+    oOut.write("<tr_nciCDMaxCrownDepth>");
+    oOut.write("<tr_ncdmcrVal species=\"Species_1\">65.67</tr_ncdmcrVal>");
+    oOut.write("<tr_ncdmcrVal species=\"Species_2\">9.52</tr_ncdmcrVal>");
+    oOut.write("</tr_nciCDMaxCrownDepth>");
+    oOut.write("<tr_nciCDMaxCrowdingRadius>");
+    oOut.write("<tr_ncdmcrVal species=\"Species_1\">10</tr_ncdmcrVal>");
+    oOut.write("<tr_ncdmcrVal species=\"Species_2\">15</tr_ncdmcrVal>");
+    oOut.write("</tr_nciCDMaxCrowdingRadius>");
+    oOut.write("<tr_nciCDAlpha>");
+    oOut.write("<tr_ncdaVal species=\"Species_1\">1.052587488</tr_ncdaVal>");
+    oOut.write("<tr_ncdaVal species=\"Species_2\">1.531</tr_ncdaVal>");
+    oOut.write("</tr_nciCDAlpha>");
+    oOut.write("<tr_nciCDBeta>");
+    oOut.write("<tr_ncdbVal species=\"Species_1\">0.698</tr_ncdbVal>");
+    oOut.write("<tr_ncdbVal species=\"Species_2\">0.457</tr_ncdbVal>");
+    oOut.write("</tr_nciCDBeta>");
+    oOut.write("<tr_nciCDGamma>");
+    oOut.write("<tr_ncdgVal species=\"Species_1\">-0.0163</tr_ncdgVal>");
+    oOut.write("<tr_ncdgVal species=\"Species_2\">-0.0126</tr_ncdgVal>");
+    oOut.write("</tr_nciCDGamma>");
+    oOut.write("<tr_nciCDCrowdingN>");
+    oOut.write("<tr_nccdnVal species=\"Species_1\">0.0034</tr_nccdnVal>");
+    oOut.write("<tr_nccdnVal species=\"Species_2\">0.00526</tr_nccdnVal>");
+    oOut.write("</tr_nciCDCrowdingN>");
+    oOut.write("<tr_nciCDMinNeighborDBH>");
+    oOut.write("<tr_ncdmndVal species=\"Species_1\">11</tr_ncdmndVal>");
+    oOut.write("<tr_ncdmndVal species=\"Species_2\">13</tr_ncdmndVal>");
+    oOut.write("</tr_nciCDMinNeighborDBH>");
+    oOut.write("<tr_nciCDSizeEffectD>");
+    oOut.write("<tr_ncdsedVal species=\"Species_1\">0.042</tr_ncdsedVal>");
+    oOut.write("<tr_ncdsedVal species=\"Species_2\">0.034</tr_ncdsedVal>");
+    oOut.write("</tr_nciCDSizeEffectD>");
+    oOut.write("</allometry>");
+    oOut.write("<behaviorList>");
+    oOut.write("<behavior>");
+    oOut.write("<behaviorName>ConstantGLI</behaviorName>");
+    oOut.write("<version>1</version>");
+    oOut.write("<listPosition>1</listPosition>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Sapling\"/>");
+    oOut.write("<applyTo species=\"Species_2\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_2\" type=\"Sapling\"/>");
     oOut.write("</behavior>");
     oOut.write("</behaviorList>");
     oOut.write("<ConstantGLI1>");
