@@ -111,8 +111,26 @@ public class DisperseBehaviors extends BehaviorTypeBase {
 
     gridSetup(p_sNewSpecies);
     super.changeOfSpecies(iOldNumSpecies, p_iIndexer, p_sNewSpecies);
+    pushDisperseGridToChildren();
   }
-
+  
+  /**
+   * Sets up the grid again.
+   * @param iSpeciesCopyFrom int Species to copy.
+   * @param iSpeciesCopyTo int Species that is the copy.
+   * @throws ModelException if there is a problem.
+   */
+  public void copySpecies (int iSpeciesCopyFrom, int iSpeciesCopyTo) throws ModelException {
+    TreePopulation oPop = m_oManager.getTreePopulation();
+    int iNumSpecies = oPop.getNumberOfSpecies(), i;
+    String[] p_sSpeciesNames = new String[iNumSpecies];
+    for (i = 0; i < p_sSpeciesNames.length; i++) 
+      p_sSpeciesNames[i] = oPop.getSpeciesNameFromCode(i);
+    gridSetup(p_sSpeciesNames);
+    super.copySpecies(iSpeciesCopyFrom, iSpeciesCopyTo);
+    pushDisperseGridToChildren();
+  }    
+  
   /**
    * Sets up the grid.
    * @param p_sSpeciesNames Array of species names.
@@ -157,5 +175,18 @@ public class DisperseBehaviors extends BehaviorTypeBase {
     //Create our grid
     m_oDisperseGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength);
     m_oDisperseGrid = m_oManager.addGrid(m_oDisperseGrid, true);        
+  }
+  
+  /**
+   * Push the child behaviors to replace their copy of the Disperse Grid. 
+   * Handy whenever updates are completed.
+   */
+  private void pushDisperseGridToChildren() {
+    Behavior oBeh;
+    int i;
+    for (i = 0; i < mp_oInstantiatedBehaviors.size(); i++) {
+      oBeh = mp_oInstantiatedBehaviors.get(i);
+      oBeh.addGrid(m_oDisperseGrid, true);
+    }
   }
 }

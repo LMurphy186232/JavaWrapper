@@ -183,6 +183,17 @@ public class NonSpatialDisperseTest extends ModelTestCase {
       assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(0)).floatValue(), -0.6, 0.001);
       assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(1)).floatValue(), -0.3, 0.001);
       assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(2)).floatValue(), -0.6, 0.001);
+      
+      assertNotNull(oDispBeh.getDisperseGrid());
+      assertEquals(1, oDisperse.getNumberOfGrids());
+      assertNotNull(oDisperse.getGrid(0));
+      
+      Grid oGrid = oManager.getGridByName("Dispersed Seeds");
+      assertEquals("Number of seeds for Species 1", oGrid.getDataMembers()[0].getDisplayName());
+      assertEquals("Number of seeds for Species 2", oGrid.getDataMembers()[1].getDisplayName());
+      assertEquals("Number of seeds for Species 3", oGrid.getDataMembers()[2].getDisplayName());
+      assertEquals("Gap status", oGrid.getDataMembers()[3].getDisplayName());
+      assertEquals("Adult tree count", oGrid.getDataMembers()[4].getDisplayName());
 
       System.out.println("Copy species test succeeded.");
     }
@@ -237,6 +248,7 @@ public class NonSpatialDisperseTest extends ModelTestCase {
       assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(2)).floatValue(), -0.6, 0.001);
       
       assertEquals(1, oDisperse.getNumberOfGrids());
+      assertNotNull(oDisperse.getGrid(0));
       Grid oGrid = oManager.getGridByName("Dispersed Seeds");
       assertEquals(4.0, oGrid.getXCellLength(), 0.0001);
       assertEquals(5.0, oGrid.getYCellLength(), 0.0001);
