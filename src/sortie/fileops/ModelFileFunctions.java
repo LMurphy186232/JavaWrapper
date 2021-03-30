@@ -11,7 +11,7 @@ import sortie.data.simpletypes.ModelException;
 import sortie.gui.ErrorGUI;
 
 /**
- * This provides common file-reading functions for reading tab-delimited files.
+ * This provides helpful file operations.
  * <p>Copyright: Copyright (c) Charles D. Canham 2003</p>
  * <p>Company: Cary Institute of Ecosystem Studies</p>
  * @author Lora E. Murphy
@@ -25,7 +25,7 @@ import sortie.gui.ErrorGUI;
 
 public class ModelFileFunctions {
   /**
-   * Advances a file stream to the beginning of the next line.
+   * Advances a file stream to the beginning of the next line of a text file.
    *
    * @param in The file stream to advance.
    *
@@ -131,4 +131,17 @@ public class ModelFileFunctions {
     }
   }
 
+  /** Deletes a directory, by recursively deleting all child files to ensure
+   * Java will delete the directory.
+   * @param directory Directory to delete.
+   */
+  public static boolean deleteDirectory(File directory) throws Exception {
+    File[] allContents = directory.listFiles();
+    if (allContents != null) {
+      for (File file : allContents) {
+        deleteDirectory(file);
+      }
+    }
+    return directory.delete();
+  }
 }

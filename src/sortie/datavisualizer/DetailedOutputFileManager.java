@@ -16,6 +16,7 @@ import sortie.gui.components.SortieMenuItem;
 import sortie.tools.batchoutput.ChartInfo;
 //import sortie.tools.batchoutput.ChartInfo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.InputStream;
@@ -112,23 +113,21 @@ public class DetailedOutputFileManager
     try {
 
       m_iLastTimestepRead = 0;
-
-      //Put together the root temp directory - the application's directory
-      //plus temp
-      String sPath = System.getProperty("SORTIE_PATH");
-      String sSeparator = System.getProperty("file.separator");
-      if (sPath == null) {
-        m_sTempRoot = sSeparator + "temp";
-      }
-      else {
-        if (sPath.endsWith(sSeparator) == false) {
-          sPath += sSeparator;
-        }
-        m_sTempRoot = sPath + "temp";
-      }
-      
+            
       //Get the root filename
       m_sFileRoot = sTarball.substring(0, sTarball.indexOf(".gz.tar"));
+      
+      //Temp directory. Get system temp, then make a unique folder for this
+      //file. Multiple copies could be opened, so add a timestamp
+      String sSeparator = System.getProperty("file.separator");
+      m_sTempRoot = oManager.m_oMain.getTempDirectory();
+      if (!m_sTempRoot.endsWith(sSeparator)) m_sTempRoot = m_sTempRoot + sSeparator;
+
+      String folder = "";
+      if (m_sFileRoot.lastIndexOf(sSeparator) > 0) {
+        folder = m_sFileRoot.substring((m_sFileRoot.lastIndexOf(sSeparator)+1), m_sFileRoot.length()); 
+      } else folder = m_sFileRoot;
+      m_sTempRoot = m_sTempRoot + folder + System.currentTimeMillis();
       
       //Create a display name
       if (m_sFileRoot.length() > 40) {
@@ -155,7 +154,7 @@ public class DetailedOutputFileManager
       //Parsers created that way throw MalformedURLExceptions when asked to
       //read local files.
       m_oParser = XMLReaderFactory.createXMLReader("org.apache.xerces.parsers.SAXParser");
-
+ 
       parseParamFile();
       countTimesteps();
       
@@ -2975,6 +2974,10 @@ public class DetailedOutputFileManager
    */
   public void cleanUp() throws ModelException {
     sortie.fileops.Tarball.cleanUp(m_sFilename, m_sTempDir, m_sTempRoot);
+    // Do this quietly
+    try {
+      sortie.fileops.ModelFileFunctions.deleteDirectory(new File(m_sTempRoot));
+    } catch (Exception e) {;}
   }
   
   /**

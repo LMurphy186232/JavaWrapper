@@ -9,6 +9,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import java.io.File;
+
 import javax.help.*;
 import sortie.data.simpletypes.ModelException;
 import sortie.data.simpletypes.ModelMessage;
@@ -53,6 +54,11 @@ import java.util.prefs.Preferences;
 public class MainWindow
     extends JFrame
     implements ActionListener, InternalFrameListener, WindowListener {
+  
+  /** Temp directory to use. Objects needing some data written can query for
+   * this. The first choice is the OS's temp directory. Second choice is
+   * SORTIE's own directory. */
+  protected String m_sRootTempDirectory = "";
   
   //*********************************
   // Menu bar
@@ -255,9 +261,39 @@ public class MainWindow
   private int m_iPanelHeight = -1;
 
   /**
-   * Constructor.  Draws the window.
+   * Constructor.  Draws the window and does setup.
    */
   public MainWindow() {
+    
+    //-----------------------------------------------------------------------//
+    // Find the temp directory for the application.
+    //-----------------------------------------------------------------------//
+    //First choice: OS temp.
+    m_sRootTempDirectory = System.getProperty("java.io.tmpdir");
+    
+    // Second choice: SORTIE's own directory.
+    if (m_sRootTempDirectory == null || m_sRootTempDirectory == "") {
+      m_sRootTempDirectory = System.getProperty("SORTIE_PATH");
+    }
+
+    // Make a SORTIE-specific directory so we can clean it out occasionally
+    String sSeparator = System.getProperty("file.separator");
+    if (m_sRootTempDirectory == null) {
+      m_sRootTempDirectory = sSeparator + "sortie_temp";
+    }
+    else {
+      if (m_sRootTempDirectory.endsWith(sSeparator) == false) {
+        m_sRootTempDirectory += sSeparator;
+      }
+      m_sRootTempDirectory = m_sRootTempDirectory + "sortie_temp";
+    }
+    
+    //Clean it out now, as a matter of fact, by deleting the whole thing. If 
+    //failing, do it silently
+    // This is actually a bad idea. What if multiple sessions are open at once?
+    /*try {
+      sortie.fileops.ModelFileFunctions.deleteDirectory(new File(m_sRootTempDirectory));
+    } catch (Exception e) {;}*/
     
     addWindowListener(this);
     
@@ -303,6 +339,12 @@ public class MainWindow
       oHandler.writeErrorMessage(oErr);
     }
   }
+  
+  /**
+   * Getter for temp directory
+   * @return Temp directory
+   */
+  public String getTempDirectory() {return m_sRootTempDirectory;}
 
   /**
    * Loads the SORTIE help file so that it can be opened from buttons and

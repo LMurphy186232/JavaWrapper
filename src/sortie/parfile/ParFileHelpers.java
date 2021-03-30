@@ -1,6 +1,7 @@
 package sortie.parfile;
 
 import java.io.BufferedWriter;
+import java.io.File;
 
 import sortie.data.simpletypes.ModelData;
 import sortie.data.simpletypes.ModelVector;
@@ -49,5 +50,4 @@ public class ParFileHelpers {
     }
     jOut.write("</" + p_oData.getXMLTag() + ">");
   }
-
 }
