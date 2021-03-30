@@ -2252,9 +2252,7 @@ public class DetailedSubstrate extends Behavior {
     //Make sure the snag dynamics behavior is enabled
     if (m_oManager.getSnagDynamicsBehaviors().getBehaviorByDisplayName("Snag Decay Class Dynamics").size() == 0) {
       throw new ModelException(ErrorGUI.BAD_DATA, "JAVA",
-          "The behavior \"" + m_oManager.getSnagDynamicsBehaviors().
-          getDescriptor("Snag Decay Class Dynamics") + 
-          "\" must be used with the \"" + getDescriptor() + "\".");
+          "The behavior \"Snag Decay Class Dynamics\" must be used with \"" + getDescriptor() + "\".");
     }
 
 
