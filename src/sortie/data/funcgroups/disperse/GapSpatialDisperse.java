@@ -46,11 +46,13 @@ public class GapSpatialDisperse extends SpatialDisperseBase {
     addRequiredData(mp_fStumpBeta);
     for (i = 0; i < NUMBER_OF_FOREST_COVERS; i++) {
       addRequiredData(mp_iWhichFunctionUsed[i]);
+      addRequiredData(mp_fSTR[i]);
+      addRequiredData(mp_fBeta[i]);
+      
     }
+    
     for (i = 0; i < NUMBER_OF_DISPERSE_FUNCTIONS; i++) {
       for (j = 0; j < NUMBER_OF_FOREST_COVERS; j++) {
-        addRequiredData(mp_fSTR[i][j]);
-        addRequiredData(mp_fBeta[i][j]);
         addRequiredData(mp_fThetaOrXb[i][j]);
         addRequiredData(mp_fDispOrX0[i][j]);
       }
@@ -108,19 +110,17 @@ public class GapSpatialDisperse extends SpatialDisperseBase {
     //Make sure all values for beta are less than 25
     p_bApplies = getWhichSpeciesUsed(oPop);
     for (j = 0; j < NUMBER_OF_FOREST_COVERS; j++) {      
-      for (i = 0; i < NUMBER_OF_DISPERSE_FUNCTIONS; i++) {
-        for (k = 0; k < mp_fBeta[i][j].getValue().size(); k++) {
-          if (p_bApplies[k]) {
-            float fNumber = ( (Float) mp_fBeta[i][j].getValue().
-                get(k)).floatValue();
-            if (fNumber > 25) {
-              throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
-                  "The values in " + mp_fBeta[i][j].getDescriptor() +
-                  " must be less than 25 to avoid math errors."));
-            }
+      for (k = 0; k < mp_fBeta[j].getValue().size(); k++) {
+        if (p_bApplies[k]) {
+          float fNumber = ( (Float) mp_fBeta[j].getValue().
+              get(k)).floatValue();
+          if (fNumber > 25) {
+            throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
+                "The values in " + mp_fBeta[j].getDescriptor() +
+                " must be less than 25 to avoid math errors."));
           }
         }
-      }
+      }      
     }
   }
 }

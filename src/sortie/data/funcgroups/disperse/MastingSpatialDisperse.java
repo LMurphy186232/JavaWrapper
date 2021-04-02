@@ -405,19 +405,18 @@ public class MastingSpatialDisperse extends SpatialDisperseBase {
 
     //Make sure all values for beta are less than 25
     p_bApplies = getWhichSpeciesUsed(oPop);
-    for (i = 0; i < NUMBER_OF_DISPERSE_FUNCTIONS; i++) {
-      for (k = 0; k < mp_fBeta[i][CANOPY].getValue().size(); k++) {
-        if (p_bApplies[k]) {
-          float fNumber = ( (Float) mp_fBeta[i][CANOPY].getValue().
-              get(k)).floatValue();
-          if (fNumber > 25) {
-            throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
-                "The values in " + mp_fBeta[i][CANOPY].getDescriptor() +
-                " must be less than 25 to avoid math errors."));
-          }
+    for (k = 0; k < mp_fBeta[CANOPY].getValue().size(); k++) {
+      if (p_bApplies[k]) {
+        float fNumber = ( (Float) mp_fBeta[CANOPY].getValue().
+            get(k)).floatValue();
+        if (fNumber > 25) {
+          throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
+              "The values in " + mp_fBeta[CANOPY].getDescriptor() +
+              " must be less than 25 to avoid math errors."));
         }
       }
     }
+
     
     p_bApplies = getWhichSpeciesUsed(oPop);
     

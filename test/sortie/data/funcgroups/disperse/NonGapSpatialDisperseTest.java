@@ -50,21 +50,19 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
       assertEquals(16.0, ((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(1)).floatValue(), 0.0001);
       assertEquals(17.0, ((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(2)).floatValue(), 0.0001);
       
-      assertEquals(19.325, ((Float)oDisperse.mp_fSTR[W][C].getValue().get(0)).floatValue(), 0.0001);
-      assertEquals(12.257, ((Float)oDisperse.mp_fSTR[W][C].getValue().get(2)).floatValue(), 0.0001);
+      assertEquals(19.325, ((Float)oDisperse.mp_fSTR[C].getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(19.325, ((Float)oDisperse.mp_fSTR[C].getValue().get(1)).floatValue(), 0.0001);
+      assertEquals(12.257, ((Float)oDisperse.mp_fSTR[C].getValue().get(2)).floatValue(), 0.0001);
       
-      assertEquals(2.0, ((Float)oDisperse.mp_fBeta[W][C].getValue().get(0)).floatValue(), 0.0001);
-      assertEquals(2.2, ((Float)oDisperse.mp_fBeta[W][C].getValue().get(2)).floatValue(), 0.0001);
+      assertEquals(2.0, ((Float)oDisperse.mp_fBeta[C].getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(2.1, ((Float)oDisperse.mp_fBeta[C].getValue().get(1)).floatValue(), 0.0001);
+      assertEquals(2.2, ((Float)oDisperse.mp_fBeta[C].getValue().get(2)).floatValue(), 0.0001);
       
       assertEquals(1.76E-4, ((Float)oDisperse.mp_fDispOrX0[W][C].getValue().get(0)).floatValue(), 0.0001);
       assertEquals(9.61E-5, ((Float)oDisperse.mp_fDispOrX0[W][C].getValue().get(2)).floatValue(), 0.0001);
       
       assertEquals(3.0, ((Float)oDisperse.mp_fThetaOrXb[W][C].getValue().get(0)).floatValue(), 0.0001);
       assertEquals(3.0, ((Float)oDisperse.mp_fThetaOrXb[W][C].getValue().get(2)).floatValue(), 0.0001);
-      
-      assertEquals(19.325, ((Float)oDisperse.mp_fSTR[L][C].getValue().get(1)).floatValue(), 0.0001);
-      
-      assertEquals(2.1, ((Float)oDisperse.mp_fBeta[L][C].getValue().get(1)).floatValue(), 0.0001);
       
       assertEquals(1.82E-4, ((Float)oDisperse.mp_fDispOrX0[L][C].getValue().get(1)).floatValue(), 0.0001);
       
@@ -108,15 +106,13 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
           "Minimum DBH for Reproduction, in cm",
           "Weibull Canopy Theta",
           "Weibull Canopy Dispersal",
-          "Weibull Canopy Beta",
+          "Beta",
           "STR for Stumps",
           "Beta for Stumps",
-          "Lognormal Canopy Annual STR",
-          "Lognormal Canopy Beta",
           "Lognormal Canopy Xb",
           "Lognormal Canopy X0",
           "Canopy Function Used",
-          "Weibull Canopy Annual STR",
+          "Annual STR",
           "Seed Dist. Std. Deviation (Normal or Lognormal)",
           "Seed Dist. Clumping Parameter (Neg. Binomial)",
           "Seed Distribution"
@@ -272,14 +268,14 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByDisplayName("Non-Gap Spatial Disperse");
         assertEquals(1, p_oDisps.size());
         NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.CANOPY].getValue().remove(0);
+        oDisperse.mp_fBeta[SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta weibull canopy " +
             "values when only non gap disperse was enabled.");
       }
       catch (ModelException oErr) {
-        if (oErr.getMessage().indexOf("Weibull Canopy Beta") == -1)
+        if (oErr.getMessage().indexOf("Beta") == -1)
           fail("Incorrect error. Message: " + oErr.getMessage());
       }
       finally {
@@ -295,14 +291,14 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
         ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByDisplayName("Non-Gap Spatial Disperse");
         assertEquals(1, p_oDisps.size());
         NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.CANOPY].getValue().remove(0);
+        oDisperse.mp_fBeta[SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta lognormal canopy " +
             "values when only non gap disperse was enabled.");
       }
       catch (ModelException oErr) {
-        if (oErr.getMessage().indexOf("Lognormal Canopy Beta") == -1)
+        if (oErr.getMessage().indexOf("Beta") == -1)
           fail("Incorrect error. Message: " + oErr.getMessage());
       }
       finally {
@@ -359,7 +355,17 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
       int WEIB = SpatialDisperseBase.WEIBULL;
       int LOGN = SpatialDisperseBase.LOGNORMAL;
       int CAN = SpatialDisperseBase.CANOPY;
-
+      
+      DisperseBehaviors oDispBeh = oManager.getDisperseBehaviors();
+      ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByDisplayName("Non-Gap Spatial Disperse");
+      assertEquals(1, p_oDisps.size());
+      NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
+      
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(0)).floatValue(), 19.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(1)).floatValue(), 29.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(2)).floatValue(), 12.257, 0.001);
+      
+      
       //Now copy a species
     //Now change the species by adding another
       String[] sNewSpecies = new String[] {
@@ -370,37 +376,25 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
       oManager.getTreePopulation().setSpeciesNames(sNewSpecies);
       oManager.getTreePopulation().doCopySpecies("Species_1", "Species_4");
     
-      DisperseBehaviors oDispBeh = oManager.getDisperseBehaviors();
+      //DisperseBehaviors oDispBeh = oManager.getDisperseBehaviors();
       oDispBeh.validateData(oManager.getTreePopulation());
       
-      ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByDisplayName("Non-Gap Spatial Disperse");
-      assertEquals(1, p_oDisps.size());
-      NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
+      
 
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(0)).floatValue(), 15.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(1)).floatValue(), 16.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(2)).floatValue(), 17.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(3)).floatValue(), 15.0, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(0)).floatValue(), 19.325, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(1)).floatValue(), 29.325, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(2)).floatValue(), 12.257, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(3)).floatValue(), 19.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(0)).floatValue(), 19.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(1)).floatValue(), 29.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(2)).floatValue(), 12.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(3)).floatValue(), 19.325, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(0)).floatValue(), 6.628, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(1)).floatValue(), 19.325, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(2)).floatValue(), 17.206, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(3)).floatValue(), 6.628, 0.001);
-
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(0)).floatValue(), 2.0, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(1)).floatValue(), 2.1, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(2)).floatValue(), 2.2, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(3)).floatValue(), 2.0, 0.001);
-
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(0)).floatValue(), 2.7, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(1)).floatValue(), 2.8, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(2)).floatValue(), 2.9, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(3)).floatValue(), 2.7, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(0)).floatValue(), 2.0, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(1)).floatValue(), 2.1, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(2)).floatValue(), 2.2, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(3)).floatValue(), 2.0, 0.001);
 
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(0)).floatValue(), 3.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(1)).floatValue(), 3.1, 0.001);
@@ -494,21 +488,13 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(1)).floatValue(), 16.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(2)).floatValue(), 17.0, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(0)).floatValue(), 19.325, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(1)).floatValue(), 29.325, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(2)).floatValue(), 12.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(0)).floatValue(), 19.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(1)).floatValue(), 29.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(2)).floatValue(), 12.257, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(0)).floatValue(), 6.628, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(1)).floatValue(), 19.325, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(2)).floatValue(), 17.206, 0.001);
-
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(0)).floatValue(), 2.0, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(1)).floatValue(), 2.1, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(2)).floatValue(), 2.2, 0.001);
-
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(0)).floatValue(), 2.7, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(1)).floatValue(), 2.8, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(2)).floatValue(), 2.9, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(0)).floatValue(), 2.0, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(1)).floatValue(), 2.1, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(2)).floatValue(), 2.2, 0.001);
 
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(0)).floatValue(), 3.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(1)).floatValue(), 3.1, 0.001);
@@ -563,17 +549,11 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(3)).floatValue(), 15.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(2)).floatValue(), 17.0, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(3)).floatValue(), 19.325, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[WEIB][CAN].getValue().get(2)).floatValue(), 12.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(3)).floatValue(), 19.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(2)).floatValue(), 12.257, 0.001);
 
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(3)).floatValue(), 6.628, 0.001);
-      assertEquals(((Float)oDisperse.mp_fSTR[LOGN][CAN].getValue().get(2)).floatValue(), 17.206, 0.001);
-
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(3)).floatValue(), 2.0, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[WEIB][CAN].getValue().get(2)).floatValue(), 2.2, 0.001);
-
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(3)).floatValue(), 2.7, 0.001);
-      assertEquals(((Float)oDisperse.mp_fBeta[LOGN][CAN].getValue().get(2)).floatValue(), 2.9, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(3)).floatValue(), 2.0, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(2)).floatValue(), 2.2, 0.001);
 
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(3)).floatValue(), 3.0, 0.001);
       assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(2)).floatValue(), 3.2, 0.001);
@@ -605,6 +585,94 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
 
       System.out.println("Change of species test succeeded.");
     }
+    catch (ModelException oErr) {
+      fail("XML volume reading test failed with message " + oErr.getMessage());
+    }
+    catch (java.io.IOException oE) {
+      fail("Caught IOException.  Message: " + oE.getMessage());
+    }
+    finally {
+      new File(sFileName).delete();
+    }
+  }
+  
+  /**
+   * Tests species changes. Even though DisperseBehaviors doesn't explicitly
+   * have code for changing species, this makes sure that it is treated
+   * correctly.
+   */
+  public void testBackwardsCompatibility() {
+    GUIManager oManager = null;
+    String sFileName = null;
+    try {
+      oManager = new GUIManager(null);
+      ModelEnum oEnum;
+      oManager.clearCurrentData();
+      sFileName = writeDisperseXMLFile2();
+      oManager.inputXMLParameterFile(sFileName);
+
+      int WEIB = SpatialDisperseBase.WEIBULL;
+      int LOGN = SpatialDisperseBase.LOGNORMAL;
+      int CAN = SpatialDisperseBase.CANOPY;
+
+      //Verify initial file read
+      DisperseBehaviors oDispBeh = oManager.getDisperseBehaviors();
+      ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByDisplayName("Non-Gap Spatial Disperse");
+      assertEquals(1, p_oDisps.size());
+      NonGapSpatialDisperse oDisperse = (NonGapSpatialDisperse) p_oDisps.get(0);
+
+      assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(0)).floatValue(), 15.0, 0.001);
+      assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(1)).floatValue(), 16.0, 0.001);
+      assertEquals(((Float)oDisperse.mp_fMinDbhForReproduction.getValue().get(2)).floatValue(), 17.0, 0.001);
+
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(0)).floatValue(), 6.628, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(1)).floatValue(), 29.325, 0.001);
+      assertEquals(((Float)oDisperse.mp_fSTR[CAN].getValue().get(2)).floatValue(), 17.206, 0.001);
+
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(0)).floatValue(), 2.7, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(1)).floatValue(), 2.1, 0.001);
+      assertEquals(((Float)oDisperse.mp_fBeta[CAN].getValue().get(2)).floatValue(), 2.9, 0.001);
+      
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(0)).floatValue(), 3.0, 0.001);
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(1)).floatValue(), 3.1, 0.001);
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[WEIB][CAN].getValue().get(2)).floatValue(), 3.2, 0.001);
+
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[LOGN][CAN].getValue().get(0)).floatValue(), 3.7, 0.001);
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[LOGN][CAN].getValue().get(1)).floatValue(), 3.8, 0.001);
+      assertEquals(((Float)oDisperse.mp_fThetaOrXb[LOGN][CAN].getValue().get(2)).floatValue(), 3.9, 0.001);
+
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[WEIB][CAN].getValue().get(0)).floatValue(), 1.7, 0.001);
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[WEIB][CAN].getValue().get(1)).floatValue(), -5.7, 0.001);
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[WEIB][CAN].getValue().get(2)).floatValue(), 9.61, 0.001);
+
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[LOGN][CAN].getValue().get(0)).floatValue(), 2.82, 0.001);
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[LOGN][CAN].getValue().get(1)).floatValue(), 3.32, 0.001);
+      assertEquals(((Float)oDisperse.mp_fDispOrX0[LOGN][CAN].getValue().get(2)).floatValue(), 4.93, 0.001);
+
+      assertEquals(((Float)oDisperse.mp_fStumpSTR.getValue().get(0)).floatValue(), 12.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fStumpSTR.getValue().get(1)).floatValue(), 22.257, 0.001);
+      assertEquals(((Float)oDisperse.mp_fStumpSTR.getValue().get(2)).floatValue(), 32.257, 0.001);
+
+      assertEquals(((Float)oDisperse.mp_fStumpBeta.getValue().get(0)).floatValue(), 4.2, 0.001);
+      assertEquals(((Float)oDisperse.mp_fStumpBeta.getValue().get(1)).floatValue(), 4.3, 0.001);
+      assertEquals(((Float)oDisperse.mp_fStumpBeta.getValue().get(2)).floatValue(), 4.4, 0.001);
+
+      oEnum = (ModelEnum) oDisperse.mp_iWhichFunctionUsed[CAN].getValue().get(0);
+      assertEquals(oEnum.getValue(), 1);
+      oEnum = (ModelEnum) oDisperse.mp_iWhichFunctionUsed[CAN].getValue().get(1);
+      assertEquals(oEnum.getValue(), 0);
+      oEnum = (ModelEnum) oDisperse.mp_iWhichFunctionUsed[CAN].getValue().get(2);
+      assertEquals(oEnum.getValue(), 1);
+
+      assertEquals(((Float)DisperseBase.mp_fStandardDeviation.getValue().get(0)).floatValue(), -4.1, 0.001);
+      assertEquals(((Float)DisperseBase.mp_fStandardDeviation.getValue().get(1)).floatValue(), -4.2, 0.001);
+      assertEquals(((Float)DisperseBase.mp_fStandardDeviation.getValue().get(2)).floatValue(), -4.3, 0.001);
+
+      assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(0)).floatValue(), -0.2, 0.001);
+      assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(1)).floatValue(), -0.3, 0.001);
+      assertEquals(((Float)DisperseBase.mp_fClumpingParameter.getValue().get(2)).floatValue(), -0.6, 0.001);
+
+          }
     catch (ModelException oErr) {
       fail("XML volume reading test failed with message " + oErr.getMessage());
     }
@@ -727,14 +795,165 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
     oOut.write("<di_wctVal species=\"Species_2\">3.1</di_wctVal>");
     oOut.write("<di_wctVal species=\"Species_3\">3.2</di_wctVal>");
     oOut.write("</di_weibullCanopyTheta>");
+    oOut.write("<di_lognormalCanopyX0>");
+    oOut.write("<di_lcx0Val species=\"Species_1\">2.82</di_lcx0Val>");
+    oOut.write("<di_lcx0Val species=\"Species_2\">3.32</di_lcx0Val>");
+    oOut.write("<di_lcx0Val species=\"Species_3\">4.93</di_lcx0Val>");
+    oOut.write("</di_lognormalCanopyX0>");
+    oOut.write("<di_lognormalCanopyXb>");
+    oOut.write("<di_lcxbVal species=\"Species_1\">3.7</di_lcxbVal>");
+    oOut.write("<di_lcxbVal species=\"Species_2\">3.8</di_lcxbVal>");
+    oOut.write("<di_lcxbVal species=\"Species_3\">3.9</di_lcxbVal>");
+    oOut.write("</di_lognormalCanopyXb>");
+    oOut.write("<di_suckerSTR>");
+    oOut.write("<di_ssVal species=\"Species_1\">12.257</di_ssVal>");
+    oOut.write("<di_ssVal species=\"Species_2\">22.257</di_ssVal>");
+    oOut.write("<di_ssVal species=\"Species_3\">32.257</di_ssVal>");
+    oOut.write("</di_suckerSTR>");
+    oOut.write("<di_suckerBeta>");
+    oOut.write("<di_sbVal species=\"Species_1\">4.2</di_sbVal>");
+    oOut.write("<di_sbVal species=\"Species_2\">4.3</di_sbVal>");
+    oOut.write("<di_sbVal species=\"Species_3\">4.4</di_sbVal>");
+    oOut.write("</di_suckerBeta>");
+    oOut.write("<di_canopyFunction>");
+    oOut.write("<di_cfVal species=\"Species_1\">1</di_cfVal>");
+    oOut.write("<di_cfVal species=\"Species_2\">0</di_cfVal>");
+    oOut.write("<di_cfVal species=\"Species_3\">1</di_cfVal>");
+    oOut.write("</di_canopyFunction>");
+    oOut.write("</NonGapDisperse1>");
+    oOut.write("<GeneralDisperse>");
+    oOut.write("<di_standardDeviation>");
+    oOut.write("<di_sdVal species=\"Species_1\">-4.1</di_sdVal>");
+    oOut.write("<di_sdVal species=\"Species_2\">-4.2</di_sdVal>");
+    oOut.write("<di_sdVal species=\"Species_3\">-4.3</di_sdVal>");
+    oOut.write("</di_standardDeviation>");
+    oOut.write("<di_clumpingParameter>");
+    oOut.write("<di_cpVal species=\"Species_1\">-0.2</di_cpVal>");
+    oOut.write("<di_cpVal species=\"Species_2\">-0.3</di_cpVal>");
+    oOut.write("<di_cpVal species=\"Species_3\">-0.6</di_cpVal>");
+    oOut.write("</di_clumpingParameter>");
+    oOut.write("<di_seedDistributionMethod>0</di_seedDistributionMethod>");
+    oOut.write("</GeneralDisperse>");
+    
+    oOut.write("</paramFile>");
+
+    oOut.close();
+    return sFileName;
+  }
+  
+  /**
+   * Writes a file with disperse settings.
+   * @return The file name.
+   * @throws IOException if there is a problem writing the file.
+   */
+  private String writeDisperseXMLFile2() throws java.io.IOException {
+    String sFileName = "\\testfile1.xml";
+    java.io.FileWriter oOut = new java.io.FileWriter(sFileName);
+
+    oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+    oOut.write("<paramFile fileCode=\"07010101\">");
+    oOut.write("<plot>");
+    oOut.write("<timesteps>50</timesteps>");
+    oOut.write("<randomSeed>1</randomSeed>");
+    oOut.write("<yearsPerTimestep>1</yearsPerTimestep>");
+    oOut.write("<plot_lenX>200.0</plot_lenX>");
+    oOut.write("<plot_lenY>200.0</plot_lenY>");
+    oOut.write("<plot_latitude>0.0</plot_latitude>");
+    oOut.write("</plot>");
+    oOut.write("<trees>");
+    oOut.write("<tr_speciesList>");
+    oOut.write("<tr_species speciesName=\"Species_1\" />");
+    oOut.write("<tr_species speciesName=\"Species_2\" />");
+    oOut.write("<tr_species speciesName=\"Species_3\" />");
+    oOut.write("</tr_speciesList>");
+    oOut.write("<tr_seedDiam10Cm>0.1</tr_seedDiam10Cm>");
+    oOut.write("<tr_minAdultDBH>");
+    oOut.write("<tr_madVal species=\"Species_1\">10.0</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Species_2\">10.0</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Species_3\">10.0</tr_madVal>");
+    oOut.write("</tr_minAdultDBH>");
+    oOut.write("</trees>");
+    oOut.write("<allometry>");
+    oOut.write("<tr_canopyHeight>");
+    oOut.write("<tr_chVal species=\"Species_1\">40.0</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Species_2\">40.0</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Species_3\">40.0</tr_chVal>");
+    oOut.write("</tr_canopyHeight>");
+    oOut.write("<tr_stdAsympCrownRad>");
+    oOut.write("<tr_sacrVal species=\"Species_1\">0.7</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Species_2\">0.7</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Species_3\">0.7</tr_sacrVal>");
+    oOut.write("</tr_stdAsympCrownRad>");
+    oOut.write("<tr_stdCrownRadExp>");
+    oOut.write("<tr_screVal species=\"Species_1\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Species_2\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Species_3\">1.0</tr_screVal>");
+    oOut.write("</tr_stdCrownRadExp>");
+    oOut.write("<tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_cdtdVal species=\"Species_1\">0.7</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Species_2\">0.7</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Species_3\">0.7</tr_cdtdVal>");
+    oOut.write("</tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_stdAsympCrownHt>");
+    oOut.write("<tr_sachVal species=\"Species_1\">0.7</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Species_2\">0.7</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Species_3\">0.7</tr_sachVal>");
+    oOut.write("</tr_stdAsympCrownHt>");
+    oOut.write("<tr_stdCrownHtExp>");
+    oOut.write("<tr_scheVal species=\"Species_1\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Species_2\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Species_3\">1.0</tr_scheVal>");
+    oOut.write("</tr_stdCrownHtExp>");
+    oOut.write("<tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_sohdVal species=\"Species_1\">0.03</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Species_2\">0.03</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Species_3\">0.03</tr_sohdVal>");
+    oOut.write("</tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_slopeOfAsymHeight>");
+    oOut.write("<tr_soahVal species=\"Species_1\">0.7</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Species_2\">0.7</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Species_3\">0.7</tr_soahVal>");
+    oOut.write("</tr_slopeOfAsymHeight>");
+    oOut.write("</allometry>");
+    oOut.write("<behaviorList>");
+    oOut.write("<behavior>");
+    oOut.write("<behaviorName>NonGapDisperse</behaviorName>");
+    oOut.write("<version>1</version>");
+    oOut.write("<listPosition>1</listPosition>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_2\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_3\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_3\" type=\"Stump\"/>");
+    oOut.write("</behavior>");
+    oOut.write("</behaviorList>");
+    oOut.write("<NonGapDisperse1>");
+    oOut.write("<di_minDbhForReproduction>");
+    oOut.write("<di_mdfrVal species=\"Species_1\">15.0</di_mdfrVal>");
+    oOut.write("<di_mdfrVal species=\"Species_2\">16.0</di_mdfrVal>");
+    oOut.write("<di_mdfrVal species=\"Species_3\">17.0</di_mdfrVal>");
+    oOut.write("</di_minDbhForReproduction>");
+    oOut.write("<di_weibullCanopySTR>");
+    oOut.write("<di_wcsVal species=\"Species_2\">29.325</di_wcsVal>");
+    oOut.write("</di_weibullCanopySTR>");
+    oOut.write("<di_weibullCanopyBeta>");
+    oOut.write("<di_wcbVal species=\"Species_2\">2.1</di_wcbVal>");
+    oOut.write("</di_weibullCanopyBeta>");
+    oOut.write("<di_weibullCanopyDispersal>");
+    oOut.write("<di_wcdVal species=\"Species_1\">1.7</di_wcdVal>");
+    oOut.write("<di_wcdVal species=\"Species_2\">-5.7</di_wcdVal>");
+    oOut.write("<di_wcdVal species=\"Species_3\">9.61</di_wcdVal>");
+    oOut.write("</di_weibullCanopyDispersal>");
+    oOut.write("<di_weibullCanopyTheta>");
+    oOut.write("<di_wctVal species=\"Species_1\">3.0</di_wctVal>");
+    oOut.write("<di_wctVal species=\"Species_2\">3.1</di_wctVal>");
+    oOut.write("<di_wctVal species=\"Species_3\">3.2</di_wctVal>");
+    oOut.write("</di_weibullCanopyTheta>");
     oOut.write("<di_lognormalCanopySTR>");
     oOut.write("<di_lcsVal species=\"Species_1\">6.628</di_lcsVal>");
-    oOut.write("<di_lcsVal species=\"Species_2\">19.325</di_lcsVal>");
     oOut.write("<di_lcsVal species=\"Species_3\">17.206</di_lcsVal>");
     oOut.write("</di_lognormalCanopySTR>");
     oOut.write("<di_lognormalCanopyBeta>");
     oOut.write("<di_lcbVal species=\"Species_1\">2.7</di_lcbVal>");
-    oOut.write("<di_lcbVal species=\"Species_2\">2.8</di_lcbVal>");
     oOut.write("<di_lcbVal species=\"Species_3\">2.9</di_lcbVal>");
     oOut.write("</di_lognormalCanopyBeta>");
     oOut.write("<di_lognormalCanopyX0>");
@@ -782,6 +1001,7 @@ public class NonGapSpatialDisperseTest extends ModelTestCase {
     oOut.close();
     return sFileName;
   }
+  
   
   /**
    * Writes a file with no disperse settings.

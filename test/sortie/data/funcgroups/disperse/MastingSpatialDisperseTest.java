@@ -411,14 +411,14 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByParameterFileTag("MastingSpatialDisperse");
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.WEIBULL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.CANOPY].getValue().remove(0);
+        oDisperse.mp_fBeta[SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta weibull canopy " +
             "values when only masting disperse was enabled.");
       }
       catch (ModelException oErr) {
-        if (oErr.getMessage().indexOf("Weibull Canopy Beta") == -1)
+        if (oErr.getMessage().indexOf("Beta") == -1)
           fail("Incorrect error. Message: " + oErr.getMessage());
       }
       finally {
@@ -434,14 +434,14 @@ public class MastingSpatialDisperseTest extends ModelTestCase {
         ArrayList<Behavior> p_oDisps = oDispBeh.getBehaviorByParameterFileTag("MastingSpatialDisperse");
         assertEquals(1, p_oDisps.size());
         MastingSpatialDisperse oDisperse = (MastingSpatialDisperse) p_oDisps.get(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().remove(0);
-        oDisperse.mp_fBeta[SpatialDisperseBase.LOGNORMAL][SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
+        oDisperse.mp_fBeta[SpatialDisperseBase.CANOPY].getValue().remove(0);
+        oDisperse.mp_fBeta[SpatialDisperseBase.CANOPY].getValue().add(Float.valueOf((float)70));
         oManager.getDisperseBehaviors().validateData(oPop);
         fail("Disperse validation failed to catch bad beta lognormal canopy " +
             "values when only masting disperse was enabled.");
       }
       catch (ModelException oErr) {
-        if (oErr.getMessage().indexOf("Lognormal Canopy Beta") == -1)
+        if (oErr.getMessage().indexOf("Beta") == -1)
           fail("Incorrect error. Message: " + oErr.getMessage());
       }
       finally {

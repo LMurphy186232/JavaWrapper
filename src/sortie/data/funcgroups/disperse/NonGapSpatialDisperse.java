@@ -30,9 +30,10 @@ public class NonGapSpatialDisperse extends SpatialDisperseBase {
     int i;
     addRequiredData(mp_fMinDbhForReproduction);
     addRequiredData(mp_iWhichFunctionUsed[CANOPY]);
+    addRequiredData(mp_fSTR[CANOPY]);
+    addRequiredData(mp_fBeta[CANOPY]);
+    
     for (i = 0; i < NUMBER_OF_DISPERSE_FUNCTIONS; i++) {
-      addRequiredData(mp_fSTR[i][CANOPY]);
-      addRequiredData(mp_fBeta[i][CANOPY]);
       addRequiredData(mp_fThetaOrXb[i][CANOPY]);
       addRequiredData(mp_fDispOrX0[i][CANOPY]);
     }
@@ -91,16 +92,14 @@ public class NonGapSpatialDisperse extends SpatialDisperseBase {
 
     //Make sure all values for beta are less than 25
     p_bApplies = getWhichSpeciesUsed(oPop);
-    for (i = 0; i < NUMBER_OF_DISPERSE_FUNCTIONS; i++) {
-      for (k = 0; k < mp_fBeta[i][CANOPY].getValue().size(); k++) {
-        if (p_bApplies[k]) {
-          float fNumber = ( (Float) mp_fBeta[i][CANOPY].getValue().
-              get(k)).floatValue();
-          if (fNumber > 25) {
-            throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
-                "The values in " + mp_fBeta[i][CANOPY].getDescriptor() +
-                " must be less than 25 to avoid math errors."));
-          }
+    for (k = 0; k < mp_fBeta[CANOPY].getValue().size(); k++) {
+      if (p_bApplies[k]) {
+        float fNumber = ( (Float) mp_fBeta[CANOPY].getValue().
+            get(k)).floatValue();
+        if (fNumber > 25) {
+          throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
+              "The values in " + mp_fBeta[CANOPY].getDescriptor() +
+              " must be less than 25 to avoid math errors."));
         }
       }
     }
