@@ -51,7 +51,7 @@ public class MastingDisperseAutocorrelation extends SpatialDisperseBase {
 
   /**Autocorrelation factor for rho*/
   protected ModelVector mp_fACF = new ModelVector(
-      "Autocorrelated Masting - Autocorrelation Range for Rho",
+      "Autocorrelated Masting - Max Autocorrelation for Rho",
       "di_mdaRhoACF", "di_mdaraVal", 0, ModelVector.FLOAT);
 
   /**Standard deviation for noise for rho*/

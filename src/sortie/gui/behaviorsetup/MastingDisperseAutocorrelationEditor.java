@@ -70,7 +70,7 @@ EnhancedTableWindow {
    */
   public MastingDisperseAutocorrelationEditor(JDialog jParent, GUIManager oManager, 
       MainWindow oWindow, MastingDisperseAutocorrelation oDisp) {
-    super(jParent, "Edit Climate Data", true);
+    super(jParent, "Edit Masting Levels", true);
 
     try {
       m_oManager = oManager;
