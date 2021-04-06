@@ -86,7 +86,7 @@ public class MastingDisperseAutocorrelation extends SpatialDisperseBase {
    * @param sXMLRootString XML tag to surround this behavior's data.
    */
   public MastingDisperseAutocorrelation(GUIManager oManager, BehaviorTypeBase oParent, String sDescriptor, String sParFileTag, String sXMLRootString) {
-    super(oManager, oParent, sDescriptor, sParFileTag, sXMLRootString, "disperse_behaviors.masting_disperse_autocorrelatin");
+    super(oManager, oParent, sDescriptor, sParFileTag, sXMLRootString, "disperse_behaviors.masting_disperse_autocorrelation");
     
     addRequiredData(mp_fMinDbhForReproduction);
     addRequiredData(mp_fMaxDbh);
