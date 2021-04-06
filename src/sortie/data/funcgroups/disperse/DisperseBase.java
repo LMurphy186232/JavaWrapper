@@ -4,7 +4,6 @@ import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.BehaviorTypeBase;
 import sortie.data.funcgroups.DisperseBehaviors;
 import sortie.data.simpletypes.ModelEnum;
-import sortie.data.simpletypes.ModelException;
 import sortie.data.simpletypes.ModelVector;
 import sortie.gui.GUIManager;
 

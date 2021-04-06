@@ -15,6 +15,7 @@ public class AllTests {
     suite.addTestSuite(NonSpatialDisperseTest.class);
     suite.addTestSuite(StochDoubleLogTempDepNeighDisperseTest.class);
     suite.addTestSuite(TemperatureDependentNeighborhoodDisperseTest.class);
+    suite.addTestSuite(MastingDisperseAutocorrelationTest.class);
     //$JUnit-END$
     return suite;
   }
