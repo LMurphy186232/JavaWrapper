@@ -214,25 +214,9 @@ public class MastingDisperseAutocorrelationTest extends ModelTestCase {
         new File(sFileName).delete();
       }
       
-      //Case: Autocorrelation factor for rho <= 0
-      try {
-        sFileName = writeErrorFile4();
-        oManager.inputXMLParameterFile(sFileName);
-        oManager.getDisperseBehaviors().validateData(oManager.getTreePopulation());
-        fail("Masting disperse with autocorrelation validation failed to catch autocorrelation factor < 0.");
-      }
-      catch (ModelException oErr) {
-        if (oErr.getMessage().indexOf("Autocorrelation Range for Rho") == -1)
-          fail("Incorrect error. Message: " + oErr.getMessage());
-      }
-
-      finally {
-        new File(sFileName).delete();
-      }
-      
       //Case: Standard deviation for noise for rho less than 0
       try {
-        sFileName = writeErrorFile5();
+        sFileName = writeErrorFile4();
         oManager.inputXMLParameterFile(sFileName);
         oManager.getDisperseBehaviors().validateData(oManager.getTreePopulation());
         fail("Masting disperse with autocorrelation validation failed to catch sd rho noise < 0.");
@@ -248,7 +232,7 @@ public class MastingDisperseAutocorrelationTest extends ModelTestCase {
       
       //Case: Seed producer standard deviation less than 0.
       try {
-        sFileName = writeErrorFile6();
+        sFileName = writeErrorFile5();
         oManager.inputXMLParameterFile(sFileName);
         oManager.getDisperseBehaviors().validateData(oManager.getTreePopulation());
         fail("Masting disperse with autocorrelation validation failed to catch sd sps < 0.");
@@ -264,7 +248,7 @@ public class MastingDisperseAutocorrelationTest extends ModelTestCase {
       
       //Case: Provided timestep masting level not between 0 and 1.
       try {
-        sFileName = writeErrorFile7();
+        sFileName = writeErrorFile6();
         oManager.inputXMLParameterFile(sFileName);
         oManager.getDisperseBehaviors().validateData(oManager.getTreePopulation());
         fail("Masting disperse with autocorrelation validation failed to catch bad timestep masting.");
@@ -1204,104 +1188,13 @@ public class MastingDisperseAutocorrelationTest extends ModelTestCase {
     oOut.close();
     return sFileName;
   }
-  
-  /**
-   * Case: Autocorrelation factor for rho <= 0
-   * @return The file name.
-   * @throws IOException if there is a problem writing the file.
-   */
-  private String writeErrorFile4() throws java.io.IOException {
-    String sFileName = "\\testfile1.xml";
-    java.io.FileWriter oOut = new java.io.FileWriter(sFileName);
-
-    writeCommonStuff(oOut);
     
-    //Maximum DBH for size effects
-    oOut.write("<di_maxDbhForSizeEffect>");
-    oOut.write("<di_mdfseVal species=\"Species_1\">100</di_mdfseVal>");
-    oOut.write("<di_mdfseVal species=\"Species_2\">120</di_mdfseVal>");
-    oOut.write("</di_maxDbhForSizeEffect>");
-
-    //Beta
-    oOut.write("<di_weibullCanopyBeta>");
-    oOut.write("<di_wcbVal species=\"Species_1\">1</di_wcbVal>");
-    oOut.write("<di_wcbVal species=\"Species_2\">1.1</di_wcbVal>");
-    oOut.write("</di_weibullCanopyBeta>");
-
-    //Mean STR
-    oOut.write("<di_weibullCanopySTR>");
-    oOut.write("<di_wcsVal species=\"Species_1\">500</di_wcsVal>");
-    oOut.write("<di_wcsVal species=\"Species_2\">1460</di_wcsVal>");
-    oOut.write("</di_weibullCanopySTR>");
-
-    //A, B, and C for fraction participating
-    oOut.write("<di_mdaReproFracA>");
-    oOut.write("<di_mdarfaVal species=\"Species_1\">2</di_mdarfaVal>");
-    oOut.write("<di_mdarfaVal species=\"Species_2\">4.6</di_mdarfaVal>");
-    oOut.write("</di_mdaReproFracA>");
-    oOut.write("<di_mdaReproFracB>");
-    oOut.write("<di_mdarfbVal species=\"Species_1\">1</di_mdarfbVal>");
-    oOut.write("<di_mdarfbVal species=\"Species_2\">2.5</di_mdarfbVal>");
-    oOut.write("</di_mdaReproFracB>");
-    oOut.write("<di_mdaReproFracC>");
-    oOut.write("<di_mdarfcVal species=\"Species_1\">0.2</di_mdarfcVal>");
-    oOut.write("<di_mdarfcVal species=\"Species_2\">0.4</di_mdarfcVal>");
-    oOut.write("</di_mdaReproFracC>");
-
-    //Autocorrelation factor for rho
-    oOut.write("<di_mdaRhoACF>");
-    oOut.write("<di_mdaraVal species=\"Species_1\">-5.2</di_mdaraVal>");
-    oOut.write("<di_mdaraVal species=\"Species_2\">46.3</di_mdaraVal>");
-    oOut.write("</di_mdaRhoACF>");
-
-    //Standard deviation for noise for rho
-    oOut.write("<di_mdaRhoNoiseSD>");
-    oOut.write("<di_mdarnsdVal species=\"Species_1\">0.2</di_mdarnsdVal>");
-    oOut.write("<di_mdarnsdVal species=\"Species_2\">0.6</di_mdarnsdVal>");
-    oOut.write("</di_mdaRhoNoiseSD>");
-
-    //Slope and intercept of the linear function of DBH for individual
-    //probability of reproducting
-    oOut.write("<di_mdaPRA>");
-    oOut.write("<di_mdapraVal species=\"Species_1\">0.75</di_mdapraVal>");
-    oOut.write("<di_mdapraVal species=\"Species_2\">0.45</di_mdapraVal>");
-    oOut.write("</di_mdaPRA>");
-    oOut.write("<di_mdaPRB>");
-    oOut.write("<di_mdaprbVal species=\"Species_1\">0.004</di_mdaprbVal>");
-    oOut.write("<di_mdaprbVal species=\"Species_2\">0.04</di_mdaprbVal>");
-    oOut.write("</di_mdaPRB>");
-
-    //Seed producer score standard deviation
-    oOut.write("<di_mdaSPSSD>");
-    oOut.write("<di_mdaspssdVal species=\"Species_1\">0.1</di_mdaspssdVal>");
-    oOut.write("<di_mdaspssdVal species=\"Species_2\">0.34</di_mdaspssdVal>");
-    oOut.write("</di_mdaSPSSD>");
-
-    oOut.write("<di_canopyFunction>");
-    oOut.write("<di_cfVal species=\"Species_1\">0</di_cfVal>");
-    oOut.write("<di_cfVal species=\"Species_2\">0</di_cfVal>");
-    oOut.write("</di_canopyFunction>");
-    oOut.write("<di_weibullCanopyDispersal>");
-    oOut.write("<di_wcdVal species=\"Species_1\">1.76E-04</di_wcdVal>");
-    oOut.write("<di_wcdVal species=\"Species_2\">1.82E-04</di_wcdVal>");
-    oOut.write("</di_weibullCanopyDispersal>");
-    oOut.write("<di_weibullCanopyTheta>");
-    oOut.write("<di_wctVal species=\"Species_1\">3</di_wctVal>");
-    oOut.write("<di_wctVal species=\"Species_2\">3.1</di_wctVal>");
-    oOut.write("</di_weibullCanopyTheta>");
-    oOut.write("</MastingDisperseAutocorrelation1>");
-    oOut.write("</paramFile>");
-
-    oOut.close();
-    return sFileName;
-  }
-  
   /**
    * Case: Standard deviation for noise for rho less than 0
    * @return The file name.
    * @throws IOException if there is a problem writing the file.
    */
-  private String writeErrorFile5() throws java.io.IOException {
+  private String writeErrorFile4() throws java.io.IOException {
     String sFileName = "\\testfile1.xml";
     java.io.FileWriter oOut = new java.io.FileWriter(sFileName);
 
@@ -1402,7 +1295,7 @@ public class MastingDisperseAutocorrelationTest extends ModelTestCase {
    * @return The file name.
    * @throws IOException if there is a problem writing the file.
    */
-  private String writeErrorFile6() throws java.io.IOException {
+  private String writeErrorFile5() throws java.io.IOException {
     String sFileName = "\\testfile1.xml";
     java.io.FileWriter oOut = new java.io.FileWriter(sFileName);
 
@@ -1503,7 +1396,7 @@ public class MastingDisperseAutocorrelationTest extends ModelTestCase {
    * @return The file name.
    * @throws IOException if there is a problem writing the file.
    */
-  private String writeErrorFile7() throws java.io.IOException {
+  private String writeErrorFile6() throws java.io.IOException {
     String sFileName = "\\testfile1.xml";
     java.io.FileWriter oOut = new java.io.FileWriter(sFileName);
 

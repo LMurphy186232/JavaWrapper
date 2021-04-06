@@ -1,6 +1,7 @@
 package sortie.data.funcgroups.disperse;
 
 import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,7 +18,10 @@ import sortie.data.simpletypes.ModelVector;
 import sortie.gui.ErrorGUI;
 import sortie.gui.GUIManager;
 import sortie.gui.MainWindow;
+import sortie.gui.behaviorsetup.BehaviorParameterDisplay;
+import sortie.gui.behaviorsetup.EnhancedTable;
 import sortie.gui.behaviorsetup.MastingDisperseAutocorrelationEditor;
+import sortie.gui.behaviorsetup.TableData;
 
 /**
  * Corresponds to the clMastingDisperseAutocorrelation class.
@@ -199,8 +203,8 @@ public class MastingDisperseAutocorrelation extends SpatialDisperseBase {
     //Standard deviation for noise for rho - must be greater than 0
     ValidationHelpers.makeSureAllNonNegative(mp_fRhoNoiseSD, p_bApplies);
     
-    //Seed producer standard deviation. Must be greater than 0.
-    ValidationHelpers.makeSureAllPositive(mp_fSPSSD, p_bApplies);
+    //Seed producer standard deviation. Must be greater than or equal to 0.
+    ValidationHelpers.makeSureAllNonNegative(mp_fSPSSD, p_bApplies);
     
     // Check to see if the number of timesteps changed. If there are more than there
     // used to be, resize the array to the new number and throw an error so the user
@@ -408,5 +412,66 @@ public class MastingDisperseAutocorrelation extends SpatialDisperseBase {
     oWindow.pack();
     oWindow.setLocationRelativeTo(null);
     oWindow.setVisible(true);
+  }
+  
+  /**
+   * Writes the parameters for the behavior to file, using the same system 
+   * as the basic parameter display and entry system. Overriden to add the 
+   * masting levels.
+   * 
+   * The file passed has been opened and should be appended to and then 
+   * left unclosed.
+   * @param jOut File to write to.
+   * @param oPop TreePopulation object.
+   */
+  public void writeParametersToTextFile(FileWriter jOut, TreePopulation oPop) throws IOException {
+    
+   ArrayList<BehaviorParameterDisplay> p_oAllObjects = formatDataForDisplay(oPop);
+    if (null == p_oAllObjects || p_oAllObjects.size() == 0) {
+      jOut.write("\n" + m_sDescriptor + "\nNo parameters.\n");
+      return;
+    }
+    String sVal;
+    int iRow, iCol;
+    
+    for (BehaviorParameterDisplay oDisp : p_oAllObjects) {
+      jOut.write("\n" + oDisp.m_sBehaviorName + "\n");
+      jOut.write(oDisp.m_sAppliesTo + "\n");
+            
+      for (TableData oTable : oDisp.mp_oTableData) {
+        //Header row
+        jOut.write(oTable.mp_oHeaderRow[0].toString());
+        for (iCol = 1; iCol < oTable.mp_oHeaderRow.length; iCol++) {
+          jOut.write("\t" + oTable.mp_oHeaderRow[iCol].toString());
+        }
+        jOut.write("\n");
+        
+        //Write each row
+        for (iRow = 0; iRow < oTable.mp_oTableData.length; iRow++) {
+          sVal = String.valueOf(oTable.mp_oTableData[iRow][0]);
+          //If a combo box - strip out the text
+          if (sVal.startsWith("&&")) {
+            sVal = EnhancedTable.getComboValue(sVal);
+          }
+          jOut.write(sVal);
+          for (iCol = 1; iCol < oTable.mp_oTableData[iRow].length; iCol++) {
+            sVal = String.valueOf(oTable.mp_oTableData[iRow][iCol]);
+            //If a combo box - strip out the text
+            if (sVal.startsWith("&&")) {
+              sVal = EnhancedTable.getComboValue(sVal);
+            }
+            jOut.write("\t" + sVal);
+          }
+          jOut.write("\n");
+        }
+      }
+    }
+  
+    //Now write masting data
+    jOut.write("Pre-Specified Masting Levels\n");
+    jOut.write("Timestep\tMasting Level\n");
+    for (iRow = 0; iRow < mp_fMastTimeSeries.length; iRow++) {
+      jOut.write("Timestep " + (iRow + 1) + "\t" + mp_fMastTimeSeries[iRow] + "\n");
+    }    
   }
 }
