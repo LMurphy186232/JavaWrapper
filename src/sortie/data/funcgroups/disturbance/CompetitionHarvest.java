@@ -81,12 +81,19 @@ public class CompetitionHarvest extends Behavior {
   protected ModelFloat m_fCompHarvMaxDBH = new ModelFloat(1000,
       "Competition Harvest: Maximum DBH to Harvest", "di_compHarvMaxHarvDBH");
 
-  /** Competition harvest - type of harvest - 0 = fixed interval, 1 = fixed BA
+  /** Competition harvest - type of harvest
+   * <ul>
+   * <li>0 = Fixed interval, with target to leave</li>
+   * <li>1 = Fixed BA threshold with fixed amount to cut</li>
+   * <li>2 = Fixed BA threshold with proportion to cut</li>
+   * <li>3 = Fixed interval, with proportion to cut</li>
+   * </ul>
+   *  - 0 = fixed interval, 1 = fixed BA
    * threshold with fixed amount to cut, 2 = fixed BA threshold with percentage
    * to cut */
   protected ModelEnum m_iCompHarvHarvType = new ModelEnum(
-      new int[] { 2, 1, 0 }, new String[] { "Fixed BA %", "Fixed BA Amt",
-      "Fixed Interval" }, "Competition Harvest: Harvest Type",
+      new int[] { 3, 2, 1, 0 }, new String[] { "Fixed BA %", "Fixed BA Amt",
+      "Fixed Interval Remove Proportion", "Fixed Interval Leave Amt" }, "Competition Harvest: Harvest Type",
       "di_compHarvTypeHarvest");
 
   /** Competition harvest - cut amount - if this is a fixed interval harvest,
