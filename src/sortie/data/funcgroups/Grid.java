@@ -66,7 +66,12 @@ public class Grid {
       /**Length of cells in the X direction - optional*/
       m_fLengthXCells,
       /**Length of cells in the Y direction - optional*/
-      m_fLengthYCells;
+      m_fLengthYCells,
+      
+      /**Original length of cells in the X direction - to allow resets*/
+      m_fOriginalLengthXCells,
+      /**Original length of cells in the Y direction - to allow resets*/
+      m_fOriginalLengthYCells;
 
   protected boolean
       /**Whether or not this grid has been edited*/
@@ -123,6 +128,9 @@ public class Grid {
     m_sGridName = sGridName;
     m_fLengthXCells = fXCellLength;
     m_fLengthYCells = fYCellLength;
+    
+    m_fOriginalLengthXCells = fXCellLength;
+    m_fOriginalLengthYCells = fYCellLength;
 
     organizeDataMembers(p_oMembers, p_oPackageMembers);
   }
@@ -1137,6 +1145,7 @@ public class Grid {
    * Erases all current grid map values without touching any other settings.
    */
   public void clearMapValues() {
+    mp_oGridVals.clear();
     mp_oGridVals = null;
     mp_oGridVals = new ArrayList<GridValue>(0);
   }
@@ -1546,5 +1555,19 @@ public class Grid {
    */
   public boolean isEdited() {
     return m_bEdited;
+  }
+  
+  
+  /**
+   * Resets this grid to its non-edited state. This deletes any map values, 
+   * sets the cell lengths to what they were first set to, and sets the
+   * edited flag to false.
+   */
+  public void reset() {
+    
+    clearMapValues();
+    m_fLengthXCells = m_fOriginalLengthXCells;
+    m_fLengthYCells = m_fOriginalLengthYCells;
+    m_bEdited = false;
   }
 }

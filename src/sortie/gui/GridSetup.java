@@ -63,9 +63,9 @@ public class GridSetup
       /**For editing length of Y cells*/
       m_jYCellLengthEdit = new JTextField();
 
-  private JButton
-      /**Button for clearing current grid map values*/
-      m_jClearMapButton = new JButton("Clear grid map");
+  //private JButton
+   //   /**Button for clearing current grid map values*/
+  //    m_jClearMapButton = new JButton("Clear grid map");
 
   /** GUIManager object */
   private GUIManager m_oManager;
@@ -169,11 +169,12 @@ public class GridSetup
       jEditButton.setActionCommand("EditGrid");
       jEditButton.addActionListener(this);
 
-      //Button for clearing grid map
-      m_jClearMapButton.setFont(new SortieFont());
-      m_jClearMapButton.setActionCommand("ClearGrid");
-      m_jClearMapButton.addActionListener(this);
-      m_jClearMapButton.setEnabled(false);
+      //Button for resetting map
+      JButton jClearButton = new JButton("Reset grid to defaults");
+      jClearButton.setFont(new SortieFont());
+      jClearButton.setActionCommand("ClearGrid");
+      jClearButton.addActionListener(this);
+      //m_jClearMapButton.setEnabled(false);
 
       //Button for saving grid map
 //      m_jSaveMapButton.setFont(new ModelFont());
@@ -200,7 +201,7 @@ public class GridSetup
       jCenterPanel.add(m_jYCellLengthEdit);
       jCenterPanel.add(jChangeButton);
       jCenterPanel.add(jEditButton);
-      jCenterPanel.add(m_jClearMapButton);
+      jCenterPanel.add(jClearButton);
 //      jCenterPanel.add(m_jSaveMapButton);
       jCenterPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
@@ -231,14 +232,14 @@ public class GridSetup
       m_jXCellLengthEdit.setText(String.valueOf(mp_fXLengths[iSelectedIndex - 1]));
       m_jYCellLengthEdit.setText(String.valueOf(mp_fYLengths[iSelectedIndex - 1]));
 
-      if (mp_oGridList[iSelectedIndex - 1].mp_oGridVals.size() > 0) {
+      /*if (mp_oGridList[iSelectedIndex - 1].mp_oGridVals.size() > 0) {
         m_jClearMapButton.setText("Clear grid map");
         m_jClearMapButton.setEnabled(true);
       }
       else {
         m_jClearMapButton.setText("No grid map values");
         m_jClearMapButton.setEnabled(false);
-      }
+      }*/
     }
     else if (oEvent.getActionCommand().equals("OK")) {
       try {
@@ -300,9 +301,13 @@ public class GridSetup
       if (iSelectedIndex < 1) {
         return;
       }
-      mp_oGridList[iSelectedIndex - 1].clearMapValues();
-      m_jClearMapButton.setText("No grid map values");
-      m_jClearMapButton.setEnabled(false);
+      //Just double check
+      if (JOptionPane.showConfirmDialog(this, "This will erase any grid map values and settings. Continue?") == JOptionPane.YES_OPTION) {
+        mp_oGridList[iSelectedIndex - 1].reset();
+        //m_jClearMapButton.setText("No grid map values");
+        //m_jClearMapButton.setEnabled(false);  
+      }
+      
     }
     else if (oEvent.getActionCommand().equals("EditGrid")) {
       int iSelectedIndex = m_jGridListCombo.getSelectedIndex();
