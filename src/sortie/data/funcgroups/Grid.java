@@ -20,7 +20,7 @@ import sortie.gui.ErrorGUI;
  * @author Lora E. Murphy
  * @version 1.0
  *
- * <br>Edit history:
+ * <br>Legacy Pre-Github Edit history:
  * <br>------------------
  * <br>April 28, 2004: Submitted in beta version (LEM)
  * <br>February 4, 2008: Updated to conform to Java 6 compliance (LEM)
@@ -75,7 +75,15 @@ public class Grid {
 
   protected boolean
       /**Whether or not this grid has been edited*/
-      m_bEdited = false;
+      m_bEdited = false,
+      
+      /**Some grids have data members that depend on other settings and may
+       * change. These grids will do less strict error trapping and will accept
+       * settings and values that they might not otherwise expect, assuming 
+       * that a needed update hasn't happened. Behaviors themselves will be
+       * relied upon to do final validation for grids where this is set to 
+       * true.*/
+      m_bVariableDataMembers = false;
 
   /**Holds GridValue objects to be written to a grid map*/
   public ArrayList<GridValue> mp_oGridVals = new ArrayList<GridValue>(0);
@@ -133,6 +141,26 @@ public class Grid {
     m_fOriginalLengthYCells = fYCellLength;
 
     organizeDataMembers(p_oMembers, p_oPackageMembers);
+  }
+  
+  /**
+   * Constructor.
+   * @param p_oMembers The data members for this grid.
+   * @param p_oPackageMembers The package data members for this grid, or NULL
+   * if there are no package data members.
+   * @param sGridName The name of the grid.  This should match the name of the
+   * grid in the code.
+   * @param fXCellLength Length of cells in the X direction, in m
+   * @param fYCellLength Length of cells in the Y direction, in m
+   * @param bVariableDataMembers Whether or not this grid has variable data
+   * members.
+   */
+  public Grid(String sGridName, DataMember[] p_oMembers, 
+      DataMember[] p_oPackageMembers, float fXCellLength, float fYCellLength,
+      boolean bVariableDataMembers) {
+    this(sGridName, p_oMembers, p_oPackageMembers, fXCellLength, fYCellLength);
+    m_bVariableDataMembers = bVariableDataMembers;
+    
   }
   
   /**
@@ -482,9 +510,33 @@ public class Grid {
       }
     }
     if (iOfficialIndex == -1) {
-      throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "For grid " +
-                               m_sGridName + ", unrecognized data \"" +
-                               sDataMember + "\" in the grid map."));
+      
+      // If this is a variable data members grid, accept this provisionally
+      if (m_bVariableDataMembers) {
+        DataMember[] p_oNewDataMembers = new DataMember[mp_oDataMembers.length + 1];
+        for (i = 0; i < mp_oDataMembers.length; i++) {
+          p_oNewDataMembers[i] = mp_oDataMembers[i];
+        }
+        i = p_oNewDataMembers.length - 1;
+        p_oNewDataMembers[i] = new DataMember(sDataMember, sDataMember, DataMember.FLOAT);
+        mp_oDataMembers = null;
+        mp_oDataMembers = p_oNewDataMembers;        
+        
+        // Add to floats specifically
+        iOfficialIndex = mp_sFloatDataMembers.length;        
+        String[] p_sNewFloatDataMembers = new String[mp_sFloatDataMembers.length+1];
+        for (i = 0; i < mp_sFloatDataMembers.length; i++) {
+          p_sNewFloatDataMembers[i] = mp_sFloatDataMembers[i];
+        }
+        p_sNewFloatDataMembers[iOfficialIndex] = sDataMember;
+        mp_sFloatDataMembers = null;
+        mp_sFloatDataMembers = p_sNewFloatDataMembers;               
+      } else {
+
+        throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "For grid " +
+            m_sGridName + ", unrecognized data \"" +
+            sDataMember + "\" in the grid map."));
+      }
     }
 
     if (mp_iGridFloatTransforms.size() <= iIndex) {
@@ -516,9 +568,31 @@ public class Grid {
       }
     }
     if (iOfficialIndex == -1) {
-      throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "For grid " +
-                               m_sGridName + ", unrecognized data \"" +
-                               sDataMember + "\" in the grid map."));
+      // If this is a variable data members grid, accept this provisionally
+      if (m_bVariableDataMembers) {
+        DataMember[] p_oNewDataMembers = new DataMember[mp_oDataMembers.length + 1];
+        for (i = 0; i < mp_oDataMembers.length; i++) {
+          p_oNewDataMembers[i] = mp_oDataMembers[i];
+        }
+        i = p_oNewDataMembers.length - 1;
+        p_oNewDataMembers[i] = new DataMember(sDataMember, sDataMember, DataMember.FLOAT);
+        mp_oDataMembers = null;
+        mp_oDataMembers = p_oNewDataMembers;        
+        
+        // Add to Ints specifically
+        iOfficialIndex = mp_sIntDataMembers.length;        
+        String[] p_sNewIntDataMembers = new String[mp_sIntDataMembers.length+1];
+        for (i = 0; i < mp_sIntDataMembers.length; i++) {
+          p_sNewIntDataMembers[i] = mp_sIntDataMembers[i];
+        }
+        p_sNewIntDataMembers[iOfficialIndex] = sDataMember;
+        mp_sIntDataMembers = null;
+        mp_sIntDataMembers = p_sNewIntDataMembers;   
+      } else {
+        throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "For grid " +
+            m_sGridName + ", unrecognized data \"" +
+            sDataMember + "\" in the grid map."));
+      }
 
     }
 
@@ -551,9 +625,32 @@ public class Grid {
       }
     }
     if (iOfficialIndex == -1) {
-      throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "For grid " +
-                               m_sGridName + ", unrecognized data \"" +
-                               sDataMember + "\" in the grid map."));
+      // If this is a variable data members grid, accept this provisionally
+      if (m_bVariableDataMembers) {
+        DataMember[] p_oNewDataMembers = new DataMember[mp_oDataMembers.length + 1];
+        for (i = 0; i < mp_oDataMembers.length; i++) {
+          p_oNewDataMembers[i] = mp_oDataMembers[i];
+        }
+        i = p_oNewDataMembers.length - 1;
+        p_oNewDataMembers[i] = new DataMember(sDataMember, sDataMember, DataMember.CHAR);
+        mp_oDataMembers = null;
+        mp_oDataMembers = p_oNewDataMembers;        
+        
+        // Add to Chars specifically
+        iOfficialIndex = mp_sCharDataMembers.length;        
+        String[] p_sNewCharDataMembers = new String[mp_sCharDataMembers.length+1];
+        for (i = 0; i < mp_sCharDataMembers.length; i++) {
+          p_sNewCharDataMembers[i] = mp_sCharDataMembers[i];
+        }
+        p_sNewCharDataMembers[iOfficialIndex] = sDataMember;
+        mp_sCharDataMembers = null;
+        mp_sCharDataMembers = p_sNewCharDataMembers;   
+      } else {
+
+        throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "For grid " +
+            m_sGridName + ", unrecognized data \"" +
+            sDataMember + "\" in the grid map."));
+      }
     }
 
     if (mp_iGridCharTransforms.size() <= iIndex) {
@@ -585,9 +682,33 @@ public class Grid {
       }
     }
     if (iOfficialIndex == -1) {
+      // If this is a variable data members grid, accept this provisionally
+      if (m_bVariableDataMembers) {
+        DataMember[] p_oNewDataMembers = new DataMember[mp_oDataMembers.length + 1];
+        for (i = 0; i < mp_oDataMembers.length; i++) {
+          p_oNewDataMembers[i] = mp_oDataMembers[i];
+        }
+        i = p_oNewDataMembers.length - 1;
+        p_oNewDataMembers[i] = new DataMember(sDataMember, sDataMember, DataMember.BOOLEAN);
+        mp_oDataMembers = null;
+        mp_oDataMembers = p_oNewDataMembers;        
+        
+        // Add to bools specifically
+        iOfficialIndex = mp_sBoolDataMembers.length;        
+        String[] p_sNewBoolDataMembers = new String[mp_sBoolDataMembers.length+1];
+        for (i = 0; i < mp_sBoolDataMembers.length; i++) {
+          p_sNewBoolDataMembers[i] = mp_sBoolDataMembers[i];
+        }
+        p_sNewBoolDataMembers[iOfficialIndex] = sDataMember;
+        mp_sBoolDataMembers = null;
+        mp_sBoolDataMembers = p_sNewBoolDataMembers;   
+      } else {
+        
+      
       throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "For grid " +
                                m_sGridName + ", unrecognized data \"" +
                                sDataMember + "\" in the grid map."));
+      }
     }
 
     if (mp_iGridBoolTransforms.size() <= iIndex) {

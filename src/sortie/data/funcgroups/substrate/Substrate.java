@@ -232,12 +232,14 @@ public class Substrate extends Behavior {
   }
 
   /**
-   * Sets up the substrate grids.
+   * Sets up the substrate grids. This has to be smart: the number of data
+   * members depends on max decay time. If this changes, you have to be prepared
+   * to preserve changes.
    * @throws ModelException
    */
   private void gridSetup() throws ModelException {
     Grid oNewGrid;
-    int i;
+    int i, iHash;
 
     //************************
     // Regular substrate
@@ -283,10 +285,17 @@ public class Substrate extends Behavior {
     addGrid(oNewGrid, false);
 
     //************************
-    // Regular substrate calculations grid
+    // Regular substrate calculations grid. Trickier: an update situation might
+    // be because the decay time value changed, or maybe there's mapped 
+    // values... we need to be careful to make sure to preserve existing
+    // changes
     //************************
     sGridName = "substratecalcs";
-
+    
+    //------------------------------------------------------------------------/
+    // Prepare a list of data members that this grid will need - for either
+    // creating the grid or checking an existing one
+    //------------------------------------------------------------------------/
     //Create the data members
     int iDecayTimesteps = (int) java.lang.Math.ceil(  m_iMaxDecayTime.
         getValue() / m_oManager.getPlot().getNumberOfYearsPerTimestep());
@@ -309,10 +318,73 @@ public class Substrate extends Behavior {
                          "declog_" + String.valueOf(i),
                          DataMember.FLOAT);
     }
-    oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
-    //Add to the substrate behavior
-    oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid, false);
+    //------------------------------------------------------------------------/
+    
+  
+    //------------------------------------------------------------------------/
+    //First: check to see if any updates are required. They may not be! 
+    // Retrieve the grid in case it has already been created.
+    //------------------------------------------------------------------------/
+    Grid oExistingGrid = null;
+    for (i = 0; i < mp_iGridsAppliesTo.size(); i++) {
+      iHash = mp_iGridsAppliesTo.get(i);
+      oExistingGrid = m_oManager.getGridByHash(iHash);
+      if (oExistingGrid.getName().equals(sGridName)) break;
+      else oExistingGrid = null;
+    }
+    if (oExistingGrid == null) {
+
+      //----------------------------------------------------------------------/
+      // Grid has not been created - do it
+      //----------------------------------------------------------------------/
+      
+      oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8, true);
+      //Add to the substrate behavior
+      oNewGrid = m_oManager.addGrid(oNewGrid, true);
+      addGrid(oNewGrid, true);
+      return;
+      //----------------------------------------------------------------------/
+  
+    } else {
+      
+      //----------------------------------------------------------------------/
+      // We already had the grid - check to see if we need to change it. If
+      // the number of max decay timesteps is appropriate, there is nothing
+      // that needs to be done.
+      //----------------------------------------------------------------------/
+      boolean bSameDataMembers = true, bFound;
+      int j;
+      DataMember[] p_oExistingDataMembers = oExistingGrid.getDataMembers();
+      if (p_oExistingDataMembers.length == p_oDataMembers.length) {
+        for (i = 0; i < p_oDataMembers.length; i++) {
+          bFound = false;
+          for (j = 0; j < p_oExistingDataMembers.length; j++) {
+            if (p_oExistingDataMembers[j].equals(p_oExistingDataMembers[i])) {
+              bFound = true;
+              break;
+            }            
+          }
+          if (!bFound) {
+            bSameDataMembers = false;
+            break;
+          }
+        }
+      } else {bSameDataMembers = false;}
+      
+     if (bSameDataMembers) return;
+     //----------------------------------------------------------------------/
+     
+     //----------------------------------------------------------------------/
+     // If we're still here, we have an existing grid that has different
+     // properties. Preserve what we can from the current grid
+     //----------------------------------------------------------------------/
+     oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8, true);
+     oNewGrid.setXCellLength(oExistingGrid.getXCellLength());
+     oNewGrid.setYCellLength(oExistingGrid.getYCellLength());
+     //Add to the substrate behavior
+     oNewGrid = m_oManager.addGrid(oNewGrid, true);
+     addGrid(oNewGrid, true);
+    }
   }
 
   /**
