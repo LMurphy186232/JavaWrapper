@@ -305,7 +305,13 @@ public class GridSetup
       if (JOptionPane.showConfirmDialog(this, "This will erase any grid map values and settings. Continue?") == JOptionPane.YES_OPTION) {
         mp_oGridList[iSelectedIndex - 1].reset();
         //m_jClearMapButton.setText("No grid map values");
-        //m_jClearMapButton.setEnabled(false);  
+        //m_jClearMapButton.setEnabled(false); 
+        
+        mp_fXLengths[iSelectedIndex - 1] = mp_oGridList[iSelectedIndex - 1].getXCellLength();
+        mp_fYLengths[iSelectedIndex - 1] = mp_oGridList[iSelectedIndex - 1].getYCellLength();
+        
+        m_jXCellLengthEdit.setText(String.valueOf(mp_fXLengths[iSelectedIndex - 1]));
+        m_jYCellLengthEdit.setText(String.valueOf(mp_fYLengths[iSelectedIndex - 1]));
       }
       
     }

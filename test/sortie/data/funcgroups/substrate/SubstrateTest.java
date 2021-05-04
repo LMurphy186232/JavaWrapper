@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.Grid;
 import sortie.data.funcgroups.GridValue;
+import sortie.data.funcgroups.PackageGridValue;
 import sortie.data.funcgroups.SubstrateBehaviors;
 import sortie.data.simpletypes.ModelException;
 import sortie.gui.GUIManager;
@@ -446,6 +447,11 @@ public class SubstrateTest extends TestCase {
       assertEquals(3, oGrid.getFloatCode("declog"));
       assertEquals(4, oGrid.getFloatCode("ffmoss"));
       assertEquals(5, oGrid.getFloatCode("fflitter"));
+      
+      assertEquals(0, oGrid.getIntPackageCode("age"));
+      assertEquals(0, oGrid.getFloatPackageCode("scarsoil"));
+      assertEquals(1, oGrid.getFloatPackageCode("tipup"));
+      assertEquals(2, oGrid.getFloatPackageCode("freshlog"));
       boolean bFound;
 
       assertEquals(4, oGrid.mp_oGridVals.size());
@@ -462,8 +468,21 @@ public class SubstrateTest extends TestCase {
           assertEquals(0.4, oVal.getFloat(3), 0.001);
           assertEquals(0.5, oVal.getFloat(4), 0.001);
           assertEquals(1.0, oVal.getFloat(5), 0.001);
+          
+          assertTrue(oVal.mp_oPackages.size() == 2);
+          PackageGridValue oPkg = oVal.mp_oPackages.get(0);
+          assertEquals(Integer.valueOf(1), oPkg.getInt(0));
+          assertEquals(0.1, oPkg.getFloat(0), 0.001);
+          assertEquals(2.0, oPkg.getFloat(1), 0.001);
+          assertEquals(0.0101311, oPkg.getFloat(2), 0.001);
+          
+          oPkg = oVal.mp_oPackages.get(1);
+          assertEquals(Integer.valueOf(2), oPkg.getInt(0));
+          assertEquals(1.1, oPkg.getFloat(0), 0.001);
+          assertEquals(2.2, oPkg.getFloat(1), 0.001);
+          assertEquals(1.011, oPkg.getFloat(2), 0.001);          
         }
-        assertTrue(bFound);
+        assertTrue(bFound);                
       }
 
       //Grid cell 0, 1
@@ -494,6 +513,13 @@ public class SubstrateTest extends TestCase {
           assertEquals(0.432, oVal.getFloat(3), 0.001);
           assertEquals(0.58, oVal.getFloat(4), 0.001);
           assertEquals(0.55, oVal.getFloat(5), 0.001);
+
+          assertTrue(oVal.mp_oPackages.size() == 1);
+          PackageGridValue oPkg = oVal.mp_oPackages.get(0);
+          assertEquals(Integer.valueOf(3), oPkg.getInt(0));
+          assertEquals(17.1, oPkg.getFloat(0), 0.001);
+          assertEquals(2.5, oPkg.getFloat(1), 0.001);
+          assertEquals(4.011, oPkg.getFloat(2), 0.001);          
         }
       }
       assertTrue(bFound);
@@ -1170,6 +1196,18 @@ public class SubstrateTest extends TestCase {
     oOut.write("<fl c=\"3\">0.4</fl>");
     oOut.write("<fl c=\"4\">0.5</fl>");
     oOut.write("<fl c=\"5\">1.0</fl>");
+    oOut.write("<pkg>");
+    oOut.write("<pint c=\"0\">1</pint>");
+    oOut.write("<pfl c=\"0\">0.1</pfl>");
+    oOut.write("<pfl c=\"1\">2.0</pfl>");
+    oOut.write("<pfl c=\"2\">0.0101311</pfl>");
+    oOut.write("</pkg>");
+    oOut.write("<pkg>");
+    oOut.write("<pint c=\"0\">2</pint>");
+    oOut.write("<pfl c=\"0\">1.1</pfl>");
+    oOut.write("<pfl c=\"1\">2.2</pfl>");
+    oOut.write("<pfl c=\"2\">1.011</pfl>");
+    oOut.write("</pkg>");
     oOut.write("</ma_v>");
     oOut.write("<ma_v y=\"1\" x=\"0\">");
     oOut.write("<fl c=\"0\">1.0</fl>");
@@ -1186,6 +1224,12 @@ public class SubstrateTest extends TestCase {
     oOut.write("<fl c=\"3\">0.432</fl>");
     oOut.write("<fl c=\"4\">0.58</fl>");
     oOut.write("<fl c=\"5\">0.55</fl>");
+    oOut.write("<pkg>");
+    oOut.write("<pint c=\"0\">3</pint>");
+    oOut.write("<pfl c=\"0\">17.1</pfl>");
+    oOut.write("<pfl c=\"1\">2.5</pfl>");
+    oOut.write("<pfl c=\"2\">4.011</pfl>");
+    oOut.write("</pkg>");
     oOut.write("</ma_v>");
     oOut.write("<ma_v y=\"1\" x=\"1\">");
     oOut.write("<fl c=\"0\">0.856</fl>");
