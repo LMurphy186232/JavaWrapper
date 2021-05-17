@@ -398,6 +398,24 @@ public class SubstrateTest extends TestCase {
       }
       assertTrue(oGrid.getFloatCode("freshlog_15") == -1);
       assertTrue(oGrid.getFloatCode("declog_15") == -1);
+      
+      //----------------------------------------------------------------------/
+      // Check that the substrate calcs grid will be given the same 
+      // grid cell resolution as the substrate grid
+      //----------------------------------------------------------------------/
+      oManager.clearCurrentData();
+      sFileName = writeXMLValidFile4();
+      oManager.inputXMLParameterFile(sFileName);
+      
+      //Check that grid setup was honored
+      oGrid = oManager.getGridByName("Substrate");
+      assertEquals(10.0, oGrid.getXCellLength(), 0.001);
+      assertEquals(10.0, oGrid.getYCellLength(), 0.001);
+      
+      oGrid = oManager.getGridByName("substratecalcs");
+      assertEquals(10.0, oGrid.getXCellLength(), 0.001);
+      assertEquals(10.0, oGrid.getYCellLength(), 0.001);
+      
 
     } catch (ModelException oErr) {
       fail("Substrate parameter file read test failed with message "
@@ -1743,4 +1761,140 @@ public class SubstrateTest extends TestCase {
     oOut.close();
     return sFileName;
   }
+  
+  /**
+   * Writes a substrate file. This has info for the Substrate grid but not
+   * substratecalcs and this verifies that substratecalcs matches substrate.
+   * 
+   * @throws IOException if there is a problem writing the file.
+   * @return String Filename of file written.
+   */
+  private String writeXMLValidFile4() throws IOException {
+    String sFileName = "\\testfile1.xml";
+    FileWriter oOut = new FileWriter(sFileName);
+
+    oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+    oOut.write("<paramFile fileCode=\"07010101\">");
+    oOut.write("<plot>");
+    oOut.write("<timesteps>1</timesteps>");
+    oOut.write("<yearsPerTimestep>1</yearsPerTimestep>");
+    oOut.write("<randomSeed>1</randomSeed>");
+    oOut.write("<plot_lenX>200.0</plot_lenX>");
+    oOut.write("<plot_lenY>200.0</plot_lenY>");
+    oOut.write("<plot_latitude>55.37</plot_latitude>");
+    oOut.write("</plot>");
+    oOut.write("<trees>");
+    oOut.write("<tr_speciesList>");
+    oOut.write("<tr_species speciesName=\"Species_1\" />");
+    oOut.write("</tr_speciesList>");
+    oOut.write("<tr_seedDiam10Cm>0.1</tr_seedDiam10Cm>");
+    oOut.write("<tr_minAdultDBH>");
+    oOut.write("<tr_madVal species=\"Species_1\">10.0</tr_madVal>");
+    oOut.write("</tr_minAdultDBH>");
+    oOut.write("</trees>");
+    oOut.write("<allometry>");
+    oOut.write("<tr_canopyHeight>");
+    oOut.write("<tr_chVal species=\"Species_1\">39.48</tr_chVal>");
+    oOut.write("</tr_canopyHeight>");
+    oOut.write("<tr_stdAsympCrownRad>");
+    oOut.write("<tr_sacrVal species=\"Species_1\">0.0549</tr_sacrVal>");
+    oOut.write("</tr_stdAsympCrownRad>");
+    oOut.write("<tr_stdCrownRadExp>");
+    oOut.write("<tr_screVal species=\"Species_1\">1.0</tr_screVal>");
+    oOut.write("</tr_stdCrownRadExp>");
+    oOut.write("<tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_cdtdVal species=\"Species_1\">0.8008</tr_cdtdVal>");
+    oOut.write("</tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_stdAsympCrownHt>");
+    oOut.write("<tr_sachVal species=\"Species_1\">0.389</tr_sachVal>");
+    oOut.write("</tr_stdAsympCrownHt>");
+    oOut.write("<tr_stdCrownHtExp>");
+    oOut.write("<tr_scheVal species=\"Species_1\">1.0</tr_scheVal>");
+    oOut.write("</tr_stdCrownHtExp>");
+    oOut.write("<tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_sohdVal species=\"Species_1\">0.03418</tr_sohdVal>");
+    oOut.write("</tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_slopeOfAsymHeight>");
+    oOut.write("<tr_soahVal species=\"Species_1\">0.0299</tr_soahVal>");
+    oOut.write("</tr_slopeOfAsymHeight>");
+    oOut.write("</allometry>");
+
+    oOut.write("<behaviorList>");
+    oOut.write("<behavior>");
+    oOut.write("<behaviorName>Substrate</behaviorName>");
+    oOut.write("<version>1</version>");
+    oOut.write("<listPosition>1</listPosition>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Sapling\"/>");
+    oOut.write("</behavior>");
+    oOut.write("</behaviorList>");
+
+    oOut.write("<grid gridName=\"Substrate\">");
+    oOut.write("<ma_floatCodes>");
+    oOut.write("<ma_floatCode label=\"scarsoil\">0</ma_floatCode>");
+    oOut.write("<ma_floatCode label=\"tipup\">1</ma_floatCode>");
+    oOut.write("<ma_floatCode label=\"freshlog\">2</ma_floatCode>");
+    oOut.write("<ma_floatCode label=\"declog\">3</ma_floatCode>");
+    oOut.write("<ma_floatCode label=\"ffmoss\">4</ma_floatCode>");
+    oOut.write("<ma_floatCode label=\"fflitter\">5</ma_floatCode>");
+    oOut.write("</ma_floatCodes>");
+    oOut.write("<ma_packageIntCodes>");
+    oOut.write("<ma_intCode label=\"age\">0</ma_intCode>");
+    oOut.write("</ma_packageIntCodes>");
+    oOut.write("<ma_packageFloatCodes>");
+    oOut.write("<ma_floatCode label=\"scarsoil\">0</ma_floatCode>");
+    oOut.write("<ma_floatCode label=\"tipup\">1</ma_floatCode>");
+    oOut.write("<ma_floatCode label=\"freshlog\">2</ma_floatCode>");
+    oOut.write("</ma_packageFloatCodes>");
+    oOut.write("<ma_plotLenX>200.0</ma_plotLenX>");
+    oOut.write("<ma_plotLenY>200.0</ma_plotLenY>");
+    oOut.write("<ma_lengthXCells>10.0</ma_lengthXCells>");
+    oOut.write("<ma_lengthYCells>10.0</ma_lengthYCells>");
+    oOut.write("</grid>");
+    
+    oOut.write("<Substrate1>");
+    oOut.write("<su_scarSoilDecayAlpha>-5.1</su_scarSoilDecayAlpha>");
+    oOut.write("<su_scarSoilDecayBeta>4.4</su_scarSoilDecayBeta>");
+    oOut.write("<su_tipupDecayAlpha>-7.0</su_tipupDecayAlpha>");
+    oOut.write("<su_tipupDecayBeta>4.3</su_tipupDecayBeta>");
+    oOut.write("<su_freshLogDecayAlpha>-0.05</su_freshLogDecayAlpha>");
+    oOut.write("<su_freshLogDecayBeta>6.5</su_freshLogDecayBeta>");
+    oOut.write("<su_decayedLogDecayAlpha>-0.2</su_decayedLogDecayAlpha>");
+    oOut.write("<su_decayedLogDecayBeta>5.2</su_decayedLogDecayBeta>");
+    oOut.write("<su_maxNumberDecayYears>15</su_maxNumberDecayYears>");
+    oOut.write("<su_initialScarSoil>0.23</su_initialScarSoil>");
+    oOut.write("<su_initialTipup>0.2</su_initialTipup>");
+    oOut.write("<su_initialFreshLog>0.01</su_initialFreshLog>");
+    oOut.write("<su_initialDecayedLog>0.11</su_initialDecayedLog>");
+    oOut.write("<su_partialCutScarSoil>0.17</su_partialCutScarSoil>");
+    oOut.write("<su_partialCutTipup>0.15</su_partialCutTipup>");
+    oOut.write("<su_partialCutFreshLog>0.06</su_partialCutFreshLog>");
+    oOut.write("<su_partialCutDecayedLog>0.04</su_partialCutDecayedLog>");
+    oOut.write("<su_gapCutScarSoil>0.45</su_gapCutScarSoil>");
+    oOut.write("<su_gapCutTipup>0.34</su_gapCutTipup>");
+    oOut.write("<su_gapCutFreshLog>0.09</su_gapCutFreshLog>");
+    oOut.write("<su_gapCutDecayedLog>0.12</su_gapCutDecayedLog>");
+    oOut.write("<su_clearCutScarSoil>0.36</su_clearCutScarSoil>");
+    oOut.write("<su_clearCutTipup>0.32</su_clearCutTipup>");
+    oOut.write("<su_clearCutFreshLog>0.13</su_clearCutFreshLog>");
+    oOut.write("<su_clearCutDecayedLog>0.02</su_clearCutDecayedLog>");
+    oOut.write("<su_propOfDeadFall>");
+    oOut.write("<su_podfVal species=\"Species_1\">1</su_podfVal>");
+    oOut.write("</su_propOfDeadFall>");
+    oOut.write("<su_propOfFallUproot>");
+    oOut.write("<su_pofuVal species=\"Species_1\">0</su_pofuVal>");
+    oOut.write("</su_propOfFallUproot>");
+    oOut.write("<su_propOfSnagsUproot>");
+    oOut.write("<su_posuVal species=\"Species_1\">0.4</su_posuVal>");
+    oOut.write("</su_propOfSnagsUproot>");
+    oOut.write("<su_mossProportion>0.7</su_mossProportion>");
+    oOut.write("<su_directionalTreeFall>1</su_directionalTreeFall>");
+    oOut.write("<su_rootTipupFactor>3.1</su_rootTipupFactor>");
+    oOut.write("</Substrate1>");
+    oOut.write("</paramFile>");
+
+    oOut.close();
+    return sFileName;
+  }
 }
+

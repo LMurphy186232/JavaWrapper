@@ -283,6 +283,10 @@ public class Substrate extends Behavior {
 
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
     addGrid(oNewGrid, false);
+    
+    // Get the size so we can match substratecalcs
+    float fXCellLength = oNewGrid.getXCellLength(),
+          fYCellLength = oNewGrid.getYCellLength();
 
     //************************
     // Regular substrate calculations grid. Trickier: an update situation might
@@ -338,7 +342,8 @@ public class Substrate extends Behavior {
       // Grid has not been created - do it
       //----------------------------------------------------------------------/
       
-      oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8, true);
+      oNewGrid = new Grid(sGridName, p_oDataMembers, null, 
+          fXCellLength, fYCellLength, true);
       //Add to the substrate behavior
       oNewGrid = m_oManager.addGrid(oNewGrid, true);
       addGrid(oNewGrid, true);
@@ -349,8 +354,8 @@ public class Substrate extends Behavior {
       
       //----------------------------------------------------------------------/
       // We already had the grid - check to see if we need to change it. If
-      // the number of max decay timesteps is appropriate, there is nothing
-      // that needs to be done.
+      // the number of max decay timesteps is appropriate and the resolution
+      // is correct, there is nothing that needs to be done.
       //----------------------------------------------------------------------/
       boolean bSameDataMembers = true, bFound;
       int j;
@@ -371,16 +376,17 @@ public class Substrate extends Behavior {
         }
       } else {bSameDataMembers = false;}
       
-     if (bSameDataMembers) return;
+     if (bSameDataMembers && oExistingGrid.getXCellLength() - fXCellLength < 0.01 &&
+         oExistingGrid.getYCellLength() - fYCellLength < 0.01) return;
      //----------------------------------------------------------------------/
      
      //----------------------------------------------------------------------/
      // If we're still here, we have an existing grid that has different
      // properties. Preserve what we can from the current grid
      //----------------------------------------------------------------------/
-     oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8, true);
-     oNewGrid.setXCellLength(oExistingGrid.getXCellLength());
-     oNewGrid.setYCellLength(oExistingGrid.getYCellLength());
+     oNewGrid = new Grid(sGridName, p_oDataMembers, null, fXCellLength, fYCellLength, true);
+     //oNewGrid.setXCellLength(oExistingGrid.getXCellLength());
+     //oNewGrid.setYCellLength(oExistingGrid.getYCellLength());
      //Add to the substrate behavior
      oNewGrid = m_oManager.addGrid(oNewGrid, true);
      addGrid(oNewGrid, true);

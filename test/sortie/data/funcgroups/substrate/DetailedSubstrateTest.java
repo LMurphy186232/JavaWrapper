@@ -1116,6 +1116,7 @@ public class DetailedSubstrateTest extends TestCase {
       ArrayList<Behavior> p_oBehs = oSubBeh.getBehaviorByParameterFileTag("DetailedSubstrate");
       assertEquals(1, p_oBehs.size());
       DetailedSubstrate oSubs = (DetailedSubstrate) p_oBehs.get(0);
+      int i;
 
       assertEquals(oSubs.m_fLogSizeClassBoundary.getValue(), 40, 0.0001);
       ModelEnum oEnum = (ModelEnum) oSubs.mp_iSpeciesGroup.getValue().get(0);
@@ -1470,6 +1471,91 @@ public class DetailedSubstrateTest extends TestCase {
       Grid oGrid = oManager.getGridByName("DetailedSubstrate");
       assertEquals(4.0, oGrid.getXCellLength(), 0.0001);
       assertEquals(5.0, oGrid.getYCellLength(), 0.0001);
+      
+      //Check basic grid setup
+      oGrid = oManager.getGridByName("detailedsubstratecalcs");
+      assertEquals(4.0, oGrid.getXCellLength(), 0.001);
+      assertEquals(5.0, oGrid.getYCellLength(), 0.001);
+      for (i = 0; i < 3; i++) {
+        assertTrue(oGrid.getFloatCode("loggroup1smalldecay1_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2smalldecay1_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3smalldecay1_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1smalldecay2_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2smalldecay2_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3smalldecay2_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1smalldecay3_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2smalldecay3_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3smalldecay3_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1smalldecay4_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2smalldecay4_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3smalldecay4_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1smalldecay5_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2smalldecay5_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3smalldecay5_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1largedecay1_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2largedecay1_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3largedecay1_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1largedecay2_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2largedecay2_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3largedecay2_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1largedecay3_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2largedecay3_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3largedecay3_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1largedecay4_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2largedecay4_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3largedecay4_" + String.valueOf(i)) >= 0);
+        
+        assertTrue(oGrid.getFloatCode("loggroup1largedecay5_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup2largedecay5_" + String.valueOf(i)) >= 0);
+        assertTrue(oGrid.getFloatCode("loggroup3largedecay5_" + String.valueOf(i)) >= 0);                
+      }
+      assertTrue(oGrid.getFloatCode("loggroup1smalldecay1_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2smalldecay1_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3smalldecay1_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1smalldecay2_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2smalldecay2_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3smalldecay2_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1smalldecay3_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2smalldecay3_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3smalldecay3_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1smalldecay4_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2smalldecay4_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3smalldecay4_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1smalldecay5_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2smalldecay5_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3smalldecay5_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1largedecay1_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2largedecay1_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3largedecay1_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1largedecay2_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2largedecay2_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3largedecay2_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1largedecay3_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2largedecay3_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3largedecay3_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1largedecay4_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2largedecay4_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3largedecay4_3") == -1);
+      
+      assertTrue(oGrid.getFloatCode("loggroup1largedecay5_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup2largedecay5_3") == -1);
+      assertTrue(oGrid.getFloatCode("loggroup3largedecay5_3") == -1);
       
     } catch (ModelException oErr) {
       fail("Substrate parameter file read test failed with message "
