@@ -389,7 +389,9 @@ public class HarvestData {
    * @param fRate Mortality rate.
    */
   public void setSeedlingMortRate(int iSpecies, float fRate) {
-    mp_fSeedlingMortRate.add(iSpecies, Float.valueOf(fRate));
+    //Ensure capacity for this value
+    while (mp_fSeedlingMortRate.size() < iSpecies) mp_fSeedlingMortRate.add((float)0.0);
+    mp_fSeedlingMortRate.add(iSpecies, Float.valueOf(fRate));   
   }
 
   /**
@@ -398,6 +400,9 @@ public class HarvestData {
    * @return Mortality rate.
    */
   public float getSeedlingMortRate(int iSpecies) {
+	  if (mp_fSeedlingMortRate.size() <= iSpecies) {
+		  setSeedlingMortRate(iSpecies, 0); 
+	  }
     return mp_fSeedlingMortRate.get(iSpecies).floatValue();
   }
 

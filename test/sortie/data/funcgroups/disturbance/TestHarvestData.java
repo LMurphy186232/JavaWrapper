@@ -215,6 +215,8 @@ public class TestHarvestData
       assertEquals(iActual, 2);
       iActual = m_oHarvestData.getSpecies(1);
       assertEquals(iActual, iSpecies);
+      
+      m_oHarvestData.getSeedlingMortRate(2);
 
       //Adding duplicate
       m_oHarvestData.addSpecies(iSpecies);

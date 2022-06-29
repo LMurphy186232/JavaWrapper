@@ -333,7 +333,7 @@ public class Substrate extends Behavior {
     for (i = 0; i < mp_iGridsAppliesTo.size(); i++) {
       iHash = mp_iGridsAppliesTo.get(i);
       oExistingGrid = m_oManager.getGridByHash(iHash);
-      if (oExistingGrid.getName().equals(sGridName)) break;
+      if (oExistingGrid != null && oExistingGrid.getName().equals(sGridName)) break;
       else oExistingGrid = null;
     }
     if (oExistingGrid == null) {

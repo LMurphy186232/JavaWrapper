@@ -808,7 +808,7 @@ public class MainWindow
     setBounds(iInset, iInset,
               screenSize.width - iInset * 2,
               screenSize.height - iInset * 2);
-    this.setTitle("SORTIE-ND Version 7.05.07");
+    this.setTitle("SORTIE-ND Version 7.05.11");
 
     createMenu();
 

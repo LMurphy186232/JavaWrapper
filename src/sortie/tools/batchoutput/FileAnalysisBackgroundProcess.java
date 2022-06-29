@@ -10,6 +10,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.MenuElement;
 
 import sortie.data.simpletypes.ModelException;
+import sortie.datavisualizer.DataVisualizerManager;
 import sortie.datavisualizer.DetailedOutputFileManager;
 import sortie.gui.ErrorGUI;
 import sortie.gui.components.SortieFont;
@@ -68,8 +69,9 @@ public class FileAnalysisBackgroundProcess extends
 
     int i;
     try {
+      DataVisualizerManager oTempManager = new DataVisualizerManager(m_oBatchMaster.m_oParent, null, null);
       for (i = 0; i < mp_jFiles.length; i++) {
-        m_oBatchMaster.m_oManagers.add(new DetailedOutputFileManager(null,
+        m_oBatchMaster.m_oManagers.add(new DetailedOutputFileManager(oTempManager,
             ((File) mp_jFiles[i]).toString()));
       }
 
