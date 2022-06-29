@@ -1476,7 +1476,7 @@ public class DetailedSubstrateTest extends TestCase {
       oGrid = oManager.getGridByName("detailedsubstratecalcs");
       assertEquals(4.0, oGrid.getXCellLength(), 0.001);
       assertEquals(5.0, oGrid.getYCellLength(), 0.001);
-      for (i = 0; i < 3; i++) {
+      for (i = 0; i < 2; i++) {
         assertTrue(oGrid.getFloatCode("loggroup1smalldecay1_" + String.valueOf(i)) >= 0);
         assertTrue(oGrid.getFloatCode("loggroup2smalldecay1_" + String.valueOf(i)) >= 0);
         assertTrue(oGrid.getFloatCode("loggroup3smalldecay1_" + String.valueOf(i)) >= 0);

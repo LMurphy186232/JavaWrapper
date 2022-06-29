@@ -1492,6 +1492,7 @@ public class DetailedSubstrate extends Behavior {
   private void gridSetup() throws ModelException {
 
     Grid oNewGrid;
+    float fX, fY;
     int i, j, k, iCount;
     int iDecayTimesteps = (int) java.lang.Math.ceil(  m_iMaxDecayTime.
         getValue() / m_oManager.getPlot().getNumberOfYearsPerTimestep());
@@ -1554,6 +1555,12 @@ public class DetailedSubstrate extends Behavior {
     //Add to the detailed substrate behavior
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
     addGrid(oNewGrid, false);
+    
+    // Capture the cell dimensions and we will use the same for detailed calcs
+    oNewGrid = m_oManager.getGridByName(sGridName);
+    fX = oNewGrid.getXCellLength();
+    fY = oNewGrid.getYCellLength();
+    
 
     //************************
     // Detailed substrate calculations grid
@@ -1590,10 +1597,10 @@ public class DetailedSubstrate extends Behavior {
         }
       }
     }
-    oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
+    oNewGrid = new Grid(sGridName, p_oDataMembers, null, fX, fY);
     //Add to the substrate behavior
-    oNewGrid = m_oManager.addGrid(oNewGrid, false);
-    addGrid(oNewGrid, false);
+    oNewGrid = m_oManager.addGrid(oNewGrid, true);
+    addGrid(oNewGrid, true);
   }
 
   /**
