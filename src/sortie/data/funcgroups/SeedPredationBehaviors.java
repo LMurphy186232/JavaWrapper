@@ -1,5 +1,6 @@
 package sortie.data.funcgroups;
 
+import sortie.data.funcgroups.seedpredation.DensDepRodentSeedPredation;
 import sortie.data.funcgroups.seedpredation.FuncResponseSeedPredation;
 import sortie.data.funcgroups.seedpredation.FuncResponseSeedPredationLnk;
 import sortie.data.funcgroups.seedpredation.NeighborhoodSeedPredation;
@@ -13,10 +14,6 @@ import sortie.gui.GUIManager;
  * <p>Company: Cary Institute of Ecosystem Studies</p>
  * @author Lora E. Murphy
  * @version 1.0
- *
- * <br>Edit history:
- * <br>------------------
- * <br>December 8, 2011: Wiped the slate clean for version 7 (LEM)
  */
 
 public class SeedPredationBehaviors extends BehaviorTypeBase {
@@ -55,5 +52,11 @@ public class SeedPredationBehaviors extends BehaviorTypeBase {
     sParFileTag = "LinkedNeighborhoodSeedPredation";
     sDescriptor = "Neighborhood Seed Predation (linked)";
     mp_oAvailableBehaviors.add(new BehaviorInstantiator(NeighborhoodSeedPredationLnk.class, sDescriptor, sParFileTag, sXMLRootString));    
+    
+    //Set up the density dependent rodent seed predation behavior
+    sXMLRootString = "DensDepRodentSeedPredation";
+    sParFileTag = "DensDepRodentSeedPredation";
+    sDescriptor = "Density Dependent Rodent Seed Predation";
+    mp_oAvailableBehaviors.add(new BehaviorInstantiator(DensDepRodentSeedPredation.class, sDescriptor, sParFileTag, sXMLRootString));    
   }    
 }
