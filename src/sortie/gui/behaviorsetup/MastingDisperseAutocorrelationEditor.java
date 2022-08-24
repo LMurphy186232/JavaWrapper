@@ -358,8 +358,7 @@ EnhancedTableWindow {
         if (oTable != null) {
           oTable.paste();
         }
-      } else if (e.getActionCommand().equals("ReadTempData") ||
-          e.getActionCommand().equals("ReadPptData")) {
+      } else if (e.getActionCommand().equals("ReadData")) {
 
         //Allow the user to open a file
         ModelFileChooser jChooser = new ModelFileChooser();

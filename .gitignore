@@ -48,3 +48,4 @@ bin/gzip.exe
 bin/tar.exe
 SORTIE.jar
 /test.xml
+lib/sortie_help.jar
