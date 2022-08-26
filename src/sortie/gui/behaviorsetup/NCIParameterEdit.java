@@ -79,7 +79,7 @@ public class NCIParameterEdit extends JDialog
     //dialog to edit the functions
     m_jButtonPanel = new JPanel();
     m_jButtonPanel.setLayout(new BoxLayout(m_jButtonPanel, BoxLayout.Y_AXIS));
-    JButton jButton = new JButton("Choose growth multiplier effects...");
+    JButton jButton = new JButton("Choose multiplier effects...");
     jButton.setFont(new SortieFont());
     jButton.setActionCommand("EditFunctions");
     jButton.addActionListener(this);
