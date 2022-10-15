@@ -25,6 +25,7 @@ public class AllTests {
     suite.addTestSuite(TestSubstrateBehaviors.class);
     suite.addTestSuite(TestTreeBehavior.class);
     suite.addTestSuite(TestTreePopulation.class);
+    suite.addTestSuite(TestTreePopulationSnags.class);
     suite.addTestSuite(TestValidationHelpers.class);
     //$JUnit-END$
     return suite;

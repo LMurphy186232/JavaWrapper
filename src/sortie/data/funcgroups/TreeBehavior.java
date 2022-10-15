@@ -18,14 +18,14 @@ import sortie.gui.GUIManager;
  * @author LORA
  */
 public class TreeBehavior extends Behavior {
-  
+
   /** Parent tree popoulation */
   TreePopulation m_oPop;
-  
+
   /** Species-specific - the minimum adult dbh value. */
   protected ModelVector mp_fMinAdultDbh = new ModelVector("Minimum Adult DBH",
       "tr_minAdultDBH", "tr_madVal", 0, ModelVector.FLOAT, true);
-  
+
   /**
    * Size class list - the values in this are floats which represent the upper
    * dbh limit of a class. The lower limit of a class is the upper limit of the
@@ -35,6 +35,15 @@ public class TreeBehavior extends Behavior {
    */
   protected ModelVector mp_fSizeClasses = new ModelVector("Size classes", "", "",
       0, ModelVector.FLOAT);
+  
+  /** 
+   * Size class limits for snags. These are the same as the regular size
+   * classes, but there cannot be seedling or sapling size classes included.
+   * The lower limit of the first class is the minimum adult DBH. This isn't
+   * included in the XML file, but tracking this separately allows us to 
+   * keep different numbers of size classes.
+   */
+  protected ArrayList<Float> mp_fSnagSizeClasses = new ArrayList<Float>(0);
 
   /**
    * Species-specific - contains the initial density for each class. Each vector
@@ -44,6 +53,15 @@ public class TreeBehavior extends Behavior {
    */
   protected ModelVector mp_fInitialDensities = new ModelVector(
       "Initial Densities", "", "", 0, ModelVector.FLOAT);
+
+  /**
+   * Species-specific - contains the initial snag density for each class. Each
+   * vector bucket contains another vector with the values for each species for
+   * that size class. Ignore XML tags since this data can't use the automated
+   * XML read-write system.
+   */
+  protected ModelVector mp_fSnagInitialDensities = new ModelVector(
+      "Snag Initial Densities", "", "", 0, ModelVector.FLOAT);
 
   /** Species-specific - the maximum seedling height value. */
   protected ModelVector mp_fMaxSeedlingHeight = new ModelVector(
@@ -80,7 +98,10 @@ public class TreeBehavior extends Behavior {
   /** Filename for text tree map, if present */
   public ModelString m_sTextTreeMap = new ModelString("",
       "Tree Map To Add As Text", "tr_treemapFile");
-  
+
+  /** The smallest value set for minimum adult DBH. */
+  protected double m_fMinMinAdultDbh = 0;
+
   /**
    * Constructor.
    * @param oManager GUIManager object
@@ -92,11 +113,11 @@ public class TreeBehavior extends Behavior {
    */
   public TreeBehavior(GUIManager oManager, TreePopulation oPop, String sDescriptor, String sParFileTag, String sXMLRootString) {
     super(oManager, oPop, sDescriptor, sParFileTag, sXMLRootString, "data.tree_parameters");
-    
+
     m_oPop = oPop;
     m_bMustHaveTrees = false;
     m_bCanBeDuplicated = false;
-    
+
     mp_oAllData.add(mp_fMinAdultDbh);
     mp_oAllData.add(mp_fMaxSeedlingHeight);
     mp_oAllData.add(m_fInitialSeedlingSize);
@@ -106,7 +127,7 @@ public class TreeBehavior extends Behavior {
     mp_oAllData.add(mp_fSeedlingClass2Density);
     mp_oAllData.add(mp_fSeedlingClass3Density);
     mp_oAllData.add(m_sTextTreeMap);
-    
+
     mp_fSizeClasses.setIsSpeciesSpecific(false);
 
     //Set the max seedling height to default to 1.35 for all species.
@@ -117,7 +138,7 @@ public class TreeBehavior extends Behavior {
       }
     } 
   }
-  
+
   /**
    * Sets the initial densities for a given species. Any species number greater
    * than zero is assumed to be valid.
@@ -136,6 +157,28 @@ public class TreeBehavior extends Behavior {
 
     // Set up the new vector of initial densities
     ModelVector p_fNewVector = (ModelVector) mp_fInitialDensities.getValue()
+        .get(iSizeClass);
+    setVectorValues(p_fNewVector, p_fVals);
+  }
+
+  /**
+   * Sets the snag initial densities for a given species. Any species number
+   * greater than zero is assumed to be valid.
+   * 
+   * @param iSizeClass size class number
+   * @param p_fVals set of initial densities for each species
+   * @throws ModelException if the size class number is less than 0 or greater 
+   * than the number of size classes defined.
+   */
+  public void setSnagInitialDensities(int iSizeClass, Float[] p_fVals)
+      throws ModelException {
+    if (iSizeClass >= mp_fSizeClasses.getValue().size() || iSizeClass < 0) {
+      throw (new ModelException(ErrorGUI.ILLEGAL_OP, "JAVA",
+          "Invalid size class number."));
+    }
+
+    // Set up the new vector of initial densities
+    ModelVector p_fNewVector = (ModelVector) mp_fSnagInitialDensities.getValue()
         .get(iSizeClass);
     setVectorValues(p_fNewVector, p_fVals);
   }
@@ -172,7 +215,9 @@ public class TreeBehavior extends Behavior {
 
       m_oPop.writeSpeciesList(out);
 
+      //----------------------------------------------------------------------/
       // Write size classes, if present
+      //----------------------------------------------------------------------/
       if (mp_fSizeClasses.getValue().size() > 0) {
         // Open tag
         out.write("<tr_sizeClasses>");
@@ -197,7 +242,9 @@ public class TreeBehavior extends Behavior {
         out.write("</tr_sizeClasses>");
       }
 
+      //----------------------------------------------------------------------/
       // Write initial densities, if present
+      //----------------------------------------------------------------------/
       if (mp_fInitialDensities.getValue().size() > 0) {
         // Opening tag
         out.write("<tr_initialDensities>");
@@ -265,6 +312,72 @@ public class TreeBehavior extends Behavior {
         // Closing tag
         out.write("</tr_initialDensities>");
       }
+      
+      //----------------------------------------------------------------------/
+      // Write snag initial densities, if present
+      //----------------------------------------------------------------------/
+      if (mp_fSnagInitialDensities.getValue().size() > 0) {
+        // Opening tag
+        out.write("<tr_snagInitialDensities>");
+
+        p_fSpeciesData = new float[mp_fSnagSizeClasses.size()];
+
+        for (i = 0; i < iNumSpecies; i++) {
+
+          // The data is organized as size class first, then species; we want
+          // to re-organize that into the data for one species
+          for (j = 0; j < mp_fSnagSizeClasses.size(); j++) {
+            p_fSpeciesData[j] = 0;
+          }
+          for (j = 0; j < mp_fSnagSizeClasses.size(); j++) {
+            if (null != mp_fSnagInitialDensities.getValue().get(j)) {
+              vData = (ModelVector) mp_fSnagInitialDensities.getValue().get(j);
+              if (vData.getValue().size() > 0) {
+                fData = (Float) vData.getValue().get(i);
+                if (fData != null) {
+                  p_fSpeciesData[j] = fData.floatValue();
+                }
+              }
+            }
+          }
+
+          // Now our array should hold the values for that species. Is there
+          // anything in it?
+          bHasContents = false;
+          for (j = 0; j < mp_fSnagSizeClasses.size(); j++) {
+            if (p_fSpeciesData[j] > 0) {
+              bHasContents = true;
+
+              // If there was anything, write it
+            }
+          }
+          if (bHasContents) {
+            // Write opening tag
+            out.write("<tr_sidVals whatSpecies=\"");
+            sData = oPop.getSpeciesNameFromCode(i).replace(' ', '_');
+            out.write(sData.replace(' ', '_'));
+            out.write("\">");
+
+            for (j = 0; j < p_fSpeciesData.length; j++) {
+              if (p_fSpeciesData[j] > 0) {
+                fData = mp_fSnagSizeClasses.get(j);
+                out.write("<tr_snagInitialDensity sizeClass=\"s");
+                out.write(String.valueOf(fData.floatValue()));
+                out.write("\">");
+                out.write(String.valueOf(p_fSpeciesData[j]));
+                out.write("</tr_snagInitialDensity>");
+
+              }
+            }
+
+            // Write closing tag
+            out.write("</tr_sidVals>");
+
+          }
+        }
+        // Closing tag
+        out.write("</tr_snagInitialDensities>");
+      }
 
       // Write out the seedling height classes and densities, if used
       if (m_fSeedlingHeightClass1.getValue() > 0
@@ -298,7 +411,7 @@ public class TreeBehavior extends Behavior {
           "There was a problem writing the parameter file."));
     }
   }
-  
+
   /**
    * This method is looking for tm_floatCode, tm_intCode, tm_charCode,
    * tm_boolCode, fl, int, ch, and bl. For the last four, they are only set if
@@ -353,7 +466,7 @@ public class TreeBehavior extends Behavior {
     ModelVector vData;
     int iNumSpecies = m_oPop.getNumberOfSpecies(), iSize, i;
     boolean bUsed;
-    
+
     ValidationHelpers.makeSureGreaterThan(m_fInitialSeedlingSize, 0);
 
     // Validate the size of the species-specific vectors
@@ -432,9 +545,15 @@ public class TreeBehavior extends Behavior {
               + m_fSeedlingHeightClass2.getDescriptor()
               + "\" if you want to specify " + "seedling densities."));
     }
-
+    
+    //------------------------------------------------------------------------/
+    // Quietly ensure that snag initial densities size classes do not allow
+    // seedling and sapling values. We may have not had the minimum adult
+    // DBH present in time to stop these getting created in the first place.
+    //------------------------------------------------------------------------/
+    reconcileSnagSizeClasses();
   }
-  
+
   /**
    * Override this function in order to be able to handle initial densities and
    * species names.
@@ -461,8 +580,40 @@ public class TreeBehavior extends Behavior {
   public boolean setVectorValueByXMLTag(String sXMLTag, String sXMLParentTag,
       ArrayList<String> p_oData, String[] p_sChildXMLTags, boolean[] p_bAppliesTo,
       Attributes oParentAttributes, Attributes[] p_oAttributes)
-      throws ModelException {
+          throws ModelException {
 
+
+    //------------------------------------------------------------------------/
+    // Swoop in and grab the minimum minimum adult DBH when first set. Don't
+    // actually set it here, just intercept the value and then let things 
+    // proceed as normal.
+    //------------------------------------------------------------------------/
+    if (sXMLTag.equals(mp_fMinAdultDbh.getXMLTag())) {
+      try {
+        double fValToSet = 1000.0, fVal;
+
+        //Try to make the vector of values to set into an array of Floats
+        for (int i = 0; i < p_oData.size(); i++) {
+          String sVal = p_oData.get(i);
+          if (null == sVal || sVal.length() == 0) {
+            fVal = 0;
+          }
+          else {
+            fVal = Float.valueOf(sVal);
+          }
+          if (fValToSet > fVal) {
+            fValToSet = fVal;
+          }
+        }
+        m_fMinMinAdultDbh = fValToSet;
+      } catch(NumberFormatException e) {
+        ; //Quietly ignore - this will be properly caught later
+      }        
+    }
+
+    //------------------------------------------------------------------------/
+    // Species list
+    //------------------------------------------------------------------------/
     if (sXMLTag.equals("tr_speciesList")) {
 
       // Species list
@@ -477,10 +628,13 @@ public class TreeBehavior extends Behavior {
 
     } else  if (sXMLTag.equals("tr_idVals")) {
 
+      //----------------------------------------------------------------------/
+      // Live tree initial densities
+      //----------------------------------------------------------------------/
       // Get the species
       int iSpecies = m_oPop.getSpeciesCodeFromName(oParentAttributes
           .getValue("whatSpecies")), iClass, // index of the size class
-      i, j;
+          i, j;
       if (iSpecies == -1) {
         throw (new ModelException(
             ErrorGUI.BAD_DATA,
@@ -522,6 +676,56 @@ public class TreeBehavior extends Behavior {
             Float.valueOf(p_oData.get(i)));
       }
       return true;
+
+    } else  if (sXMLTag.equals("tr_sidVals")) {
+
+      //----------------------------------------------------------------------/
+      // Snag initial densities
+      //----------------------------------------------------------------------/
+      // Get the species
+      int iSpecies = m_oPop.getSpeciesCodeFromName(oParentAttributes
+          .getValue("whatSpecies")), iClass, // index of the size class
+          i, j;
+      if (iSpecies == -1) {
+        throw (new ModelException(
+            ErrorGUI.BAD_DATA,
+            "JAVA",
+            "Setting initial densities - XML tag \"tr_sidVals\""
+                + " missing \"whatSpecies\" attribute, or species unrecognized."));
+      }
+      for (i = 0; i < p_oData.size(); i++) {
+
+        // Get the size class
+        String sSizeClass = p_oAttributes[i].getValue("sizeClass");
+        Float fSizeClass;
+        sSizeClass = sSizeClass.substring(1); // trim off inital letter
+        fSizeClass = Float.valueOf(sSizeClass);
+        
+        if (fSizeClass > m_fMinMinAdultDbh) {
+
+          // Find the index of the size class
+          iClass = -1;
+          for (j = 0; j < mp_fSnagSizeClasses.size(); j++) {
+            if (fSizeClass.equals(mp_fSnagSizeClasses.get(j))) {
+              iClass = j;
+              break;
+            }
+          }
+          if (iClass == -1) {
+            throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
+                "Invalid size class in snag initial densities - " + sSizeClass));
+          }
+          ModelVector p_oDensityArray = (ModelVector) mp_fSnagInitialDensities
+              .getValue().get(iClass);
+          if (p_oDensityArray.getValue().size() <= iSpecies) {
+            Behavior.ensureSize(p_oDensityArray.getValue(), iSpecies + 1);
+          }
+          p_oDensityArray.getValue().remove(iSpecies);
+          p_oDensityArray.getValue().add(iSpecies,
+              Float.valueOf(p_oData.get(i)));
+        }
+      }
+      return true;
     } else if (sXMLTag.equals("tr_sizeClasses")) {
 
       // Size classes
@@ -558,7 +762,7 @@ public class TreeBehavior extends Behavior {
     return super.setVectorValueByXMLTag(sXMLTag, sXMLParentTag, p_oData,
         p_sChildXMLTags, p_bAppliesTo, oParentAttributes, p_oAttributes);
   }
-  
+
   /**
    * Accepts an XML parent tag (empty, no data) from the parser. This method
    * watches for the following tags:
@@ -580,16 +784,16 @@ public class TreeBehavior extends Behavior {
     if (sXMLTag.equals("tree")) {
 
       m_oPop.readTreeParent(oAttributes);
-      
+
     } else if (sXMLTag.equals("tm_treeSettings")) {
 
       m_oPop.readTreeSettings(oAttributes);
-      
+
     } else if (sXMLTag.equals("grid")) {
       // Reset our species and type so we know we're not reading tree map
       m_oPop.m_iCurrentSpecies = -1;
       m_oPop.m_iCurrentTreeType = -1;
-      
+
     } else if (sXMLTag.equals("tm_species")) {
 
       m_oPop.readSpecies(oAttributes);
@@ -600,7 +804,7 @@ public class TreeBehavior extends Behavior {
     }
     super.readXMLParentTag(sXMLTag, oAttributes);
   } 
-  
+
 
   /**
    * Sets the value of the diameter at 10 cm for new seedlings.
@@ -614,7 +818,7 @@ public class TreeBehavior extends Behavior {
     ValidationHelpers.makeSureGreaterThan(oTest, 0);
     m_fInitialSeedlingSize.setValue(fVal);
   }
-  
+
   /**
    * Sets the size classes. The size class vector will be sized to match the
    * array of Floats passed. The values in the array represent the upper dbh
@@ -630,16 +834,16 @@ public class TreeBehavior extends Behavior {
 
     //Validate the values we got
     ValidationHelpers.makeSureAllNonNegative(p_fVals, mp_fSizeClasses.getDescriptor());
-    
+
     //Clear existing values in size classes
     mp_fSizeClasses.getValue().clear();
-    
+
     //Add the new values
     for (i = 0; i < p_fVals.length; i++) {
       mp_fSizeClasses.getValue().add(i, Float.valueOf(p_fVals[i].floatValue()));    
     }
 
-     // Reset all initial densities
+    // Reset all initial densities - this should get snags too
     for (i = 0; i < mp_oAllData.size(); i++) {
       ModelData oData =  mp_oAllData.get(i);
       // Find all that are initial density but not seedling height class
@@ -651,6 +855,9 @@ public class TreeBehavior extends Behavior {
       }
     }
 
+    //------------------------------------------------------------------------/
+    // Initial densities for live trees
+    //------------------------------------------------------------------------/
     mp_fInitialDensities.getValue().clear();
     for (i = 0; i < mp_fSizeClasses.getValue().size(); i++) {
       if (i == 0) {
@@ -678,7 +885,47 @@ public class TreeBehavior extends Behavior {
       mp_oAllData.add(oDensity);
 
     }
+
+
+
+    //------------------------------------------------------------------------/
+    // Initial densities for snags. This is formatted a little differently 
+    // from the loop above, because snags should not be created for seedling
+    // or sapling size classes and so in some cases a vector to hold values
+    // will not be created.
+    //------------------------------------------------------------------------/    
+    mp_fSnagSizeClasses.clear();
+    for (i = 0; i < mp_fSizeClasses.getValue().size(); i++) {
+      Float fVal = (Float) mp_fSizeClasses.getValue().get(i);
+      //No seedlings or saplings allowed.
+      if (fVal.floatValue() > m_fMinMinAdultDbh) {
+        mp_fSnagSizeClasses.add(fVal);   
+      }
+    }
+    mp_fSnagInitialDensities.getValue().clear();
+    for (i = 0; i < mp_fSnagSizeClasses.size(); i++) {
+      if (i == 0) {              
+        oDensity = new ModelVector("Snag Initial Density (#/ha) - 0-"
+            + String.valueOf(mp_fSnagSizeClasses.get(i))
+            + " cm DBH", "", "", iNumSpecies, ModelVector.FLOAT, true);
+
+      } else {
+        oDensity = new ModelVector("Snag Initial Density (#/ha) - "
+            + String.valueOf(mp_fSnagSizeClasses.get(i - 1)) + "-"
+            + String.valueOf(mp_fSnagSizeClasses.get(i)) + " cm",
+            "", "", iNumSpecies, ModelVector.FLOAT, true);
+
+      }
+
+      // Initialize to all zeroes so it will look nice in the parameter window
+      for (j = 0; j < iNumSpecies; j++) {
+        oDensity.getValue().add(Float.valueOf(0));
+      }
+      mp_fSnagInitialDensities.getValue().add(i, oDensity);
+      mp_oAllData.add(oDensity);
+    }
   }
+
 
   /**
    * Sets the minimum adult dbhs. There must be one for each species.
@@ -689,6 +936,87 @@ public class TreeBehavior extends Behavior {
   public void setMinimumAdultDbh(Float[] p_fVals) throws ModelException {
     ValidationHelpers.makeSureAllPositive(p_fVals, mp_fMinAdultDbh.getDescriptor());
     setVectorValues(mp_fMinAdultDbh, p_fVals);
-  }
+    
+    // Update minimum minimum adult DBH
+    m_fMinMinAdultDbh = 1000.0;
 
+    //Try to make the vector of values to set into an array of Floats
+    for (int i = 0; i < p_fVals.length; i++) {
+      if (m_fMinMinAdultDbh > p_fVals[i]) {
+        m_fMinMinAdultDbh = p_fVals[i];
+      }
+    }
+  }
+  
+  
+  /**
+   * This makes sure that we only have snag initial densities vectors for valid
+   * snag size classes. They must be above the minimum adult DBH. This will
+   * remove any that are too small. 
+   */
+  private void reconcileSnagSizeClasses() {
+    if (mp_fSnagSizeClasses.size() > 0) {
+      int i;
+      
+      //First make sure that all the snag size classes are okay
+      boolean bOkay = true;
+      for (i = 0; i < mp_fSnagSizeClasses.size(); i++) {
+        if (mp_fSnagSizeClasses.get(i) < m_fMinMinAdultDbh) {
+          bOkay = false;
+        }
+      }
+      
+      if (!bOkay) {
+        // Our snags need adjustment
+        
+        //--------------------------------------------------------------------/
+        // Copy over our good densities to a temporary location
+        //--------------------------------------------------------------------/
+        ArrayList<Object> p_fGoodDensities = new ArrayList<Object>(0);
+        ArrayList<Float> p_fGoodSizeClasses = new ArrayList<Float>(0);
+        for (i = 0; i < mp_fSnagSizeClasses.size(); i++) {
+          if (mp_fSnagSizeClasses.get(i) > m_fMinMinAdultDbh) {
+            p_fGoodSizeClasses.add(mp_fSnagSizeClasses.get(i));
+            p_fGoodDensities.add(mp_fSnagInitialDensities.getValue().get(i));
+          }
+        }
+        
+        //--------------------------------------------------------------------/
+        // Erase the existing list and copy them back
+        //--------------------------------------------------------------------/
+        mp_fSnagSizeClasses.clear();
+        mp_fSnagInitialDensities.getValue().clear();
+        
+        for (i = 0; i < p_fGoodSizeClasses.size(); i++) {
+          mp_fSnagSizeClasses.add(p_fGoodSizeClasses.get(i));
+          mp_fSnagInitialDensities.getValue().add(p_fGoodDensities.get(i));                    
+        }
+        
+        //--------------------------------------------------------------------/
+        // Remove and re-add all snag initial densities to the all-data list
+        //--------------------------------------------------------------------/
+        for (i = 0; i < mp_oAllData.size(); i++) {
+          ModelData oData =  mp_oAllData.get(i);
+          // Find all that are initial density but not seedling height class
+          // densities and remove them
+          if (oData.getDescriptor().indexOf("Snag Initial Density") > -1) {
+            mp_oAllData.remove(i);
+            i--;
+          }
+        }
+        
+        for (i = 0; i < mp_fSnagInitialDensities.getValue().size(); i++) {
+          mp_oAllData.add((ModelVector)mp_fSnagInitialDensities.getValue().get(i));
+        }
+      }                 
+    }
+  }
+  
+  /**
+   * Overwritten to make sure snag initial densities are managed.
+   */
+  public void endOfParameterFileRead() {
+    reconcileSnagSizeClasses();
+    super.endOfParameterFileRead();
+  }
 }
