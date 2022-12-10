@@ -570,6 +570,15 @@ public class TreePopulation extends BehaviorTypeBase {
   public int getNumberOfSizeClasses() {
     return (getTreeBehavior().mp_fSizeClasses.getValue().size());
   }
+  
+  /**
+   * Returns the number of snag size classes.
+   * 
+   * @return Number of size classes
+   */
+  public int getNumberOfSnagSizeClasses() {
+    return (getTreeBehavior().mp_fSnagSizeClasses.size());
+  }
 
   /**
    * Returns the size class at a specific index.
@@ -579,6 +588,22 @@ public class TreePopulation extends BehaviorTypeBase {
    */
   public Float getSizeClass(int iIndex) {
     return (Float)(getTreeBehavior().mp_fSizeClasses.getValue().get(iIndex));
+  }  
+  
+  /**
+   * Returns the size class at a specific index.
+   * 
+   * @param iIndex Index of size class to return.
+   * @return Upper limit of size class.
+   */
+  public Float getSnagSizeClass(int iIndex) throws ModelException {
+    if (iIndex < 0 || iIndex >= getNumberOfSnagSizeClasses()) {
+      throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA", 
+          "Can't retrieve snag size class \"" + iIndex + 
+          "\" because the number of size classes is " +
+          getNumberOfSnagSizeClasses() + "."));
+    }
+    return (Float)(getTreeBehavior().mp_fSnagSizeClasses.get(iIndex));
   }  
 
   

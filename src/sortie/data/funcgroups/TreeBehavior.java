@@ -606,6 +606,7 @@ public class TreeBehavior extends Behavior {
           }
         }
         m_fMinMinAdultDbh = fValToSet;
+        reconcileSnagSizeClasses();
       } catch(NumberFormatException e) {
         ; //Quietly ignore - this will be properly caught later
       }        
@@ -946,6 +947,7 @@ public class TreeBehavior extends Behavior {
         m_fMinMinAdultDbh = p_fVals[i];
       }
     }
+    reconcileSnagSizeClasses();
   }
   
   

@@ -1,16 +1,26 @@
 package sortie.data.funcgroups.snagdynamics;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.JDialog;
+import java.lang.Math;
+
 import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.BehaviorTypeBase;
 import sortie.data.funcgroups.Grid;
 import sortie.data.funcgroups.TreePopulation;
 import sortie.data.funcgroups.ValidationHelpers;
 import sortie.data.simpletypes.DataMember;
+import sortie.data.simpletypes.ModelData;
 import sortie.data.simpletypes.ModelException;
 import sortie.data.simpletypes.ModelFloat;
 import sortie.data.simpletypes.ModelVector;
 import sortie.gui.ErrorGUI;
 import sortie.gui.GUIManager;
+import sortie.gui.MainWindow;
+
 
 /**
  * Corresponds to the clSnagDecomp class.
@@ -203,6 +213,28 @@ public class SnagDecayClassDynamics extends Behavior {
   protected ModelFloat m_fSnagDecompMaxSnagBreakHeight = new ModelFloat(0,
       "Snag Decay Class Dynamics Maximum Snag Break Height",
   "sd_maxSnagBreakHeight");
+  
+  /** 
+   * This behavior's copy of size class limits for snags, to allow for update
+   * checking.
+   */
+  protected ArrayList<Float> mp_fSnagSizeClasses = new ArrayList<Float>(0);
+  
+  /**
+   * Initial density size class proportions
+   * They will look like this:
+   *                              Species 1 Species 2 Species 3
+   * Size class 10 Decay class 1     0.1       0.3         0.5    
+   * Size class 10 Decay class 2     0.2       0.4         0.1
+   * Size class 10 Decay class 3     0.0       0.1         0.0
+   * Size class 10 Decay class 4     0.7       0.0         0.2
+   * Size class 10 Decay class 5     0.0       0.2         0.2
+   * 
+   * Size class 20 Decay class 1     0.1       0.3         0.5
+   * ...
+   */
+  protected ArrayList<ModelVector> mp_fSnagInitProportions = new ArrayList<ModelVector>(0); 
+  
 
   /**
    * Constructor.
@@ -285,7 +317,8 @@ public class SnagDecayClassDynamics extends Behavior {
     oNewGrid = new Grid(sGridName, p_oDataMembers, null, 8, 8);
     oNewGrid = m_oManager.addGrid(oNewGrid, false);
     addGrid(oNewGrid, false);
-
+    
+    setUpInitialConditionsDecayClasses();
   }
 
   /**
@@ -381,5 +414,374 @@ public class SnagDecayClassDynamics extends Behavior {
           "\" must be greater than the value of \"" + 
           m_fSnagDecompMinSnagBreakHeight.getDescriptor() + "\"."));
     }
+    
+    //------------------------------------------------------------------------/
+    // Make sure snag initial conditions add up to 1
+    if (mp_fSnagInitProportions.size() > 0) {
+      
+      // First off make sure that the number is divisible by 5 so we know we
+      // got decay classes for everything
+      float div = mp_fSnagInitProportions.size() / 5;
+      if (mp_fSnagInitProportions.size() > 0 &&
+          Math.abs(div*5 - mp_fSnagInitProportions.size()) > 0.0001) {
+        throw( new ModelException(ErrorGUI.BAD_DATA, "JAVA",
+            "Snag initial conditions are broken."));
+      }
+
+      // Make sure every vector is the same length, and a proportion   
+      int iVecSize = mp_fSnagInitProportions.get(0).getValue().size();
+      int i = 0, sc, sp;
+      
+      for (i = 0; i < mp_fSnagInitProportions.size(); i++) {
+        if (mp_fSnagInitProportions.get(0).getValue().size() != iVecSize) {
+          throw( new ModelException(ErrorGUI.BAD_DATA, "JAVA",
+              "Snag initial conditions are broken."));
+        }
+        ValidationHelpers.makeSureAllAreProportions(mp_fSnagInitProportions.get(i));
+      }
+      
+      
+      // Now make sure all for each size class/decay class add up to 1
+      float fTotal;
+      
+      // Cycle over an individual species - one element in the array
+      for (sp=0; sp < iVecSize; sp++) {        
+        i = 0;
+        while (i < mp_fSnagInitProportions.size()) {
+          fTotal = 0;
+          for (sc = 0; sc < 5; sc++) {            
+            fTotal += 
+                ((Float)mp_fSnagInitProportions.get(i).getValue().get(sp)).floatValue();
+            i++;
+          }
+          if (Math.abs(fTotal - 1) > 0.001) {            
+            throw( new ModelException(ErrorGUI.BAD_DATA, "JAVA",
+                "Proportions across decay classes must sum to 1 for all " +
+                "species for each size class."));
+          }
+        }
+      }
+    }
+  }
+  
+  /**
+   * Function for setting up or reconciling snag decay class initial conditions
+   * data. This can be called repeatedly as a check. If the snag size classes
+   * are the same as the last time this was called, nothing happens. If they
+   * are not the same, or this is an initial setup, all existing data will be
+   * erased and places to put all the stuff will be added to the data list.
+   */
+  private void setUpInitialConditionsDecayClasses() throws ModelException {
+
+    TreePopulation oPop = m_oManager.getTreePopulation();
+    double fDiff;
+    int i, j, sc, iNumSpecies = oPop.getNumberOfSpecies();
+    boolean bTheSame = true;
+
+    //------------------------------------------------------------------------/
+    // Are the size classes the same as whatever has been already set up?
+    if (oPop.getNumberOfSnagSizeClasses() != mp_fSnagSizeClasses.size()) {
+      bTheSame = false;       
+    } else {
+
+      // Double check all the size classes
+      for (i = 0; i < oPop.getNumberOfSizeClasses(); i++) {
+        fDiff = Math.abs(oPop.getSnagSizeClass(i) - mp_fSnagSizeClasses.get(i));
+        if (fDiff > 0.01) {
+          bTheSame = false;
+        }
+      }
+    }
+    //------------------------------------------------------------------------/
+
+
+    //----- If we found no differences, no changes are necessary -------------/
+    if (bTheSame) return;
+
+    
+
+    //------------------------------------------------------------------------/
+    // If we are still here - we need to set up everything. Start by erasing
+    // all existing data
+    mp_fSnagSizeClasses.clear();
+    mp_fSnagInitProportions.clear();
+    for (i = 0; i < mp_oAllData.size(); i++) {
+      ModelData oData =  mp_oAllData.get(i);
+      if (oData.getDescriptor().indexOf("Prop Initial Snags") > -1) {
+        mp_oAllData.remove(i);
+        i--;
+      }
+    }
+    //------------------------------------------------------------------------/
+
+
+
+    //------------------------------------------------------------------------/
+    // Add the new size class data - keep our own copy so we can see if it
+    // changed
+    for (i = 0; i < oPop.getNumberOfSnagSizeClasses(); i++) {
+      mp_fSnagSizeClasses.add(oPop.getSnagSizeClass(i));
+    }
+    //------------------------------------------------------------------------/
+    
+    
+    
+    
+    //------------------------------------------------------------------------/
+    // Add objects for collecting proportion information 
+    ModelVector oDensity;
+    for (i = 0; i < mp_fSnagSizeClasses.size(); i++) {
+      for (sc = 1; sc < 6; sc++) {
+        if (i == 0) {              
+          oDensity = new ModelVector("Prop Initial Snags 0-"
+              + String.valueOf(mp_fSnagSizeClasses.get(i)) + " Decay class " + 
+              sc, "", "", iNumSpecies, ModelVector.FLOAT, true);
+
+        } else {
+          oDensity = new ModelVector("Prop Initial Snags "
+              + String.valueOf(mp_fSnagSizeClasses.get(i - 1)) + "-"
+              + String.valueOf(mp_fSnagSizeClasses.get(i)) + " Decay class " + 
+                  sc, "", "", iNumSpecies, ModelVector.FLOAT, true);
+
+        }
+
+        // Initialize to 1s for decay class 1
+        if (sc == 1) {
+          for (j = 0; j < iNumSpecies; j++) {
+            oDensity.getValue().add(Float.valueOf(1));          
+          }
+        } else {
+          for (j = 0; j < iNumSpecies; j++) {
+            oDensity.getValue().add(Float.valueOf(0));          
+          }
+        }
+        mp_fSnagInitProportions.add(oDensity);
+        mp_oAllData.add(oDensity);
+      }
+    }
+    //------------------------------------------------------------------------/
+
+  }
+  
+  /**
+   * Sets up initial conditions snag decay classes.
+   */
+  public void endOfParameterFileRead() {
+    try {
+    setUpInitialConditionsDecayClasses();
+    } catch (ModelException e) {;}
+  }
+  
+  /**
+   * Override this to make sure initial conditions snag decay classes are 
+   * set up. 
+   */
+  public void callSetupDialog(JDialog jParent, MainWindow oMain) {
+    try {
+      setUpInitialConditionsDecayClasses();
+    } catch (ModelException e) {;}
+    super.callSetupDialog(jParent, oMain);
+  }
+  
+  /**
+   * Writes the data to the parameter file.
+   * 
+   * @param jOut FileWriter File to write to.
+   * @param oPop Tree population object.
+   * @throws ModelException won't.
+   */
+  public void writeXML(BufferedWriter jOut, TreePopulation oPop) throws
+  ModelException {
+    try {
+      
+      jOut.write("<" + m_sXMLRootString + m_iListPosition + ">");
+      
+      //----- Write the stuff that writes normally ---------------------------/
+      Object oData;
+      ModelData oDataPiece;
+      ModelVector p_oDataVector;
+      int i;
+      for (i = 0; i < mp_oAllData.size(); i++) {
+        oData = mp_oAllData.get(i);
+                
+        if (oData instanceof ModelVector) {          
+          p_oDataVector = (ModelVector) oData;
+          // Don't do the snag init conditions proportions
+          if (p_oDataVector.getDescriptor().indexOf("Prop Initial Snags") == -1) {
+            writeSpeciesSpecificValue(jOut, p_oDataVector, oPop);
+          }
+        }
+        else if (oData instanceof ModelData) {
+          oDataPiece = (ModelData) oData;
+          writeDataToFile(jOut, oDataPiece);
+        }
+      }
+      
+      
+      //----- Write snag init conditions proportions. Note that these will ---/ 
+      //----- be rearranged from the display ---------------------------------/
+      //<< "<sd_idVals whatSpecies=\"Species_2\" whatSizeClass=\"s15.0\">"
+      //<< "<sd_id decayClass=\"1\">0.0</sd_id>"
+      //<< "<sd_id decayClass=\"2\">0.0</sd_id>"
+      //<< "<sd_id decayClass=\"3\">1.0</sd_id>"
+      //<< "<sd_id decayClass=\"4\">0.0</sd_id>"
+      //<< "<sd_id decayClass=\"5\">0.0</sd_id>"
+      //<< "</sd_idVals>"     
+      if (mp_fSnagSizeClasses.size() > 0) {
+        jOut.write("<sd_snagDecompInitialClasses>");
+                
+        float[] fDat = new float[5];
+        int sc, dc, sp;
+        
+        // Work with one size class at a time
+        for (sc = 0; sc < mp_fSnagSizeClasses.size(); sc++) {
+          
+          // Each species in this size class
+          for (sp = 0; sp < oPop.getNumberOfSpecies(); sp++) {
+            
+            // Clear out the array to hold new data
+            for (dc = 0; dc < 5; dc++) {
+              fDat[dc] = 0;
+
+              // Collect this species's data
+              p_oDataVector = mp_fSnagInitProportions.get((sc*5 + dc));
+              if (p_oDataVector.getValue().get(sp) != null) {
+                fDat[dc] = ((Float)p_oDataVector.getValue().get(sp)).floatValue(); 
+              }              
+            }
+            
+            // Only bother if it's not the default (all in size class 1)
+            if (fDat[0] < 0.99) {
+              jOut.write("<sd_idVals whatSpecies=\"" + 
+                  oPop.getSpeciesNameFromCode(sp).replace(' ', '_') + 
+                  "\" whatSizeClass=\"s" +
+                  mp_fSnagSizeClasses.get(sc).toString() + "\">");
+              for (dc = 0; dc < 5; dc++) {
+                jOut.write("<sd_id decayClass=\"" + (dc+1) + "\">" +
+                  fDat[dc] + "</sd_id>");
+              }
+              jOut.write("</sd_idVals>");
+            }
+          }
+          
+        }
+        jOut.write("</sd_snagDecompInitialClasses>");
+      }
+      jOut.write("</" + m_sXMLRootString + m_iListPosition + ">");
+
+    } catch (IOException oExp) {
+      throw(new ModelException(ErrorGUI.BAD_FILE, "JAVA",
+          "There was a problem writing the parameter file."));
+    }
+  }
+  
+  /**
+   * Reads snag initial conditions by decay class, if present.
+   * 
+   * @param sXMLTag Parent XML tag of data vector whose value is to be set.
+   * @param sXMLParentTag The immediate parent tag that sXMLTag is within.
+   * @param p_oData Vector of data values appropriate to the data type
+   * @param p_sChildXMLTags The XML tags of the child elements
+   * @param p_bAppliesTo Array of booleans saying which of the vector values 
+   * should be set. This is important in the case of species-specifics - the 
+   * vector index is the species number but not all species are set.
+   * @param oParentAttributes Attributes of parent tag. May be useful when 
+   * overridding this for unusual tags.
+   * @param p_oAttributes Attributes passed from parser. This may be needed when
+   * overriding this function. Basic species-specific values are already handled
+   * by this function.
+   * @return true if the value was set successfully; false if the value could
+   * not be found. (This would not be an error, because I need a way to cycle 
+   * through the objects until one of the objects comes up with a match.) If a 
+   * match to a data object is made via XML tag, but the found object is not a 
+   * ModelVector, this returns false.
+   * @throws ModelException if the value could not be assigned to the data 
+   * object.
+   */
+  public boolean setVectorValueByXMLTag(String sXMLTag, String sXMLParentTag,
+      ArrayList<String> p_oData, String[] p_sChildXMLTags,
+      boolean[] p_bAppliesTo, org.xml.sax.Attributes oParentAttributes,
+      org.xml.sax.Attributes[] p_oAttributes) throws ModelException {
+
+
+    if (sXMLTag.equals("sd_idVals")) {
+      
+      // Make sure this has been set up
+      if (mp_fSnagSizeClasses.size() == 0) {
+        setUpInitialConditionsDecayClasses();
+      }
+      
+      // If the size is still zero, error
+      if (mp_fSnagSizeClasses.size() == 0 || 
+          mp_fSnagInitProportions.size() == 0) {
+        throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+            "Receiving initial conditions info by size class, but no " +
+            "size classes are defined."));  
+      }
+      
+      // Make sure we have the expected 5 decay classes of data
+      if (p_oData.size() != 5) {
+        throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+            "Initial conditions info by size class must have 5 decay " +
+            "classes included."));
+      }
+
+      TreePopulation oPop = m_oManager.getTreePopulation();
+      ModelVector p_oSnagInit;
+      String sSp, sSizeClass = "";  
+      Float fSizeClass;
+      int iClass, dc, j, iSp;
+
+
+      // What species?
+      sSp = oParentAttributes.getValue("whatSpecies");
+      iSp = oPop.getSpeciesCodeFromName(sSp);
+
+      // What size class?
+      try {
+        sSizeClass = oParentAttributes.getValue("whatSizeClass");
+        sSizeClass = sSizeClass.substring(1); // trim off inital letter
+        fSizeClass = Float.valueOf(sSizeClass);
+      } catch (NumberFormatException e) {
+        //Whoops - wasn't formatted as a number
+        throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+            "Couldn't read size class for snag initial condition. " +
+                "Bad sizeclass value: " + sSizeClass));
+      }
+
+      // Find the index of the size class
+      iClass = -1;
+      for (j = 0; j < mp_fSnagSizeClasses.size(); j++) {
+        if (fSizeClass.equals(mp_fSnagSizeClasses.get(j))) {
+          iClass = j;
+          break;
+        }
+      }
+      if (iClass == -1) {
+        throw (new ModelException(ErrorGUI.BAD_DATA, "JAVA",
+            "Invalid size class in snag initial densities - " + sSizeClass));
+      }
+
+      // Go through each of the decay class values, and find the right
+      // slot for it
+      for (dc = 0; dc < p_oData.size(); dc++) {
+
+        p_oSnagInit = (ModelVector) mp_fSnagInitProportions.get(iClass*5 + dc);
+        try {
+          p_oSnagInit.getValue().set(iSp, Float.valueOf(p_oData.get(dc)));
+        } catch (NumberFormatException e) {
+          //Whoops - wasn't formatted as a number
+          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+              "Couldn't read size class for snag initial condition for species"
+              + sSp + " for decay class " + dc + ". Bad value: " +
+              p_oData.get(dc)));
+        }
+
+      }
+      return true;
+    } 
+    return super.setVectorValueByXMLTag(sXMLTag, sXMLParentTag, p_oData,
+        p_sChildXMLTags, p_bAppliesTo, oParentAttributes, p_oAttributes);
   }
 }
+
