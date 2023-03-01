@@ -10,8 +10,6 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.InputSource;
 
 import sortie.ModelTestCase;
-import sortie.data.funcgroups.Tree;
-import sortie.data.funcgroups.TreePopulation;
 import sortie.data.simpletypes.ModelException;
 import sortie.data.simpletypes.ModelVector;
 import sortie.gui.ErrorGUI;
