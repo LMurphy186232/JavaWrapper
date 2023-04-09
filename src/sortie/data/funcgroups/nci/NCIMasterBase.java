@@ -115,7 +115,10 @@ public class NCIMasterBase extends Behavior {
         "Default shading", 
         NCIEffect.shading_effect.default_shading.ordinal(),
         true));
-        
+    mp_iShadingEffects.add(new NCIEffect(ShadingEffectPower.class, 
+        "Power function of light", 
+        NCIEffect.shading_effect.power_shading.ordinal(),
+        true));
     
     
     // Add crowding effects
