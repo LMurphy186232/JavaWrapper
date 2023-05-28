@@ -5,6 +5,7 @@ import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.BehaviorTypeBase;
 import sortie.data.funcgroups.TreePopulation;
 import sortie.data.simpletypes.ModelException;
+import sortie.data.simpletypes.ModelFloat;
 import sortie.data.simpletypes.ModelVector;
 import sortie.gui.GUIManager;
 
@@ -13,7 +14,7 @@ import sortie.gui.GUIManager;
  * to be part of the growth behaviors collection, but to be accessed by NCI.
  *
  * Size Effect is calculated as:
- * <center><i>SE = (1-a*exp(b*(diam/100)))*exp(c*((diam/100)<sup>d</sup>))</i></center>
+ * <center><i>SE = (1-a*exp(b*diam))*exp(c*(diam<sup>d</sup>))</i></center>
  *
  * where <i>diam</i> is the diameter of the target tree, in cm (d10 for
  * seedlings, DBH for everyone else); and <i>a, b, c,</i> and <i>d</i> are
@@ -44,6 +45,11 @@ public class SizeEffectCompoundExponential extends Behavior {
       "Size Effect \"d\"", "nciSizeEffectD",
       "nsedVal", 0, ModelVector.DOUBLE);
   
+  /**Diameter scaler*/
+  protected ModelFloat m_fScaler = new ModelFloat((float)0.01,
+      "Size Effect Diameter Scaler for Units Adjustment",
+      "nciSizeEffectSizeScaler");
+  
   /**
    * Constructor.
    */
@@ -54,6 +60,7 @@ public class SizeEffectCompoundExponential extends Behavior {
     addRequiredData(mp_fB);
     addRequiredData(mp_fC);
     addRequiredData(mp_fD);
+    addRequiredData(m_fScaler);
   }
 
   /**

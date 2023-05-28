@@ -235,6 +235,11 @@ public class NCIMasterBase extends Behavior {
         "Size effect compound exponential w/ infestation",
         NCIEffect.size_effect.size_effect_compound_exp_inf.ordinal(),
         true));
+    
+    mp_iSizeEffects.add(new NCIEffect(SizeEffectExponentialHeight.class,
+        "Size effect exponential of height",
+        NCIEffect.size_effect.size_effect_exp_height.ordinal(),
+        true));
 
     
     
