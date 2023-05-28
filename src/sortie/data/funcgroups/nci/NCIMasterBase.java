@@ -115,7 +115,10 @@ public class NCIMasterBase extends Behavior {
         "Default shading", 
         NCIEffect.shading_effect.default_shading.ordinal(),
         true));
-        
+    mp_iShadingEffects.add(new NCIEffect(ShadingEffectPower.class, 
+        "Power function of light", 
+        NCIEffect.shading_effect.power_shading.ordinal(),
+        true));
     
     
     // Add crowding effects
@@ -231,6 +234,11 @@ public class NCIMasterBase extends Behavior {
     mp_iSizeEffects.add(new NCIEffect(SizeEffectCompoundExpInf.class,
         "Size effect compound exponential w/ infestation",
         NCIEffect.size_effect.size_effect_compound_exp_inf.ordinal(),
+        true));
+    
+    mp_iSizeEffects.add(new NCIEffect(SizeEffectExponentialHeight.class,
+        "Size effect exponential of height",
+        NCIEffect.size_effect.size_effect_exp_height.ordinal(),
         true));
 
     
