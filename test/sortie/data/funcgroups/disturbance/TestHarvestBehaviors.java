@@ -12,7 +12,6 @@ import sortie.data.funcgroups.DisturbanceBehaviors;
 import sortie.data.funcgroups.Grid;
 import sortie.data.funcgroups.Plot;
 import sortie.data.funcgroups.TreePopulation;
-import sortie.data.funcgroups.disturbance.HarvestData;
 import sortie.data.simpletypes.DataMember;
 import sortie.data.simpletypes.ModelException;
 import sortie.gui.ErrorGUI;
@@ -1485,7 +1484,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oManager.clearCurrentData();
       sFileName = writeXMLFile1();
       oManager.inputXMLParameterFile(sFileName);
-      TreePopulation oPop = oManager.getTreePopulation();
+      //TreePopulation oPop = oManager.getTreePopulation();
       DisturbanceBehaviors oDistBeh = oManager.getDisturbanceBehaviors();
       ArrayList<Behavior> p_oDists = oDistBeh.getBehaviorByParameterFileTag("Harvest");
       assertEquals(1, p_oDists.size());
@@ -1493,7 +1492,43 @@ public class TestHarvestBehaviors extends ModelTestCase {
       p_oDists = oDistBeh.getBehaviorByParameterFileTag("EpisodicMortality");
       assertEquals(1, p_oDists.size());
       EpisodicMortality oMort = (EpisodicMortality) p_oDists.get(0);
+      assertEquals(2, oHarvest.getNumberOfGrids());
+      Grid oGrid = oManager.getGridByName("Harvest Results");
+      
+      validateHarvestReadXML1(oHarvest, oGrid);
+      validateEpMortReadXML1(oMort);
+       
+      //----- Write out the parameter file and read it back, to test writing -//
+      oManager.writeParameterFile(sFileName);
+      oManager.clearCurrentData();
+      oManager.inputXMLParameterFile(sFileName);
+      oDistBeh = oManager.getDisturbanceBehaviors();
+      p_oDists = oDistBeh.getBehaviorByParameterFileTag("Harvest");
+      assertEquals(1, p_oDists.size());
+      oHarvest = (Harvest) p_oDists.get(0);
+      p_oDists = oDistBeh.getBehaviorByParameterFileTag("EpisodicMortality");
+      assertEquals(1, p_oDists.size());
+      oMort = (EpisodicMortality) p_oDists.get(0);
+      assertEquals(2, oHarvest.getNumberOfGrids());
+      oGrid = oManager.getGridByName("Harvest Results");
+      
+      validateHarvestReadXML1(oHarvest, oGrid);
+      validateEpMortReadXML1(oMort);
 
+    }
+    catch (ModelException oErr) {
+      fail("XML tree map reading failed with message " + oErr.getMessage());
+    }
+    finally {
+      new File(sFileName).delete();
+    }
+  }
+  
+  /**
+   * Tests parameter file reading.
+   */
+  private void validateHarvestReadXML1(Harvest oHarvest, Grid oGrid) throws ModelException {
+    
       //*************************
       //Test each harvest cut
       //*************************
@@ -1508,7 +1543,9 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(4, oCut.getNumberOfCutRanges());
 
       assertEquals(1, oCut.getNumberOfSpecies());
-      assertEquals(oPop.getSpeciesCodeFromName("Subalpine_Fir"), oCut.getSpecies(0));
+      assertEquals(3, oCut.getSpecies(0)); //Subalpine_Fir
+      
+      assertEquals(2, oCut.getMaxSnagDecayClass());
 
       assertEquals(0.0, oCut.getLowerBound(0), 0.001);
       assertEquals(30.0, oCut.getUpperBound(0), 0.001);
@@ -1549,15 +1586,17 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(1, oCut.getNumberOfCutRanges());
 
       assertEquals(9, oCut.getNumberOfSpecies());
-      assertEquals(oPop.getSpeciesCodeFromName("Amabilis_Fir"), oCut.getSpecies(0));
-      assertEquals(oPop.getSpeciesCodeFromName("Black_Cottonwood"), oCut.getSpecies(1));
-      assertEquals(oPop.getSpeciesCodeFromName("Lodgepole_Pine"), oCut.getSpecies(2));
-      assertEquals(oPop.getSpeciesCodeFromName("Western_Redcedar"), oCut.getSpecies(3));
-      assertEquals(oPop.getSpeciesCodeFromName("Trembling_Aspen"), oCut.getSpecies(4));
-      assertEquals(oPop.getSpeciesCodeFromName("Subalpine_Fir"), oCut.getSpecies(5));
-      assertEquals(oPop.getSpeciesCodeFromName("Paper_Birch"), oCut.getSpecies(6));
-      assertEquals(oPop.getSpeciesCodeFromName("Western_Hemlock"), oCut.getSpecies(7));
-      assertEquals(oPop.getSpeciesCodeFromName("Hybrid_Spruce"), oCut.getSpecies(8));
+      assertEquals(2, oCut.getSpecies(0)); // Amabilis_Fir
+      assertEquals(7, oCut.getSpecies(1)); // Black_Cottonwood
+      assertEquals(5, oCut.getSpecies(2)); // Lodgepole_Pine
+      assertEquals(1, oCut.getSpecies(3)); // Western_Redcedar
+      assertEquals(6, oCut.getSpecies(4)); // Trembling_Aspen
+      assertEquals(3, oCut.getSpecies(5)); // Subalpine_Fir
+      assertEquals(8, oCut.getSpecies(6)); // Paper_Birch
+      assertEquals(0, oCut.getSpecies(7)); // Western_Hemlock
+      assertEquals(4, oCut.getSpecies(8)); // Hybrid_Spruce
+      
+      assertEquals(1, oCut.getMaxSnagDecayClass());
 
       assertEquals(0.0, oCut.getLowerBound(0), 0.001);
       assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
@@ -1586,16 +1625,30 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertTrue(oCut.getTallestFirstFlag());
 
       assertEquals(4, oCut.getNumberOfSpecies());
-      assertEquals(oPop.getSpeciesCodeFromName("Subalpine_Fir"), oCut.getSpecies(0));
-      assertEquals(oPop.getSpeciesCodeFromName("Western_Redcedar"), oCut.getSpecies(1));
-      assertEquals(oPop.getSpeciesCodeFromName("Trembling_Aspen"), oCut.getSpecies(2));
-      assertEquals(oPop.getSpeciesCodeFromName("Western_Hemlock"), oCut.getSpecies(3));
+      assertEquals(3, oCut.getSpecies(0)); // Subalpine_Fir
+      assertEquals(1, oCut.getSpecies(1)); // Western_Redcedar
+      assertEquals(6, oCut.getSpecies(2)); // Trembling_Aspen
+      assertEquals(0, oCut.getSpecies(3)); // Western_Hemlock
+      
+      assertEquals(-1, oCut.getMaxSnagDecayClass());
 
       assertEquals(20.0, oCut.getLowerBound(0), 0.001);
       assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
       assertEquals(100.0, oCut.getCutAmount(0), 0.001);
 
-      assertTrue(oCut.getSeedlingMortRateSize() == 0);
+      assertTrue(oCut.getSeedlingMortRateSize() == 0 ||
+          oCut.getSeedlingMortRateSize() == 9);
+      if (oCut.getSeedlingMortRateSize() == 9) {
+        assertEquals(0, oCut.getSeedlingMortRate(0), 0.001);
+        assertEquals(0, oCut.getSeedlingMortRate(1), 0.001);
+        assertEquals(0, oCut.getSeedlingMortRate(2), 0.001);
+        assertEquals(0, oCut.getSeedlingMortRate(3), 0.001);
+        assertEquals(0, oCut.getSeedlingMortRate(4), 0.001);
+        assertEquals(0, oCut.getSeedlingMortRate(5), 0.001);
+        assertEquals(0, oCut.getSeedlingMortRate(6), 0.001);
+        assertEquals(0, oCut.getSeedlingMortRate(7), 0.001);
+        assertEquals(0, oCut.getSeedlingMortRate(8), 0.001);
+      }
 
       assertEquals(19, oCut.getNumberOfCells());
       assertEquals(8, oCut.getCell(0).getX());
@@ -1664,7 +1717,19 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(1, oCut.getNumberOfCutRanges());
 
       assertEquals(1, oCut.getNumberOfSpecies());
-      assertEquals(oPop.getSpeciesCodeFromName("Amabilis_Fir"), oCut.getSpecies(0));
+      assertEquals(2, oCut.getSpecies(0)); //Amabilis_Fir
+      
+//    0 \"Western_Hemlock\" />");
+//    1 "Western_Redcedar\" />");
+//    2 "Amabilis_Fir\" />");
+//    3 "Subalpine_Fir\" />");
+//    4 "Hybrid_Spruce\" />");
+//    5 "Lodgepole_Pine\" />");
+//    6 "Trembling_Aspen\" />");
+//    7 "Black_Cottonwood\" />");
+//    8 "Paper_Birch\" />");
+      
+      assertEquals(-1, oCut.getMaxSnagDecayClass());
 
       assertEquals(0.0, oCut.getLowerBound(0), 0.001);
       assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
@@ -1674,164 +1739,9 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals(11, oCut.getCell(0).getX());
       assertEquals(21, oCut.getCell(0).getY());
 
-      //*************************
-      //Test each mortality episode
-      //*************************
-      assertEquals(4, oMort.mp_oMortEpisodes.size());
-
-      //Number one
-      oCut = oMort.mp_oMortEpisodes.get(0);
-      assertEquals(2, oCut.getTimestep());
-      assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
-      assertEquals(HarvestData.PERCENTAGE_BASAL_AREA, oCut.getCutAmountType());
-      assertEquals(4, oCut.getNumberOfCutRanges());
-
-      assertEquals(1, oCut.getNumberOfSpecies());
-      assertEquals(oPop.getSpeciesCodeFromName("Hybrid_Spruce"), oCut.getSpecies(0));
-
-      assertEquals(0.0, oCut.getLowerBound(0), 0.001);
-      assertEquals(31.0, oCut.getUpperBound(0), 0.001);
-      assertEquals(100.0, oCut.getCutAmount(0), 0.001);
-
-      assertEquals(31.0, oCut.getLowerBound(1), 0.001);
-      assertEquals(41.0, oCut.getUpperBound(1), 0.001);
-      assertEquals(71.0, oCut.getCutAmount(1), 0.001);
-
-      assertEquals(61.0, oCut.getLowerBound(2), 0.001);
-      assertEquals(71.0, oCut.getUpperBound(2), 0.001);
-      assertEquals(51.0, oCut.getCutAmount(2), 0.001);
-
-      assertEquals(46.0, oCut.getLowerBound(3), 0.001);
-      assertEquals(48.0, oCut.getUpperBound(3), 0.001);
-      assertEquals(21.0, oCut.getCutAmount(3), 0.001);
-
-      assertEquals(1, oCut.getNumberOfCells());
-      assertEquals(7, oCut.getCell(0).getX());
-      assertEquals(8, oCut.getCell(0).getY());
-
-      //Number two
-      oCut = oMort.mp_oMortEpisodes.get(1);
-      assertEquals(3, oCut.getTimestep());
-      assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
-      assertEquals(HarvestData.PERCENTAGE_DENSITY, oCut.getCutAmountType());
-      assertEquals(1, oCut.getNumberOfCutRanges());
-
-      assertEquals(9, oCut.getNumberOfSpecies());
-      assertEquals(oPop.getSpeciesCodeFromName("Amabilis_Fir"), oCut.getSpecies(0));
-      assertEquals(oPop.getSpeciesCodeFromName("Black_Cottonwood"), oCut.getSpecies(1));
-      assertEquals(oPop.getSpeciesCodeFromName("Lodgepole_Pine"), oCut.getSpecies(2));
-      assertEquals(oPop.getSpeciesCodeFromName("Western_Redcedar"), oCut.getSpecies(3));
-      assertEquals(oPop.getSpeciesCodeFromName("Trembling_Aspen"), oCut.getSpecies(4));
-      assertEquals(oPop.getSpeciesCodeFromName("Subalpine_Fir"), oCut.getSpecies(5));
-      assertEquals(oPop.getSpeciesCodeFromName("Paper_Birch"), oCut.getSpecies(6));
-      assertEquals(oPop.getSpeciesCodeFromName("Western_Hemlock"), oCut.getSpecies(7));
-      assertEquals(oPop.getSpeciesCodeFromName("Hybrid_Spruce"), oCut.getSpecies(8));
-
-      assertEquals(1.0, oCut.getLowerBound(0), 0.001);
-      assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
-      assertEquals(100.0, oCut.getCutAmount(0), 0.001);
-
-      assertEquals(1, oCut.getNumberOfCells());
-      assertEquals(2, oCut.getCell(0).getX());
-      assertEquals(3, oCut.getCell(0).getY());
-
-      //Number three
-      oCut = oMort.mp_oMortEpisodes.get(2);
-      assertEquals(4, oCut.getTimestep());
-      assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
-      assertEquals(HarvestData.ABSOLUTE_BASAL_AREA, oCut.getCutAmountType());
-      assertEquals(1, oCut.getNumberOfCutRanges());
-
-      assertEquals(4, oCut.getNumberOfSpecies());
-      assertEquals(oPop.getSpeciesCodeFromName("Subalpine_Fir"), oCut.getSpecies(0));
-      assertEquals(oPop.getSpeciesCodeFromName("Western_Redcedar"), oCut.getSpecies(1));
-      assertEquals(oPop.getSpeciesCodeFromName("Trembling_Aspen"), oCut.getSpecies(2));
-      assertEquals(oPop.getSpeciesCodeFromName("Western_Hemlock"), oCut.getSpecies(3));
-
-      assertEquals(21.0, oCut.getLowerBound(0), 0.001);
-      assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
-      assertEquals(100.0, oCut.getCutAmount(0), 0.001);
-
-      assertEquals(19, oCut.getNumberOfCells());
-      assertEquals(9, oCut.getCell(0).getX());
-      assertEquals(6, oCut.getCell(0).getY());
-
-      assertEquals(9, oCut.getCell(1).getX());
-      assertEquals(7, oCut.getCell(1).getY());
-
-      assertEquals(9, oCut.getCell(2).getX());
-      assertEquals(8, oCut.getCell(2).getY());
-
-      assertEquals(9, oCut.getCell(3).getX());
-      assertEquals(9, oCut.getCell(3).getY());
-
-      assertEquals(9, oCut.getCell(4).getX());
-      assertEquals(10, oCut.getCell(4).getY());
-
-      assertEquals(9, oCut.getCell(5).getX());
-      assertEquals(11, oCut.getCell(5).getY());
-
-      assertEquals(9, oCut.getCell(6).getX());
-      assertEquals(12, oCut.getCell(6).getY());
-
-      assertEquals(9, oCut.getCell(7).getX());
-      assertEquals(13, oCut.getCell(7).getY());
-
-      assertEquals(9, oCut.getCell(8).getX());
-      assertEquals(14, oCut.getCell(8).getY());
-
-      assertEquals(9, oCut.getCell(9).getX());
-      assertEquals(15, oCut.getCell(9).getY());
-
-      assertEquals(9, oCut.getCell(10).getX());
-      assertEquals(16, oCut.getCell(10).getY());
-
-      assertEquals(9, oCut.getCell(11).getX());
-      assertEquals(17, oCut.getCell(11).getY());
-
-      assertEquals(9, oCut.getCell(12).getX());
-      assertEquals(18, oCut.getCell(12).getY());
-
-      assertEquals(9, oCut.getCell(13).getX());
-      assertEquals(19, oCut.getCell(13).getY());
-
-      assertEquals(9, oCut.getCell(14).getX());
-      assertEquals(20, oCut.getCell(14).getY());
-
-      assertEquals(9, oCut.getCell(15).getX());
-      assertEquals(21, oCut.getCell(15).getY());
-
-      assertEquals(9, oCut.getCell(16).getX());
-      assertEquals(22, oCut.getCell(16).getY());
-
-      assertEquals(9, oCut.getCell(17).getX());
-      assertEquals(23, oCut.getCell(17).getY());
-
-      assertEquals(9, oCut.getCell(18).getX());
-      assertEquals(24, oCut.getCell(18).getY());
-
-      //Number four
-      oCut = oMort.mp_oMortEpisodes.get(3);
-      assertEquals(5, oCut.getTimestep());
-      assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
-      assertEquals(HarvestData.ABSOLUTE_DENSITY, oCut.getCutAmountType());
-      assertEquals(1, oCut.getNumberOfCutRanges());
-
-      assertEquals(1, oCut.getNumberOfSpecies());
-      assertEquals(oPop.getSpeciesCodeFromName("Amabilis_Fir"), oCut.getSpecies(0));
-
-      assertEquals(0.0, oCut.getLowerBound(0), 0.001);
-      assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
-      assertEquals(100.0, oCut.getCutAmount(0), 0.001);
-
-      assertEquals(1, oCut.getNumberOfCells());
-      assertEquals(12, oCut.getCell(0).getX());
-      assertEquals(22, oCut.getCell(0).getY());
-      
+            
       
       //Test grid setup
-      assertEquals(2, oHarvest.getNumberOfGrids());
-      Grid oGrid = oManager.getGridByName("Harvest Results");
       assertEquals(82, oGrid.getDataMembers().length);
       assertEquals("Harvest Type", oGrid.getDataMembers()[0].getDisplayName());
       
@@ -1917,16 +1827,174 @@ public class TestHarvestBehaviors extends ModelTestCase {
       assertEquals("Cut Seedlings, Lodgepole Pine", oGrid.getDataMembers()[78].getDisplayName());
       assertEquals("Cut Seedlings, Trembling Aspen", oGrid.getDataMembers()[79].getDisplayName());
       assertEquals("Cut Seedlings, Black Cottonwood", oGrid.getDataMembers()[80].getDisplayName());
-      assertEquals("Cut Seedlings, Paper Birch", oGrid.getDataMembers()[81].getDisplayName());
-           
-    }
-    catch (ModelException oErr) {
-      fail("XML tree map reading failed with message " + oErr.getMessage());
-    }
-    finally {
-      new File(sFileName).delete();
-    }
+      assertEquals("Cut Seedlings, Paper Birch", oGrid.getDataMembers()[81].getDisplayName());               
   }
+  
+  /**
+   * Tests parameter file reading.
+   */
+  private void validateEpMortReadXML1(EpisodicMortality oMort) throws ModelException {
+
+      //*************************
+      //Test each mortality episode
+      //*************************
+      assertEquals(4, oMort.mp_oMortEpisodes.size());
+
+      //Number one
+      HarvestData oCut = oMort.mp_oMortEpisodes.get(0);
+      assertEquals(2, oCut.getTimestep());
+      assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
+      assertEquals(HarvestData.PERCENTAGE_BASAL_AREA, oCut.getCutAmountType());
+      assertEquals(4, oCut.getNumberOfCutRanges());
+
+      assertEquals(1, oCut.getNumberOfSpecies());
+      assertEquals(4, oCut.getSpecies(0)); //Hybrid Spruce
+      
+      assertEquals(0.0, oCut.getLowerBound(0), 0.001);
+      assertEquals(31.0, oCut.getUpperBound(0), 0.001);
+      assertEquals(100.0, oCut.getCutAmount(0), 0.001);
+
+      assertEquals(31.0, oCut.getLowerBound(1), 0.001);
+      assertEquals(41.0, oCut.getUpperBound(1), 0.001);
+      assertEquals(71.0, oCut.getCutAmount(1), 0.001);
+
+      assertEquals(61.0, oCut.getLowerBound(2), 0.001);
+      assertEquals(71.0, oCut.getUpperBound(2), 0.001);
+      assertEquals(51.0, oCut.getCutAmount(2), 0.001);
+
+      assertEquals(46.0, oCut.getLowerBound(3), 0.001);
+      assertEquals(48.0, oCut.getUpperBound(3), 0.001);
+      assertEquals(21.0, oCut.getCutAmount(3), 0.001);
+
+      assertEquals(1, oCut.getNumberOfCells());
+      assertEquals(7, oCut.getCell(0).getX());
+      assertEquals(8, oCut.getCell(0).getY());
+
+      //Number two
+      oCut = oMort.mp_oMortEpisodes.get(1);
+      assertEquals(3, oCut.getTimestep());
+      assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
+      assertEquals(HarvestData.PERCENTAGE_DENSITY, oCut.getCutAmountType());
+      assertEquals(1, oCut.getNumberOfCutRanges());
+      
+      assertEquals(9, oCut.getNumberOfSpecies());
+      assertEquals(2, oCut.getSpecies(0)); // Amabilis_Fir
+      assertEquals(7, oCut.getSpecies(1)); // Black_Cottonwood
+      assertEquals(5, oCut.getSpecies(2)); // Lodgepole_Pine
+      assertEquals(1, oCut.getSpecies(3)); // Western_Redcedar
+      assertEquals(6, oCut.getSpecies(4)); // Trembling_Aspen
+      assertEquals(3, oCut.getSpecies(5)); // Subalpine_Fir
+      assertEquals(8, oCut.getSpecies(6)); // Paper_Birch
+      assertEquals(0, oCut.getSpecies(7)); // Western_Hemlock
+      assertEquals(4, oCut.getSpecies(8)); // Hybrid_Spruce
+      
+      assertEquals(2, oCut.getMaxSnagDecayClass());
+
+      assertEquals(1.0, oCut.getLowerBound(0), 0.001);
+      assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
+      assertEquals(100.0, oCut.getCutAmount(0), 0.001);
+
+      assertEquals(1, oCut.getNumberOfCells());
+      assertEquals(2, oCut.getCell(0).getX());
+      assertEquals(3, oCut.getCell(0).getY());
+
+      //Number three
+      oCut = oMort.mp_oMortEpisodes.get(2);
+      assertEquals(4, oCut.getTimestep());
+      assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
+      assertEquals(HarvestData.ABSOLUTE_BASAL_AREA, oCut.getCutAmountType());
+      assertEquals(1, oCut.getNumberOfCutRanges());
+
+      assertEquals(4, oCut.getNumberOfSpecies());
+      assertEquals(3, oCut.getSpecies(0)); // Subalpine_Fir
+      assertEquals(1, oCut.getSpecies(1)); // Western_Redcedar
+      assertEquals(6, oCut.getSpecies(2)); // Trembling_Aspen
+      assertEquals(0, oCut.getSpecies(3)); // Western_Hemlock
+      
+      assertEquals(3, oCut.getMaxSnagDecayClass());
+
+      assertEquals(21.0, oCut.getLowerBound(0), 0.001);
+      assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
+      assertEquals(100.0, oCut.getCutAmount(0), 0.001);
+
+      assertEquals(19, oCut.getNumberOfCells());
+      assertEquals(9, oCut.getCell(0).getX());
+      assertEquals(6, oCut.getCell(0).getY());
+
+      assertEquals(9, oCut.getCell(1).getX());
+      assertEquals(7, oCut.getCell(1).getY());
+
+      assertEquals(9, oCut.getCell(2).getX());
+      assertEquals(8, oCut.getCell(2).getY());
+
+      assertEquals(9, oCut.getCell(3).getX());
+      assertEquals(9, oCut.getCell(3).getY());
+
+      assertEquals(9, oCut.getCell(4).getX());
+      assertEquals(10, oCut.getCell(4).getY());
+
+      assertEquals(9, oCut.getCell(5).getX());
+      assertEquals(11, oCut.getCell(5).getY());
+
+      assertEquals(9, oCut.getCell(6).getX());
+      assertEquals(12, oCut.getCell(6).getY());
+
+      assertEquals(9, oCut.getCell(7).getX());
+      assertEquals(13, oCut.getCell(7).getY());
+
+      assertEquals(9, oCut.getCell(8).getX());
+      assertEquals(14, oCut.getCell(8).getY());
+
+      assertEquals(9, oCut.getCell(9).getX());
+      assertEquals(15, oCut.getCell(9).getY());
+
+      assertEquals(9, oCut.getCell(10).getX());
+      assertEquals(16, oCut.getCell(10).getY());
+
+      assertEquals(9, oCut.getCell(11).getX());
+      assertEquals(17, oCut.getCell(11).getY());
+
+      assertEquals(9, oCut.getCell(12).getX());
+      assertEquals(18, oCut.getCell(12).getY());
+
+      assertEquals(9, oCut.getCell(13).getX());
+      assertEquals(19, oCut.getCell(13).getY());
+
+      assertEquals(9, oCut.getCell(14).getX());
+      assertEquals(20, oCut.getCell(14).getY());
+
+      assertEquals(9, oCut.getCell(15).getX());
+      assertEquals(21, oCut.getCell(15).getY());
+
+      assertEquals(9, oCut.getCell(16).getX());
+      assertEquals(22, oCut.getCell(16).getY());
+
+      assertEquals(9, oCut.getCell(17).getX());
+      assertEquals(23, oCut.getCell(17).getY());
+
+      assertEquals(9, oCut.getCell(18).getX());
+      assertEquals(24, oCut.getCell(18).getY());
+
+      //Number four
+      oCut = oMort.mp_oMortEpisodes.get(3);
+      assertEquals(5, oCut.getTimestep());
+      assertEquals(HarvestData.PARTIAL_CUT, oCut.getCutType());
+      assertEquals(HarvestData.ABSOLUTE_DENSITY, oCut.getCutAmountType());
+      assertEquals(1, oCut.getNumberOfCutRanges());
+
+      assertEquals(1, oCut.getNumberOfSpecies());
+      assertEquals(2, oCut.getSpecies(0)); //Amabilis_Fir
+      
+      assertEquals(4, oCut.getMaxSnagDecayClass());
+
+      assertEquals(0.0, oCut.getLowerBound(0), 0.001);
+      assertEquals(3000.0, oCut.getUpperBound(0), 0.001);
+      assertEquals(100.0, oCut.getCutAmount(0), 0.001);
+
+      assertEquals(1, oCut.getNumberOfCells());
+      assertEquals(12, oCut.getCell(0).getX());
+      assertEquals(22, oCut.getCell(0).getY());
+ }
   
   /**
    * Tests parameter file reading.
@@ -3053,28 +3121,9 @@ public class TestHarvestBehaviors extends ModelTestCase {
 
       oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
       oOut.write("<paramFile fileCode=\"07010101\">");
-      oOut.write("<plot>");
-      oOut.write("<timesteps>1</timesteps>");
-      oOut.write("<yearsPerTimestep>1</yearsPerTimestep>");
-      oOut.write("<randomSeed>1</randomSeed>");
-      oOut.write("<plot_lenX>200.0</plot_lenX>");
-      oOut.write("<plot_lenY>200.0</plot_lenY>");
-      oOut.write("<plot_latitude>55.37</plot_latitude>");
-      oOut.write("</plot>");
-      oOut.write("<trees>");
-      oOut.write("<tr_speciesList>");
-      oOut.write("<tr_species speciesName=\"Western_Hemlock\" />");
-      oOut.write("<tr_species speciesName=\"Western_Redcedar\" />");
-      oOut.write("<tr_species speciesName=\"Amabilis_Fir\" />");
-      oOut.write("<tr_species speciesName=\"Subalpine_Fir\" />");
-      oOut.write("<tr_species speciesName=\"Hybrid_Spruce\" />");
-      oOut.write("<tr_species speciesName=\"Lodgepole_Pine\" />");
-      oOut.write("<tr_species speciesName=\"Trembling_Aspen\" />");
-      oOut.write("<tr_species speciesName=\"Black_Cottonwood\" />");
-      oOut.write("<tr_species speciesName=\"Paper_Birch\" />");
-      oOut.write("</tr_speciesList>");
-      oOut.write("<tr_seedDiam10Cm>0.1</tr_seedDiam10Cm>");
-      oOut.write("</trees>");
+      
+      writePlotAndTreeStuff(oOut);
+      
       oOut.write("<behaviorList>");
       oOut.write("<behavior>");
       oOut.write("<behaviorName>Harvest</behaviorName>");
@@ -3118,6 +3167,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ha_low>45.0</ha_low>");
       oOut.write("<ha_high>47.0</ha_high>");
       oOut.write("<ha_amountToCut>20.0</ha_amountToCut>");
+      oOut.write("<ha_maxSnagDecayClass>2</ha_maxSnagDecayClass>");
       oOut.write("<ha_percentSeedlingsDie>");
       oOut.write("<ha_psdVal species=\"Western_Hemlock\">10</ha_psdVal>");
       oOut.write("<ha_psdVal species=\"Western_Redcedar\">20</ha_psdVal>");
@@ -3154,6 +3204,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ha_high>3000.0</ha_high>");
       oOut.write("<ha_amountToCut>100.0</ha_amountToCut>");
       oOut.write("</ha_dbhRange>");
+      oOut.write("<ha_maxSnagDecayClass>1</ha_maxSnagDecayClass>");
       oOut.write("<ha_percentSeedlingsDie>");
       oOut.write("<ha_psdVal species=\"Western_Hemlock\">11</ha_psdVal>");
       oOut.write("<ha_psdVal species=\"Western_Redcedar\">22</ha_psdVal>");
@@ -3269,6 +3320,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ds_applyToSpecies species=\"Paper_Birch\" />");
       oOut.write("<ds_applyToSpecies species=\"Western_Hemlock\" />");
       oOut.write("<ds_applyToSpecies species=\"Hybrid_Spruce\" />");
+      oOut.write("<ds_maxSnagDecayClass>2</ds_maxSnagDecayClass>");
       oOut.write("<ds_timestep>3</ds_timestep>");
       oOut.write("<ds_cutAmountType>percent of density</ds_cutAmountType>");
       oOut.write("<ds_dbhRange>");
@@ -3286,6 +3338,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       oOut.write("<ds_applyToSpecies species=\"Western_Redcedar\" />");
       oOut.write("<ds_applyToSpecies species=\"Trembling_Aspen\" />");
       oOut.write("<ds_applyToSpecies species=\"Western_Hemlock\" />");
+      oOut.write("<ds_maxSnagDecayClass>3</ds_maxSnagDecayClass>");
       oOut.write("<ds_timestep>4</ds_timestep>");
       oOut.write("<ds_cutAmountType>absolute basal area</ds_cutAmountType>");
       oOut.write("<ds_dbhRange>");
@@ -3318,6 +3371,7 @@ public class TestHarvestBehaviors extends ModelTestCase {
       //Mortality episode:  cut amount absolute density.
       oOut.write("<ds_deathEvent>");
       oOut.write("<ds_applyToSpecies species=\"Amabilis_Fir\" />");
+      oOut.write("<ds_maxSnagDecayClass>4</ds_maxSnagDecayClass>");
       oOut.write("<ds_timestep>5</ds_timestep>");
       oOut.write("<ds_cutAmountType>absolute density</ds_cutAmountType>");
       oOut.write("<ds_dbhRange>");
@@ -4300,5 +4354,248 @@ public class TestHarvestBehaviors extends ModelTestCase {
     
     oOut.close();
     return sFileName;
+  }
+  
+  /**
+   * Writes a file with no harvest settings.
+   * @return The file name.
+   * @throws IOException if there is a problem writing the file.
+   */
+  private void writePlotAndTreeStuff(FileWriter oOut) throws java.io.IOException {
+    oOut.write("<plot>");
+    oOut.write("<timesteps>10</timesteps>");
+    oOut.write("<yearsPerTimestep>1</yearsPerTimestep>");
+    oOut.write("<randomSeed>1</randomSeed>");
+    oOut.write("<plot_lenX>200.0</plot_lenX>");
+    oOut.write("<plot_lenY>200.0</plot_lenY>");
+    oOut.write("<plot_precip_mm_yr>1150.645781</plot_precip_mm_yr>");
+    oOut.write("<plot_temp_C>12.88171785</plot_temp_C>");
+    oOut.write("<plot_latitude>55.37</plot_latitude>");
+    oOut.write("</plot>");
+    oOut.write("<trees>");
+    oOut.write("<tr_speciesList>");
+    oOut.write("<tr_species speciesName=\"Western_Hemlock\"/>");
+    oOut.write("<tr_species speciesName=\"Western_Redcedar\"/>");
+    oOut.write("<tr_species speciesName=\"Amabilis_Fir\"/>");
+    oOut.write("<tr_species speciesName=\"Subalpine_Fir\"/>");
+    oOut.write("<tr_species speciesName=\"Hybrid_Spruce\"/>");
+    oOut.write("<tr_species speciesName=\"Lodgepole_Pine\"/>");
+    oOut.write("<tr_species speciesName=\"Trembling_Aspen\"/>");
+    oOut.write("<tr_species speciesName=\"Black_Cottonwood\"/>");
+    oOut.write("<tr_species speciesName=\"Paper_Birch\"/>");
+    oOut.write("</tr_speciesList>");
+    oOut.write("<tr_seedDiam10Cm>0.1</tr_seedDiam10Cm>");
+    oOut.write("<tr_minAdultDBH>");
+    oOut.write("<tr_madVal species=\"Western_Hemlock\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Western_Redcedar\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Amabilis_Fir\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Subalpine_Fir\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Hybrid_Spruce\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Lodgepole_Pine\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Trembling_Aspen\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Black_Cottonwood\">10</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Paper_Birch\">10</tr_madVal>");
+    oOut.write("</tr_minAdultDBH>");
+    oOut.write("<tr_maxSeedlingHeight>");
+    oOut.write("<tr_mshVal species=\"Western_Hemlock\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Western_Redcedar\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Amabilis_Fir\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Subalpine_Fir\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Hybrid_Spruce\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Lodgepole_Pine\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Trembling_Aspen\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Black_Cottonwood\">1.35</tr_mshVal>");
+    oOut.write("<tr_mshVal species=\"Paper_Birch\">1.35</tr_mshVal>");
+    oOut.write("</tr_maxSeedlingHeight>");
+    oOut.write("</trees>");
+    oOut.write("<allometry>");
+    oOut.write("<tr_canopyHeight>");
+    oOut.write("<tr_chVal species=\"Western_Hemlock\">39.48</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Western_Redcedar\">39.54</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Amabilis_Fir\">40</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Subalpine_Fir\">40</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Hybrid_Spruce\">45</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Lodgepole_Pine\">40</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Trembling_Aspen\">39.14</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Black_Cottonwood\">39.47</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Paper_Birch\">33.18</tr_chVal>");
+    oOut.write("</tr_canopyHeight>");
+    oOut.write("<tr_stdAsympCrownRad>");
+    oOut.write("<tr_sacrVal species=\"Western_Hemlock\">0.0549</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Western_Redcedar\">0.0614</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Amabilis_Fir\">0.0242</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Subalpine_Fir\">0.0251</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Hybrid_Spruce\">0.0239</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Lodgepole_Pine\">0.0303</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Trembling_Aspen\">0.0328</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Black_Cottonwood\">0.0247</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Paper_Birch\">0.0484</tr_sacrVal>");
+    oOut.write("</tr_stdAsympCrownRad>");
+    oOut.write("<tr_stdCrownRadExp>");
+    oOut.write("<tr_screVal species=\"Western_Hemlock\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Western_Redcedar\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Amabilis_Fir\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Subalpine_Fir\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Hybrid_Spruce\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Lodgepole_Pine\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Trembling_Aspen\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Black_Cottonwood\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Paper_Birch\">1.0</tr_screVal>");
+    oOut.write("</tr_stdCrownRadExp>");
+    oOut.write("<tr_stdMaxCrownRad>");
+    oOut.write("<tr_smcrVal species=\"Western_Hemlock\">10</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Western_Redcedar\">10</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Amabilis_Fir\">10</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Subalpine_Fir\">10</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Hybrid_Spruce\">10</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Lodgepole_Pine\">10</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Trembling_Aspen\">10</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Black_Cottonwood\">10</tr_smcrVal>");
+    oOut.write("<tr_smcrVal species=\"Paper_Birch\">10</tr_smcrVal>");
+    oOut.write("</tr_stdMaxCrownRad>");
+    oOut.write("<tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_cdtdVal species=\"Western_Hemlock\">0.8008</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Western_Redcedar\">0.5944</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Amabilis_Fir\">0.7059</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Subalpine_Fir\">0.7776</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Hybrid_Spruce\">0.6933</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Lodgepole_Pine\">0.8014</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Trembling_Aspen\">0.7992</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Black_Cottonwood\">0.7926</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Paper_Birch\">0.7803</tr_cdtdVal>");
+    oOut.write("</tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_interceptDiam10ToDBH>");
+    oOut.write("<tr_idtdVal species=\"Western_Hemlock\">0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Western_Redcedar\">0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Amabilis_Fir\">0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Subalpine_Fir\">0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Hybrid_Spruce\">0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Lodgepole_Pine\">0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Trembling_Aspen\">0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Black_Cottonwood\">0</tr_idtdVal>");
+    oOut.write("<tr_idtdVal species=\"Paper_Birch\">0</tr_idtdVal>");
+    oOut.write("</tr_interceptDiam10ToDBH>");
+    oOut.write("<tr_stdAsympCrownHt>");
+    oOut.write("<tr_sachVal species=\"Western_Hemlock\">0.389</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Western_Redcedar\">0.368</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Amabilis_Fir\">0.464</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Subalpine_Fir\">0.454</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Hybrid_Spruce\">0.405</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Lodgepole_Pine\">0.201</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Trembling_Aspen\">0.301</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Black_Cottonwood\">0.42</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Paper_Birch\">0.315</tr_sachVal>");
+    oOut.write("</tr_stdAsympCrownHt>");
+    oOut.write("<tr_stdCrownHtExp>");
+    oOut.write("<tr_scheVal species=\"Western_Hemlock\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Western_Redcedar\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Amabilis_Fir\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Subalpine_Fir\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Hybrid_Spruce\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Lodgepole_Pine\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Trembling_Aspen\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Black_Cottonwood\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Paper_Birch\">1.0</tr_scheVal>");
+    oOut.write("</tr_stdCrownHtExp>");
+    oOut.write("<tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_sohdVal species=\"Western_Hemlock\">0.03418</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Western_Redcedar\">0.0269</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Amabilis_Fir\">0.02871</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Subalpine_Fir\">0.02815</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Hybrid_Spruce\">0.02871</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Lodgepole_Pine\">0.03224</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Trembling_Aspen\">0.04796</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Black_Cottonwood\">0.04681</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Paper_Birch\">0.04101</tr_sohdVal>");
+    oOut.write("</tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_slopeOfAsymHeight>");
+    oOut.write("<tr_soahVal species=\"Western_Hemlock\">0.0299</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Western_Redcedar\">0.0241</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Amabilis_Fir\">0.0263</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Subalpine_Fir\">0.0264</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Hybrid_Spruce\">0.0264</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Lodgepole_Pine\">0.0333</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Trembling_Aspen\">0.0352</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Black_Cottonwood\">0.0347</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Paper_Birch\">0.0454</tr_soahVal>");
+    oOut.write("</tr_slopeOfAsymHeight>");
+    oOut.write("<tr_whatSeedlingHeightDiam>");
+    oOut.write("<tr_wsehdVal species=\"Western_Hemlock\">0</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Western_Redcedar\">0</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Amabilis_Fir\">0</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Subalpine_Fir\">0</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Hybrid_Spruce\">0</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Lodgepole_Pine\">0</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Trembling_Aspen\">0</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Black_Cottonwood\">0</tr_wsehdVal>");
+    oOut.write("<tr_wsehdVal species=\"Paper_Birch\">0</tr_wsehdVal>");
+    oOut.write("</tr_whatSeedlingHeightDiam>");
+    oOut.write("<tr_whatSaplingHeightDiam>");
+    oOut.write("<tr_wsahdVal species=\"Western_Hemlock\">0</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Western_Redcedar\">0</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Amabilis_Fir\">0</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Subalpine_Fir\">0</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Hybrid_Spruce\">0</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Lodgepole_Pine\">0</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Trembling_Aspen\">0</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Black_Cottonwood\">0</tr_wsahdVal>");
+    oOut.write("<tr_wsahdVal species=\"Paper_Birch\">0</tr_wsahdVal>");
+    oOut.write("</tr_whatSaplingHeightDiam>");
+    oOut.write("<tr_whatAdultHeightDiam>");
+    oOut.write("<tr_wahdVal species=\"Western_Hemlock\">0</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Western_Redcedar\">0</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Amabilis_Fir\">0</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Subalpine_Fir\">0</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Hybrid_Spruce\">0</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Lodgepole_Pine\">0</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Trembling_Aspen\">0</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Black_Cottonwood\">0</tr_wahdVal>");
+    oOut.write("<tr_wahdVal species=\"Paper_Birch\">0</tr_wahdVal>");
+    oOut.write("</tr_whatAdultHeightDiam>");
+    oOut.write("<tr_whatAdultCrownRadDiam>");
+    oOut.write("<tr_wacrdVal species=\"Western_Hemlock\">0</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Western_Redcedar\">0</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Amabilis_Fir\">0</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Subalpine_Fir\">0</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Hybrid_Spruce\">0</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Lodgepole_Pine\">0</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Trembling_Aspen\">0</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Black_Cottonwood\">0</tr_wacrdVal>");
+    oOut.write("<tr_wacrdVal species=\"Paper_Birch\">0</tr_wacrdVal>");
+    oOut.write("</tr_whatAdultCrownRadDiam>");
+    oOut.write("<tr_whatAdultCrownHeightHeight>");
+    oOut.write("<tr_wachhVal species=\"Western_Hemlock\">0</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Western_Redcedar\">0</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Amabilis_Fir\">0</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Subalpine_Fir\">0</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Hybrid_Spruce\">0</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Lodgepole_Pine\">0</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Trembling_Aspen\">0</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Black_Cottonwood\">0</tr_wachhVal>");
+    oOut.write("<tr_wachhVal species=\"Paper_Birch\">0</tr_wachhVal>");
+    oOut.write("</tr_whatAdultCrownHeightHeight>");
+    oOut.write("<tr_whatSaplingCrownRadDiam>");
+    oOut.write("<tr_wscrdVal species=\"Western_Hemlock\">0</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Western_Redcedar\">0</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Amabilis_Fir\">0</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Subalpine_Fir\">0</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Hybrid_Spruce\">0</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Lodgepole_Pine\">0</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Trembling_Aspen\">0</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Black_Cottonwood\">0</tr_wscrdVal>");
+    oOut.write("<tr_wscrdVal species=\"Paper_Birch\">0</tr_wscrdVal>");
+    oOut.write("</tr_whatSaplingCrownRadDiam>");
+    oOut.write("<tr_whatSaplingCrownHeightHeight>");
+    oOut.write("<tr_wschhVal species=\"Western_Hemlock\">0</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Western_Redcedar\">0</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Amabilis_Fir\">0</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Subalpine_Fir\">0</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Hybrid_Spruce\">0</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Lodgepole_Pine\">0</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Trembling_Aspen\">0</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Black_Cottonwood\">0</tr_wschhVal>");
+    oOut.write("<tr_wschhVal species=\"Paper_Birch\">0</tr_wschhVal>");
+    oOut.write("</tr_whatSaplingCrownHeightHeight>");
+    oOut.write("</allometry>");
   }
 }

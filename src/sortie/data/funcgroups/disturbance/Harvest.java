@@ -469,6 +469,12 @@ public class Harvest extends Behavior {
         }
         jOut.write("</ha_cutAmountType>");
         
+        //Write out the snag max decay class, if greater than -1
+        iTemp = oData.getMaxSnagDecayClass();
+        if (iTemp > -1) {
+          jOut.write("<ha_maxSnagDecayClass>" + iTemp + "</ha_maxSnagDecayClass>");
+        }
+        
         // Write out the flag for cutting tallest first
         if (oData.getTallestFirstFlag()) {
           jOut.write("<ha_tallestFirst>1</ha_tallestFirst>");
@@ -867,6 +873,16 @@ public class Harvest extends Behavior {
           m_iPriorityType = -1;
         }
         return true;
+      } 
+      else if (sXMLTag.equals("ha_maxSnagDecayClass")) {
+        // Extract the value
+        int iVal = Integer.valueOf(String.valueOf(oData)).intValue();
+        // Assign it
+        HarvestData oHarvest =  mp_oHarvestCuts
+            .get(mp_oHarvestCuts.size() - 1);
+        oHarvest.setMaxSnagDecayClass(iVal);
+        
+        return true;
       }     
     }
     return super.setSingleValueByXMLTag(sXMLTag, sXMLParentTag, oAttributes,
@@ -1142,7 +1158,10 @@ public class Harvest extends Behavior {
         else if (oData.getCutAmountType() == HarvestData.PERCENTAGE_DENSITY) jOut.write("% Density\n");
         else if (oData.getCutAmountType() == HarvestData.ABSOLUTE_BASAL_AREA) jOut.write("Amount basal area\n");
         else if (oData.getCutAmountType() == HarvestData.ABSOLUTE_DENSITY) jOut.write("Amount density\n");
-
+        
+        jOut.write("Max snag decay class:\t");
+        jOut.write(oData.getMaxSnagDecayClass() + "\n");
+        
         if (oData.getNumberOfCutRanges() > 0) {
           jOut.write("Cut ranges:\nMin DBH\tMax DBH\tAmount to cut\n");
           for (int i = 0; i < oData.getNumberOfCutRanges(); i++) {

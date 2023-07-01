@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="JavaWrapper/SORTIE.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/JavaWrapper/SORTIE Jar Description.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <jar path="Java GUI/SORTIE.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/Java GUI/SORTIE Jar Description.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
-    <manifest generateManifest="false" manifestLocation="/JavaWrapper/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+    <manifest generateManifest="false" manifestLocation="/Java GUI/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <file path="/JavaWrapper/MANIFEST.MF"/>
-        <javaElement handleIdentifier="=JavaWrapper/src"/>
+        <file path="/Java GUI/.classpath"/>
+        <file path="/Java GUI/SORTIE Jar Description.jardesc"/>
+        <file path="/Java GUI/MANIFEST.MF"/>
+        <file path="/Java GUI/.gitattributes"/>
+        <javaElement handleIdentifier="=Java GUI/test"/>
+        <file path="/Java GUI/.gitignore"/>
+        <file path="/Java GUI/.project"/>
+        <folder path="/Java GUI/lib"/>
+        <javaElement handleIdentifier="=Java GUI/src"/>
     </selectedElements>
 </jardesc>

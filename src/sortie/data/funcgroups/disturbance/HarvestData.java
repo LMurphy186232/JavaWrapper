@@ -68,13 +68,19 @@ public class HarvestData {
 
   /**Timestep to which to apply this harvest cut*/
   private int m_iTimestep = -1;
+  
   /**The cut type - possible values come from DisturbanceBehaviors and are
    * PARTIAL_CUT, GAP_CUT, and CLEAR_CUT*/
   private int m_iCutType = -1;
+  
   /**How the cut amount is specified - possible values come from 
    * DisturbanceBehaviors and are PERCENTAGE_BASAL_AREA, ABSOLUTE_BASAL_AREA, 
    * PERCENTAGE_DENSITY, and ABSOLUTE_DENSITY.*/
   private int m_iCutAmountType = -1;
+  
+  /**Max snag decay class to include in cut. -1 excludes snags.*/
+  private int m_iMaxSnagDecayClass = -1;
+  
   /**Maximum number of allowed cut ranges*/
   public static int NUMBER_ALLOWED_CUT_RANGES = 4;
   
@@ -146,7 +152,15 @@ public class HarvestData {
   public int getCutAmountType() {
     return m_iCutAmountType;
   }
-
+  
+  /**
+   * Gets the max snag decay class.
+   * @return Max snag decay class.
+   */
+  public int getMaxSnagDecayClass() {
+    return m_iMaxSnagDecayClass;
+  }
+ 
   /**
    * Sets the cut amount type.
    * @param iCut the cut amount type.  Possible values come from
@@ -290,6 +304,15 @@ public class HarvestData {
    */
   public void writePriority3XML(BufferedWriter jOut) throws IOException {
     m_oPriority1.writeXML(jOut);
+  }
+  
+  /**
+   * Sets the max snag decay class. This doesn't do any validation 
+   * because any value can be used here.
+   * @param iMaxSnagDecayClass
+   */
+  public void setMaxSnagDecayClass(int iMaxSnagDecayClass) {
+    m_iMaxSnagDecayClass = iMaxSnagDecayClass;
   }
   
   /**

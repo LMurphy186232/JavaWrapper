@@ -94,6 +94,9 @@ public class HarvestDisplayWindow
   
   /**Label that displays the priorities*/
   protected JLabel m_jHarvestPriorities = new JLabel("");
+  
+  /**Label that displays the max snag decay class*/
+  protected JLabel m_jMaxSnagDecayClass = new JLabel("-1");
 
   /**List of species for the currently displayed harvest*/
   protected DefaultListModel<String> m_jSpeciesList = new DefaultListModel<String>();
@@ -151,6 +154,7 @@ public class HarvestDisplayWindow
     m_jNumHarvestEvents.setFont(new SortieFont());
     m_jHarvestPriorities.setFont(new SortieFont());
     m_jCutOrderFlagLabel.setFont(new SortieFont());
+    m_jMaxSnagDecayClass.setFont(new SortieFont());
         
     //Create a panel down the left side that holds information about the
     //harvest being displayed.  Each of the pieces of data gets its own
@@ -332,6 +336,17 @@ public class HarvestDisplayWindow
     jPanel.add(jLabel);
     m_jHarvestPriorities.setAlignmentX(Component.LEFT_ALIGNMENT);
     jPanel.add(m_jHarvestPriorities);
+    jHarvestPanel.add(jPanel);
+    
+    // Max snag decay class
+    jLabel = new JLabel("Max snag decay class (-1 = no snags):");
+    jLabel.setFont(new SortieFont(Font.BOLD));
+    jLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    jPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(jLabel);
+    m_jMaxSnagDecayClass.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jPanel.add(m_jMaxSnagDecayClass);
     jHarvestPanel.add(jPanel);
     
     //Seedling mortality rate
@@ -647,6 +662,7 @@ public class HarvestDisplayWindow
       m_jCutRange4Max.setText("0");
       m_jCutRange4Min.setText("0");
       m_jHarvestPriorities.setText("None");
+      m_jMaxSnagDecayClass.setText("-1");
     }
     else {
 
@@ -780,6 +796,9 @@ public class HarvestDisplayWindow
         m_jCutRange4Max.setText("0");
         m_jCutRange4Min.setText("0");
       }
+      
+      //Max snag decay class
+      m_jMaxSnagDecayClass.setText(String.valueOf(oHarvest.getMaxSnagDecayClass()));
 
       //Now add in those values in the harvest data cells with a value of 1
       for (i = 0; i < oHarvest.getNumberOfCells(); i++) {
