@@ -262,6 +262,19 @@ public class EpisodicMortality extends Behavior {
               + "\"."));
         }
         jOut.write("</ds_cutAmountType>");
+        
+        //Write out the snag max decay class, if greater than -1
+        iTemp = oData.getMaxSnagDecayClass();
+        if (iTemp > -1) {
+          jOut.write("<ds_maxSnagDecayClass>" + iTemp + "</ds_maxSnagDecayClass>");
+        }
+        
+        // Write out the flag for cutting tallest first
+        //if (oData.getTallestFirstFlag()) {
+        //  jOut.write("<ds_tallestFirst>1</ds_tallestFirst>");
+        //} else {
+        //  jOut.write("<ds_tallestFirst>0</ds_tallestFirst>");
+        //}
 
         // Write the cut ranges
         iTemp = oData.getNumberOfCutRanges();
@@ -513,6 +526,15 @@ public class EpisodicMortality extends Behavior {
 
         return true;
       }
+      else if (sXMLTag.equals("ds_maxSnagDecayClass")) {
+        // Extract the value
+        int iVal = Integer.valueOf(String.valueOf(oData)).intValue();
+        // Assign it
+        HarvestData oHarvest = mp_oMortEpisodes.get(mp_oMortEpisodes.size() - 1);
+        oHarvest.setMaxSnagDecayClass(iVal);
+        
+        return true;
+      }  
     }
     return super.setSingleValueByXMLTag(sXMLTag, sXMLParentTag, oAttributes,
         oData);
@@ -788,6 +810,9 @@ public class EpisodicMortality extends Behavior {
         else if (oData.getCutAmountType() == HarvestData.ABSOLUTE_BASAL_AREA) jOut.write("Amount basal area\n");
         else if (oData.getCutAmountType() == HarvestData.ABSOLUTE_DENSITY) jOut.write("Amount density\n");
 
+        jOut.write("Max snag decay class:\t");
+        jOut.write(oData.getMaxSnagDecayClass() + "\n");
+        
         if (oData.getNumberOfCutRanges() > 0) {
           jOut.write("Cut ranges:\nMin DBH\tMax DBH\tAmount to cut\n");
           for (int i = 0; i < oData.getNumberOfCutRanges(); i++) {

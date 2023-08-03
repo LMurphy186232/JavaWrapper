@@ -6,7 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.Dimension;
 
@@ -87,6 +89,9 @@ public class MortalityEpisodeDisplayWindow
   /**Label that displays the cut range 4 amount for the currently displayed mortality episode*/
   protected JLabel m_jCutRange4Amt = new JLabel("0");
   
+  /**Label that displays the max snag decay class*/
+  protected JLabel m_jMaxSnagDecayClass = new JLabel("-1");
+  
   /**List of species for the currently displayed mortality episode*/
   protected DefaultListModel<String> m_jSpeciesList = new DefaultListModel<String>();
   
@@ -143,6 +148,7 @@ public class MortalityEpisodeDisplayWindow
     m_jMortEpNumber.setFont(new SortieFont());
     m_jTimestepLabel.setFont(new SortieFont());
     m_jNumMortEpEvents.setFont(new SortieFont());
+    m_jMaxSnagDecayClass.setFont(new SortieFont());
    
     //Create a panel down the left side that holds information about the
     //episode being displayed.
@@ -295,6 +301,17 @@ public class MortalityEpisodeDisplayWindow
     jTempPanel2.add(jMortEpCutRangePanel);
     jTempPanel2.setBorder(BorderFactory.createEmptyBorder(0, 5, 5, 5));
     jMortEpPanel.add(jTempPanel2);
+    
+    // Max snag decay class
+    jTempLabel = new JLabel("Max snag decay class (-1 = no snags):");
+    jTempLabel.setFont(new SortieFont(Font.BOLD));
+    jTempLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jTempPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    jTempPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jTempPanel.add(jTempLabel);
+    m_jMaxSnagDecayClass.setAlignmentX(Component.LEFT_ALIGNMENT);
+    jTempPanel.add(m_jMaxSnagDecayClass);
+    jMortEpPanel.add(jTempPanel);
     
     //Seedling mortality rate
     JLabel jSpeciesLabel = new JLabel("Seedling mortality rate:");
@@ -608,6 +625,7 @@ public class MortalityEpisodeDisplayWindow
       m_jCutRange4Amt.setText("0");
       m_jCutRange4Max.setText("0");
       m_jCutRange4Min.setText("0");
+      m_jMaxSnagDecayClass.setText("-1");
     }
     else {
 
@@ -694,6 +712,9 @@ public class MortalityEpisodeDisplayWindow
         m_jCutRange4Max.setText("0");
         m_jCutRange4Min.setText("0");
       }
+      
+      //Max snag decay class
+      m_jMaxSnagDecayClass.setText(String.valueOf(oEpisode.getMaxSnagDecayClass()));
 
       //Now set the cells in the mortality episode to true
       for (i = 0; i < oEpisode.getNumberOfCells(); i++) {

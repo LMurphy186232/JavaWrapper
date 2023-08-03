@@ -69,6 +69,9 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
   protected JTextField m_jCutRange3Amt = new JTextField();
   /** Edit box where the cut range 4 cut amount is entered */
   protected JTextField m_jCutRange4Amt = new JTextField();
+  
+  /** Edit box where the max snag decay class is entered */
+  protected JTextField m_jMaxSnagDecayClass = new JTextField();
 
   /** Combo box where cut type is selected */
   protected JComboBox<String> m_jCutType = new JComboBox<String>(new String[] {
@@ -312,6 +315,9 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
         mp_fSeedlingMortRate[i] = oToDisplay.getSeedlingMortRate(i);
       }
     }
+    
+    // Set snag max decay class
+    m_jMaxSnagDecayClass.setText(String.valueOf(oToDisplay.getMaxSnagDecayClass()));
 
     // Refresh the display
     refreshChart();
@@ -416,6 +422,7 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     m_jPriority1Max.setFont(new SortieFont());
     m_jPriority2Max.setFont(new SortieFont());
     m_jPriority3Max.setFont(new SortieFont());
+    m_jMaxSnagDecayClass.setFont(new SortieFont());
 
     // *************************
     // Choices panel
@@ -536,6 +543,19 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
     jButton.setActionCommand("Seedling Mortality");
     jButton.addActionListener(this);
     jDataPanel.add(jButton);
+    
+    // Max snag decay class
+    jTempLabel = new JLabel("Max snag decay class to cut (-1 = no snags):");
+    jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jTempLabel.setFont(new SortieFont(java.awt.Font.BOLD));
+    JPanel jSnagPanel = new JPanel();
+    jSnagPanel.setLayout(new BoxLayout(jSnagPanel, BoxLayout.PAGE_AXIS));
+    jSnagPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    m_jMaxSnagDecayClass.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jSnagPanel.add(jTempLabel);
+    jSnagPanel.add(m_jMaxSnagDecayClass);
+    jDataPanel.add(jSnagPanel);
+    m_jMaxSnagDecayClass.setText("-1");
         
     //jDataPanel.add(makeEventsDisplay());
     JPanel jLeftPanel = new JPanel(new BorderLayout());
@@ -660,6 +680,18 @@ public class HarvestEdit extends EditWindowBase implements ActionListener {
       throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "Invalid timestep."));
     }
     oNewHarvest.setTimestep(iTemp);
+    
+    // Set the max snag decay class,
+    sTemp = m_jMaxSnagDecayClass.getText().trim();
+    iTemp = -1; //Allow a default if it's not filled in
+    if (sTemp.length() > 0) {      
+      try {
+        iTemp = Integer.parseInt(sTemp);
+      } catch (java.lang.NumberFormatException oEx) {
+        throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "Invalid max snag decay class."));
+      }
+    }
+    oNewHarvest.setMaxSnagDecayClass(iTemp);
 
     // Set the species
     for (i = 0; i < mp_jSpeciesChex.length; i++) {

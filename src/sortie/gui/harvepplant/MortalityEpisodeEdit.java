@@ -65,6 +65,9 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
   protected JTextField m_jCutRange3Amt = new JTextField();
   /** Edit box where the cut range 4 cut amount is entered */
   protected JTextField m_jCutRange4Amt = new JTextField();
+  
+  /** Edit box where the max snag decay class is entered */
+  protected JTextField m_jMaxSnagDecayClass = new JTextField();
 
   /**Radio button for percent of density*/
   protected JRadioButton m_jPercentDensityButton = new JRadioButton(
@@ -193,6 +196,9 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
     for (i = 0; i < mp_fSeedlingMortRate.length; i++) {
       mp_fSeedlingMortRate[i] = oToDisplay.getSeedlingMortRate(i);
     }
+    
+    // Set snag max decay class
+    m_jMaxSnagDecayClass.setText(String.valueOf(oToDisplay.getMaxSnagDecayClass()));
 
     // Refresh the display
     refreshChart();
@@ -226,6 +232,7 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
     m_jCutRange2MaxDBH.setFont(new SortieFont());
     m_jCutRange3MaxDBH.setFont(new SortieFont());
     m_jCutRange4MaxDBH.setFont(new SortieFont());    
+    m_jMaxSnagDecayClass.setFont(new SortieFont());
 
     // *************************
     // Choices panel
@@ -368,6 +375,19 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
     jSpacerPanel.add(jButton, BorderLayout.NORTH);
     jDataPanel.add(jButton);
     
+    // Max snag decay class
+    jTempLabel = new JLabel("Max snag decay class to kill (-1 = no snags):");
+    jTempLabel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jTempLabel.setFont(new SortieFont(java.awt.Font.BOLD));
+    JPanel jSnagPanel = new JPanel();
+    jSnagPanel.setLayout(new BoxLayout(jSnagPanel, BoxLayout.PAGE_AXIS));
+    jSnagPanel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    m_jMaxSnagDecayClass.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    jSnagPanel.add(jTempLabel);
+    jSnagPanel.add(m_jMaxSnagDecayClass);
+    jDataPanel.add(jSnagPanel);
+    m_jMaxSnagDecayClass.setText("-1");
+    
     jDataPanel.add(makeEventsDisplay());
     
         
@@ -437,6 +457,18 @@ public class MortalityEpisodeEdit extends EditWindowBase implements ActionListen
       throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "Invalid timestep."));
     }
     oNewEpisode.setTimestep(iTemp);
+    
+    // Set the max snag decay class,
+    sTemp = m_jMaxSnagDecayClass.getText().trim();
+    iTemp = -1; //Allow a default if it's not filled in
+    if (sTemp.length() > 0) {      
+      try {
+        iTemp = Integer.parseInt(sTemp);
+      } catch (java.lang.NumberFormatException oEx) {
+        throw(new ModelException(ErrorGUI.BAD_DATA, "JAVA", "Invalid max snag decay class."));
+      }
+    }
+    oNewEpisode.setMaxSnagDecayClass(iTemp);
 
     //Set the species
     for (i = 0; i < mp_jSpeciesChex.length; i++) {
