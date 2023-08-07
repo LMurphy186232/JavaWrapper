@@ -39,24 +39,40 @@ protected ModelFloat m_fLatitude = new ModelFloat(0,
 protected ModelFloat m_fMeanAnnualPrecipMm = new ModelFloat(0,
   "Annual Precipitation, mm", "plot_precip_mm_yr");
 
+/**Mean long-term annual precipitation, mm*/
+protected ModelFloat m_fLTMAnnualPrecipMm = new ModelFloat(0,
+  "Long-term Mean Annual Precipitation, mm", "plot_ltm_precip");
+
 /**Seasonal precipitation*/
 protected ModelFloat m_fSeasonalPrecip = new ModelFloat(0,
     "Seasonal Precipitation", "plot_seasonal_precipitation");
+
+/**Long-term Mean Seasonal precipitation*/
+protected ModelFloat m_fLTMSeasonalPrecip = new ModelFloat(0,
+    "Long-term Mean Seasonal Precipitation", "plot_ltm_seasonal_precipitation");
 
 /**Water deficit*/
 protected ModelFloat m_fWaterDeficit = new ModelFloat(0,
     "Water Deficit", "plot_water_deficit");
 
+/**Long-term Mean Water deficit*/
+protected ModelFloat m_fLTMWaterDeficit = new ModelFloat(0,
+    "Long-term Mean Water Deficit", "plot_ltm_water_deficit");
+
 /**Mean annual temperature, degrees Celsius*/
 protected ModelFloat m_fMeanAnnualTempC = new ModelFloat(0,
   "Mean Annual Temperature, degrees C", "plot_temp_C");
+
+/**Long-term Mean annual temperature, degrees Celsius*/
+protected ModelFloat m_fLTMAnnualTempC = new ModelFloat(0,
+  "Long-term Mean Annual Temperature", "plot_ltm_temp");
 
 /**Annual nitrogen deposition */
 protected ModelFloat m_fAnnualNDep = new ModelFloat(0,
     "Annual Nitrogen Deposition", "plot_n_dep");
 
-/**Number of years per timestep - default to 5, the old value*/
-protected ModelFloat m_fNumberOfYearsPerTimestep = new ModelFloat(5,
+/**Number of years per timestep*/
+protected ModelFloat m_fNumberOfYearsPerTimestep = new ModelFloat(1,
   "Number of years per timestep", "yearsPerTimestep");
 
 /**Number of timesteps for the run*/
@@ -98,6 +114,10 @@ protected ModelInt m_iCurrentTimestep = new ModelInt(0, "Current Timestep",
     mp_oAllData.add(m_fWaterDeficit);
     mp_oAllData.add(m_fMeanAnnualTempC);
     mp_oAllData.add(m_fAnnualNDep);
+    mp_oAllData.add(m_fLTMAnnualPrecipMm);
+    mp_oAllData.add(m_fLTMSeasonalPrecip);
+    mp_oAllData.add(m_fLTMWaterDeficit);
+    mp_oAllData.add(m_fLTMAnnualTempC);
     mp_oAllData.add(m_sPlotTitle);
   }
   

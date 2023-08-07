@@ -33,6 +33,14 @@ public class TestPlot extends ModelTestCase {
       assertEquals(1150.645781, oPlot.m_fMeanAnnualPrecipMm.getValue(), 0.0001);
       assertEquals(12.88171785, oPlot.m_fMeanAnnualTempC.getValue(), 0.0001);
       assertEquals(55.37, oPlot.m_fLatitude.getValue(), 0.0001);
+      
+      assertEquals(0, oPlot.m_fSeasonalPrecip.getValue(), 0.0001);
+      assertEquals(0, oPlot.m_fWaterDeficit.getValue(), 0.0001);
+      assertEquals(0, oPlot.m_fAnnualNDep.getValue(), 0.0001);
+      assertEquals(0, oPlot.m_fLTMAnnualPrecipMm.getValue(), 0.0001);
+      assertEquals(0, oPlot.m_fLTMSeasonalPrecip.getValue(), 0.0001);
+      assertEquals(0, oPlot.m_fLTMWaterDeficit.getValue(), 0.0001);
+      assertEquals(0, oPlot.m_fLTMAnnualTempC.getValue(), 0.0001);
       assertEquals("Test Plot 2", oPlot.m_sPlotTitle.getValue());    
     }
     catch (ModelException oErr) {
@@ -47,7 +55,46 @@ public class TestPlot extends ModelTestCase {
   }
 
   /**
-   * This makes sure that multiple plot behaviors are not created.
+   * Test a full parameter file read.
+   */
+  public void testReadParameterFile() {
+    GUIManager oManager = null;
+    String sFileName = null;
+    try {
+      oManager = new GUIManager(null);
+      oManager.clearCurrentData();
+      sFileName = writeNeutralFile2();
+      oManager.inputXMLParameterFile(sFileName);
+      Plot oPlot = oManager.getPlot();
+      
+      assertEquals(2, oPlot.getNumberOfTimesteps());
+      assertEquals(1.0, oPlot.getNumberOfYearsPerTimestep(), 0.0001);
+      assertEquals(1, oPlot.m_iRandomSeed.getValue());
+      assertEquals(162.0, oPlot.getPlotXLength(), 0.0001);
+      assertEquals(203.0, oPlot.getPlotYLength(), 0.0001);
+      assertEquals(1150.645781, oPlot.m_fMeanAnnualPrecipMm.getValue(), 0.0001);
+      assertEquals(12.88171785, oPlot.m_fMeanAnnualTempC.getValue(), 0.0001);
+      assertEquals(55.37, oPlot.m_fLatitude.getValue(), 0.0001);
+      
+      assertEquals(1001, oPlot.m_fLTMAnnualPrecipMm.getValue(), 0.0001);
+      assertEquals(13.1, oPlot.m_fLTMAnnualTempC.getValue(), 0.0001);
+      assertEquals(3.7, oPlot.m_fAnnualNDep.getValue(), 0.0001);
+      assertEquals(987.1, oPlot.m_fSeasonalPrecip.getValue(), 0.0001);
+      assertEquals(783.8, oPlot.m_fLTMSeasonalPrecip.getValue(), 0.0001);
+      assertEquals(9334.2, oPlot.m_fWaterDeficit.getValue(), 0.001);
+      assertEquals(764.24, oPlot.m_fLTMWaterDeficit.getValue(), 0.0001);
+      
+    }
+    catch (ModelException oErr) {
+      fail("Caught error with message " + oErr.getMessage());
+    }
+    catch (java.io.IOException oE) {
+      fail("Caught IOException.  Message: " + oE.getMessage());
+    }
+  }
+  
+  /**
+   * Test a full file read.
    */
   public void testcreateBehaviorFromParameterFileTag() {
     GUIManager oManager = null;
@@ -79,13 +126,7 @@ public class TestPlot extends ModelTestCase {
   }
   
   /**
-   * Writes a tree map file.  There are all four kinds of data members.  This
-   * is actually a parameter file with a grid map in it.
-   * @return The file name.
-   * @throws ModelException
-   */
-  /**
-   * Writes a file with no analysis behaviors.
+   * Writes a file without much in it.
    * @return String Filename written.
    * @throws IOException if there is a problem writing the file.
    */
@@ -101,6 +142,112 @@ public class TestPlot extends ModelTestCase {
     oOut.write("<randomSeed>1</randomSeed>");
     oOut.write("<plot_lenX>200.0</plot_lenX>");
     oOut.write("<plot_lenY>200.0</plot_lenY>");
+    oOut.write("<plot_latitude>55.37</plot_latitude>");
+    oOut.write("</plot>");
+    oOut.write("<trees>");
+    oOut.write("<tr_speciesList>");
+    oOut.write("<tr_species speciesName=\"Species_1\" />");
+    oOut.write("<tr_species speciesName=\"Species_2\" />");
+    oOut.write("<tr_species speciesName=\"Species_3\" />");
+    oOut.write("</tr_speciesList>");
+    oOut.write("<tr_seedDiam10Cm>0.1</tr_seedDiam10Cm>");
+    oOut.write("<tr_minAdultDBH>");
+    oOut.write("<tr_madVal species=\"Species_1\">0.0</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Species_2\">0.0</tr_madVal>");
+    oOut.write("<tr_madVal species=\"Species_3\">0.0</tr_madVal>");
+    oOut.write("</tr_minAdultDBH>");
+    oOut.write("</trees>");
+    oOut.write("<allometry>");
+    oOut.write("<tr_canopyHeight>");
+    oOut.write("<tr_chVal species=\"Species_1\">39.48</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Species_2\">39.54</tr_chVal>");
+    oOut.write("<tr_chVal species=\"Species_3\">45</tr_chVal>");
+    oOut.write("</tr_canopyHeight>");
+    oOut.write("<tr_stdAsympCrownRad>");
+    oOut.write("<tr_sacrVal species=\"Species_1\">0.0549</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Species_2\">0.0549</tr_sacrVal>");
+    oOut.write("<tr_sacrVal species=\"Species_3\">0.0549</tr_sacrVal>");
+    oOut.write("</tr_stdAsympCrownRad>");
+    oOut.write("<tr_stdCrownRadExp>");
+    oOut.write("<tr_screVal species=\"Species_1\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Species_2\">1.0</tr_screVal>");
+    oOut.write("<tr_screVal species=\"Species_3\">1.0</tr_screVal>");
+    oOut.write("</tr_stdCrownRadExp>");
+    oOut.write("<tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_cdtdVal species=\"Species_1\">0.8008</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Species_2\">0.8008</tr_cdtdVal>");
+    oOut.write("<tr_cdtdVal species=\"Species_3\">0.8008</tr_cdtdVal>");
+    oOut.write("</tr_conversionDiam10ToDBH>");
+    oOut.write("<tr_stdAsympCrownHt>");
+    oOut.write("<tr_sachVal species=\"Species_1\">0.389</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Species_2\">0.389</tr_sachVal>");
+    oOut.write("<tr_sachVal species=\"Species_3\">0.389</tr_sachVal>");
+    oOut.write("</tr_stdAsympCrownHt>");
+    oOut.write("<tr_stdCrownHtExp>");
+    oOut.write("<tr_scheVal species=\"Species_1\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Species_2\">1.0</tr_scheVal>");
+    oOut.write("<tr_scheVal species=\"Species_3\">1.0</tr_scheVal>");
+    oOut.write("</tr_stdCrownHtExp>");
+    oOut.write("<tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_sohdVal species=\"Species_1\">0.03418</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Species_2\">0.03418</tr_sohdVal>");
+    oOut.write("<tr_sohdVal species=\"Species_3\">0.03418</tr_sohdVal>");
+    oOut.write("</tr_slopeOfHeight-Diam10>");
+    oOut.write("<tr_slopeOfAsymHeight>");
+    oOut.write("<tr_soahVal species=\"Species_1\">0.0299</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Species_2\">0.0241</tr_soahVal>");
+    oOut.write("<tr_soahVal species=\"Species_3\">0.0263</tr_soahVal>");
+    oOut.write("</tr_slopeOfAsymHeight>");
+    oOut.write("</allometry>");
+    
+    oOut.write("<behaviorList>");
+    oOut.write("<behavior>");
+    oOut.write("<behaviorName>ConstantGLI</behaviorName>");
+    oOut.write("<version>1</version>");
+    oOut.write("<listPosition>1</listPosition>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_1\" type=\"Sapling\"/>");
+    oOut.write("<applyTo species=\"Species_2\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_2\" type=\"Sapling\"/>");
+    oOut.write("<applyTo species=\"Species_3\" type=\"Adult\"/>");
+    oOut.write("<applyTo species=\"Species_3\" type=\"Sapling\"/>");
+    oOut.write("</behavior>");
+    oOut.write("</behaviorList>");
+    oOut.write("<ConstantGLI1>");
+    oOut.write("<li_constGLI>12.5</li_constGLI>");
+    oOut.write("</ConstantGLI1>");
+    oOut.write("</paramFile>");
+
+    oOut.close();
+    return sFileName;
+  }
+  
+  /**
+   * Writes a file with all possible climate variables.
+   * @return String Filename written.
+   * @throws IOException if there is a problem writing the file.
+   */
+  private String writeNeutralFile2() throws IOException {
+    String sFileName = "\\loratestxml1.xml";
+    FileWriter oOut = new FileWriter(sFileName);
+
+    oOut.write("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>");
+    oOut.write("<paramFile fileCode=\"07010101\">");
+    oOut.write("<plot>");
+    oOut.write("<timesteps>2</timesteps>");
+    oOut.write("<yearsPerTimestep>1</yearsPerTimestep>");
+    oOut.write("<randomSeed>1</randomSeed>");
+    oOut.write("<plot_lenX>162.0</plot_lenX>");
+    oOut.write("<plot_lenY>203.0</plot_lenY>");
+    oOut.write("<plot_precip_mm_yr>1150.645781</plot_precip_mm_yr>");
+    oOut.write("<plot_temp_C>12.88171785</plot_temp_C>");
+    oOut.write("<plot_ltm_precip>1001</plot_ltm_precip>");
+    oOut.write("<plot_ltm_temp>13.1</plot_ltm_temp>");
+    oOut.write("<plot_n_dep>3.7</plot_n_dep>");
+    oOut.write("<plot_seasonal_precipitation>987.1</plot_seasonal_precipitation>");
+    oOut.write("<plot_ltm_seasonal_precipitation>783.8</plot_ltm_seasonal_precipitation>");
+    oOut.write("<plot_water_deficit>9334.2</plot_water_deficit>");
+    oOut.write("<plot_ltm_water_deficit>764.24</plot_ltm_water_deficit>");
     oOut.write("<plot_latitude>55.37</plot_latitude>");
     oOut.write("</plot>");
     oOut.write("<trees>");
