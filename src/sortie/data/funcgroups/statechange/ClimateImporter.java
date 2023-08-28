@@ -13,8 +13,10 @@ import sortie.data.funcgroups.Plot;
 import sortie.data.funcgroups.TreePopulation;
 import sortie.data.funcgroups.ValidationHelpers;
 import sortie.data.simpletypes.ModelData;
+import sortie.data.simpletypes.ModelEnum;
 import sortie.data.simpletypes.ModelException;
 import sortie.data.simpletypes.ModelFloat;
+import sortie.data.simpletypes.ModelInt;
 import sortie.data.simpletypes.ModelVector;
 import sortie.gui.ErrorGUI;
 import sortie.gui.GUIManager;
@@ -82,13 +84,36 @@ public class ClimateImporter extends Behavior {
   protected ModelFloat m_fAWS = new ModelFloat(0,
       "Available Water Storage in Top 100 cm Soil", "sc_ciAWS");
   
+  /** Whether to do annual numbers based on calendar year or growing season */
+  protected ModelEnum m_bCalendarYear = 
+      new ModelEnum(new int[] { 1, 0 }, new String[] { "Calendar year (Jan-Dec)",
+  "Growing season (Oct-Sep)" }, "Annual values based on?", "sc_ciCalendarMean");
+  
+  /** Length of long term means */
+  protected ModelInt m_iLTM = 
+      new ModelInt(0, 
+          "Length of long term mean to calculate (0 = no LTM)", "sc_ciLTM");
+  
   /**Monthly temperature data - first index = month, second = timestep*/
   protected double[][] mp_fTemp;
   
   /**Monthly precipitation data - first index = month, second = timestep*/
   protected double[][] mp_fPpt;
-
-
+  
+  /**Monthly pre-run temperature data - first index = month, 
+   * second = timestep. I have arbitrarily decided to enforce that the number
+   * of timesteps of data before the run (i.e. needed by long-term mean)
+   * can't be more than the number of timesteps. I'm not going to fiddle 
+   * with resizing this array all the time.*/
+  protected double[][] mp_fPreTemp;
+  
+  /**Monthly pre-run precipitation data - first index = month, 
+   * second = timestep. I have arbitrarily decided to enforce that the number
+   * of timesteps of data before the run (i.e. needed by long-term mean)
+   * can't be more than the number of timesteps. I'm not going to fiddle 
+   * with resizing this array all the time.*/
+  protected double[][] mp_fPrePpt;
+  
   /**
    * Constructor.
    * @param oManager GUIManager object
@@ -99,7 +124,7 @@ public class ClimateImporter extends Behavior {
    * @param sXMLRootString XML tag to surround this behavior's data.
    */
   public ClimateImporter(GUIManager oManager, BehaviorTypeBase oParent, String sDescriptor, String sParFileTag, String sXMLRootString) throws ModelException {
-    super(oManager, oParent, sDescriptor, sParFileTag, sXMLRootString, "state_change_behaviors.seasonal_water_deficit");
+    super(oManager, oParent, sDescriptor, sParFileTag, sXMLRootString, "state_change_behaviors.ClimateImporter");
 
     m_bMustHaveTrees = false; 
     
@@ -116,11 +141,28 @@ public class ClimateImporter extends Behavior {
     addRequiredData(m_fRadNov);
     addRequiredData(m_fRadDec);
     addRequiredData(m_fAWS);
+    addRequiredData(m_bCalendarYear);
+    addRequiredData(m_iLTM);
     
-    // Get the number of timesteps
+    m_bCalendarYear.setValue(1);
+    
+    //----- Size data arrays to number of timesteps -------------------------//
     Plot oPlot = oManager.getPlot();
-    mp_fTemp = new double[12][oPlot.getNumberOfTimesteps()];
-    mp_fPpt = new double[12][oPlot.getNumberOfTimesteps()];
+    mp_fTemp    = new double[12][oPlot.getNumberOfTimesteps()];
+    mp_fPpt     = new double[12][oPlot.getNumberOfTimesteps()];
+    mp_fPreTemp = new double[12][oPlot.getNumberOfTimesteps()];
+    mp_fPrePpt  = new double[12][oPlot.getNumberOfTimesteps()];
+    
+    //----- Initialize so we know whether they've been set or not -----------//
+    int i, j;
+    for (i = 0; i < mp_fTemp.length; i++) {
+      for (j = 0; j < mp_fTemp[0].length; j++) {
+        mp_fTemp   [i][j] = -999;
+        mp_fPpt    [i][j] = -999;
+        mp_fPreTemp[i][j] = -999;
+        mp_fPrePpt [i][j] = -999;
+      }
+    }
   }
 
   /**
@@ -130,6 +172,8 @@ public class ClimateImporter extends Behavior {
    * @param oPop Not used.
    */
   public void validateData(TreePopulation oPop) throws ModelException {
+    int i, j;
+    
     ValidationHelpers.makeSureGreaterThanEqualTo(m_fAWS, 0);
     ValidationHelpers.makeSureGreaterThanEqualTo(m_fRadJan, 0);
     ValidationHelpers.makeSureGreaterThanEqualTo(m_fRadFeb, 0);
@@ -144,46 +188,98 @@ public class ClimateImporter extends Behavior {
     ValidationHelpers.makeSureGreaterThanEqualTo(m_fRadNov, 0);
     ValidationHelpers.makeSureGreaterThanEqualTo(m_fRadDec, 0);
     
-    int i, j;
+    ValidationHelpers.makeSureGreaterThan(m_iLTM, -1);
+    
+    //-----------------------------------------------------------------------//
+    // Check to see if the number of timesteps changed. If there are more than
+    // there used to be, resize the array to the new number and throw an error
+    // so the user knows to come fill these in. (If there are less than there
+    // used to be, no big deal; we will truncate the extra)
+    //-----------------------------------------------------------------------//
+    Plot oPlot = m_oManager.getPlot();
+    if (mp_fTemp[0].length < oPlot.getNumberOfTimesteps()) {
+      
+      //----- Need to add more timesteps of data ----------------------------//
+      //----- Copy the existing arrays --------------------------------------//
+      double[][] p_fTempBak = new double[mp_fTemp.length][mp_fTemp[1].length];
+      double[][] p_fPptBak = new double[mp_fPpt.length][mp_fPpt[1].length];
+      double[][] p_fPreTempBak = new double[mp_fPreTemp.length][mp_fPreTemp[1].length];
+      double[][] p_fPrePptBak = new double[mp_fPrePpt.length][mp_fPrePpt[1].length];
+      for (i = 0; i < mp_fTemp.length; i++) {
+        for (j = 0; j < mp_fTemp[i].length; j++) {
+          p_fTempBak   [i][j] = mp_fTemp   [i][j];
+          p_fPptBak    [i][j] = mp_fPpt    [i][j];
+          p_fPreTempBak[i][j] = mp_fPreTemp[i][j];
+          p_fPrePptBak [i][j] = mp_fPrePpt [i][j];
+        }
+      }
+      
+      //----- Resize arrays -------------------------------------------------//
+      mp_fTemp    = new double[12][oPlot.getNumberOfTimesteps()];
+      mp_fPpt     = new double[12][oPlot.getNumberOfTimesteps()];
+      mp_fPreTemp = new double[12][oPlot.getNumberOfTimesteps()];
+      mp_fPrePpt  = new double[12][oPlot.getNumberOfTimesteps()];
+      
+      //----- Pre-fill with "null" values so we know what's not been entered //
+      for (i = 0; i < mp_fTemp.length; i++) {
+        for (j = 0; j < mp_fTemp[0].length; j++) {
+          mp_fTemp   [i][j] = -999;
+          mp_fPpt    [i][j] = -999;
+          mp_fPreTemp[i][j] = -999;
+          mp_fPrePpt [i][j] = -999;
+        }
+      }
+      
+      
+      //----- Copy over existing values back into arrays --------------------//
+      for (i = 0; i < p_fTempBak.length; i++) {
+        for (j = 0; j < p_fTempBak[i].length; j++) {
+          mp_fTemp   [i][j] = p_fTempBak   [i][j];
+          mp_fPpt    [i][j] = p_fPptBak    [i][j];
+          mp_fPreTemp[i][j] = p_fPreTempBak[i][j];
+          mp_fPrePpt [i][j] = p_fPrePptBak [i][j];
+        }
+      }      
+    }
+    
+    //----- Make sure we have values for all timesteps ----------------------//
     for (i = 0; i < mp_fTemp.length; i++) {
       for (j = 0; j < mp_fTemp[i].length; j++) {
-        if (mp_fPpt[i][j] < 0) {
+        if (mp_fPpt[i][j] < 0 && mp_fPpt[i][j] >= -500) {
           throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
               "Precipitation values for Climate Importer cannot be negative."));
+        }
+        if (mp_fTemp[i][j] < -500 || mp_fPpt[i][j] < -500) {
+          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+            "The Climate Importer is missing values for some timesteps" +
+           "(month " + (i + 1) + " year " + (j + 1) + ")."));
         }
       }
     }
     
-    // Check to see if the number of timesteps changed. If there are more than there
-    // used to be, resize the array to the new number and throw an error so the user
-    // knows to come fill these in. (If there are less than there used to be, no big
-    // deal; we will truncate the extra)
-    Plot oPlot = m_oManager.getPlot();
-    if (mp_fTemp[0].length < oPlot.getNumberOfTimesteps()) {
-      double[][] p_fTempBak = new double[mp_fTemp.length][mp_fTemp[1].length];
-      double[][] p_fPptBak = new double[mp_fPpt.length][mp_fPpt[1].length];
+    //----- If we are doing long-term means, do the same thing --------------//
+    if (m_iLTM.getValue() > 0) {
+      int iArraySize = m_iLTM.getValue()-1;
+      
+      //----- How many timesteps of data do we expect? ----------------------//
+      if (m_bCalendarYear.getValue() == 0) {
+        iArraySize++;
+      }
       for (i = 0; i < mp_fTemp.length; i++) {
-        for (j = 0; j < mp_fTemp[i].length; j++) {
-          p_fTempBak[i][j] = mp_fTemp[i][j];
-          p_fPptBak[i][j] = mp_fPpt[i][j];
+        for (j = 0; j < iArraySize; j++) {
+          if (mp_fPrePpt[i][j] < 0 && mp_fPrePpt[i][j] >= -500) {
+            throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+                "Precipitation values for Climate Importer cannot be negative."));
+          }
+          if (mp_fPreTemp[i][j] < -500 || mp_fPrePpt[i][j] < -500) {
+            throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+                "The Climate Importer is missing values for some timesteps" +
+                    "needed to calculate long-term mean (month " + 
+                    (i + 1) + " year -" + (j + 1) + ")."));
+          }
         }
       }
       
-      // Resize arrays and fill in what we already have
-      mp_fTemp = new double[12][oPlot.getNumberOfTimesteps()];
-      mp_fPpt = new double[12][oPlot.getNumberOfTimesteps()];
-      for (i = 0; i < p_fTempBak.length; i++) {
-        for (j = 0; j < mp_fTemp[i].length; j++) {
-          mp_fTemp[i][j] = 0;
-          mp_fPpt[i][j] = 0;
-        }
-        for (j = 0; j < p_fTempBak[i].length; j++) {
-          mp_fTemp[i][j] = p_fTempBak[i][j];
-          mp_fPpt[i][j] = p_fPptBak[i][j];
-        }
-      }
-      throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
-          "The Climate Importer is missing values for some timesteps."));
     }
   }	
   
@@ -215,63 +311,85 @@ public class ClimateImporter extends Behavior {
       boolean[] p_bAppliesTo, org.xml.sax.Attributes oParentAttributes,
       org.xml.sax.Attributes[] p_oAttributes) throws ModelException {
 
+    if (!sXMLTag.startsWith("sc_ciMonthlyTemp") &&
+        !sXMLTag.startsWith("sc_ciMonthlyPpt")) {
+      return super.setVectorValueByXMLTag(sXMLTag, sXMLParentTag, p_oData,
+          p_sChildXMLTags, p_bAppliesTo, oParentAttributes, p_oAttributes);
+    }
+    
+    
+    //if (p_oData.size() != mp_fTemp[0].length) {
+    //  throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+    //      "Too many or too few temperature or precip values for Climate Importer."));  
+    //}
+    Double oValue;
+    int iTS, iMonth = 0, iIndex;
 
-    if (sXMLTag.startsWith("sc_ciMonthlyTemp") ||
-        sXMLTag.startsWith("sc_ciMonthlyPpt")) {
-      if (p_oData.size() != mp_fTemp[0].length) {
+    if (sXMLTag.endsWith("Jan")) iMonth = 0;
+    else if (sXMLTag.endsWith("Feb")) iMonth = 1;
+    else if (sXMLTag.endsWith("Mar")) iMonth = 2;
+    else if (sXMLTag.endsWith("Apr")) iMonth = 3;
+    else if (sXMLTag.endsWith("May")) iMonth = 4;
+    else if (sXMLTag.endsWith("Jun")) iMonth = 5;
+    else if (sXMLTag.endsWith("Jul")) iMonth = 6;
+    else if (sXMLTag.endsWith("Aug")) iMonth = 7;
+    else if (sXMLTag.endsWith("Sep")) iMonth = 8;
+    else if (sXMLTag.endsWith("Oct")) iMonth = 9;
+    else if (sXMLTag.endsWith("Nov")) iMonth = 10;
+    else if (sXMLTag.endsWith("Dec")) iMonth = 11;
+
+    for (int i = 0; i < p_oData.size(); i++) {
+
+      //-----Get the timestep number attribute ------------------------------//
+      try {
+        iTS = Integer.valueOf(p_oAttributes[i].getValue("ts")).intValue();
+      } catch (NumberFormatException e) {
+        //Whoops - wasn't formatted as a number
         throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
-            "Too many or too few temperature or precip values for Climate Importer."));  
+            "Couldn't read monthly timestep value for Climate Importer."));
       }
-      int iTS, iMonth = 0;
-      
-      if (sXMLTag.endsWith("Jan")) iMonth = 0;
-      else if (sXMLTag.endsWith("Feb")) iMonth = 1;
-      else if (sXMLTag.endsWith("Mar")) iMonth = 2;
-      else if (sXMLTag.endsWith("Apr")) iMonth = 3;
-      else if (sXMLTag.endsWith("May")) iMonth = 4;
-      else if (sXMLTag.endsWith("Jun")) iMonth = 5;
-      else if (sXMLTag.endsWith("Jul")) iMonth = 6;
-      else if (sXMLTag.endsWith("Aug")) iMonth = 7;
-      else if (sXMLTag.endsWith("Sep")) iMonth = 8;
-      else if (sXMLTag.endsWith("Oct")) iMonth = 9;
-      else if (sXMLTag.endsWith("Nov")) iMonth = 10;
-      else if (sXMLTag.endsWith("Dec")) iMonth = 11;
-      
-      for (int i = 0; i < p_oData.size(); i++) {
-        try {
-          
-          //Get the timestep number attribute
-          iTS = Integer.valueOf(p_oAttributes[i].getValue("ts")).intValue();
-        } catch (NumberFormatException e) {
-          //Whoops - wasn't formatted as a number
-          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
-              "Couldn't read monthly timestep value for Climate Importer."));
-        }
-        //Make sure timestep is within the range of our array
-        if (iTS < 0 || iTS > mp_fTemp[0].length) {
-          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
-              "Bad monthly temperature timestep value for Climate Importer."));
-        }
-   
-        //Assign the monthly value to the appropriate place
-        try {
-          if (sXMLTag.startsWith("sc_ciMonthlyTemp")) {
-            mp_fTemp[iMonth][iTS-1] = Double.valueOf(p_oData.get(i)).doubleValue();
-          } else {
-            mp_fPpt[iMonth][iTS-1] = Double.valueOf(p_oData.get(i)).doubleValue();
-          }
-              
-        } catch (NumberFormatException e) {
-          //Whoops - wasn't formatted as a number
-          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
-              "Couldn't read monthly temperature or precip value for Climate Importer."));
-        }
+
+      //----- Make sure timestep is within the # timesteps ------------------//
+      // This doesn't strictly have to be an error, but let's do it as a 
+      // double check
+      //if (iTS == 0 || iTS > mp_fTemp[0].length) {
+      //  throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+      //      "Bad monthly temperature timestep value for Climate Importer."));
+      //}
+
+      //----- Parse the value and make sure it's a number -------------------//
+      try {
+        oValue = Double.valueOf(p_oData.get(i));
+      } catch (NumberFormatException e) {
+        //Whoops - wasn't formatted as a number
+        throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+            "Couldn't read monthly temperature or precip value for Climate Importer."));
+      }
+
+      //----- Assign the monthly value to the appropriate place -------------//
+      if (iTS > 0) {
         
+        iIndex = iTS - 1;
+
+        //----- This is a regular value -------------------------------------//
+        if (sXMLTag.startsWith("sc_ciMonthlyTemp")) {
+          mp_fTemp[iMonth][iIndex] = oValue.doubleValue();
+        } else {
+          mp_fPpt[iMonth][iIndex] = oValue.doubleValue();
+        }
+
+      } else {
+
+        //----- This is a value for before the run, for long-term mean ------//
+        iIndex = java.lang.Math.abs(iTS) - 1;
+        if (sXMLTag.startsWith("sc_ciMonthlyTemp")) {
+          mp_fPreTemp[iMonth][iIndex] = oValue.doubleValue();
+        } else {
+          mp_fPrePpt[iMonth][iIndex] = oValue.doubleValue();        
+        }      
       }
-      return true;
-    } 
-    return super.setVectorValueByXMLTag(sXMLTag, sXMLParentTag, p_oData,
-        p_sChildXMLTags, p_bAppliesTo, oParentAttributes, p_oAttributes);
+    }
+    return true;
   }
   
   /**
@@ -291,7 +409,7 @@ public class ClimateImporter extends Behavior {
       Object oData;
       ModelData oDataPiece;
       ModelVector p_oDataVector;
-      int i;
+      int i, j, iPreDatSize = 0;
       for (i = 0; i < mp_oAllData.size(); i++) {
         oData = mp_oAllData.get(i);
         if (oData instanceof ModelVector) {
@@ -304,177 +422,80 @@ public class ClimateImporter extends Behavior {
         }
       }
       
-      // Write monthly temperatures
-      jOut.write("<sc_ciMonthlyTempJan>");
-      for (i = 0; i < mp_fTemp[0].length; i++) {
-        jOut.write("<sc_cimtjanVal ts=\"" + (i+1) + "\">" + mp_fTemp[0][i] +
-            "</sc_cimtjanVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempJan>");
+      String[] mp_tempParentTags = {"sc_ciMonthlyTempJan",
+        "sc_ciMonthlyTempFeb", "sc_ciMonthlyTempMar", "sc_ciMonthlyTempApr", 
+        "sc_ciMonthlyTempMay", "sc_ciMonthlyTempJun", "sc_ciMonthlyTempJul",
+        "sc_ciMonthlyTempAug", "sc_ciMonthlyTempSep", "sc_ciMonthlyTempOct",
+        "sc_ciMonthlyTempNov", "sc_ciMonthlyTempDec"};
       
-      jOut.write("<sc_ciMonthlyTempFeb>");
-      for (i = 0; i < mp_fTemp[1].length; i++) {
-        jOut.write("<sc_cimtfebVal ts=\"" + (i+1) + "\">" + mp_fTemp[1][i] +
-            "</sc_cimtfebVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempFeb>");
+      String[] mp_tempChildTags = {"sc_cimtjanVal", "sc_cimtfebVal",
+          "sc_cimtmarVal", "sc_cimtaprVal", "sc_cimtmayVal", "sc_cimtjunVal",
+          "sc_cimtjulVal", "sc_cimtaugVal", "sc_cimtsepVal", "sc_cimtoctVal",
+          "sc_cimtnovVal", "sc_cimtdecVal"};
       
-      jOut.write("<sc_ciMonthlyTempMar>");
-      for (i = 0; i < mp_fTemp[2].length; i++) {
-        jOut.write("<sc_cimtmarVal ts=\"" + (i+1) + "\">" + mp_fTemp[2][i] +
-            "</sc_cimtmarVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempMar>");
+      String[] mp_pptParentTags = {"sc_ciMonthlyPptJan",
+          "sc_ciMonthlyPptFeb", "sc_ciMonthlyPptMar", "sc_ciMonthlyPptApr", 
+          "sc_ciMonthlyPptMay", "sc_ciMonthlyPptJun", "sc_ciMonthlyPptJul",
+          "sc_ciMonthlyPptAug", "sc_ciMonthlyPptSep", "sc_ciMonthlyPptOct",
+          "sc_ciMonthlyPptNov", "sc_ciMonthlyPptDec"};
       
-      jOut.write("<sc_ciMonthlyTempApr>");
-      for (i = 0; i < mp_fTemp[3].length; i++) {
-        jOut.write("<sc_cimtaprVal ts=\"" + (i+1) + "\">" + mp_fTemp[3][i] +
-            "</sc_cimtaprVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempApr>");
+      String[] mp_pptChildTags = {"sc_cimpjanVal", "sc_cimpfebVal",
+          "sc_cimpmarVal", "sc_cimpaprVal", "sc_cimpmayVal", "sc_cimpjunVal",
+          "sc_cimpjulVal", "sc_cimpaugVal", "sc_cimpsepVal", "sc_cimpoctVal",
+          "sc_cimpnovVal", "sc_cimpdecVal"};
       
-      jOut.write("<sc_ciMonthlyTempMay>");
-      for (i = 0; i < mp_fTemp[4].length; i++) {
-        jOut.write("<sc_cimtmayVal ts=\"" + (i+1) + "\">" + mp_fTemp[4][i] +
-            "</sc_cimtmayVal>");
+      //----- Do we need to write extra steps of data for long-term mean? ---//
+      if (m_iLTM.getValue() > 0) {
+        iPreDatSize = m_iLTM.getValue()-1;
+        
+        //----- How many timesteps of data do we expect? --------------------//
+        if (m_bCalendarYear.getValue() == 0) {
+          iPreDatSize++;
+        }
       }
-      jOut.write("</sc_ciMonthlyTempMay>");
-      
-      jOut.write("<sc_ciMonthlyTempJun>");
-      for (i = 0; i < mp_fTemp[5].length; i++) {
-        jOut.write("<sc_cimtjunVal ts=\"" + (i+1) + "\">" + mp_fTemp[5][i] +
-            "</sc_cimtjunVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempJun>");
-      
-      jOut.write("<sc_ciMonthlyTempJul>");
-      for (i = 0; i < mp_fTemp[6].length; i++) {
-        jOut.write("<sc_cimtjulVal ts=\"" + (i+1) + "\">" + mp_fTemp[6][i] +
-            "</sc_cimtjulVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempJul>");
-      
-      jOut.write("<sc_ciMonthlyTempAug>");
-      for (i = 0; i < mp_fTemp[7].length; i++) {
-        jOut.write("<sc_cimtaugVal ts=\"" + (i+1) + "\">" + mp_fTemp[7][i] +
-            "</sc_cimtaugVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempAug>");
-      
-      jOut.write("<sc_ciMonthlyTempSep>");
-      for (i = 0; i < mp_fTemp[8].length; i++) {
-        jOut.write("<sc_cimtsepVal ts=\"" + (i+1) + "\">" + mp_fTemp[8][i] +
-            "</sc_cimtsepVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempSep>");
-      
-      jOut.write("<sc_ciMonthlyTempOct>");
-      for (i = 0; i < mp_fTemp[9].length; i++) {
-        jOut.write("<sc_cimtoctVal ts=\"" + (i+1) + "\">" + mp_fTemp[9][i] +
-            "</sc_cimtoctVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempOct>");
-      
-      jOut.write("<sc_ciMonthlyTempNov>");
-      for (i = 0; i < mp_fTemp[10].length; i++) {
-        jOut.write("<sc_cimtnovVal ts=\"" + (i+1) + "\">" + mp_fTemp[10][i] +
-            "</sc_cimtnovVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempNov>");
-      
-      jOut.write("<sc_ciMonthlyTempDec>");
-      for (i = 0; i < mp_fTemp[11].length; i++) {
-        jOut.write("<sc_cimtdecVal ts=\"" + (i+1) + "\">" + mp_fTemp[11][i] +
-            "</sc_cimtdecVal>");
-      }
-      jOut.write("</sc_ciMonthlyTempDec>");
       
       
-      // Write monthly precipitation
-      jOut.write("<sc_ciMonthlyPptJan>");
-      for (i = 0; i < mp_fPpt[0].length; i++) {
-        jOut.write("<sc_cimpjanVal ts=\"" + (i+1) + "\">" + mp_fPpt[0][i] +
-            "</sc_cimpjanVal>");
+      //----- Write monthly temperatures ------------------------------------//
+      for (i = 0; i < 12; i++) {
+        jOut.write("<" + mp_tempParentTags[i] + ">");
+        
+        //----- Extra data for long-term mean? ------------------------------//
+        if (iPreDatSize > 0) {
+          for (j = 0; j < iPreDatSize; j++) {
+            jOut.write("<" + mp_tempChildTags[i] + " ts=\"" + -(j+1) + "\">" + 
+               mp_fPreTemp[i][j] + "</" + mp_tempChildTags[i] + ">");          
+          } 
+        }
+        
+        //----- Regular data ------------------------------------------------//
+        for (j = 0; j < mp_fTemp[i].length; j++) {
+          jOut.write("<" + mp_tempChildTags[i] + " ts=\"" + (j+1) + "\">" + 
+             mp_fTemp[i][j] + "</" + mp_tempChildTags[i] + ">");          
+        }
+        jOut.write("</" + mp_tempParentTags[i] + ">");
       }
-      jOut.write("</sc_ciMonthlyPptJan>");
       
-      jOut.write("<sc_ciMonthlyPptFeb>");
-      for (i = 0; i < mp_fPpt[1].length; i++) {
-        jOut.write("<sc_cimpfebVal ts=\"" + (i+1) + "\">" + mp_fPpt[1][i] +
-            "</sc_cimpfebVal>");
+      //----- Write monthly precipitation -----------------------------------//
+      for (i = 0; i < 12; i++) {
+        jOut.write("<" + mp_pptParentTags[i] + ">");
+        
+        //----- Extra data for long-term mean? ------------------------------//
+        if (iPreDatSize > 0) {
+          for (j = 0; j < iPreDatSize; j++) {
+            jOut.write("<" + mp_pptChildTags[i] + " ts=\"" + -(j+1) + "\">" + 
+                mp_fPrePpt[i][j] + "</" + mp_pptChildTags[i] + ">");          
+          } 
+        }
+        
+        //----- Regular data ------------------------------------------------//
+        for (j = 0; j < mp_fPpt[i].length; j++) {
+          jOut.write("<" + mp_pptChildTags[i] + " ts=\"" + (j+1) + "\">" + 
+             mp_fPpt[i][j] + "</" + mp_pptChildTags[i] + ">");          
+        }
+        jOut.write("</" + mp_pptParentTags[i] + ">");
       }
-      jOut.write("</sc_ciMonthlyPptFeb>");
       
-      jOut.write("<sc_ciMonthlyPptMar>");
-      for (i = 0; i < mp_fPpt[2].length; i++) {
-        jOut.write("<sc_cimpmarVal ts=\"" + (i+1) + "\">" + mp_fPpt[2][i] +
-            "</sc_cimpmarVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptMar>");
       
-      jOut.write("<sc_ciMonthlyPptApr>");
-      for (i = 0; i < mp_fPpt[3].length; i++) {
-        jOut.write("<sc_cimpaprVal ts=\"" + (i+1) + "\">" + mp_fPpt[3][i] +
-            "</sc_cimpaprVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptApr>");
-      
-      jOut.write("<sc_ciMonthlyPptMay>");
-      for (i = 0; i < mp_fPpt[4].length; i++) {
-        jOut.write("<sc_cimpmayVal ts=\"" + (i+1) + "\">" + mp_fPpt[4][i] +
-            "</sc_cimpmayVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptMay>");
-      
-      jOut.write("<sc_ciMonthlyPptJun>");
-      for (i = 0; i < mp_fPpt[5].length; i++) {
-        jOut.write("<sc_cimpjunVal ts=\"" + (i+1) + "\">" + mp_fPpt[5][i] +
-            "</sc_cimpjunVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptJun>");
-      
-      jOut.write("<sc_ciMonthlyPptJul>");
-      for (i = 0; i < mp_fPpt[6].length; i++) {
-        jOut.write("<sc_cimpjulVal ts=\"" + (i+1) + "\">" + mp_fPpt[6][i] +
-            "</sc_cimpjulVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptJul>");
-      
-      jOut.write("<sc_ciMonthlyPptAug>");
-      for (i = 0; i < mp_fPpt[7].length; i++) {
-        jOut.write("<sc_cimpaugVal ts=\"" + (i+1) + "\">" + mp_fPpt[7][i] +
-            "</sc_cimpaugVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptAug>");
-      
-      jOut.write("<sc_ciMonthlyPptSep>");
-      for (i = 0; i < mp_fPpt[8].length; i++) {
-        jOut.write("<sc_cimpsepVal ts=\"" + (i+1) + "\">" + mp_fPpt[8][i] +
-            "</sc_cimpsepVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptSep>");
-      
-      jOut.write("<sc_ciMonthlyPptOct>");
-      for (i = 0; i < mp_fPpt[9].length; i++) {
-        jOut.write("<sc_cimpoctVal ts=\"" + (i+1) + "\">" + mp_fPpt[9][i] +
-            "</sc_cimpoctVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptOct>");
-      
-      jOut.write("<sc_ciMonthlyPptNov>");
-      for (i = 0; i < mp_fPpt[10].length; i++) {
-        jOut.write("<sc_cimpnovVal ts=\"" + (i+1) + "\">" + mp_fPpt[10][i] +
-            "</sc_cimpnovVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptNov>");
-      
-      jOut.write("<sc_ciMonthlyPptDec>");
-      for (i = 0; i < mp_fPpt[11].length; i++) {
-        jOut.write("<sc_cimpdecVal ts=\"" + (i+1) + "\">" + mp_fPpt[11][i] +
-            "</sc_cimpdecVal>");
-      }
-      jOut.write("</sc_ciMonthlyPptDec>");
-
       jOut.write("</" + m_sXMLRootString + m_iListPosition + ">");
 
     } catch (IOException oExp) {
@@ -494,9 +515,13 @@ public class ClimateImporter extends Behavior {
     if (iMonth < 1 || iMonth > 12) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Month must be between 1 and 12."));
     }
-    if (iTimestep < 1 || iTimestep > mp_fTemp[0].length) {
+    
+    if (iTimestep < 0 && java.lang.Math.abs(iTimestep) > mp_fPreTemp[0].length) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Timestep value not valid."));
     }
+    //if (iTimestep < 1 || iTimestep > mp_fTemp[0].length) {
+    //  throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Timestep value not valid."));
+    //}
     return mp_fTemp[(iMonth-1)][(iTimestep-1)];
   }
   
