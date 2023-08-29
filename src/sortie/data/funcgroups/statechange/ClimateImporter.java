@@ -252,7 +252,7 @@ public class ClimateImporter extends Behavior {
         if (mp_fTemp[i][j] < -500 || mp_fPpt[i][j] < -500) {
           throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
             "The Climate Importer is missing values for some timesteps" +
-           "(month " + (i + 1) + " year " + (j + 1) + ")."));
+           " (month " + (i + 1) + " year " + (j + 1) + ")."));
         }
       }
     }
@@ -506,7 +506,8 @@ public class ClimateImporter extends Behavior {
   
   /**
    * Get temperature data.
-   * @param iTimestep Timestep to get data for, as a value from 1-number of timesteps.
+   * @param iTimestep Timestep to get data for, as a value from negative number
+   * of timesteps to number of timesteps.
    * @param iMonth Month to get data for, as a value from 1-12. 
    * @return Temperature for the specified time.
    * @throws ModelException if the month or timestep are not valid.
@@ -516,18 +517,20 @@ public class ClimateImporter extends Behavior {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Month must be between 1 and 12."));
     }
     
-    if (iTimestep < 0 && java.lang.Math.abs(iTimestep) > mp_fPreTemp[0].length) {
+    if (java.lang.Math.abs(iTimestep) > mp_fTemp[0].length || iTimestep == 0) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Timestep value not valid."));
     }
-    //if (iTimestep < 1 || iTimestep > mp_fTemp[0].length) {
-    //  throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Timestep value not valid."));
-    //}
+    
+    if (iTimestep < 0) {
+      return mp_fPreTemp[(iMonth-1)][(java.lang.Math.abs(iTimestep)-1)];
+    }
     return mp_fTemp[(iMonth-1)][(iTimestep-1)];
   }
   
   /**
    * Set temperature data.
-   * @param iTimestep Timestep to get data for, as a value from 1-number of timesteps.
+   * @param iTimestep Timestep to set data for, as a value from negative number
+   * of timesteps to number of timesteps.
    * @param iMonth Month to get data for, as a value from 1-12. 
    * @param fVal Temperature for the specified time.
    * @throws ModelException if the month or timestep are not valid.
@@ -536,15 +539,20 @@ public class ClimateImporter extends Behavior {
     if (iMonth < 1 || iMonth > 12) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Month must be between 1 and 12."));
     }
-    if (iTimestep < 1 || iTimestep > mp_fTemp[0].length) {
+    if (java.lang.Math.abs(iTimestep) > mp_fTemp[0].length || iTimestep == 0) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Timestep value not valid."));
     }
-    mp_fTemp[(iMonth-1)][(iTimestep-1)] = fVal;
+    if (iTimestep < 0) {
+      mp_fPreTemp[(iMonth-1)][(java.lang.Math.abs(iTimestep)-1)] = fVal;
+    } else {
+      mp_fTemp[(iMonth-1)][(iTimestep-1)] = fVal;
+    }
   }
   
   /**
    * Get precipitation data.
-   * @param iTimestep Timestep to get data for, as a value from 1-number of timesteps.
+   * @param iTimestep Timestep to get data for, as a value from negative number
+   * of timesteps to number of timesteps.
    * @param iMonth Month to get data for, as a value from 1-12. 
    * @return Temperature for the specified time.
    * @throws ModelException if the month or timestep are not valid.
@@ -553,8 +561,11 @@ public class ClimateImporter extends Behavior {
     if (iMonth < 1 || iMonth > 12) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Month must be between 1 and 12."));
     }
-    if (iTimestep < 1 || iTimestep > mp_fTemp[0].length) {
+    if (java.lang.Math.abs(iTimestep) > mp_fTemp[0].length) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Timestep value not valid."));
+    }
+    if (iTimestep < 0) {
+      return mp_fPrePpt[(iMonth-1)][(java.lang.Math.abs(iTimestep)-1)];
     }
     return mp_fPpt[(iMonth-1)][(iTimestep-1)];
   }
@@ -562,7 +573,8 @@ public class ClimateImporter extends Behavior {
   /**
    * Set precipitation data.
    * @param fVal Temperature for the specified time.
-   * @param iTimestep Timestep to get data for, as a value from 1-number of timesteps.
+   * @param iTimestep Timestep to set data for, as a value from negative number
+   * of timesteps to number of timesteps.
    * @param iMonth Month to get data for, as a value from 1-12. 
    * @throws ModelException if the month or timestep are not valid.
    */
@@ -570,10 +582,14 @@ public class ClimateImporter extends Behavior {
     if (iMonth < 1 || iMonth > 12) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Month must be between 1 and 12."));
     }
-    if (iTimestep < 1 || iTimestep > mp_fTemp[0].length) {
+    if (java.lang.Math.abs(iTimestep) > mp_fPpt[0].length || iTimestep == 0) {
       throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", "Timestep value not valid."));
     }
-    mp_fPpt[(iMonth-1)][(iTimestep-1)] = fVal;
+    if (iTimestep < 0) {
+      mp_fPrePpt[(iMonth-1)][(java.lang.Math.abs(iTimestep)-1)] = fVal;
+    } else {
+      mp_fPpt[(iMonth-1)][(iTimestep-1)] = fVal;
+    }
   }
   
   /**
@@ -669,7 +685,26 @@ public class ClimateImporter extends Behavior {
     return m_fRadFeb.getValue();
   }
   
+  /** Get the available water storage value. 
+   * @return The AWS value.
+   */
   public float getAWS() {
     return m_fAWS.getValue();
+  }
+  
+  /**
+   * Get the descriptor string for the long term mean parameter.
+   * @return Descriptor for LTM.
+   */
+  public String getLTMDescriptor() {
+    return m_iLTM.getDescriptor();
+  }
+  
+  /**
+   * Get the descriptor string for the is calendar year parameter.
+   * @return Descriptor for is calendar year.
+   */
+  public String getCalendarDescriptor() {
+    return m_bCalendarYear.getDescriptor();
   }
 }
