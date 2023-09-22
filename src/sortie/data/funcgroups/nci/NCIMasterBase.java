@@ -268,6 +268,10 @@ public class NCIMasterBase extends Behavior {
     mp_iPrecipEffects.add(new NCIEffect(PrecipitationEffectDoubleLogistic.class,
         "Double logistic precipitation effect",
         NCIEffect.precipitation_effect.double_logistic_precip_effect.ordinal()));
+    
+    mp_iPrecipEffects.add(new NCIEffect(PrecipitationEffectDoubleNoLocalDiff.class,
+            "Double no local diff. precip effect",
+            NCIEffect.precipitation_effect.double_no_local_diff_precip_effect.ordinal()));
 
     
     
@@ -283,6 +287,10 @@ public class NCIMasterBase extends Behavior {
     mp_iTempEffects.add(new NCIEffect(TemperatureEffectDoubleLogistic.class,
         "Double logistic temperature effect",
         NCIEffect.temperature_effect.double_logistic_temp_effect.ordinal()));
+    
+    mp_iTempEffects.add(new NCIEffect(TemperatureEffectDoubleNoLocalDiff.class,
+            "Double no local diff. temp. effect",
+            NCIEffect.temperature_effect.double_no_local_diff_temp_effect.ordinal()));
 
     
     

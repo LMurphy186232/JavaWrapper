@@ -7,12 +7,11 @@ import java.util.ArrayList;
 
 import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.GrowthBehaviors;
-import sortie.data.funcgroups.nci.NCIMasterGrowth;
 import sortie.data.simpletypes.ModelException;
 import sortie.gui.GUIManager;
 import junit.framework.TestCase;
 
-public class PrecipitationeEffectDoubleLogisticTest extends TestCase {
+public class PrecipitationEffectDoubleLogisticTest extends TestCase {
 
   /**
    * Tests parameter file reading.

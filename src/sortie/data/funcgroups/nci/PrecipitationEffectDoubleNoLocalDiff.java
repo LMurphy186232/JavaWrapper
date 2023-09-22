@@ -49,104 +49,35 @@ public class PrecipitationEffectDoubleNoLocalDiff extends Behavior {
       "nciDoubNoLocPrecipEffCurrBHi", "ndnlpecbhVal", 0, ModelVector.FLOAT);
     
   //----- Precipitation effect current c ------------------------------------//
-  protected ModelVector mp_fCurrBLo = new ModelVector(
-      "Double No Local Precip Effect \"curr b lo\"",
-      "nciDoubNoLocPrecipEffCurrBLo", "ndnlpecblVal", 0, ModelVector.FLOAT);
+  protected ModelVector mp_fCurrC = new ModelVector(
+      "Double No Local Precip Effect \"curr.c\"",
+      "nciDoubNoLocPrecipEffCurrC", "ndnlpeccVal", 0, ModelVector.FLOAT);
   
-  FillSpeciesSpecificValue( p_oElement, "nciDoubNoLocPrecipEffCurrC",
-      "ndnlpeccVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fCurrC[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
   //----- Precipitation effect previous a -----------------------------------//
-  protected ModelVector mp_fCurrBLo = new ModelVector(
-      "Double No Local Precip Effect \"curr b lo\"",
-      "nciDoubNoLocPrecipEffCurrBLo", "ndnlpecblVal", 0, ModelVector.FLOAT);
+  protected ModelVector mp_fPrevA = new ModelVector(
+      "Double No Local Precip Effect \"prev.a\"",
+      "nciDoubNoLocPrecipEffPrevA", "ndnlpepaVal", 0, ModelVector.FLOAT);
   
-  FillSpeciesSpecificValue( p_oElement, "nciDoubNoLocPrecipEffPrevA",
-      "ndnlpepaVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevA[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
   //----- Precipitation effect previous b lo --------------------------------//
-  protected ModelVector mp_fCurrBLo = new ModelVector(
-      "Double No Local Precip Effect \"curr b lo\"",
-      "nciDoubNoLocPrecipEffCurrBLo", "ndnlpecblVal", 0, ModelVector.FLOAT);
+  protected ModelVector mp_fPrevBLo = new ModelVector(
+      "Double No Local Precip Effect \"prev.b.lo\"",
+      "nciDoubNoLocPrecipEffPrevBLo", "ndnlpepblVal", 0, ModelVector.FLOAT);
   
-  FillSpeciesSpecificValue( p_oElement, "nciDoubNoLocPrecipEffPrevBLo",
-      "ndnlpepblVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevBLo[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
   //----- Precipitation effect previous b hi --------------------------------//
-  protected ModelVector mp_fCurrBLo = new ModelVector(
-      "Double No Local Precip Effect \"curr b lo\"",
-      "nciDoubNoLocPrecipEffCurrBLo", "ndnlpecblVal", 0, ModelVector.FLOAT);
-  
-  FillSpeciesSpecificValue( p_oElement, "nciDoubNoLocPrecipEffPrevBHi",
-      "ndnlpepbhVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevBHi[p_fTempValues[i].code] = p_fTempValues[i].val;
-
+  protected ModelVector mp_fPrevBHi = new ModelVector(
+      "Double No Local Precip Effect \"prev.b.hi\"",
+      "nciDoubNoLocPrecipEffPrevBHi", "ndnlpepbhVal", 0, ModelVector.FLOAT);
 
   //----- Precipitation effect previous c -----------------------------------//
-  protected ModelVector mp_fCurrBLo = new ModelVector(
-      "Double No Local Precip Effect \"curr b lo\"",
-      "nciDoubNoLocPrecipEffCurrBLo", "ndnlpecblVal", 0, ModelVector.FLOAT);
-  
-  FillSpeciesSpecificValue( p_oElement, "nciDoubNoLocPrecipEffPrevC",
-      "ndnlpepcVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevC[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
-  delete[] p_fTempValues;
-
-  //Precip value desired
-  iPrecipType = mean_precip;
-  FillSingleValue(p_oElement, "nciDoubNoLocPrecipType", &iPrecipType, true);
-
-  
-  
-  
-  /**Precipitation effect bl.*/
-  protected ModelVector mp_fBl = new ModelVector(
-      "Double Logistic Precip Effect \"bl\"",
-      "nciDoubLogPrecipEffBl", "ndlpeblVal", 0, ModelVector.FLOAT);
-  
-  /**Precipitation effect cl.*/
-  protected ModelVector mp_fCl = new ModelVector(
-      "Double Logistic Precip Effect \"cl\"",
-      "nciDoubLogPrecipEffCl", "ndlpeclVal", 0, ModelVector.FLOAT);
-  
-  /**Precipitation effect ah.*/
-  protected ModelVector mp_fAh = new ModelVector(
-      "Double Logistic Precip Effect \"ah\"",
-      "nciDoubLogPrecipEffAh", "ndlpeahVal", 0, ModelVector.FLOAT);
-  
-  /**Precipitation effect bh.*/
-  protected ModelVector mp_fBh = new ModelVector(
-      "Double Logistic Precip Effect \"bh\"",
-      "nciDoubLogPrecipEffBh", "ndlpebhVal", 0, ModelVector.FLOAT);
-  
-  /**Precipitation effect ch.*/
-  protected ModelVector mp_fCh = new ModelVector(
-      "Double Logistic Precip Effect \"ch\"",
-      "nciDoubLogPrecipEffCh", "ndlpechVal", 0, ModelVector.FLOAT);
-  
+  protected ModelVector mp_fPrevC = new ModelVector(
+      "Double No Local Precip Effect \"prev.c\"",
+      "nciDoubNoLocPrecipEffPrevC", "ndnlpepcVal", 0, ModelVector.FLOAT);
+   
   /**Desired precipitation variable*/
   protected ModelEnum m_iPrecipType = new ModelEnum(
       new int[]{2, 1, 0}, 
       new String[]{"Water deficit", "Seasonal precipitation", "Annual precipitation"},
-      "Precipitation Type to Use", "nciDoubleLogisticPrecipType");
+      "Precipitation Type to Use", "nciDoubNoLocPrecipType");
   
   
   /**
@@ -155,13 +86,14 @@ public class PrecipitationEffectDoubleNoLocalDiff extends Behavior {
   public PrecipitationEffectDoubleNoLocalDiff(GUIManager oManager, BehaviorTypeBase oParent, String sDescriptor) throws ModelException {
     super(oManager, oParent, sDescriptor, "", "", "");
     
-    addRequiredData(mp_fAl);
-    addRequiredData(mp_fBl);
-    addRequiredData(mp_fCl);
-    addRequiredData(mp_fAh);
-    addRequiredData(mp_fBh);
-    addRequiredData(mp_fCh);
-    
+    addRequiredData(mp_fCurrA);
+    addRequiredData(mp_fCurrBLo);
+    addRequiredData(mp_fCurrBHi);
+    addRequiredData(mp_fCurrC);
+    addRequiredData(mp_fPrevA);
+    addRequiredData(mp_fPrevBLo);
+    addRequiredData(mp_fPrevBHi);
+    addRequiredData(mp_fPrevC);
     addRequiredData(m_iPrecipType);
     
     //Default precipitation type to annual
