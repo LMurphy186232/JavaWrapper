@@ -33,47 +33,47 @@ import sortie.gui.GUIManager;
  */
 public class PrecipitationEffectDoubleNoLocalDiff extends Behavior {
   
-  //----- Precipitation effect current a ------------------------------------//
+  /** Precipitation effect current a */
   protected ModelVector mp_fCurrA = new ModelVector(
       "Double No Local Precip Effect \"curr.a\"",
       "nciDoubNoLocPrecipEffCurrA", "ndnlpecaVal", 0, ModelVector.FLOAT);
   
-  //----- Precipitation effect current b lo ---------------------------------//
+  /** Precipitation effect current b lo */
   protected ModelVector mp_fCurrBLo = new ModelVector(
       "Double No Local Precip Effect \"curr.b.lo\"",
       "nciDoubNoLocPrecipEffCurrBLo", "ndnlpecblVal", 0, ModelVector.FLOAT);
   
-  //----- Precipitation effect current b hi ---------------------------------//
+  /** Precipitation effect current b hi */
   protected ModelVector mp_fCurrBHi = new ModelVector(
       "Double No Local Precip Effect \"curr.b.hi\"",
       "nciDoubNoLocPrecipEffCurrBHi", "ndnlpecbhVal", 0, ModelVector.FLOAT);
     
-  //----- Precipitation effect current c ------------------------------------//
+  /** Precipitation effect current c */
   protected ModelVector mp_fCurrC = new ModelVector(
       "Double No Local Precip Effect \"curr.c\"",
       "nciDoubNoLocPrecipEffCurrC", "ndnlpeccVal", 0, ModelVector.FLOAT);
   
-  //----- Precipitation effect previous a -----------------------------------//
+  /** Precipitation effect previous a */
   protected ModelVector mp_fPrevA = new ModelVector(
       "Double No Local Precip Effect \"prev.a\"",
       "nciDoubNoLocPrecipEffPrevA", "ndnlpepaVal", 0, ModelVector.FLOAT);
   
-  //----- Precipitation effect previous b lo --------------------------------//
+  /** Precipitation effect previous b lo */
   protected ModelVector mp_fPrevBLo = new ModelVector(
       "Double No Local Precip Effect \"prev.b.lo\"",
       "nciDoubNoLocPrecipEffPrevBLo", "ndnlpepblVal", 0, ModelVector.FLOAT);
   
-  //----- Precipitation effect previous b hi --------------------------------//
+  /** Precipitation effect previous b hi */
   protected ModelVector mp_fPrevBHi = new ModelVector(
       "Double No Local Precip Effect \"prev.b.hi\"",
       "nciDoubNoLocPrecipEffPrevBHi", "ndnlpepbhVal", 0, ModelVector.FLOAT);
 
-  //----- Precipitation effect previous c -----------------------------------//
+  /** Precipitation effect previous c */
   protected ModelVector mp_fPrevC = new ModelVector(
       "Double No Local Precip Effect \"prev.c\"",
       "nciDoubNoLocPrecipEffPrevC", "ndnlpepcVal", 0, ModelVector.FLOAT);
    
-  /**Desired precipitation variable*/
+  /** Desired precipitation variable*/
   protected ModelEnum m_iPrecipType = new ModelEnum(
       new int[]{2, 1, 0}, 
       new String[]{"Water deficit", "Seasonal precipitation", "Annual precipitation"},

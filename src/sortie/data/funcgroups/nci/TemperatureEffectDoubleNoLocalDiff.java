@@ -30,42 +30,42 @@ import sortie.gui.GUIManager;
  */
 public class TemperatureEffectDoubleNoLocalDiff extends Behavior {
 
-	//----- Temperature effect current a --------------------------------------//
+	/** Temperature effect current a */
 	protected ModelVector mp_fCurrA = new ModelVector(
 			"Double No Local Temp Effect \"curr.a\"",
 			"nciDoubNoLocTempEffCurrA", "ndnltecaVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect current b lo -----------------------------------//
+	/** Temperature effect current b lo */
 	protected ModelVector mp_fCurrBLo = new ModelVector(
 			"Double No Local Temp Effect \"curr.b.lo\"",
 			"nciDoubNoLocTempEffCurrBLo", "ndnltecblVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect current b hi -----------------------------------//
+	/** Temperature effect current b hi */
 	protected ModelVector mp_fCurrBHi = new ModelVector(
 			"Double No Local Temp Effect \"curr.b.hi\"",
 			"nciDoubNoLocTempEffCurrBHi", "ndnltecbhVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect current c --------------------------------------//
+	/** Temperature effect current c */
 	protected ModelVector mp_fCurrC = new ModelVector(
 			"Double No Local Temp Effect \"curr.c\"",
 			"nciDoubNoLocTempEffCurrC", "ndnlteccVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect previous a -------------------------------------//
+	/** Temperature effect previous a */
 	protected ModelVector mp_fPrevA = new ModelVector(
 			"Double No Local Temp Effect \"prev.a\"",
 			"nciDoubNoLocTempEffPrevA", "ndnltepaVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect previous b lo ----------------------------------//
+	/** Temperature effect previous b lo */
 	protected ModelVector mp_fPrevBLo = new ModelVector(
 			"Double No Local Temp Effect \"prev.b.lo\"",
 			"nciDoubNoLocTempEffPrevBLo", "ndnltepblVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect previous b hi ----------------------------------//
+	/** Temperature effect previous b hi */
 	protected ModelVector mp_fPrevBHi = new ModelVector(
 			"Double No Local Temp Effect \"prev.b.hi\"",
 			"nciDoubNoLocTempEffPrevBHi", "ndnltepbhVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect previous c -------------------------------------//
+	/** Temperature effect previous c */
 	protected ModelVector mp_fPrevC = new ModelVector(
 			"Double No Local Temp Effect \"prev.c\"",
 			"nciDoubNoLocTempEffPrevC", "ndnltepcVal", 0, ModelVector.FLOAT);

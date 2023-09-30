@@ -38,134 +38,77 @@ import sortie.gui.GUIManager;
  */
 public class TemperatureEffectDoubleLocalDiff extends Behavior {
 
-  //----- Temperature effect current a a ------------------------------------//
+  /** Temperature effect current a a */
   protected ModelVector mp_fCurrAA = new ModelVector(
       "Double Local Temp Effect \"curr.a.a\"",
       "nciDoubLocTempEffCurrAA", "ndltecaaVal", 0, ModelVector.FLOAT);
 
-  //----- Temperature effect current a b lo ---------------------------------//
+  /** Temperature effect current a b lo */
   protected ModelVector mp_fCurrABLo = new ModelVector(
       "Double Local Temp Effect \"curr.a.b.lo\"",
       "nciDoubLocTempEffCurrABLo", "ndltecablVal", 0, ModelVector.FLOAT);
 
-  //----- Temperature effect current a b hi ---------------------------------//
+  /** Temperature effect current a b hi */
   protected ModelVector mp_fCurrABHi = new ModelVector(
       "Double Local Temp Effect \"curr.a.b.hi\"",
       "nciDoubLocTempEffCurrABHi", "ndltecabhVal", 0, ModelVector.FLOAT);
   
-  //----- Temperature effect current a c ------------------------------------//
+  /** Temperature effect current a c */
   protected ModelVector mp_fCurrAC = new ModelVector(
       "Double Local Temp Effect \"curr.a.c\"",
       "nciDoubLocTempEffCurrAC", "ndltecacVal", 0, ModelVector.FLOAT);
   
    
-	//----- Temperature effect current b lo -----------------------------------//
+	/** Temperature effect current b lo */
 	protected ModelVector mp_fCurrBLo = new ModelVector(
 			"Double Local Temp Effect \"curr.b.lo\"",
 			"nciDoubLocTempEffCurrBLo", "ndltecblVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect current b hi -----------------------------------//
+	/** Temperature effect current b hi */
 	protected ModelVector mp_fCurrBHi = new ModelVector(
 			"Double Local Temp Effect \"curr.b.hi\"",
 			"nciDoubLocTempEffCurrBHi", "ndltecbhVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect current c --------------------------------------//
+	/** Temperature effect current c */
 	protected ModelVector mp_fCurrC = new ModelVector(
 			"Double Local Temp Effect \"curr.c\"",
 			"nciDoubLocTempEffCurrC", "ndlteccVal", 0, ModelVector.FLOAT);
 	
 	
-  //----- Temperature effect previous a a -----------------------------------//
+  /** Temperature effect previous a a */
   protected ModelVector mp_fPrevAA = new ModelVector(
       "Double Local Temp Effect \"prev.a.a\"",
       "nciDoubLocTempEffPrevAA", "ndltepaaVal", 0, ModelVector.FLOAT);
 
-  //----- Temperature effect previous b lo ----------------------------------//
-  protected ModelVector mp_fPrevBLo = new ModelVector(
-      "Double Local Temp Effect \"prev.b.lo\"",
-      "nciDoubLocTempEffPrevBLo", "ndltepblVal", 0, ModelVector.FLOAT);
+  /** Temperature effect previous a b lo */
+  protected ModelVector mp_fPrevABLo = new ModelVector(
+      "Double Local Temp Effect \"prev.a.b.lo\"",
+      "nciDoubLocTempEffPrevABLo", "ndltepablVal", 0, ModelVector.FLOAT);
 
-  //----- Temperature effect previous b hi ----------------------------------//
-  protected ModelVector mp_fPrevBHi = new ModelVector(
-      "Double Local Temp Effect \"prev.b.hi\"",
-      "nciDoubLocTempEffPrevBHi", "ndltepbhVal", 0, ModelVector.FLOAT);
+  /** Temperature effect previous a b hi */
+  protected ModelVector mp_fPrevABHi = new ModelVector(
+      "Double Local Temp Effect \"prev.a.b.hi\"",
+      "nciDoubLocTempEffPrevABHi", "ndltepabhVal", 0, ModelVector.FLOAT);
 
-  //----- Temperature effect previous c -------------------------------------//
-  protected ModelVector mp_fPrevC = new ModelVector(
-      "Double Local Temp Effect \"prev.c\"",
-      "nciDoubLocTempEffPrevC", "ndltepcVal", 0, ModelVector.FLOAT);
-	
-	
+  /** Temperature effect previous a c */
+  protected ModelVector mp_fPrevAC = new ModelVector(
+      "Double Local Temp Effect \"prev.a.c\"",
+      "nciDoubLocTempEffPrevAC", "ndltepacVal", 0, ModelVector.FLOAT);
 
-
-	//----- Temperature effect previous b lo ----------------------------------//
+	/** Temperature effect previous b lo */
 	protected ModelVector mp_fPrevBLo = new ModelVector(
 			"Double Local Temp Effect \"prev.b.lo\"",
 			"nciDoubLocTempEffPrevBLo", "ndltepblVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect previous b hi ----------------------------------//
+	/** Temperature effect previous b hi */
 	protected ModelVector mp_fPrevBHi = new ModelVector(
 			"Double Local Temp Effect \"prev.b.hi\"",
 			"nciDoubLocTempEffPrevBHi", "ndltepbhVal", 0, ModelVector.FLOAT);
 
-	//----- Temperature effect previous c -------------------------------------//
+	/** Temperature effect previous c */
 	protected ModelVector mp_fPrevC = new ModelVector(
 			"Double Local Temp Effect \"prev.c\"",
 			"nciDoubLocTempEffPrevC", "ndltepcVal", 0, ModelVector.FLOAT);
-	
-	 
-
-
- 
-
-  //----- Temperature effect previous a b lo --------------------------------//
-  FillSpeciesSpecificValue( p_oElement, "nciDoubLocTempEffPrevABLo",
-      "ndltepablVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevABLo[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
-  //----- Temperature effect previous a b hi --------------------------------//
-  FillSpeciesSpecificValue( p_oElement, "nciDoubLocTempEffPrevABHi",
-      "ndltepabhVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevABHi[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
-  //----- Temperature effect previous a c -----------------------------------//
-  FillSpeciesSpecificValue( p_oElement, "nciDoubLocTempEffPrevAC",
-      "ndltepacVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevAC[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
-  //----- Temperature effect previous b lo ----------------------------------//
-  FillSpeciesSpecificValue( p_oElement, "nciDoubLocTempEffPrevBLo",
-      "ndltepblVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevBLo[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
-  //----- Temperature effect previous b hi ----------------------------------//
-  FillSpeciesSpecificValue( p_oElement, "nciDoubLocTempEffPrevBHi",
-      "ndltepbhVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevBHi[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
-  //----- Temperature effect previous c -------------------------------------//
-  FillSpeciesSpecificValue( p_oElement, "nciDoubLocTempEffPrevC",
-      "ndltepcVal", p_fTempValues, iNumBehaviorSpecies, p_oPop, true );
-  //Transfer to the appropriate array buckets
-  for ( i = 0; i < iNumBehaviorSpecies; i++ )
-    mp_fPrevC[p_fTempValues[i].code] = p_fTempValues[i].val;
-
-
 
 	/**
 	 * Constructor.
@@ -173,14 +116,20 @@ public class TemperatureEffectDoubleLocalDiff extends Behavior {
 	public TemperatureEffectDoubleLocalDiff(GUIManager oManager, BehaviorTypeBase oParent, String sDescriptor) throws ModelException {
 		super(oManager, oParent, sDescriptor, "", "", "");
 
-		addRequiredData(mp_fCurrA);
-    addRequiredData(mp_fCurrBLo);
-    addRequiredData(mp_fCurrBHi);
-    addRequiredData(mp_fCurrC);
-    addRequiredData(mp_fPrevA);
-    addRequiredData(mp_fPrevBLo);
-    addRequiredData(mp_fPrevBHi);
-    addRequiredData(mp_fPrevC);
+		addRequiredData(mp_fCurrAA);
+		addRequiredData(mp_fCurrABLo);
+		addRequiredData(mp_fCurrABHi);
+		addRequiredData(mp_fCurrAC);
+		addRequiredData(mp_fCurrBLo);
+		addRequiredData(mp_fCurrBHi);
+		addRequiredData(mp_fCurrC);
+		addRequiredData(mp_fPrevAA);
+		addRequiredData(mp_fPrevABLo);
+		addRequiredData(mp_fPrevABHi);
+		addRequiredData(mp_fPrevAC);
+		addRequiredData(mp_fPrevBLo);
+		addRequiredData(mp_fPrevBHi);
+		addRequiredData(mp_fPrevC);
 	}
 
 	/**

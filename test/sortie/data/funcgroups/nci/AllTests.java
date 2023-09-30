@@ -30,6 +30,7 @@ public class AllTests {
     suite.addTestSuite(NCIWithSeedlingsTest.class);
     suite.addTestSuite(PrecipitationEffectDoubleLogisticTest.class);
     suite.addTestSuite(PrecipitationEffectDoubleNoLocalDiffTest.class);
+    suite.addTestSuite(PrecipitationEffectDoubleLocalDiffTest.class);
     suite.addTestSuite(PrecipitationEffectWeibullTest.class);
     suite.addTestSuite(SizeEffectCompoundExpInfTest.class);
     suite.addTestSuite(SizeEffectCompoundExponentialTest.class);
@@ -38,6 +39,7 @@ public class AllTests {
     suite.addTestSuite(SizeEffectShiftedLognormalTest.class);
     suite.addTestSuite(TemperatureEffectDoubleLogisticTest.class);
     suite.addTestSuite(TemperatureEffectDoubleNoLocalDiffTest.class);
+    suite.addTestSuite(TemperatureEffectDoubleLocalDiffTest.class);
     suite.addTestSuite(TemperatureEffectWeibullTest.class);
     //$JUnit-END$
     return suite;
