@@ -96,7 +96,9 @@ public class NCIEffect {
   public enum temperature_effect {
     no_temp_effect, /**<No temperature effect (class clNoTemperatureEffect) */
     weibull_temp_effect, /**<Weibull temperature effect (class clTemperatureEffectWeibull)*/
-    double_logistic_temp_effect /**<Double logistic temperature effect (class clTemperatureEffectDoubleLogistic)*/
+    double_logistic_temp_effect, /**<Double logistic temperature effect (class clTemperatureEffectDoubleLogistic)*/
+    double_no_local_diff_temp_effect, /**<Class clTemperatureEffectDoubleNoLocalDiff*/
+    double_local_diff_temp_effect /**<Class clTemperatureEffectDoubleLocalDiff*/
   };
 
   /**
@@ -105,7 +107,9 @@ public class NCIEffect {
   public enum precipitation_effect {
     no_precip_effect, /**<No precip effect (class clNoPrecipitationEffect) */
     weibull_precip_effect, /**<Weibull precipitation effect (class clPrecipitationEffectWeibull)*/
-    double_logistic_precip_effect /**<Double logistic precipitation effect (class clPrecipitationEffectDoubleLogistic)*/
+    double_logistic_precip_effect, /**<Double logistic precipitation effect (class clPrecipitationEffectDoubleLogistic)*/
+    double_no_local_diff_precip_effect, /**<Class clPrecipitationEffectDoubleNoLocalDiff*/
+    double_local_diff_precip_effect /**<Class clPrecipitationEffectDoubleLocalDiff*/
   };
 
   /**

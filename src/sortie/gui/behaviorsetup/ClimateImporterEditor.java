@@ -36,33 +36,38 @@ import sortie.gui.components.SortieFont;
  * <br>Edit history: 
  * <br>------------------ 
  * <br>January 24, 2017: Created (LEM)
+ * <br>August 2023: Added extra space for long-term means (LEM)
  */
 public class ClimateImporterEditor extends JDialog implements ActionListener,
 EnhancedTableWindow {
 
   /**Help ID string*/
-  private String m_sHelpID = "windows.edit_climate_importer_data";
+  protected String m_sHelpID = "windows.edit_climate_importer_data";
 
   /** Climate Importer behavior */
   private ClimateImporter m_oClim;
 
   /** GUI Manager */
-  private GUIManager m_oManager;
+  protected GUIManager m_oManager;
 
   /**The regular EnhancedTable objects in this window*/
   ArrayList<ArrayList<EnhancedTable>> mp_oAllTables = new ArrayList<ArrayList<EnhancedTable>>();
-  
-  /** The display table holding monthly precipitation values */
-  EnhancedTable m_oPptTable;
-  
-  /** The display table holding monthly temperature values */
-  EnhancedTable m_oTempTable;
 
-  /**The data table holding monthly precipitation values */
-  //Object[][] m_oPptData;
+  /**The data table holding monthly precipitation values - keep a copy until
+   * we know whether the user is happy with their edits */
+  protected double[][] mp_fPptData;
 
-  /**The data table holding monthly temperature values */
-  //Object[][] m_oTempData;
+  /**The data table holding monthly temperature values - keep a copy until
+   * we know whether the user is happy with their edits  */
+  protected double[][] mp_fTempData;
+
+  /**The data table holding before-the-run monthly precipitation values,
+   * if necessary */
+  protected double[][] mp_fPrePptData;
+
+  /**The data table holding before-the-run monthly temperature values,
+   * if necessary */
+  protected double[][] mp_fPreTempData;
 
   /** Set of objects that were displayed*/
   ArrayList<BehaviorParameterDisplay> mp_oAllObjects;
@@ -86,10 +91,12 @@ EnhancedTableWindow {
       m_oClim = oClim;
       m_jParent = jParent;
       m_oWindow = oWindow;
+      int iTimesteps = m_oManager.getPlot().getNumberOfTimesteps(), i, j;
 
       //Help ID
       m_oManager.getHelpBroker().enableHelpKey(this.getRootPane(), m_sHelpID, null);
-      
+
+      //----- Prepare editing for all parameters except climate -------------//
       mp_oAllObjects = m_oClim.formatDataForDisplay(m_oManager.getTreePopulation());
       //Add the data that can be displayed in the default way
       for (BehaviorParameterDisplay oBehData : mp_oAllObjects) {
@@ -104,38 +111,22 @@ EnhancedTableWindow {
         }
         mp_oAllTables.add(oBehTables);
       }
-      
-      // Create tables to hold monthly data
-      Object[][] oTempData = new Object[m_oManager.getPlot().getNumberOfTimesteps()][13];
-      Object[][] oPptData = new Object[m_oManager.getPlot().getNumberOfTimesteps()][13];
-      int i, j, iTSToWrite = m_oManager.getPlot().getNumberOfTimesteps();
 
-      // Compare the number of timesteps of data and the number of timesteps - if the 
-      // number of timesteps has been increased, don't ask for data that doesn't exist
-      // yet
-      if (iTSToWrite > m_oClim.getNumberOfDataTimesteps()) iTSToWrite = m_oClim.getNumberOfDataTimesteps(); 
 
-      // Create tables of data
-      for (i = 1; i < 13; i++) {
-        for (j = 1; j <= iTSToWrite; j++) {
-          oTempData[(j-1)][i] = m_oClim.getTempData(j, i);
-          oPptData[(j-1)][i] = m_oClim.getPptData(j, i);
+      //----- Create a copy of current climate data from the behavior -------//
+      mp_fTempData    = new double[12][iTimesteps];
+      mp_fPptData     = new double[12][iTimesteps];
+      mp_fPreTempData = new double[12][iTimesteps];
+      mp_fPrePptData = new double[12][iTimesteps];
+
+      for (i = 0; i < 12; i++) {
+        for (j = 0; j < mp_fTempData[0].length; j++) {
+          mp_fTempData   [i][j] = m_oClim.getTempData((j+1) , (i+1));
+          mp_fPptData    [i][j] = m_oClim.getPptData ((j+1) , (i+1));
+          mp_fPreTempData[i][j] = m_oClim.getTempData(-(j+1), (i+1));
+          mp_fPrePptData [i][j] = m_oClim.getPptData (-(j+1), (i+1));
         }
       }
-
-      // Add labels to first column
-      iTSToWrite = m_oManager.getPlot().getNumberOfTimesteps();
-      for (j = 0; j < iTSToWrite; j++) {
-        oTempData[j][0] = "Temperature for timestep " + (j+1);
-        oPptData[j][0] = "Precipitation for timestep " + (j+1);
-      }
-      
-      Object[] p_oHeaderRow = new Object[]{"", "January", "February", "March", "April", "May",
-          "June", "July", "August", "September", "October", "November", "December"};
-
-      //Create the tables from the data
-      m_oTempTable = new EnhancedTable(oTempData, p_oHeaderRow, this, "");
-      m_oPptTable = new EnhancedTable(oPptData, p_oHeaderRow, this, "");
 
       refreshParametersDisplay();
 
@@ -244,15 +235,15 @@ EnhancedTableWindow {
   }
 
   /**
-   * Add the monthly temp and precip data to the main panel. These will be displayed
-   * with months in columns and timesteps in rows.
+   * Add the buttons for editing monthly temp and precip data to the main 
+   * panel.
    * @param jMainPanel Panel to add to.
    * @return Panel with updates.
    */
-  private JPanel addMonthlyDataToMainPanel(JPanel jMainPanel) throws ModelException {
+  private JPanel addButtonPanel(JPanel jMainPanel) throws ModelException {
 
     // Add a panel with buttons for reading in this data from files
-    JPanel jButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    JPanel jButtonPanel = new JPanel(new GridLayout(2, 2));
     JButton jButton = new JButton("Read temperature data from file");
     jButton.setFont(new SortieFont());
     jButton.setActionCommand("ReadTempData");
@@ -264,33 +255,24 @@ EnhancedTableWindow {
     jButton.setActionCommand("ReadPptData");
     jButton.addActionListener(this);
     jButtonPanel.add(jButton);
+
+    jButton = new JButton("View/edit temperature data");
+    jButton.setFont(new SortieFont());
+    jButton.setActionCommand("EditTempData");
+    jButton.addActionListener(this);
+    jButtonPanel.add(jButton);
+
+    jButton = new JButton("View/edit precipitation data");
+    jButton.setFont(new SortieFont());
+    jButton.setActionCommand("EditPptData");
+    jButton.addActionListener(this);
+    jButtonPanel.add(jButton);
+
+
     jButtonPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
     jButtonPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
 
     jMainPanel.add(jButtonPanel);
-
-    
-    //Create a table panel with an empty panel in CENTER so that the
-    //table won't automatically fill the space
-    JPanel jTablePanel = new JPanel(new BorderLayout());
-    jTablePanel.setName("Table Panel");
-    jTablePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-    jTablePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    jTablePanel.add(m_oTempTable, BorderLayout.LINE_START);
-    jTablePanel.add(new JPanel(), BorderLayout.CENTER);
-
-    //Put the table panel in the object's panel
-    jMainPanel.add(jTablePanel);
-
-    jTablePanel = new JPanel(new BorderLayout());
-    jTablePanel.setName("Table Panel");
-    jTablePanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-    jTablePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-    jTablePanel.add(m_oPptTable, BorderLayout.LINE_START);
-    jTablePanel.add(new JPanel(), BorderLayout.CENTER);
-
-    //Put the table panel in the object's panel
-    jMainPanel.add(jTablePanel);
 
     return jMainPanel;
   }
@@ -301,7 +283,10 @@ EnhancedTableWindow {
    */
   private void passDataToBehavior() throws ModelException {
     int i, j;
+    
+    //-----------------------------------------------------------------------//
     //Make sure that we capture in-process edits
+    //-----------------------------------------------------------------------//
     for (i = 0; i < mp_oAllTables.size(); i++) { 
       for (EnhancedTable oTable : mp_oAllTables.get(i)) {
         if (oTable.isEditing()) {
@@ -310,18 +295,13 @@ EnhancedTableWindow {
         }
       }
     }
-    
-    if (m_oPptTable.isEditing()) {
-      m_oPptTable.getCellEditor(m_oPptTable.getEditingRow(),
-          m_oPptTable.getEditingColumn()).stopCellEditing();
-    }
-    
-    if (m_oTempTable.isEditing()) {
-      m_oTempTable.getCellEditor(m_oTempTable.getEditingRow(),
-          m_oTempTable.getEditingColumn()).stopCellEditing();
-    }
+    //-----------------------------------------------------------------------//
 
+    
+    
+    //-----------------------------------------------------------------------//
     //Handle the data that can be passed the default way
+    //-----------------------------------------------------------------------//
     TreePopulation oPop = m_oManager.getTreePopulation();
 
     //Replace the tables in the behavior display object
@@ -333,39 +313,33 @@ EnhancedTableWindow {
       }
     }
     m_oClim.readDataFromDisplay(mp_oAllObjects, oPop);
+    //-----------------------------------------------------------------------//
+
     
-    //Bring the monthly data from the tables to the object arrays
-    /*TableData oDat = m_oPptTable.getData();
-    //Start index at 1 - skip label row
-    for (i = 1; i < oDat.mp_oTableData.length; i++) {
-      for (j = 1; j < 13; j++) {
-        m_oPptData[(i-1)][j] = oDat.mp_oTableData[i][j];
+    //-----------------------------------------------------------------------//
+    // Time for climate
+    //-----------------------------------------------------------------------//
+    for (i = 0; i < mp_fPptData.length; i++) {
+      for (j = 0; j < mp_fPptData[0].length; j++) {
+        m_oClim.setPptData (mp_fPptData [i][j], (j+1), (i+1));          
+        m_oClim.setTempData(mp_fTempData[i][j], (j+1), (i+1));
       }
     }
-    
-    oDat = m_oTempTable.getData();
-    for (i = 1; i < oDat.mp_oTableData.length; i++) {
-      for (j = 0; j < oDat.mp_oTableData[i].length; j++) {
-        m_oTempData[(i-1)][j] = oDat.mp_oTableData[i][j];
-      }
-    }*/
-    
-    String sTemp = "";
-    try {
-      // Pass the monthly data
-      Object[][] oTempData = m_oTempTable.getData().mp_oTableData;
-      Object[][] oPptData = m_oPptTable.getData().mp_oTableData;
-      for (i = 1; i < oTempData.length; i++) {
-        for (j = 1; j < 13; j++) {
-          sTemp = oTempData[i][j].toString();
-          m_oClim.setTempData(Double.valueOf(sTemp).doubleValue(), i, j);
-          
-          sTemp = oPptData[i][j].toString();
-          m_oClim.setPptData(Double.valueOf(sTemp).doubleValue(), i, j);
+    int iLTM = getCurrentValueOfLongTermMean();
+    boolean bCalYear = getCurrentValueOfIsCalendarYear();
+
+
+    if (iLTM > 0) {
+      // How many years of data do we expect?
+      int iLine = iLTM - 1;
+      if (!bCalYear) iLine++;
+
+      for (i = 0; i < mp_fPrePptData.length; i++) {
+        for (j = 0; j <= iLine; j++) {
+          m_oClim.setPptData (mp_fPrePptData [i][j], -(j+1), (i+1));
+          m_oClim.setTempData(mp_fPreTempData[i][j], -(j+1), (i+1));
         }
       }
-    } catch (NumberFormatException e) {
-      throw(new ModelException(ErrorGUI.BAD_DATA, "Java", "The value " + sTemp + " is not a valid number."));
     }
     m_oClim.validateData(oPop);
   }
@@ -378,33 +352,33 @@ EnhancedTableWindow {
    */
   public void actionPerformed(ActionEvent e) {
     try {
-      if (e.getActionCommand().equals("Cancel")) {
+    if (e.getActionCommand().equals("Cancel")) {
+      this.setVisible(false);
+      this.dispose();
+    }
+    else if (e.getActionCommand().equals("OK")) {
+      try {
+        passDataToBehavior();
         this.setVisible(false);
         this.dispose();
       }
-      else if (e.getActionCommand().equals("OK")) {
-        try {
-          passDataToBehavior();
-          this.setVisible(false);
-          this.dispose();
-        }
-        catch (ModelException oErr) {
-          ErrorGUI oHandler = new ErrorGUI(this);
-          oHandler.writeErrorMessage(oErr);
-        }
+      catch (ModelException oErr) {
+        ErrorGUI oHandler = new ErrorGUI(this);
+        oHandler.writeErrorMessage(oErr);
       }
-      else if (e.getActionCommand().equals("Copy")) {
-        EnhancedTable oTable = getLastTouchedTable();
-        if (oTable != null) {
-          oTable.copy();
-        }
+    }
+    else if (e.getActionCommand().equals("Copy")) {
+      EnhancedTable oTable = getLastTouchedTable();
+      if (oTable != null) {
+        oTable.copy();
       }
-      else if (e.getActionCommand().equals("Paste")) {
-        EnhancedTable oTable = getLastTouchedTable();
-        if (oTable != null) {
-          oTable.paste();
-        }
-      } else if (e.getActionCommand().equals("ReadTempData") ||
+    }
+    else if (e.getActionCommand().equals("Paste")) {
+      EnhancedTable oTable = getLastTouchedTable();
+      if (oTable != null) {
+        oTable.paste();
+      }
+    } else if (e.getActionCommand().equals("ReadTempData") ||
           e.getActionCommand().equals("ReadPptData")) {
 
         //Allow the user to open a file
@@ -415,6 +389,29 @@ EnhancedTableWindow {
           File oFile = jChooser.getSelectedFile();
           readDataFile(oFile, e.getActionCommand());
         }
+      } else if (e.getActionCommand().equals("EditTempData") ||
+          e.getActionCommand().equals("EditPptData")) {
+        
+        //-------------------------------------------------------------------//
+        // We are launching the data editor
+        //-------------------------------------------------------------------//
+        
+        //----- Do we have pre-run timesteps of data? -----------------------//
+        int iLTM = getCurrentValueOfLongTermMean()-1;
+        boolean bIsPrecip = e.getActionCommand().equals("EditPptData"),
+            bCalYear = getCurrentValueOfIsCalendarYear();
+                
+        //----- Okay! Are our parameters good? ------------------------------//
+        if (iLTM < 0) {
+          throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
+              "Value of long-term mean cannot be negative."));
+        }
+        if (!bCalYear) iLTM++;
+        ClimateImporterValuesEditor oWindow = 
+            new ClimateImporterValuesEditor(this, bIsPrecip, bCalYear, mp_fPptData[0].length, iLTM);
+        oWindow.pack();
+        oWindow.setLocationRelativeTo(null);
+        oWindow.setVisible(true);
       }
     } catch (ModelException err) {
       JOptionPane.showMessageDialog(this, err.getMessage());
@@ -445,80 +442,20 @@ EnhancedTableWindow {
     oTable.setLastTouched(true);
   }
 
+
+
   /**
-   * Read a data file with monthly temperature or precipitation values. This will
-   * load the contents of the file into the window.
-   * @param oFile File to open.
-   * @param sCommandString Command string - here we'll figure out whether it's
-   * temperature or precipitation.
+   * Refreshes the parameters display to make sure things show correctly after
+   * changes.
+   * @throws ModelException If anything goes wrong
    */
-  public void readDataFile(File oFile, String sCommandString) throws ModelException {
-    FileReader oIn = null;
-    try {
-      oIn = new FileReader(oFile);
-      ArrayList<String> oLine = new ArrayList<String>(0); // one line of data
-      int iNumLines = ModelFileFunctions.countLines(oFile.getAbsolutePath()),
-          i;
-      boolean bTemp = sCommandString.equals("ReadTempData");
-
-      // Verify that we have the correct amount of data - need one line for each timestep
-      // (allowing for a header line for both file and table)
-      if (iNumLines != m_oPptTable.getData().mp_oTableData.length) {
-        throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
-            "The file does not have one line for every timestep."));
-      }
-
-      //Skip the column headers
-      ModelFileFunctions.skipLine(oIn);
-
-      oLine = ModelFileFunctions.readLine(oIn);
-      iNumLines = 1;
-      while (oLine.size() > 0) {
-
-        // Verify that we have 12 months of data (allow for first column to be rowname)
-        if (oLine.size() != 13) {
-          throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
-              "The file does not have one column for every month."));
-        }
-
-        if (bTemp) {
-          for (i = 1; i < oLine.size(); i++) {
-            m_oTempTable.setValueAt(oLine.get(i), iNumLines, i);
-            //m_oTempData[iNumLines][i] = oLine.get(i);
-          }
-        } else {
-          for (i = 1; i < oLine.size(); i++) {
-            m_oPptTable.setValueAt(oLine.get(i), iNumLines, i);
-          }
-        }
-
-        oLine = ModelFileFunctions.readLine(oIn);
-        iNumLines++;
-      }
-
-      refreshParametersDisplay();
-
-    } catch (FileNotFoundException e) {
-      throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
-          "File not found: " + e.getMessage())); 
-    } catch (IOException e) {
-      throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
-          "Problem reading file: " + e.getMessage()));
-    } finally {
-      try {
-        if (oIn != null)
-          oIn.close();
-      } catch (IOException e2) {;}
-    }
-  }
-
   private void refreshParametersDisplay() throws ModelException {
     //This seems to be required to get the new parameters to display correctly
     //if being replaced - replacing just the table panel alone was not enough
     getContentPane().removeAll();
 
     JPanel jMainPanel = addDefaultsToMainPanel();
-    jMainPanel = addMonthlyDataToMainPanel(jMainPanel);
+    jMainPanel = addButtonPanel(jMainPanel);
 
     //Lay out the dialog
     JScrollPane jScroller = new JScrollPane();
@@ -547,4 +484,311 @@ EnhancedTableWindow {
     repaint();
 
   }
+  
+  /**
+   * Get the value of long-term mean currently in the open edit window (NOT
+   * the value being stored by the parent behavior)
+   * @return Value of long-term mean.
+   * @throws ModelException if the value cannot be found or parsed.
+   */
+  private int getCurrentValueOfLongTermMean() throws ModelException {
+    String sParameterName, sParameterValue;
+    int i, iLTM = -999;
+    
+    //-----------------------------------------------------------------------//
+    //Make sure that we capture in-process edits
+    //-----------------------------------------------------------------------//
+    for (i = 0; i < mp_oAllTables.size(); i++) { 
+      for (EnhancedTable oTable : mp_oAllTables.get(i)) {
+        if (oTable.isEditing()) {
+          oTable.getCellEditor(oTable.getEditingRow(),
+              oTable.getEditingColumn()).stopCellEditing();
+        }
+      }
+    }
+    //-----------------------------------------------------------------------//
+
+    for (ArrayList<EnhancedTable> jTables : mp_oAllTables) {
+      for (EnhancedTable oTable : jTables) {
+        TableData oTableDat = oTable.getData();
+        for (i = 0; i < oTableDat.mp_oTableData.length; i++) {
+
+          //----- Check the description string --------------------------//
+          sParameterName = oTableDat.mp_oTableData[i][0].toString(); 
+          if (sParameterName.equals(m_oClim.getLTMDescriptor())) {
+
+            //----- This is long term mean ------------------------------//
+            // Get the value of the LTM
+            sParameterValue = oTableDat.mp_oTableData[i][1].toString();
+            try {
+              iLTM = Integer.valueOf(sParameterValue).intValue();
+            } catch (NumberFormatException oE) {
+              throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
+                  "The value " + sParameterValue + " for parameter " +
+                      sParameterName + " is not a valid number."));
+            }
+            
+            if (iLTM < -998) {
+              throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
+                  "Could not find the value  for " + m_oClim.getLTMDescriptor()));            
+            }
+            return iLTM;
+          } 
+        }
+      }      
+    }
+    return iLTM;
+  }
+  
+  /**
+   * Get the value of year definition currently in the open edit window (NOT
+   * the value being stored by the parent behavior)
+   * @return True if calendar year, false if growing season year
+   * @throws ModelException if the value cannot be found or parsed.
+   */
+  private boolean getCurrentValueOfIsCalendarYear() throws ModelException {
+    String sParameterName, sParameterValue;
+    int i;
+
+    //-----------------------------------------------------------------------//
+    //Make sure that we capture in-process edits
+    //-----------------------------------------------------------------------//
+    for (i = 0; i < mp_oAllTables.size(); i++) { 
+      for (EnhancedTable oTable : mp_oAllTables.get(i)) {
+        if (oTable.isEditing()) {
+          oTable.getCellEditor(oTable.getEditingRow(),
+              oTable.getEditingColumn()).stopCellEditing();
+        }
+      }
+    }
+    //-----------------------------------------------------------------------//
+
+    // Read from current parameters
+    for (ArrayList<EnhancedTable> jTables : mp_oAllTables) {
+      for (EnhancedTable oTable : jTables) {
+        TableData oTableDat = oTable.getData();
+        for (i = 0; i < oTableDat.mp_oTableData.length; i++) {
+
+          //----- Check the description string --------------------------//
+          sParameterName = oTableDat.mp_oTableData[i][0].toString(); 
+          if (sParameterName.equals(m_oClim.getCalendarDescriptor())) {
+
+            //----- This is is calendar year ----------------------------//
+
+            // Get the value of the calendar year choice
+            sParameterValue = oTableDat.mp_oTableData[i][1].toString();
+            
+            // Parse out the value
+            int ind1 = sParameterValue.indexOf("&&"), 
+                ind2 = sParameterValue.indexOf("|");
+            if (ind1 < 0 || ind2 < 0) {
+              throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
+                  "Could not understand the value  for " + m_oClim.getCalendarDescriptor()));   
+            }
+            sParameterValue = sParameterValue.substring(ind1+2, ind2);
+            if (sParameterValue.indexOf("Calendar") > -1) {
+              return true;
+            } else if (sParameterValue.indexOf("Growing") > -1) {
+              return false;
+            }
+          }
+        }
+      }
+    }
+    throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
+        "Could not find the value for " + m_oClim.getCalendarDescriptor()));      
+  }
+
+
+  /**
+   * Read a data file with monthly temperature or precipitation values. This will
+   * load the contents of the file into the window.
+   * @param oFile File to open.
+   * @param sCommandString Command string - here we'll figure out whether it's
+   * temperature or precipitation.
+   */
+  public void readDataFile(File oFile, String sCommandString) throws ModelException {
+    FileReader oIn = null;
+    try {
+      oIn = new FileReader(oFile);
+      ArrayList<String> oLine = new ArrayList<String>(0); // one line of data
+      int iNumLines = ModelFileFunctions.countLines(oFile.getAbsolutePath()),
+          i, j, iExpectedLines,
+          iLTM = getCurrentValueOfLongTermMean();
+      boolean bTemp = sCommandString.equals("ReadTempData"),
+          bCalYear = getCurrentValueOfIsCalendarYear();
+
+      
+      //---------------------------------------------------------------------//
+      // How much data do we need? Check long-term mean and calculate 
+      //---------------------------------------------------------------------//
+      if (iLTM < 0) {
+        throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
+            "Value of long-term mean cannot be negative."));
+      }
+      if (!bCalYear) iLTM++;
+      iExpectedLines = mp_fPptData[0].length;
+      if (iLTM > 0) iExpectedLines += (iLTM-1);
+
+      // Verify that we have the correct amount of data - need one line for 
+      // each timestep (allowing for a header line for the file)
+      if ((iNumLines-1) != iExpectedLines) {
+        throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
+            "The file does not have the right amount of data. I expect one line per " +
+            "timestep, plus additional years if there is a long-term mean."));
+      }
+      //---------------------------------------------------------------------//
+
+      
+      
+      //---------------------------------------------------------------------//
+      // Initialize in such a way we'll know if we're missing data
+      //---------------------------------------------------------------------//
+      double[][] p_oDat = new double[mp_fTempData.length][mp_fTempData[0].length];
+      double[][] p_oPreDat = new double[mp_fPreTempData.length][mp_fPreTempData[0].length];
+      
+      for (i = 0; i < p_oDat.length; i++) {
+        for (j = 0; j < p_oDat[0].length; j++) {
+          p_oDat[i][j] = -999;
+        }
+      }
+      for (i = 0; i < p_oPreDat.length; i++) {
+        for (j = 0; j < p_oPreDat[0].length; j++) {
+          p_oPreDat[i][j] = -999;
+        }
+      }
+      //---------------------------------------------------------------------//
+      
+      
+      //---------------------------------------------------------------------//
+      // Read into our temporary data structure so we can double check
+      //---------------------------------------------------------------------//
+      // What's our starting point?
+      int iStart = 1;
+      if (iLTM > 0) {
+        iStart -= iLTM;
+      }
+      if (!bCalYear) {
+        iStart--;
+      }
+      
+      //Skip the column headers
+      ModelFileFunctions.skipLine(oIn);
+
+      oLine = ModelFileFunctions.readLine(oIn);
+      double fVal;
+      int iLine = iStart;
+      while (oLine.size() > 0) {
+
+        // Verify that we have 12 months of data (allow for first column to be rowname)
+        if (oLine.size() != 13) {
+          throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
+              "The file does not have one column for every month."));
+        }
+                
+        if (iLine < 0) {
+          for (i = 1; i < oLine.size(); i++) {
+            fVal = Double.valueOf(oLine.get(i).toString()).floatValue();
+            p_oPreDat[(i-1)][(java.lang.Math.abs(iLine)-1)] = fVal;            
+          }
+          oLine = ModelFileFunctions.readLine(oIn);          
+        } else if (iLine == 0) {
+          ; //don't do anything - let this tick over to 1
+        }
+        else {
+          for (i = 1; i < oLine.size(); i++) {
+            fVal = Double.valueOf(oLine.get(i).toString()).floatValue();
+            p_oDat[(i-1)][(iLine-1)] = fVal;            
+          }
+          oLine = ModelFileFunctions.readLine(oIn);          
+        }
+           
+        iLine++;
+      }
+      //---------------------------------------------------------------------//
+      
+      //---------------------------------------------------------------------//
+      // Verify that the data is all there. It will get validated later
+      //---------------------------------------------------------------------//
+      for (i = 0; i < p_oDat.length; i++) {
+        for (j = 0; j < p_oDat[0].length; j++) {
+          if (p_oDat[i][j] < -900) {
+            throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
+                "Not enough data in the file. Didn't find values for month " + 
+                    (i+1) + " of year " + (j+1)));
+          }
+        }
+      }
+      
+      if (iLTM > 0) {
+        // How many years of data do we expect?
+        iLine = iLTM - 1;
+        if (!bCalYear) iLine++;
+        
+        for (i = 0; i < p_oPreDat.length; i++) {
+          for (j = 0; j < iLine; j++) {
+            if (p_oPreDat[i][j] < -900) {
+              throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
+                  "Not enough data in the file. Didn't find values for month " + 
+                      (i+1) + " of year " + (-(j+1))));
+            }
+          }
+        }
+      }
+      //---------------------------------------------------------------------//
+      
+      
+      //---------------------------------------------------------------------//
+      // Transfer into our arrays
+      //---------------------------------------------------------------------//
+      if (bTemp) {
+        for (i = 0; i < p_oDat.length; i++) {
+          for (j = 0; j < p_oDat[0].length; j++) {
+            mp_fTempData[i][j] = p_oDat[i][j];
+          }
+        }
+      } else {
+        for (i = 0; i < p_oDat.length; i++) {
+          for (j = 0; j < p_oDat[0].length; j++) {
+            mp_fPptData[i][j] = p_oDat[i][j];
+          }
+        }
+      }
+      
+      if (iLTM > 0) {
+        // "iLine" should still have the pre-run timesteps of data
+
+        if (bTemp) {
+          for (i = 0; i < p_oPreDat.length; i++) {
+            for (j = 0; j < iLine; j++) {
+              mp_fPreTempData[i][j] = p_oPreDat[i][j];
+            }
+          }
+        } else {
+          for (i = 0; i < p_oPreDat.length; i++) {
+            for (j = 0; j < iLine; j++) {
+              mp_fPrePptData[i][j] = p_oPreDat[i][j];
+            }
+          }
+        }
+      }
+
+
+    } catch (FileNotFoundException e) {
+      throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
+          "File not found: " + e.getMessage())); 
+    } catch (NumberFormatException e) {
+      throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
+          "Problem reading file. One value could not be interpreted as a number."));
+    } catch (IOException e) {
+      throw(new ModelException(ErrorGUI.BAD_FILE, "Java", 
+          "Problem reading file: " + e.getMessage()));
+    } finally {
+      try {
+        if (oIn != null)
+          oIn.close();
+      } catch (IOException e2) {;}
+    }
+  }
 }
+
