@@ -114,6 +114,12 @@ public class ClimateImporter extends Behavior {
    * with resizing this array all the time.*/
   protected double[][] mp_fPrePpt;
   
+  /**Annual nitrogen deposition - index - timestep. Straight up just the 
+   * number of timesteps, no pre-run data required. Nitrogen in general is
+   * not required.
+   */
+  protected double[] mp_fNDep;
+  
   /**
    * Constructor.
    * @param oManager GUIManager object
@@ -152,6 +158,7 @@ public class ClimateImporter extends Behavior {
     mp_fPpt     = new double[12][oPlot.getNumberOfTimesteps()];
     mp_fPreTemp = new double[12][oPlot.getNumberOfTimesteps()];
     mp_fPrePpt  = new double[12][oPlot.getNumberOfTimesteps()];
+    mp_fNDep    = new double    [oPlot.getNumberOfTimesteps()];
     
     //----- Initialize so we know whether they've been set or not -----------//
     int i, j;
@@ -163,7 +170,12 @@ public class ClimateImporter extends Behavior {
         mp_fPrePpt [i][j] = -999;
       }
     }
+    
+    for (i = 0; i < mp_fNDep.length; i++) {
+      mp_fNDep[i] = -999;
+    }
   }
+  
 
   /**
    * Makes sure that water deficit, solar radiation, and precipitation values are not 
@@ -201,10 +213,11 @@ public class ClimateImporter extends Behavior {
       
       //----- Need to add more timesteps of data ----------------------------//
       //----- Copy the existing arrays --------------------------------------//
-      double[][] p_fTempBak = new double[mp_fTemp.length][mp_fTemp[1].length];
-      double[][] p_fPptBak = new double[mp_fPpt.length][mp_fPpt[1].length];
+      double[][] p_fTempBak    = new double[mp_fTemp.length][mp_fTemp[1].length];
+      double[][] p_fPptBak     = new double[mp_fPpt.length][mp_fPpt[1].length];
       double[][] p_fPreTempBak = new double[mp_fPreTemp.length][mp_fPreTemp[1].length];
-      double[][] p_fPrePptBak = new double[mp_fPrePpt.length][mp_fPrePpt[1].length];
+      double[][] p_fPrePptBak  = new double[mp_fPrePpt.length][mp_fPrePpt[1].length];
+      double  [] p_fNDepBak    = new double[mp_fNDep.length];                    
       for (i = 0; i < mp_fTemp.length; i++) {
         for (j = 0; j < mp_fTemp[i].length; j++) {
           p_fTempBak   [i][j] = mp_fTemp   [i][j];
@@ -213,12 +226,16 @@ public class ClimateImporter extends Behavior {
           p_fPrePptBak [i][j] = mp_fPrePpt [i][j];
         }
       }
+      for (i = 0; i < mp_fNDep.length; i++) {
+        p_fNDepBak[i] = mp_fNDep[i];
+      }
       
       //----- Resize arrays -------------------------------------------------//
       mp_fTemp    = new double[12][oPlot.getNumberOfTimesteps()];
       mp_fPpt     = new double[12][oPlot.getNumberOfTimesteps()];
       mp_fPreTemp = new double[12][oPlot.getNumberOfTimesteps()];
       mp_fPrePpt  = new double[12][oPlot.getNumberOfTimesteps()];
+      mp_fNDep    = new double    [oPlot.getNumberOfTimesteps()];
       
       //----- Pre-fill with "null" values so we know what's not been entered //
       for (i = 0; i < mp_fTemp.length; i++) {
@@ -228,6 +245,9 @@ public class ClimateImporter extends Behavior {
           mp_fPreTemp[i][j] = -999;
           mp_fPrePpt [i][j] = -999;
         }
+      }
+      for (i = 0; i < mp_fNDep.length; i++) {
+        mp_fNDep[i] = -999;
       }
       
       
@@ -239,7 +259,10 @@ public class ClimateImporter extends Behavior {
           mp_fPreTemp[i][j] = p_fPreTempBak[i][j];
           mp_fPrePpt [i][j] = p_fPrePptBak [i][j];
         }
-      }      
+      }
+      for (i = 0; i < p_fNDepBak.length; i++) {
+        mp_fNDep[i] = p_fNDepBak[i];
+      }
     }
     
     //----- Make sure we have values for all timesteps ----------------------//
@@ -253,6 +276,20 @@ public class ClimateImporter extends Behavior {
           throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
             "The Climate Importer is missing values for some timesteps" +
            " (month " + (i + 1) + " year " + (j + 1) + ")."));
+        }
+      }
+    }
+    //----- Same but nitrogen not required; so see if there were ANY --------//
+    boolean bAny = false;
+    for (i = 0; i < mp_fNDep.length; i++) {
+      if (mp_fNDep[i] > -900) bAny = true;
+    }
+    if (bAny) {
+      for (i = 0; i < mp_fNDep.length; i++) {
+        if (mp_fNDep[i] < 0) {
+          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+              "The Climate Importer has bad or missing nitrogen values for some timesteps" +
+             " (year " + (i + 1) + ")."));
         }
       }
     }
@@ -312,7 +349,8 @@ public class ClimateImporter extends Behavior {
       org.xml.sax.Attributes[] p_oAttributes) throws ModelException {
 
     if (!sXMLTag.startsWith("sc_ciMonthlyTemp") &&
-        !sXMLTag.startsWith("sc_ciMonthlyPpt")) {
+        !sXMLTag.startsWith("sc_ciMonthlyPpt")  &&
+        !sXMLTag.startsWith("sc_ciNDep")) {
       return super.setVectorValueByXMLTag(sXMLTag, sXMLParentTag, p_oData,
           p_sChildXMLTags, p_bAppliesTo, oParentAttributes, p_oAttributes);
     }
@@ -323,8 +361,48 @@ public class ClimateImporter extends Behavior {
     //      "Too many or too few temperature or precip values for Climate Importer."));  
     //}
     Double oValue;
-    int iTS, iMonth = 0, iIndex;
+    int iTS, iMonth = -1, iIndex;
+    
+    //-----------------------------------------------------------------------//
+    // Check to see if this is nitrogen
+    //-----------------------------------------------------------------------//
+    if (sXMLTag.equals("sc_ciNDep")) {
+      for (int i = 0; i < p_oData.size(); i++) {
 
+        //-----Get the timestep number attribute ------------------------------//
+        try {
+          iTS = Integer.valueOf(p_oAttributes[i].getValue("ts")).intValue();
+        } catch (NumberFormatException e) {
+          //Whoops - wasn't formatted as a number
+          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+              "Couldn't read monthly timestep value for Climate Importer."));
+        }
+
+        //----- Make sure timestep is not negative --------------------------//
+        if (iTS <= 0) {
+          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+              "Climate Importer: timestep for nitrogen value cannot be negative."));
+        }
+
+        //----- Parse the value and make sure it's a number -------------------//
+        try {
+          oValue = Double.valueOf(p_oData.get(i));
+        } catch (NumberFormatException e) {
+          //Whoops - wasn't formatted as a number
+          throw (new ModelException(ErrorGUI.BAD_DATA, "Java",
+              "Couldn't read monthly temperature or precip value for Climate Importer."));
+        }
+
+        //----- Assign the monthly value to the appropriate place -------------//
+        iIndex = iTS - 1;
+          mp_fNDep[iIndex] = oValue.doubleValue();
+      }
+      return true;
+    }
+
+    //-----------------------------------------------------------------------//
+    // Not nitrogen, this is monthly data
+    //-----------------------------------------------------------------------//
     if (sXMLTag.endsWith("Jan")) iMonth = 0;
     else if (sXMLTag.endsWith("Feb")) iMonth = 1;
     else if (sXMLTag.endsWith("Mar")) iMonth = 2;
@@ -495,6 +573,16 @@ public class ClimateImporter extends Behavior {
         jOut.write("</" + mp_pptParentTags[i] + ">");
       }
       
+      //----- Nitrogen, if it exists ----------------------------------------//
+      if (mp_fNDep[0] > -900) {
+        jOut.write("<sc_ciNDep>");
+        for (i = 0; i < mp_fNDep.length; i++) {
+          jOut.write("<sc_cindVal ts=\"" + (i+1) + "\">" + mp_fNDep[i] +
+              "</sc_cindVal>");
+        }
+        jOut.write("</sc_ciNDep>");
+      }
+      
       
       jOut.write("</" + m_sXMLRootString + m_iListPosition + ">");
 
@@ -593,6 +681,38 @@ public class ClimateImporter extends Behavior {
   }
   
   /**
+   * Get nitrogen deposition data.
+   * @param iTimestep Timestep to get data for, 1 - number of timesteps
+   * @return Nitrogen deposition value; -999 if not set
+   * @throws ModelException if the timestep is not valid.
+   */
+  public double getNDepData(int iTimestep) throws ModelException {
+    if (iTimestep < 1 || iTimestep > mp_fNDep.length) {
+      throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", 
+          "getNDepData: Timestep must be between 1 and the number of timesteps."));
+    }
+    return mp_fNDep[(iTimestep-1)];
+  }
+  
+  /**
+   * Set nitrogen deposition data.
+   * @param fVal Nitrogen data. Must be a positive number.
+   * @param iTimestep Timestep to set data for, between 1 and number of timesteps.
+   * @throws ModelException if either nitrogen or timestep are not valid.
+   */
+  public void setNDepData(double fVal, int iTimestep) throws ModelException {
+    if (iTimestep < 1 || iTimestep > mp_fNDep.length) {
+      throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", 
+          "setNDepData: Timestep must be between 1 and the number of timesteps."));
+    }
+    if (fVal < 0) {
+      throw(new ModelException(ErrorGUI.BAD_ARGUMENT, "Java", 
+          "setNDepData: Nitrogen deposition must be positive."));
+    }
+    mp_fNDep[(iTimestep-1)] = fVal;
+  }
+  
+  /**
    * Get the number of timesteps of data.
    * @return Number of timesteps of data.
    */
@@ -676,6 +796,16 @@ public class ClimateImporter extends Behavior {
       jOut.write("Timestep " + (iRow + 1));
       for (iCol = 0; iCol < mp_fPpt.length; iCol++) {
         jOut.write("\t" + mp_fPpt[iCol][iRow]);  
+      }
+      jOut.write("\n");
+    }
+    
+    //----- Write nitrogen data ---------------------------------------------//
+    if (mp_fNDep[0] > -900) {
+      jOut.write("\nNitrogen Data\n");
+      jOut.write("Timestep\tNDep\n");
+      for (iRow = 0; iRow < mp_fNDep.length; iRow++) {
+        jOut.write((iRow+1) + "\t" + mp_fNDep[iRow] + "\n");
       }
       jOut.write("\n");
     }

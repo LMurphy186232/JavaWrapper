@@ -214,6 +214,13 @@ public class ClimateImporterTest extends TestCase {
 
       assertEquals(60.9, oState.m_fAWS.getValue(), 0.00001);
       
+      assertEquals(-999, oState.mp_fNDep[0], 0.001);
+      assertEquals(-999, oState.mp_fNDep[1], 0.001);
+      assertEquals(-999, oState.mp_fNDep[2], 0.001);
+      assertEquals(-999, oState.mp_fNDep[3], 0.001);
+      assertEquals(-999, oState.mp_fNDep[4], 0.001);
+      assertEquals(-999, oState.mp_fNDep[5], 0.001);
+     
       //Write it out as a parameter file and read it back in
       assertTrue(oManager.writeParameterFile(sFileName));
       
@@ -404,7 +411,14 @@ public class ClimateImporterTest extends TestCase {
       assertEquals(7988.013, oState.m_fRadNov.getValue(), 0.001);
       assertEquals(6307.151, oState.m_fRadDec.getValue(), 0.001);
 
-      assertEquals(60.9, oState.m_fAWS.getValue(), 0.00001);      
+      assertEquals(60.9, oState.m_fAWS.getValue(), 0.00001);
+      
+      assertEquals(-999, oState.mp_fNDep[0], 0.001);
+      assertEquals(-999, oState.mp_fNDep[1], 0.001);
+      assertEquals(-999, oState.mp_fNDep[2], 0.001);
+      assertEquals(-999, oState.mp_fNDep[3], 0.001);
+      assertEquals(-999, oState.mp_fNDep[4], 0.001);
+      assertEquals(-999, oState.mp_fNDep[5], 0.001);
       
       new File(sFileName).delete();
 
@@ -693,7 +707,14 @@ public class ClimateImporterTest extends TestCase {
       assertEquals(80.31 , oState.mp_fPrePpt[11][2], 0.001);
       assertEquals(203.43, oState.mp_fPrePpt[11][1], 0.001);
       assertEquals(50.59 , oState.mp_fPrePpt[11][0], 0.001);
-
+      
+      assertEquals(3.69, oState.mp_fNDep[0], 0.001);
+      assertEquals(6.56, oState.mp_fNDep[1], 0.001);
+      assertEquals(4.50, oState.mp_fNDep[2], 0.001);
+      assertEquals(1.82, oState.mp_fNDep[3], 0.001);
+      assertEquals(3.70, oState.mp_fNDep[4], 0.001);
+      assertEquals(3.30, oState.mp_fNDep[5], 0.001);
+      
       //Write it out as a parameter file and read it back in
       assertTrue(oManager.writeParameterFile(sFileName));
       
@@ -964,6 +985,13 @@ public class ClimateImporterTest extends TestCase {
       assertEquals(80.31 , oState.mp_fPrePpt[11][2], 0.001);
       assertEquals(203.43, oState.mp_fPrePpt[11][1], 0.001);
       assertEquals(50.59 , oState.mp_fPrePpt[11][0], 0.001);
+      
+      assertEquals(3.69, oState.mp_fNDep[0], 0.001);
+      assertEquals(6.56, oState.mp_fNDep[1], 0.001);
+      assertEquals(4.50, oState.mp_fNDep[2], 0.001);
+      assertEquals(1.82, oState.mp_fNDep[3], 0.001);
+      assertEquals(3.70, oState.mp_fNDep[4], 0.001);
+      assertEquals(3.30, oState.mp_fNDep[5], 0.001);
 
       new File(sFileName).delete();
 
@@ -1757,6 +1785,15 @@ public class ClimateImporterTest extends TestCase {
     oOut.write("<sc_cimpdecVal ts=\"5\">191.54</sc_cimpdecVal>");
     oOut.write("<sc_cimpdecVal ts=\"6\">131.83</sc_cimpdecVal>");
     oOut.write("</sc_ciMonthlyPptDec>");
+    
+    oOut.write("<sc_ciNDep>");
+    oOut.write("<sc_cindVal ts=\"1\">3.69</sc_cindVal>");
+    oOut.write("<sc_cindVal ts=\"2\">6.56</sc_cindVal>");
+    oOut.write("<sc_cindVal ts=\"3\">4.5</sc_cindVal>");
+    oOut.write("<sc_cindVal ts=\"4\">1.82</sc_cindVal>");
+    oOut.write("<sc_cindVal ts=\"5\">3.7</sc_cindVal>");
+    oOut.write("<sc_cindVal ts=\"6\">3.3</sc_cindVal>");
+    oOut.write("</sc_ciNDep>");
 
     oOut.write("<sc_ciJanRad>7468.475</sc_ciJanRad>");
     oOut.write("<sc_ciFebRad>10353.32</sc_ciFebRad>");
