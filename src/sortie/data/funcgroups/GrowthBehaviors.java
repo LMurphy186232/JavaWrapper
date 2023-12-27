@@ -360,13 +360,13 @@ public class GrowthBehaviors extends BehaviorTypeBase {
     
     //Michaelis Menton with negative growth - height only
     sXMLRootString = "MichaelisMentenNegativeGrowth";
-    sParFileTag = "MichaelisMentenNegativeGrowth";
+    sParFileTag = "MichaelisMentenNegativeGrowth height only";
     sDescriptor = "Michaelis Menton with negative growth - height only";
     mp_oAvailableBehaviors.add(new BehaviorInstantiator(MichMenNeg.class, sDescriptor, sParFileTag, sXMLRootString));    
     
     //Michaelis Menton with photoinhibition - height only
     sXMLRootString = "MichaelisMentenPhotoinhibitionGrowth";
-    sParFileTag = "MichaelisMentenPhotoinhibitionGrowth";
+    sParFileTag = "MichaelisMentenPhotoinhibitionGrowth height only";
     sDescriptor = "Michaelis Menton with photoinhibition - height only";
     mp_oAvailableBehaviors.add(new BehaviorInstantiator(MichMenPhotoinhibition.class, sDescriptor, sParFileTag, sXMLRootString));    
     
