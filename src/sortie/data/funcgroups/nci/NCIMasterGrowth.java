@@ -72,6 +72,8 @@ public class NCIMasterGrowth extends NCIMasterBase {
     addRequiredData(mp_fNCIMaxPotentialGrowth);
     addRequiredData(m_iStochasticGrowthMethod);
     addRequiredData(mp_fRandParameter);
+    addRequiredData(mp_fRandInt);
+    addRequiredData(mp_fRandSigma);
     
     //Default PDF adjustment to deterministic (no adjustment)
     m_iStochasticGrowthMethod.setValue(0);
@@ -126,6 +128,8 @@ public class NCIMasterGrowth extends NCIMasterBase {
     addDataObjectToDisplayArrays(mp_fNCIMaxPotentialGrowth, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
     addDataObjectToDisplayArrays(m_iStochasticGrowthMethod, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
     addDataObjectToDisplayArrays(mp_fRandParameter, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
+    addDataObjectToDisplayArrays(mp_fRandInt, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
+    addDataObjectToDisplayArrays(mp_fRandSigma, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
     BehaviorParameterDisplay oDisp = formatTable(p_oSingles, p_oSpeciesSpecific, oPop);
     
     
