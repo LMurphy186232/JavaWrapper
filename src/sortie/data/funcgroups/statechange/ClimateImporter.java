@@ -524,12 +524,11 @@ public class ClimateImporter extends Behavior {
       
       //----- Do we need to write extra steps of data for long-term mean? ---//
       if (m_iLTM.getValue() > 0) {
-        iPreDatSize = m_iLTM.getValue()-1;
-        
-        //----- How many timesteps of data do we expect? --------------------//
-        if (m_bCalendarYear.getValue() == 0) {
-          iPreDatSize++;
-        }
+        iPreDatSize = m_iLTM.getValue()-1;      
+      }
+      //----- How many timesteps of data do we expect? ----------------------//
+      if (m_bCalendarYear.getValue() == 0) {
+        iPreDatSize++;
       }
       
       
@@ -779,10 +778,31 @@ public class ClimateImporter extends Behavior {
         }
       }
     }
+    
+    //----- Do we need pre-run data? ----------------------------------------//
+    int iPreRunTimesteps = m_iLTM.getValue();
+    boolean bCalYear = m_bCalendarYear.getValue() == 1;
+
+    //----- Okay! Are our parameters good? ------------------------------//
+    if (bCalYear && iPreRunTimesteps > 0) {
+      iPreRunTimesteps--;
+    }
+    if (!bCalYear && iPreRunTimesteps == 0) {
+      iPreRunTimesteps = 1;
+    }
   
     //Now write monthly data
     jOut.write("Monthly Temperature Data\n");
     jOut.write("January\tFebruary\tMarch\tApril\tMay\tJune\tJuly\tAugust\tSeptember\tOctober\tNovember\tDecember\n");
+    if (iPreRunTimesteps > 0) {
+      for (iRow = (iPreRunTimesteps-1); iRow >= 0; iRow--) {    
+        jOut.write("Timestep -" + (iRow + 1));
+        for (iCol = 0; iCol < mp_fPreTemp.length; iCol++) {
+          jOut.write("\t" + mp_fPreTemp[iCol][iRow]);  
+        }
+        jOut.write("\n");
+      }    
+    }
     for (iRow = 0; iRow < mp_fTemp[0].length; iRow++) {
       jOut.write("Timestep " + (iRow + 1));
       for (iCol = 0; iCol < mp_fTemp.length; iCol++) {
@@ -792,6 +812,15 @@ public class ClimateImporter extends Behavior {
     }
     jOut.write("\nMonthly Precipitation Data\n");
     jOut.write("January\tFebruary\tMarch\tApril\tMay\tJune\tJuly\tAugust\tSeptember\tOctober\tNovember\tDecember\n");
+    if (iPreRunTimesteps > 0) {
+      for (iRow = (iPreRunTimesteps-1); iRow >= 0; iRow--) {
+        jOut.write("Timestep -" + (iRow + 1));
+        for (iCol = 0; iCol < mp_fPrePpt.length; iCol++) {
+          jOut.write("\t" + mp_fPrePpt[iCol][iRow]);  
+        }
+        jOut.write("\n");
+      }
+    }
     for (iRow = 0; iRow < mp_fPpt[0].length; iRow++) {
       jOut.write("Timestep " + (iRow + 1));
       for (iCol = 0; iCol < mp_fPpt.length; iCol++) {

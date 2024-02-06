@@ -347,7 +347,7 @@ EnhancedTableWindow {
     boolean bCalYear = getCurrentValueOfIsCalendarYear();
 
 
-    if (iLTM > 0) {
+    if (iLTM > 0 || !bCalYear) {
       // How many years of data do we expect?
       int iLine = iLTM - 1;
       if (!bCalYear) iLine++;
@@ -422,7 +422,7 @@ EnhancedTableWindow {
         //-------------------------------------------------------------------//
 
         //----- Do we have pre-run timesteps of data? -----------------------//
-        int iLTM = getCurrentValueOfLongTermMean()-1;
+        int iLTM = getCurrentValueOfLongTermMean();
         boolean bIsPrecip = e.getActionCommand().equals("EditPptData"),
             bCalYear = getCurrentValueOfIsCalendarYear();
 
@@ -431,7 +431,12 @@ EnhancedTableWindow {
           throw(new ModelException(ErrorGUI.BAD_DATA, "Java", 
               "Value of long-term mean cannot be negative."));
         }
-        if (!bCalYear) iLTM++;
+        if (bCalYear && iLTM > 0) {
+          iLTM--;
+        }
+        if (!bCalYear && iLTM == 0) {
+          iLTM = 1;
+        }
         ClimateImporterValuesEditor oWindow = 
             new ClimateImporterValuesEditor(this, bIsPrecip, bCalYear, mp_fPptData[0].length, iLTM);
         oWindow.pack();
