@@ -163,6 +163,8 @@ extends ModelTestCase {
           "Std Deviation for Normal or Lognormal Adjustment",
           "Include Snags in NCI Calculations",
           "NCI Minimum Neighbor DBH, in cm",
+          "Intercept for Heteroscedastic Normal Adjustment (mm)",
+          "Sigma for Heteroscedastic Normal Adjustment",
           "Species 1 NCI Lambda Neighbors",
           "Species 2 NCI Lambda Neighbors"};
       TestTable(oBeh.formatDataForDisplay(oPop), p_sExpected);
@@ -399,6 +401,8 @@ extends ModelTestCase {
           "NCI Damage Effect - Medium Storm Damage (0-1)",
           "NCI Damage Effect - Complete Storm Damage (0-1)",
           "NCI DBH Divisor (q)",
+          "Intercept for Heteroscedastic Normal Adjustment (mm)",
+          "Sigma for Heteroscedastic Normal Adjustment",
           "Growth Increment Adjustment PDF",
           "Std Deviation for Normal or Lognormal Adjustment",
           "Include Snags in NCI Calculations",
