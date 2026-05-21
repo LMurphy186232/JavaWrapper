@@ -37,12 +37,23 @@ public class NCIMasterQuadratGrowth extends NCIMasterBase {
   protected ModelVector mp_fRandParameter = new ModelVector("Std Deviation for Normal or Lognormal Adjustment", 
       "gr_standardDeviation", "gr_sdVal", 0, ModelVector.FLOAT);
   
+  /**Standard deviation intercept if heteroscedastic normal is desired. One for 
+   * each species.*/
+  protected ModelVector mp_fRandInt = new ModelVector("Intercept for Heteroscedastic Normal Adjustment (mm)", 
+      "gr_hetNormInt", "gr_hniVal", 0, ModelVector.FLOAT);
+  
+  /**Standard deviation intercept if heteroscedastic normal is desired. One for 
+   * each species.*/
+  protected ModelVector mp_fRandSigma = new ModelVector("Sigma for Heteroscedastic Normal Adjustment", 
+      "gr_hetNormSigma", "gr_hnsVal", 0, ModelVector.FLOAT);
+  
   /** Which growth adjustment */
-  protected ModelEnum m_iStochasticGrowthMethod = new ModelEnum(new int[] { 0, 3, 2 },
+  protected ModelEnum m_iStochasticGrowthMethod = new ModelEnum(new int[] { 0, 3, 2, 7 },
       new String[] { "None", 
                      "Normal",
-                     "Lognormal"},
-       "Growth Increment Adjustment PDF", "gr_stochGrowthMethod");  
+                     "Lognormal",
+                     "Heteroscedastic Normal"},
+       "Growth Increment Adjustment PDF", "gr_stochGrowthMethod"); 
   
   /**
    * Constructor.
@@ -64,6 +75,8 @@ public class NCIMasterQuadratGrowth extends NCIMasterBase {
     addRequiredData(mp_fNCIMaxPotentialGrowth);
     addRequiredData(m_iStochasticGrowthMethod);
     addRequiredData(mp_fRandParameter);
+    addRequiredData(mp_fRandInt);
+    addRequiredData(mp_fRandSigma);
     
     //Default PDF adjustment to deterministic (no adjustment)
     m_iStochasticGrowthMethod.setValue(0);
@@ -211,6 +224,8 @@ public class NCIMasterQuadratGrowth extends NCIMasterBase {
     addDataObjectToDisplayArrays(mp_fNCIMaxPotentialGrowth, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
     addDataObjectToDisplayArrays(m_iStochasticGrowthMethod, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
     addDataObjectToDisplayArrays(mp_fRandParameter, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
+    addDataObjectToDisplayArrays(mp_fRandInt, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
+    addDataObjectToDisplayArrays(mp_fRandSigma, p_oSingles, p_oSpeciesSpecific, p_bAppliesTo);
     BehaviorParameterDisplay oDisp = formatTable(p_oSingles, p_oSpeciesSpecific, oPop);
     
     

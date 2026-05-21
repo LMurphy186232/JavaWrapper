@@ -2,6 +2,8 @@ package sortie.data.funcgroups.disturbance;
 
 import java.util.ArrayList;
 
+import org.xml.sax.Attributes;
+
 import sortie.data.funcgroups.Behavior;
 import sortie.data.funcgroups.BehaviorTypeBase;
 import sortie.data.funcgroups.TreePopulation;
@@ -149,17 +151,26 @@ public class GeneralizedHarvestRegime extends Behavior {
       "Gen Harvest Regime Cut Preference \"Mu\"", "di_genHarvLogCutProbMu", 
       "di_ghlcpmVal", 0, ModelVector.FLOAT);
 
-  /**Cut preference A */
-  protected ModelFloat m_fGenHarvCutPrefA = new ModelFloat(0,
-      "Gen Harvest Regime Cut Preference \"A\"", "di_genHarvLogCutProbA");
+  /**Cut preference A - species specific */
+  protected ModelVector mp_fGenHarvCutPrefA = new ModelVector(
+      "Gen Harvest Regime Cut Preference \"A\"", "di_genHarvLogCutProbA", 
+      "di_ghlcpaaVal", 0, ModelVector.FLOAT);
+  //protected ModelFloat m_fGenHarvCutPrefA = new ModelFloat(0,
+  //    "Gen Harvest Regime Cut Preference \"A\"", "di_genHarvLogCutProbA");
 
-  /**Cut preference B */
-  protected ModelFloat m_fGenHarvCutPrefB = new ModelFloat(0,
-      "Gen Harvest Regime Cut Preference \"B\"", "di_genHarvLogCutProbB");
+  /**Cut preference B - species specific */
+  protected ModelVector mp_fGenHarvCutPrefB = new ModelVector(
+      "Gen Harvest Regime Cut Preference \"B\"", "di_genHarvLogCutProbB", 
+      "di_ghlcpbVal", 0, ModelVector.FLOAT);
+  //protected ModelFloat m_fGenHarvCutPrefB = new ModelFloat(0,
+  //    "Gen Harvest Regime Cut Preference \"B\"", "di_genHarvLogCutProbB");
 
-  /**Cut preference C */
-  protected ModelFloat m_fGenHarvCutPrefC = new ModelFloat(0,
-      "Gen Harvest Regime Cut Preference \"C\"", "di_genHarvLogCutProbC");
+  /**Cut preference C - species specific */
+  protected ModelVector mp_fGenHarvCutPrefC = new ModelVector(
+      "Gen Harvest Regime Cut Preference \"C\"", "di_genHarvLogCutProbC", 
+      "di_ghlcpcVal", 0, ModelVector.FLOAT);
+  //protected ModelFloat m_fGenHarvCutPrefC = new ModelFloat(0,
+  //    "Gen Harvest Regime Cut Preference \"C\"", "di_genHarvLogCutProbC");
   
   /**p in the sapling mortality function */
   protected ModelFloat m_fGenHarvSapMortP = new ModelFloat(0,
@@ -217,9 +228,9 @@ public class GeneralizedHarvestRegime extends Behavior {
     addRequiredData(mp_fGenHarvCutPrefBeta);
     addRequiredData(mp_fGenHarvCutPrefGamma);
     addRequiredData(mp_fGenHarvCutPrefMu);
-    addRequiredData(m_fGenHarvCutPrefA);
-    addRequiredData(m_fGenHarvCutPrefB);
-    addRequiredData(m_fGenHarvCutPrefC);
+    addRequiredData(mp_fGenHarvCutPrefA);
+    addRequiredData(mp_fGenHarvCutPrefB);
+    addRequiredData(mp_fGenHarvCutPrefC);
     addRequiredData(m_iGenHarvBiomassOrBA);
     addRequiredData(m_iGenHarvSaplingMort);
     addRequiredData(m_fGenHarvSapMortP);
@@ -259,6 +270,40 @@ public class GeneralizedHarvestRegime extends Behavior {
     m_iGenHarvSaplingMort.setValue("No");
     
     m_iGenHarvCutDist.setValue("Gamma");
+  }
+  
+  /**
+   * Overridden for backwards compatibility since a, b, and c became species-
+   * specific
+   */
+  public boolean setSingleValueByXMLTag(String sXMLTag, String sXMLParentTag,
+      Attributes oAttributes, Object oData) throws ModelException {
+    if (sXMLTag.equals("di_genHarvLogCutProbA") ||
+        sXMLTag.equals("di_genHarvLogCutProbB") ||
+        sXMLTag.equals("di_genHarvLogCutProbC")) {
+      TreePopulation oPop = m_oManager.getTreePopulation();
+      boolean[] p_bAppliesTo = getWhichSpeciesUsed(oPop);
+      String[] p_sChildXMLTags = new String[p_bAppliesTo.length];
+      ArrayList<String> p_fValues = new ArrayList<String>(p_bAppliesTo.length);
+      int i;
+      for (i = 0; i < p_bAppliesTo.length; i++) {
+        p_fValues.add(i, oData.toString());
+      }
+      String sChildTag;
+      if (sXMLTag.equals("di_genHarvLogCutProbA")) {
+        sChildTag = "di_ghlcpaaVal";
+      } else if (sXMLTag.equals("di_genHarvLogCutProbB")) {
+        sChildTag = "di_ghlcpbVal";
+      } else {
+          sChildTag = "di_ghlcpcVal";        
+      }
+      for (i = 0; i < p_bAppliesTo.length; i++) {
+        p_sChildXMLTags[i] = sChildTag;
+      }
+      return super.setVectorValueByXMLTag(sXMLTag, sXMLParentTag, p_fValues, p_sChildXMLTags, 
+          p_bAppliesTo, null, null);
+    }
+    return super.setSingleValueByXMLTag(sXMLTag, sXMLParentTag, oAttributes, oData);
   }
 
   /**

@@ -51,10 +51,16 @@ public class GeneralizedHarvestRegimeTest extends ModelTestCase {
       assertEquals(1.94, ((Float) oDist.mp_fGenHarvCutPrefGamma.getValue().get(1)).floatValue(), 0.0001);
       assertEquals(43.53, ((Float) oDist.mp_fGenHarvCutPrefMu.getValue().get(0)).floatValue(), 0.0001);
       assertEquals(40.45, ((Float) oDist.mp_fGenHarvCutPrefMu.getValue().get(1)).floatValue(), 0.0001);
+
+      assertEquals(22.29, ((Float) oDist.mp_fGenHarvCutPrefA.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(22.29, ((Float) oDist.mp_fGenHarvCutPrefA.getValue().get(1)).floatValue(), 0.0001);
       
-      assertEquals(22.29, oDist.m_fGenHarvCutPrefA.getValue(), 0.0001);
-      assertEquals(0.12, oDist.m_fGenHarvCutPrefB.getValue(), 0.0001);
-      assertEquals(16.2, oDist.m_fGenHarvCutPrefC.getValue(), 0.0001);
+      assertEquals(0.12, ((Float) oDist.mp_fGenHarvCutPrefB.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(0.12, ((Float) oDist.mp_fGenHarvCutPrefB.getValue().get(1)).floatValue(), 0.0001);
+      
+      assertEquals(16.2, ((Float) oDist.mp_fGenHarvCutPrefC.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(16.2, ((Float) oDist.mp_fGenHarvCutPrefC.getValue().get(1)).floatValue(), 0.0001);
+      
       
       assertEquals("Gamma", oDist.m_iGenHarvCutDist.getStringValue());
     }
@@ -124,9 +130,14 @@ public class GeneralizedHarvestRegimeTest extends ModelTestCase {
           ((Float) oDist.mp_fGenHarvCutPrefMu.getValue().get(1))
               .floatValue(), 39.45325, 0.001);
 
-      assertEquals(21.2954, oDist.m_fGenHarvCutPrefA.getValue(), 0.0001);
-      assertEquals(0.01202805, oDist.m_fGenHarvCutPrefB.getValue(), 0.0001);
-      assertEquals(15.20595, oDist.m_fGenHarvCutPrefC.getValue(), 0.0001);
+      assertEquals(21.2954, ((Float) oDist.mp_fGenHarvCutPrefA.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(22.2954, ((Float) oDist.mp_fGenHarvCutPrefA.getValue().get(1)).floatValue(), 0.0001);
+      
+      assertEquals(0.01202805, ((Float) oDist.mp_fGenHarvCutPrefB.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(0.1202805, ((Float) oDist.mp_fGenHarvCutPrefB.getValue().get(1)).floatValue(), 0.0001);
+      
+      assertEquals(15.20595, ((Float) oDist.mp_fGenHarvCutPrefC.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(14.20595, ((Float) oDist.mp_fGenHarvCutPrefC.getValue().get(1)).floatValue(), 0.0001);
       
       assertEquals("Gamma", oDist.m_iGenHarvCutDist.getStringValue());
       
@@ -179,9 +190,14 @@ public class GeneralizedHarvestRegimeTest extends ModelTestCase {
       assertEquals(42.53707, ((Float) oDist.mp_fGenHarvCutPrefMu.getValue().get(0)).floatValue(), 0.001);
       assertEquals(39.45325, ((Float) oDist.mp_fGenHarvCutPrefMu.getValue().get(1)).floatValue(), 0.001);
 
-      assertEquals(21.2954, oDist.m_fGenHarvCutPrefA.getValue(), 0.0001);
-      assertEquals(0.01202805, oDist.m_fGenHarvCutPrefB.getValue(), 0.0001);
-      assertEquals(15.20595, oDist.m_fGenHarvCutPrefC.getValue(), 0.0001);
+      assertEquals(21.2954, ((Float) oDist.mp_fGenHarvCutPrefA.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(22.2954, ((Float) oDist.mp_fGenHarvCutPrefA.getValue().get(1)).floatValue(), 0.0001);
+      
+      assertEquals(0.01202805, ((Float) oDist.mp_fGenHarvCutPrefB.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(0.1202805, ((Float) oDist.mp_fGenHarvCutPrefB.getValue().get(1)).floatValue(), 0.0001);
+      
+      assertEquals(15.20595, ((Float) oDist.mp_fGenHarvCutPrefC.getValue().get(0)).floatValue(), 0.0001);
+      assertEquals(14.20595, ((Float) oDist.mp_fGenHarvCutPrefC.getValue().get(1)).floatValue(), 0.0001);
       
       assertEquals(0, oDist.m_iGenHarvBiomassOrBA.getValue());
       assertEquals(1, oDist.m_iGenHarvSaplingMort.getValue());
@@ -501,9 +517,18 @@ public class GeneralizedHarvestRegimeTest extends ModelTestCase {
     oOut.write("<di_ghlcpmVal species=\"Species_1\">42.53707</di_ghlcpmVal>");
     oOut.write("<di_ghlcpmVal species=\"Species_2\">39.45325</di_ghlcpmVal>");
     oOut.write("</di_genHarvLogCutProbMu>");
-    oOut.write("<di_genHarvLogCutProbA>21.2954</di_genHarvLogCutProbA>");
-    oOut.write("<di_genHarvLogCutProbB>0.01202805</di_genHarvLogCutProbB>");
-    oOut.write("<di_genHarvLogCutProbC>15.20595</di_genHarvLogCutProbC>");
+    oOut.write("<di_genHarvLogCutProbA>");
+    oOut.write("<di_ghlcpaaVal species=\"Species_1\">21.2954</di_ghlcpaaVal>");
+    oOut.write("<di_ghlcpaaVal species=\"Species_2\">22.2954</di_ghlcpaaVal>");
+    oOut.write("</di_genHarvLogCutProbA>");
+    oOut.write("<di_genHarvLogCutProbB>");
+    oOut.write("<di_ghlcpbVal species=\"Species_1\">0.01202805</di_ghlcpbVal>");
+    oOut.write("<di_ghlcpbVal species=\"Species_2\">0.1202805</di_ghlcpbVal>");
+    oOut.write("</di_genHarvLogCutProbB>");
+    oOut.write("<di_genHarvLogCutProbC>");
+    oOut.write("<di_ghlcpcVal species=\"Species_1\">15.20595</di_ghlcpcVal>");
+    oOut.write("<di_ghlcpcVal species=\"Species_2\">14.20595</di_ghlcpcVal>");
+    oOut.write("</di_genHarvLogCutProbC>");
     oOut.write("</GeneralizedHarvestRegime1>");
     oOut.write("<DimensionAnalysis2>");
     oOut.write("<bi_a>");
@@ -557,6 +582,7 @@ public class GeneralizedHarvestRegimeTest extends ModelTestCase {
     return sFileName;
   }
   
+    
   /**
    * Writes a valid version 6 file.
    * @return The file name.
@@ -940,9 +966,18 @@ public class GeneralizedHarvestRegimeTest extends ModelTestCase {
     oOut.write("<di_ghlcpmVal species=\"Species_1\">42.53707</di_ghlcpmVal>");
     oOut.write("<di_ghlcpmVal species=\"Species_2\">39.45325</di_ghlcpmVal>");
     oOut.write("</di_genHarvLogCutProbMu>");
-    oOut.write("<di_genHarvLogCutProbA>21.2954</di_genHarvLogCutProbA>");
-    oOut.write("<di_genHarvLogCutProbB>0.01202805</di_genHarvLogCutProbB>");
-    oOut.write("<di_genHarvLogCutProbC>15.20595</di_genHarvLogCutProbC>");
+    oOut.write("<di_genHarvLogCutProbA>");
+    oOut.write("<di_ghlcpaaVal species=\"Species_1\">21.2954</di_ghlcpaaVal>");
+    oOut.write("<di_ghlcpaaVal species=\"Species_2\">22.2954</di_ghlcpaaVal>");
+    oOut.write("</di_genHarvLogCutProbA>");
+    oOut.write("<di_genHarvLogCutProbB>");
+    oOut.write("<di_ghlcpbVal species=\"Species_1\">0.01202805</di_ghlcpbVal>");
+    oOut.write("<di_ghlcpbVal species=\"Species_2\">0.1202805</di_ghlcpbVal>");
+    oOut.write("</di_genHarvLogCutProbB>");
+    oOut.write("<di_genHarvLogCutProbC>");
+    oOut.write("<di_ghlcpcVal species=\"Species_1\">15.20595</di_ghlcpcVal>");
+    oOut.write("<di_ghlcpcVal species=\"Species_2\">14.20595</di_ghlcpcVal>");
+    oOut.write("</di_genHarvLogCutProbC>");
     oOut.write("<di_genHarvUseBiomassOrBA>0</di_genHarvUseBiomassOrBA>");
     oOut.write("<di_genHarvDoSaplingMort>1</di_genHarvDoSaplingMort>");
     oOut.write("<di_genHarvSapMortP>0.2</di_genHarvSapMortP>");

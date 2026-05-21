@@ -408,6 +408,7 @@ public class TestClimateImporterEditor extends ModelTestCase {
       
       oWindow.readDataFile(new File(writePrecipFile1()), "ReadPptData");
       oWindow.readDataFile(new File(writeTempFile1()), "ReadTempData");
+      oWindow.readNitrogenDataFile(new File(writeNDepFile1()));
       oWindow.actionPerformed(new ActionEvent(this, 0, "OK"));
       
       //Check to see what data is in the behavior
@@ -580,6 +581,17 @@ public class TestClimateImporterEditor extends ModelTestCase {
       assertEquals(1437, oClim.getPptData(4, 12), 0.001);
       assertEquals(928, oClim.getPptData(5, 12), 0.001);
       assertEquals(553, oClim.getPptData(6, 12), 0.001);
+      
+      
+      
+      //----- Nitrogen data -------------------------------------------------//
+      assertEquals(4.39, oClim.getNDepData(1), 0.001);
+      assertEquals(6.81, oClim.getNDepData(2), 0.001);
+      assertEquals(2.92, oClim.getNDepData(3), 0.001);
+      assertEquals(5.07, oClim.getNDepData(4), 0.001);
+      assertEquals(6.71, oClim.getNDepData(5), 0.001);
+      assertEquals(6.34, oClim.getNDepData(6), 0.001);
+
 
     }
     catch (ModelException oErr) {
@@ -615,6 +627,7 @@ public class TestClimateImporterEditor extends ModelTestCase {
       
       oWindow.readDataFile(new File(writePrecipFile2()), "ReadPptData");
       oWindow.readDataFile(new File(writeTempFile2()), "ReadTempData");
+      oWindow.readNitrogenDataFile(new File(writeNDepFile1()));
       oWindow.actionPerformed(new ActionEvent(this, 0, "OK"));
       
       //Check to see what data is in the behavior
@@ -744,7 +757,15 @@ public class TestClimateImporterEditor extends ModelTestCase {
       assertEquals(2.37, oClim.getPptData(6, 9), 0.001);
       assertEquals(1.17, oClim.getPptData(6, 10), 0.001);
       assertEquals(4.47, oClim.getPptData(6, 11), 0.001);
-      assertEquals(2.87, oClim.getPptData(6, 12), 0.001);      
+      assertEquals(2.87, oClim.getPptData(6, 12), 0.001);   
+      
+      //----- Nitrogen data -------------------------------------------------//
+      assertEquals(4.39, oClim.getNDepData(1), 0.001);
+      assertEquals(6.81, oClim.getNDepData(2), 0.001);
+      assertEquals(2.92, oClim.getNDepData(3), 0.001);
+      assertEquals(5.07, oClim.getNDepData(4), 0.001);
+      assertEquals(6.71, oClim.getNDepData(5), 0.001);
+      assertEquals(6.34, oClim.getNDepData(6), 0.001);
       
       //Write it out as a parameter file and read it back in
       assertTrue(oManager.writeParameterFile(sFileName));
@@ -880,6 +901,14 @@ public class TestClimateImporterEditor extends ModelTestCase {
       assertEquals(1.17, oClim.getPptData(6, 10), 0.001);
       assertEquals(4.47, oClim.getPptData(6, 11), 0.001);
       assertEquals(2.87, oClim.getPptData(6, 12), 0.001);   
+      
+      //----- Nitrogen data -------------------------------------------------//
+      assertEquals(4.39, oClim.getNDepData(1), 0.001);
+      assertEquals(6.81, oClim.getNDepData(2), 0.001);
+      assertEquals(2.92, oClim.getNDepData(3), 0.001);
+      assertEquals(5.07, oClim.getNDepData(4), 0.001);
+      assertEquals(6.71, oClim.getNDepData(5), 0.001);
+      assertEquals(6.34, oClim.getNDepData(6), 0.001);
     }
     catch (ModelException oErr) {
       fail("Disturbance validation failed with message " + oErr.getMessage());
@@ -959,6 +988,22 @@ public class TestClimateImporterEditor extends ModelTestCase {
       }
     }
       
+    jOut.close();
+    return sFileName;
+  }
+  
+  private String writeNDepFile1() throws IOException {
+    String sFileName = "\\loratest.txt";
+    FileWriter jOut = new FileWriter(sFileName);
+    
+    jOut.write("Timestep\tNDep\n");
+    jOut.write("1\t4.39\n");
+    jOut.write("2\t6.81\n");
+    jOut.write("3\t2.92\n");
+    jOut.write("4\t5.07\n");
+    jOut.write("5\t6.71\n");
+    jOut.write("6\t6.34\n");
+  
     jOut.close();
     return sFileName;
   }

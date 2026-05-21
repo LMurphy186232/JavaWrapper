@@ -70,6 +70,8 @@ public class NCIParameterEditTest extends ModelTestCase {
       assertEquals(10, oNCIEdit.mp_oAllTables.size());
       String[] p_sExpected = new String[]{
           "NCI Maximum Potential Growth, cm/yr",
+          "Intercept for Heteroscedastic Normal Adjustment (mm)",
+          "Sigma for Heteroscedastic Normal Adjustment",
           "Std Deviation for Normal or Lognormal Adjustment",
           "Growth Increment Adjustment PDF"};
       BehaviorParameterDisplay oDisp = new BehaviorParameterDisplay();
@@ -237,6 +239,8 @@ public class NCIParameterEditTest extends ModelTestCase {
       String[] p_sExpected = {
           "NCI Maximum Potential Growth, cm/yr",
           "Std Deviation for Normal or Lognormal Adjustment",
+          "Intercept for Heteroscedastic Normal Adjustment (mm)",
+          "Sigma for Heteroscedastic Normal Adjustment",
           "Growth Increment Adjustment PDF"};
       BehaviorParameterDisplay oDisp = new BehaviorParameterDisplay();
       oDisp.mp_oTableData = new ArrayList<TableData>(0);
@@ -271,6 +275,8 @@ public class NCIParameterEditTest extends ModelTestCase {
       assertEquals(10, oNCIEdit.mp_oAllTables.size());
       p_sExpected = new String[]{"NCI Maximum Potential Growth, cm/yr",
           "Std Deviation for Normal or Lognormal Adjustment",
+          "Intercept for Heteroscedastic Normal Adjustment (mm)",
+          "Sigma for Heteroscedastic Normal Adjustment",
           "Growth Increment Adjustment PDF"};
       oDisp = new BehaviorParameterDisplay();
       oDisp.mp_oTableData = new ArrayList<TableData>(0);
@@ -892,6 +898,8 @@ public class NCIParameterEditTest extends ModelTestCase {
       String[] p_sExpected = {
           "NCI Maximum Potential Growth, cm/yr",
           "Std Deviation for Normal or Lognormal Adjustment",
+          "Intercept for Heteroscedastic Normal Adjustment (mm)",
+          "Sigma for Heteroscedastic Normal Adjustment",          
           "Growth Increment Adjustment PDF"};
       BehaviorParameterDisplay oDisp = new BehaviorParameterDisplay();
       oDisp.mp_oTableData = new ArrayList<TableData>(0);
@@ -926,6 +934,8 @@ public class NCIParameterEditTest extends ModelTestCase {
       assertEquals(6, oNCIEdit.mp_oAllTables.size());
       p_sExpected = new String[]{"NCI Maximum Potential Growth, cm/yr",
           "Std Deviation for Normal or Lognormal Adjustment",
+          "Intercept for Heteroscedastic Normal Adjustment (mm)",
+          "Sigma for Heteroscedastic Normal Adjustment",          
           "Growth Increment Adjustment PDF"};
       oDisp = new BehaviorParameterDisplay();
       oDisp.mp_oTableData = new ArrayList<TableData>(0);
